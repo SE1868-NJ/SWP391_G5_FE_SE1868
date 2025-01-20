@@ -23,11 +23,11 @@
 }
 
 .footer_container_third{
-    width: 86%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
+    margin-right: 14vh;
 }
 
 .footer_block_third_stats{
@@ -36,11 +36,10 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-right: 5vh;
 }
 
 .footer_container_third_stats{
-    padding: 0.2vw 0;
+    padding: 0.6vw 0;
     border-bottom: 0.2vw solid rgb(186, 186, 182);
     width: 15vw;
 }
@@ -56,8 +55,65 @@
 }
 
 .footer_container_third_img_app{
-    width: 60vw;
+    width: 70vw;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.footer_container_third_img{
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.footer-img_first_and_third {
+    margin-top: 3vh;
+}
+  
+.footer_block_middle{
+    padding: 2vh 0;
+    display: flex;
+    flex-direction: row;
+    height: 10vh;
+    width: 100vw;
+    background: white;
+}
+
+.footer_block_middle_box{
+    width: 15vw;
+    margin-left: 15vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.footer_block_middle_box_above{
+    width: 100%;
+    font-size: medium;
+    font-weight: 700;
+    padding-bottom: 0.3vw;
+    border-bottom: 0.2vw solid rgb(228, 225, 225);
+    color: #8c8686; 
+}
+
+li{
+    color: rgb(28, 122, 180);
+    padding: 0.2vw 0;
+    list-style: none;
+    font-size: small;
+    font-weight: 400;
+    &:hover{
+        cursor: pointer;
+        text-decoration: underline;
+        color: black;
+    }
+}
+
+.bocongthuong_img{
+    width: 28vh;
+    cursor: pointer;
 }
