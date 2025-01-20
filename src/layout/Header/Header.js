@@ -35,7 +35,7 @@ function Header() {
                             />
                             <div className="fhs_top_menu_labe">Thông Báo</div>
                         </div>
-                        <div className="fhs_noti_header">
+                        <div onClick={() => handleNavigate('/cart')} className="fhs_noti_header">
                             <img
                                 src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
                                 alt=""
