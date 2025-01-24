@@ -73,7 +73,7 @@
 }
 
 
-.fhs_footer_block_second {
+.fhs_footer_block_second{
     width: 86%;
     height: 65vh;
     background-color: rgb(81, 255, 7);
@@ -131,10 +131,9 @@
 }
 
 
-/* //to và đậmđậm */
 .fhs_letter_big_and_bold{
     font-size: 1.7vw; 
-    font-weight: bold; /* Chữ đậm */
+    font-weight: bold; 
     color: black; 
 }
 
