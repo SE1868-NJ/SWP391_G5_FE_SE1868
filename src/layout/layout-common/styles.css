@@ -1,6 +1,7 @@
 .container-layout{
     width: 100vw;
     height: auto;
+    background-color: #f2f2f2;
 }
 
 .header-layout{
