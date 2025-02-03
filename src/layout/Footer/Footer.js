@@ -16,12 +16,25 @@ function Footer() {
         <img src="Comtam.png" alt=""/>
         <img src="Gatan.png" alt=""/>
         <img src="Phocuon.png" alt=""/>
-        <img src="VitQuay.png" alt=""/>
+        <img src="TraCamXa.png" alt=""/>
         <img src="XoiCom.png" alt=""/>
         <img src="Sup.png" alt=""/>
         <img src="LongLon.png" alt=""/>
-        <img src="LonQuay.png" alt=""/>
+        <img src="RauCuQua.png" alt=""/>
         <img src="NemChua.png" alt=""/>
+        <img src="TraSua.png" alt=""/>
+        <img src="Che.png" alt=""/>
+        <img src="MiQuang.png" alt=""/>
+        <img src="NuocEp.png" alt=""/>
+        <img src="BanhMy.png" alt=""/>
+        <img src="BunThang.png" alt=""/>
+        <img src="CafeMuoi.png" alt=""/>
+        <img src="ComRang.png" alt=""/>
+        <img src="TrungLonXaoMe.png" alt=""/>
+        <img src="Nom.png" alt=""/>
+        <img src="BanhRan.png" alt=""/>
+        <img src="NemLui.png" alt=""/>
+        <img src="Shashimi.png" alt=""/>
       </div>
       <div className="footer_block_middle">
         <img src="logo.png" alt=""/>
