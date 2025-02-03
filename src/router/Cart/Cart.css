@@ -40,21 +40,32 @@
   
   .quantity-button {
     padding: 5px 10px;
+    margin: 5px;
     background: #f0f0f0;
-    border-radius: 4px;
+    border-radius: 3px;
     cursor: pointer;
     transition: background 0.3s;
+  }
+
+  .quantity-button:hover {
+    background: #e0e0e0;
   }
   
   .remove-button {
     background: #ff4d4f;
     color: white;
+    margin-left: 5px;
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
     transition: background 0.3s;
   }
   
+  .remove-button:hover {
+    background: #ff7875;
+    transform: scale(1.05);
+  }
+
   .total {
     text-align: right;
     margin-top: 20px;
@@ -64,8 +75,13 @@
     background: #1890ff;
     color: white;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
     transition: background 0.3s;
+  }
+
+  .checkout-button:hover {
+    background: #40a9ff;
+    transform: scale(1.05);
   }
   
