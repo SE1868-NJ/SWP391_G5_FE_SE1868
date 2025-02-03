@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
+import "./Cart.css";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([
@@ -25,52 +26,43 @@ const Cart = () => {
 
   return (
     <div>
-      <Header />
-      <div className="container mx-auto p-4">
-        <h2 className="text-2xl font-bold text-center mb-4">Giỏ hàng</h2>
-        <div className="bg-white shadow-lg rounded-lg p-4">
-          {cartItems.length === 0 ? (
-            <p className="text-center">Giỏ hàng trống</p>
-          ) : (
-            cartItems.map((item) => (
-              <div key={item.id} className="flex items-center border-b py-4">
-                <div className="ml-4 flex-grow">
-                  <h3 className="text-lg font-semibold">{item.name}</h3>
-                  <p className="text-gray-500">{item.price.toLocaleString()} VNĐ</p>
-                </div>
-                <div className="flex items-center">
-                  <button
-                    className="px-2 py-1 bg-gray-200 rounded"
-                    onClick={() => updateQuantity(item.id, -1)}
-                  >
-                    -
-                  </button>
-                  <span className="px-4">{item.quantity}</span>
-                  <button
-                    className="px-2 py-1 bg-gray-200 rounded"
-                    onClick={() => updateQuantity(item.id, 1)}
-                  >
-                    +
-                  </button>
-                </div>
-                <button
-                  className="ml-4 px-2 py-1 bg-red-500 text-white rounded"
-                  onClick={() => removeItem(item.id)}
-                >
-                  Xóa
+    <Header />
+    <div className="cart-container">
+      <h2 className="cart-header">Giỏ hàng</h2>
+      <div className="cart-content">
+        {cartItems.length === 0 ? (
+          <p className="empty-cart">Giỏ hàng đang trống</p>
+        ) : (
+          cartItems.map((item) => (
+            <div key={item.id} className="cart-item">
+              <div className="item-details">
+                <h3 className="item-name">{item.name}</h3>
+                <p className="item-price">{item.price.toLocaleString()} VNĐ</p>
+              </div>
+              <div className="quantity-control">
+                <button className="quantity-button" onClick={() => updateQuantity(item.id, -1)}>
+                  -
+                </button>
+                <span className="quantity-value">{item.quantity}</span>
+                <button className="quantity-button" onClick={() => updateQuantity(item.id, 1)}>
+                  +
                 </button>
               </div>
-            ))
-          )}
-          {cartItems.length > 0 && (
-            <div className="text-right mt-4">
-              <h3 className="text-xl font-semibold">Tổng: {totalPrice.toLocaleString()} VNĐ</h3>
-              <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Thanh toán</button>
+              <button className="remove-button" onClick={() => removeItem(item.id)}>
+                Xóa
+              </button>
             </div>
-          )}
-        </div>
+          ))
+        )}
+        {cartItems.length > 0 && (
+          <div className="total">
+            <h3>Tổng: {totalPrice.toLocaleString()} VNĐ</h3>
+            <button className="checkout-button">Thanh toán</button>
+          </div>
+        )}
       </div>
-      <Footer />
+    </div>
+    <Footer />
     </div>
   );
 };
