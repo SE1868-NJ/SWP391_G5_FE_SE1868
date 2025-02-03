@@ -47,7 +47,7 @@ function Footer() {
           Email: support@group5food.vn
         </div>
         <div className="footer_block_end_box_first">
-          Hotline: 0966.88.1862 (Mr.Hòa)
+          Hotline: 0966.88.1862  (Mr.Hòa)
         </div>
       </div>
     </div>
