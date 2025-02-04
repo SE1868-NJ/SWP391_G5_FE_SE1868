@@ -5,6 +5,7 @@
   }
   
   .cart-header {
+    font: 1em sans-serif;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
@@ -25,11 +26,13 @@
   }
   
   .item-name {
+    font: 1em sans-serif;
     font-size: 18px;
     font-weight: bold;
   }
   
   .item-price {
+    font: 1em sans-serif;
     color: #555;
   }
   
@@ -67,6 +70,7 @@
   }
 
   .total {
+    font: 1em sans-serif;
     text-align: right;
     margin-top: 20px;
   }
