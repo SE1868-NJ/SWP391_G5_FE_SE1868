@@ -1,8 +1,19 @@
 import "./MenuHeader.css";
 import { useState } from "react";
+import axios from "axios";
 function MenuHeader() {
   const [hover, setHover] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [productList, setProductList] = useState([]);
+
+  async function allNew(option, type) {
+    try {
+      const response = await axios.post("http://localhost:3001/api/Products/All/New",{ option, type });
+      setProductList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="fhs_option_header">
@@ -21,7 +32,7 @@ function MenuHeader() {
           style={{
             width: "36px",
             cursor: "pointer",
-            borderBottom: (hover || isMenuOpen) ? "4px solid black" : "none",
+            borderBottom: hover || isMenuOpen ? "4px solid black" : "none",
           }}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
@@ -31,7 +42,7 @@ function MenuHeader() {
           alt=""
           style={{
             cursor: "pointer",
-            borderBottom: (hover || isMenuOpen)  ? "4px solid black" : "none",
+            borderBottom: hover || isMenuOpen ? "4px solid black" : "none",
           }}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
@@ -51,9 +62,13 @@ function MenuHeader() {
         >
           <div className="option">
             <div className="items_option">Tất Cả</div>
-            <div className="items_option">Đồ Ăn</div>
-            <div className="items_option">Đồ Uống</div>
-            <div className="items_option">Đồ Chay</div>
+            {productList.length > 0 ? productList.map((item) => (
+    <div key={item.ProductID} className="items_option">{item.Category}</div>
+)) : <p>Không có dữ liệu</p>}
+
+          </div>
+          <div>
+            <button onClick={() => allNew("Tất Cả", "New")}>hi</button>
           </div>
         </div>
       )}
