@@ -1,6 +1,7 @@
 import "./MenuHeader.css";
 import { useState } from "react";
 import axios from "axios";
+import { useEffect, useCallback } from "react";
 function MenuHeader() {
   const [hover, setHover] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,20 +10,25 @@ function MenuHeader() {
   const [activeCategory, setActiveCategory] = useState(-1);
   const [activeType, setActiveType] = useState(0);
   const [option, setOption] = useState("Tất Cả");
-  const [type, setType] = useState("New");
+  const [type, setType] = useState("Mới Nhất");
 
-  async function allNew() {
+  const allNew = useCallback(async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/Products/All/New?",
-        { params: { option, type } }
+        "http://localhost:3001/api/Products/All/New",
+        {
+          params: { option, type },
+        }
       );
       setProductList(response.data[0]);
-      console.log(response.data[0]);
     } catch (error) {
       console.log(error);
     }
-  }
+  }, [option, type]); // allNew sẽ được re-created khi option hoặc type thay đổi
+
+  useEffect(() => {
+    allNew(); // Gọi hàm allNew khi type hoặc option thay đổi
+  }, [allNew]);
 
   async function allCategory() {
     try {
@@ -42,6 +48,7 @@ function MenuHeader() {
         onClick={() => {
           setIsMenuOpen(!isMenuOpen);
           allCategory();
+          allNew();
         }}
         onMouseLeave={() => {
           if (!isMenuOpen) setHover(false);
@@ -118,7 +125,7 @@ function MenuHeader() {
                 className={`items_type ${activeType === 0 ? "active" : ""}`}
                 onClick={() => {
                   setActiveType(0);
-                  setType("New");
+                  setType("Mới Nhất");
                 }}
               >
                 Mới Nhất
@@ -136,25 +143,53 @@ function MenuHeader() {
                 className={`items_type ${activeType === 2 ? "active" : ""}`}
                 onClick={() => {
                   setActiveType(2);
+                  setType("Đắt Nhất");
+                }}
+              >
+                Đắt Nhất
+              </div>
+              <div
+                className={`items_type ${activeType === 3 ? "active" : ""}`}
+                onClick={() => {
+                  setActiveType(3);
                   setType("Bán Chạy Nhất");
                 }}
               >
                 Bán Chạy Nhất
               </div>
             </div>
+
             <div className="showProducts">
-              <div className="items_showProducts">
-                hi
-              </div>
-              <div className="items_showProducts">
-                hi
-              </div>
-              <div className="items_showProducts">
-                hi
-              </div>
-              <div className="items_showProducts">
-                hi
-              </div>
+              {Array.isArray(productList) && productList.length > 0 ? (
+                productList.map((item, index) => (
+                  <div key={index} className="items_showProducts">
+                    <img className="img" src={item.ProductImg} alt="" />
+                    <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>
+                      {item.ProductName}
+                    </p>
+                    <div
+                      style={{
+                        color: "red",
+                        marginBottom: "0.2vw",
+                        height: "1.7vw",
+                      }}
+                    >
+                      {item.Price}{" "}
+                      <img
+                        style={{ width: "1vw", height: "1.3vw" }}
+                        src="https://static.thenounproject.com/png/1060425-200.png"
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      =&gt; Đã bán:{" "}
+                      <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>Không có dữ liệu</p>
+              )}
             </div>
           </div>
         </div>

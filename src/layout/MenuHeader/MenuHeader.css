@@ -86,13 +86,14 @@
     display: flex;
     margin-left: 1vw;
     margin-top: 1vw;
-    width: 47vw;
-    background: red;
+    width: 49vw;
+    height: 25vw;
     overflow: hidden;
     flex-wrap: wrap; 
     gap: 2vh;
     justify-content: space-between;
     flex-direction: row;
+    overflow-y: scroll;
 }
 
 .items_showProducts{
@@ -100,8 +101,14 @@
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    width: 13vw;
-    height: 25vh;
-    background: white;
+    width: 14vw;
+    height: 30vh;
+    background: rgb(219, 217, 217);
     margin-bottom: 1vh;
+}
+
+.img{
+    width: 11vw;
+    height: 7vw;
+    margin: 1vw 0;
 }
