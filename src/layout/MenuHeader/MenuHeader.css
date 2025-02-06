@@ -37,7 +37,6 @@
     display: flex;
     justify-content: center;
     width: 10vw;
-    align-items: start;
     padding: 0.4vw 0;
     border-radius: 5px;
 
@@ -45,8 +44,8 @@
         cursor: pointer;
         background: rgb(243, 151, 46);
     }
-
 }
+
 
 .items_option.active{
     background: rgb(243, 151, 46);
