@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios'
 
 function Order() {
-  const cusID = 1;
+  const cusID = 2;
   const navigate = useNavigate();
   const address =
     "Nguyễn Anh Đức (+84) 919824069    Xưởng may Cơ Xen, Xã Vũ Hòa, Huyện Kiến Xương, Thái Bình";
@@ -62,14 +62,18 @@ function Order() {
       navigate('/Prepay');
     }else{
       const totalPayment = shipFee + totalPrice - discount;
-      const cartDetailID = [];
-      products.map((item)=> cartDetailID.push(item.CartDetailID));
+      const OrderInfor = [];
+      products.map((item)=> OrderInfor.push({
+        productID:item.productID,
+        Quantity: item.Quantity,
+        CartDetailID: item.cartID
+      }));
       const voucherChoose = chooseVoucher ? chooseVoucher.VoucherID : null;
-      const response = await axios.post('http://localhost:3001/api/Order/CheckOut',{cartDetailID,voucherChoose,totalPayment,cusID});
+      const response = await axios.post('http://localhost:3001/api/Order/CheckOut',{OrderInfor,voucherChoose,totalPayment,cusID});
       if(response.status === 200){
-        setStatus(true)
-      }else setStatus(false)
-      setMess(true);
+        await setStatus(true)
+      }else await setStatus(false)
+      await setMess(true);
     }
   }
   function checkOutSuccess(){
