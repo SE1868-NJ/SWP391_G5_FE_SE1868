@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from '../../layout/Header/Header'
-import styles from './StatusOrder.module.css'
+import styles from './ViewOrder.module.css'
 import {useCustomer} from '../../Context'
 
 function StatusOrrder() {
