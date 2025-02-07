@@ -5,6 +5,7 @@ import Home from "./router/Home/Home";
 import  SearchProduct  from "./router/products/SearchProducts";
 import Prepay from "./router/Prepay/Prepay.js"
 import ViewOrder from './router/ViewOrder/ViewOrrder.js'
+import Header from "./layout/Header/Header.js";
 
 
 function App() {
@@ -14,7 +15,6 @@ function App() {
       <Routes>
         <Route path="/login" element={<Header />} />
         <Route path="/search" element={<SearchProduct />} />
-
         <Route path="/Order" element={<Order/>} />
         <Route path="/" element={<Home />} />
         <Route path="/ViewOrder" element={<ViewOrder />} />
