@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
-import "./Cart.css";
+import "./Cart.module.css";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -42,7 +42,7 @@ const Cart = () => {
 
       if (response.ok) {
         setCartItems((prevItems) =>
-          prevItems.map((item) => 
+          prevItems.map((item) =>
             item.id === id ? { ...item, quantity: newQuantity } : item
           )
         );
