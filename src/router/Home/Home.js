@@ -1,13 +1,20 @@
 import Header from "../../layout/Header/Header";
+import Footer from "../../layout/Footer/Footer";
+import Background from "../../layout/Background/Background";
+import Main from "../../layout/Main/Main";
 import {useNavigate}  from 'react-router-dom'
 
 function Home() {
   const navigate = useNavigate();
   return (
-      <div>
-        <Header />
-        <button onClick={()=> navigate('/StatusOrder')}> Order Status</button>
-      </div>
+    <div>
+      <Header />
+      <button onClick={()=> navigate('/StatusOrder')}> Order Status</button>
+      <Background>
+        <Main></Main>
+        <Footer></Footer>
+      </Background>
+    </div>
   );
 }
 
