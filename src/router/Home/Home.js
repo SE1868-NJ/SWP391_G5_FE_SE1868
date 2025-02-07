@@ -6,7 +6,8 @@ function Home() {
   return (
       <div>
         <Header />
-        <button onClick={()=> navigate('/StatusOrder')}> Order Status</button>
+        <button onClick={()=> navigate('/ViewOrder')}> View Order</button>
+        <button onClick={()=> navigate('/OrderCheckOut')}> Order checkout</button>
       </div>
   );
 }

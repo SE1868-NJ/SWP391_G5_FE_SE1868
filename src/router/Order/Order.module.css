@@ -5,26 +5,6 @@
     align-items: center;
     background-color: #f1f1f1;
 }
-.header{
-    width: 70vw;
-    height: 5vh;
-    padding:0 10px 10px 10px;
-    display: flex;
-    align-items: center;
-}
-.header img{
-    height: 100%;
-    padding-right: 20px;
-    border-right: 2px solid #55d573;
-    cursor: pointer;
-}
-.header p{
-    padding-left: 10px;
-    color: #55d573;
-    font-size: 20px;
-    margin: 0;
-    height: 1em;
-}
 .address{
     width: 70%;
     background-color: white;
@@ -121,17 +101,6 @@
     margin: 0;
     padding-bottom: 5px;
     border-bottom: 2px solid rgb(221, 221, 221) ;
-}
-.inputVoucher{
-    width: 100%;
-    input:first-child{
-        width: 70%;
-        padding: 10px;
-    }
-    input:nth-child(2){
-        padding: 10px;
-    }
-
 }
 .VoucherDetail{
     width: 25vw;

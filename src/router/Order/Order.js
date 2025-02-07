@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./Order.module.css";
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios'
+import Header from '../../layout/Header/Header'
+import Footer from '../../layout/Footer/Footer'
 
 function Order() {
   const cusID = 2;
@@ -20,8 +22,6 @@ function Order() {
   const [voucherDetail,setVoucherDetail]= useState([]);
   const [products, setProducts] = useState([]);
   async function toggleVoucher() {
-    const response = await axios.post('http://localhost:3001/api/Voucher/getVoucherByCusID',{cusID,totalPrice});
-    await setVoucherDetail(response.data)
     setVoucher(!voucher);
   }
   async function handleChooseVoucher(voucher){
@@ -49,13 +49,35 @@ function Order() {
     console.log(response.data)
     await setProducts(response.data)
   }
+  async function getVoucher(){
+    const response = await axios.post('http://localhost:3001/api/Voucher/getVoucherByCusID',{cusID,totalPrice});
+    await setVoucherDetail(response.data);
+    const discountVoucher = [];
+    voucherDetail.map((item)=> {
+      let discountTmp =0;
+    if(item.type === 'Order'){
+      if(item.Discount === 0){
+        discountTmp = totalPrice * voucher.DiscountPercent / 100;
+      }else{
+        discountTmp = voucher.Discount < totalPrice ? voucher.Discount : totalPrice;
+      }
+
+    }else{
+      if(voucher.Discount === 0){
+        discountTmp = shipFee * voucher.DiscountPercent / 100;
+      }else{
+        discountTmp = voucher.Discount < shipFee ? voucher.Discount : shipFee;
+      }
+    }
+    })
+  }
   useEffect(() => {
     let newTotal = products.reduce((sum, item) => sum + item.totalAmount, 0 );
     setTotalPrice(newTotal);
   }, [products]);
   useEffect( ()=>{
-    
     getCartCheckOut();
+    getVoucher();
   },[])
   async function checkout(){
     if(paymentMethod === "Trả trước"){
@@ -83,20 +105,7 @@ function Order() {
   return (
     
     <div className={styles.Order}>
-      <div
-        style={{
-          width: "100vw",
-          display: "flex",
-          justifyContent: "center",
-          backgroundColor: "white",
-        }}
-      >
-      {/* HEADER */}
-        <div className={styles.header}>
-          <img alt="" src="./logo.png" onClick={()=>navigate('./')}/>
-          <p>Order checkout</p>
-        </div>
-      </div>
+      <Header></Header>
       <div className={styles.address}>
         <img alt="" src="./addressIcon.png" />
         Delivery Address
@@ -189,10 +198,8 @@ function Order() {
             width: "70%",
             position: "relative",
             backgroundColor: "white",
-            fontSize: "30px",
             padding: "20px",
             boxSizing: "border-box",
-            
           }}
         >
           Discount voucher <br />
@@ -228,10 +235,6 @@ function Order() {
         >
           <div className={styles.voucherInner}>
             <h1>Select Voucher</h1>
-            <div className={styles.inputVoucher}>
-              <input type="text" placeholder="Code voucher" />
-              <input type="submit" value="Apply" />
-            </div>
             {voucherDetail.map((item) => (
               <div
                 onClick={() => handleChooseVoucher(item)}
@@ -262,6 +265,7 @@ function Order() {
           </div>
         </div>
       ):''}
+      <Footer></Footer>
     </div>
   );
 }
