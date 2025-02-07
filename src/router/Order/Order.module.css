@@ -1,0 +1,182 @@
+.Order{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f1f1f1;
+}
+.header{
+    width: 70vw;
+    height: 5vh;
+    padding:0 10px 10px 10px;
+    display: flex;
+    align-items: center;
+}
+.header img{
+    height: 100%;
+    padding-right: 20px;
+    border-right: 2px solid #55d573;
+    cursor: pointer;
+}
+.header p{
+    padding-left: 10px;
+    color: #55d573;
+    font-size: 20px;
+    margin: 0;
+    height: 1em;
+}
+.address{
+    width: 70%;
+    background-color: white;
+    margin:10px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+.address img{
+    height: 21px;
+    padding-right: 10px;
+}
+.OrderDetail{
+    width: 70%; 
+    background-color: white;
+    padding:20px;
+    text-align: left;
+    box-sizing: border-box;
+}
+.OrderDetail table{
+    width: 100%;
+}
+.OrderDetail th{
+    font-weight: 400;
+    font-size: large;
+}
+.tdFirst{
+    height: 100%;
+    display: flex;
+    padding-right: 10px;
+}
+.tdFirst img{
+    height: 5vh;
+}
+.Option{
+    height: 10vh;
+    display: flex;
+    border-top: 1px solid rgb(216, 216, 216);
+    background-color: rgb(248, 255, 255);
+}
+.ship{
+    padding: 20px;
+    position: relative;
+    width: 100%;
+}
+.ship span{
+    position: absolute;
+    left: 100%;
+    transform: translateX(-100%);
+}
+.Voucher{
+    width: 70%;
+    background-color: white;
+    margin-top: 20px;
+    padding:20px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    font-size:  30px;
+    position: relative;
+}
+.Voucher img{
+    height: 5vh;
+    padding-right: 10px;
+}
+.Voucher button{
+    position: absolute;
+    right: 0;
+    border: none;
+    outline: none;
+    background-color: white;
+    color: #55d573;
+    font-size: large;
+    cursor: pointer;
+}
+.voucherPopup{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(128, 127, 127, 0.219);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.voucherInner{
+    width: 25vw;
+    height: 60vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding:20px;
+    background-color: white;
+}
+.voucherInner h1{
+    font-weight: 400;
+    margin: 0;
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgb(221, 221, 221) ;
+}
+.inputVoucher{
+    width: 100%;
+    input:first-child{
+        width: 70%;
+        padding: 10px;
+    }
+    input:nth-child(2){
+        padding: 10px;
+    }
+
+}
+.VoucherDetail{
+    width: 25vw;
+    height: 10vh;
+    padding:10px;
+    margin:10px 0;
+    box-sizing: border-box;
+    display: flex;
+    cursor: pointer;
+    border-top: 2px solid rgb(131, 131, 131);
+}
+.inforVoucher{
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center ;
+    p{
+        margin: 0;
+    }
+}
+.paymentMethod{
+    width: 70%;
+    height: 10vh;
+    background-color: white;
+    padding:20px;
+    box-sizing: border-box;
+    position: relative;
+    font-size: large;
+    select{
+        position:absolute;
+        right:20px;
+        top:20px;
+        height:50%;
+        width:10%;
+    }
+}
+.VoucherImg{
+    background-color: orange;
+    width: 30%;
+    height: 100%;
+    margin-right: 20px;
+    border-radius: 3px;
+    p{
+        text-align: center;
+    }
+}
