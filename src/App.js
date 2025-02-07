@@ -5,8 +5,12 @@ import Portal from "./router/Home/Portal/Portal";
 
 import Order from "./router/Order/Order.js";
 import Home from "./router/Home/Home";
+import Cart from "./router/Cart/Cart";
+import SearchProduct from "./router/products/SearchProducts";
 import Prepay from "./router/Prepay/Prepay.js"
 import ViewOrder from './router/ViewOrder/ViewOrrder.js'
+import Header from "./layout/Header/Header.js";
+
 
 function App() {
 
@@ -15,6 +19,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Header />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/login" element={<Header />} />
+        <Route path="/search" element={<SearchProduct />} />
         <Route path="/Portal" element={<Portal />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/ViewOrder" element={<ViewOrder />} />
