@@ -1,7 +1,7 @@
-import "./MenuHeader.css";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { useEffect, useCallback } from "react";
+import styles from "./MenuHeader.module.css";
+
 function MenuHeader() {
   const [hover, setHover] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,10 +24,10 @@ function MenuHeader() {
     } catch (error) {
       console.log(error);
     }
-  }, [option, type]); // allNew sẽ được re-created khi option hoặc type thay đổi
+  }, [option, type]);
 
   useEffect(() => {
-    allNew(); // Gọi hàm allNew khi type hoặc option thay đổi
+    allNew();
   }, [allNew]);
 
   async function allCategory() {
@@ -35,16 +35,16 @@ function MenuHeader() {
       const response = await axios.get(
         "http://localhost:3001/api/Products/Category"
       );
-      return setCategoryList(response.data[0]);
+      setCategoryList(response.data[0]);
     } catch (error) {
       console.log(error);
     }
   }
 
   return (
-    <div className="fhs_option_header">
+    <div className={styles.fhs_option_header}>
       <div
-        className="fhs_option_header_span"
+        className={styles.fhs_option_header_span}
         onClick={() => {
           setIsMenuOpen(!isMenuOpen);
           allCategory();
@@ -76,6 +76,7 @@ function MenuHeader() {
           onMouseLeave={() => setHover(false)}
         />
       </div>
+
       {isMenuOpen && (
         <div
           style={{
@@ -88,11 +89,9 @@ function MenuHeader() {
             padding: "10px",
           }}
         >
-          <div className="option">
+          <div className={styles.option}>
             <div
-              className={`items_option ${
-                activeCategory === -1 ? "active" : ""
-              }`}
+              className={`${styles.items_option} ${activeCategory === -1 ? styles.active : ""}`}
               onClick={() => {
                 setActiveCategory(-1);
                 setOption("Tất Cả");
@@ -104,9 +103,7 @@ function MenuHeader() {
               categoryList.map((item, index) => (
                 <div
                   key={index}
-                  className={`items_option ${
-                    activeCategory === index ? "active" : ""
-                  }`}
+                  className={`${styles.items_option} ${activeCategory === index ? styles.active : ""}`}
                   onClick={() => {
                     setActiveCategory(index);
                     setOption(item.Category);
@@ -119,51 +116,28 @@ function MenuHeader() {
               <p>Không có dữ liệu</p>
             )}
           </div>
+
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <div className="type">
-              <div
-                className={`items_type ${activeType === 0 ? "active" : ""}`}
-                onClick={() => {
-                  setActiveType(0);
-                  setType("Mới Nhất");
-                }}
-              >
-                Mới Nhất
-              </div>
-              <div
-                className={`items_type ${activeType === 1 ? "active" : ""}`}
-                onClick={() => {
-                  setActiveType(1);
-                  setType("Rẻ Nhất");
-                }}
-              >
-                Rẻ Nhất
-              </div>
-              <div
-                className={`items_type ${activeType === 2 ? "active" : ""}`}
-                onClick={() => {
-                  setActiveType(2);
-                  setType("Đắt Nhất");
-                }}
-              >
-                Đắt Nhất
-              </div>
-              <div
-                className={`items_type ${activeType === 3 ? "active" : ""}`}
-                onClick={() => {
-                  setActiveType(3);
-                  setType("Bán Chạy Nhất");
-                }}
-              >
-                Bán Chạy Nhất
-              </div>
+            <div className={styles.type}>
+              {["Mới Nhất", "Rẻ Nhất", "Đắt Nhất", "Bán Chạy Nhất"].map((label, index) => (
+                <div
+                  key={index}
+                  className={`${styles.items_type} ${activeType === index ? styles.active : ""}`}
+                  onClick={() => {
+                    setActiveType(index);
+                    setType(label);
+                  }}
+                >
+                  {label}
+                </div>
+              ))}
             </div>
 
-            <div className="showProducts">
+            <div className={styles.showProducts}>
               {Array.isArray(productList) && productList.length > 0 ? (
                 productList.map((item, index) => (
-                  <div key={index} className="items_showProducts">
-                    <img className="img" src={item.ProductImg} alt="" />
+                  <div key={index} className={styles.items_showProducts}>
+                    <img className={styles.img} src={item.ProductImg} alt="" />
                     <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>
                       {item.ProductName}
                     </p>

@@ -1,7 +1,7 @@
-import "./Background.css"
+import styles from "./Background.module.css"
 function Background({children}) {
     return ( 
-        <div className="background">
+        <div className={styles.background}>
             {children}
         </div>
      );

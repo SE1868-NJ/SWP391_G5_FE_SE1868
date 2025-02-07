@@ -1,4 +1,4 @@
-import "./Header.css";
+import styles from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
 import MenuHeader from "../MenuHeader/MenuHeader";
 import Search from "../Search/Search";
@@ -8,11 +8,11 @@ function Header() {
 
   // Hàm điều hướng
   const handleNavigate = (path) => {
-    navigate(path); // Điều hướng đến đường dẫn được chỉ định
+    navigate(path);
   };
 
   return (
-    <header className="wrapper_header">
+    <header className={styles.wrapper_header}>
       <img
         src="logo.png"
         alt="logo-header"
@@ -21,43 +21,42 @@ function Header() {
       />
 
       <MenuHeader />
-
       <Search />
 
-      <div className="fhs_center_space_header">
-        <div className="fhs_noti_header">
+      <div className={styles.fhs_center_space_header}>
+        <div className={styles.fhs_noti_header}>
           <img
             src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_noti_gray.svg"
             alt=""
-            className="fhs_noti_icon_header"
+            className={styles.fhs_noti_icon_header}
           />
-          <div className="fhs_top_menu_labe">Thông Báo</div>
+          <div className={styles.fhs_top_menu_labe}>Thông Báo</div>
         </div>
-        <div className="fhs_noti_header">
+        <div className={styles.fhs_noti_header}>
           <img
             src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
             alt=""
-            className="fhs_noti_icon_header"
+            className={styles.fhs_noti_icon_header}
           />
-          <div className="fhs_top_menu_labe">Giỏ Hàng</div>
+          <div className={styles.fhs_top_menu_labe}>Giỏ Hàng</div>
         </div>
         <div
           onClick={() => handleNavigate("/login")}
-          className="fhs_noti_header"
+          className={styles.fhs_noti_header}
         >
           <img
             src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_account_gray.svg"
             alt=""
-            className="fhs_noti_icon_header"
+            className={styles.fhs_noti_icon_header}
           />
-          <div className="fhs_top_menu_labe">Tài Khoản</div>
+          <div className={styles.fhs_top_menu_labe}>Tài Khoản</div>
         </div>
-        <div className="fhs_language_header_second_bar">
-          <div className="fhs_top_language">
+        <div className={styles.fhs_language_header_second_bar}>
+          <div className={styles.fhs_top_language}>
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/default.svg"
               alt=""
-              style={{ width: "80%" }}
+              style={{ width: "80%" }} // Giữ nguyên style inline
             />
           </div>
         </div>
