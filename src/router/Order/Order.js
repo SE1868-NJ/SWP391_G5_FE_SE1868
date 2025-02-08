@@ -212,21 +212,24 @@ function Order() {
             width: "70%",
             position: "relative",
             backgroundColor: "white",
-            padding: "20px",
+            padding: " 0 20px ",
             boxSizing: "border-box",
           }}
         >
-          Giảm giá <br />
-          <br />
-          <div style={{ position: "absolute", right: "20px", top: "20px" }}>
+          <div style={{height:'5vh'}}>
+          Giảm giá 
+          <div style={{ position: "absolute", right: "20px", top: "0" }}>
             {Number(discount).toLocaleString('vi-VI',{style:'currency',currency:'VND'})}
           </div>
+          </div>
+          <div style={{height:'5vh',position:'relative'}}>
           Tổng thanh toán
-          <div style={{ position: "absolute", right: "20px", bottom: "20px" }}>
+          <div style={{ position: "absolute", right: "0", top: "0" }}>
             {Number(shipFee + totalPrice - discount).toLocaleString(
               "vi-VI",
               { style: "currency", currency: "VND" }
             )}
+          </div>
           </div>
         </div>
       ) : (
