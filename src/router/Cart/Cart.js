@@ -4,6 +4,7 @@ import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import "./Cart.module.css";
 
+
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,14 +26,14 @@ const Cart = () => {
     fetchData();
   }, []);
 
-  const updateQuantity = (id, amount) => {
+  const updateQuantity = async (id, amount) => {
     const updatedItems = cartItems.find((item) => item.id === id);
     if (!updatedItems) return;
 
     const newQuantity = Math.max(1, updatedItems.quantity + amount);
 
     try {
-      fetch(`http://localhost:3001/cart/${id}`, {
+      const response = await fetch(`http://localhost:3001/cart/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

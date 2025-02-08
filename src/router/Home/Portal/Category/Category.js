@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./Category.module.css";
 import Header from "../../../../layout/Header/Header";
+import styles from "./Category.module.css";
 
 
 function Category() {
@@ -8,6 +8,7 @@ function Category() {
 
     return (
         <Header></Header>
+
 
 
 
