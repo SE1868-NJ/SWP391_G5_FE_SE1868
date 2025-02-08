@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
-import "./Cart.css";
+// import "./Cart.css";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -40,13 +40,13 @@ const Cart = () => {
         body: JSON.stringify({ quantity: newQuantity }),
       });
 
-      if (response.ok) {
-        setCartItems((prevItems) =>
-          prevItems.map((item) => 
-            item.id === id ? { ...item, quantity: newQuantity } : item
-          )
-        );
-      }
+      // if (response?.ok) {
+      //   setCartItems((prevItems) =>
+      //     prevItems.map((item) => 
+      //       item.id === id ? { ...item, quantity: newQuantity } : item
+      //     )
+      //   );
+      // }
     } catch (error) {
       console.error("An error occurred:", error);
     }
