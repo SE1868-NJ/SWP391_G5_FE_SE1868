@@ -1,15 +1,15 @@
 .wrapper{
     display: flex;
     flex-direction: column;
-    width: 65vw;
-    max-height: 116vh;
+    width: 85vw;
+    height: 140vh;
 }
 
 .options{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 65vw;
+    width: 85vw;
     height: 5vh;
     background: black;
     padding-bottom: 0.5vw;
@@ -35,24 +35,28 @@
 
 .showProducts{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 6vh;
     overflow-x: scroll;
+    height: 130vh;
 }
 
 .itemProduct{
     display: flex;
     flex-direction: column;
-    width: 23vw;
-    height: 35vh;
+    width: 25vw;
+    height: 45vh;
     background: yellowgreen;
     justify-content: space-around;
     align-items: center;
+    padding: 1vw 0;
+    font-size: 1vw;
+    font-weight: 800;
 }
 
 .img{
     display: flex;
-    width: 18vw;
-    height: 20vh;
+    width: 20vw;
+    height: 28vh;
 }

@@ -8,7 +8,8 @@
 
 .footer_container_first{
     width: 100vw;
-    height: 3vh;
+    height: 5vh;
+    background: white;
 }
 
 .footer_container_second{
