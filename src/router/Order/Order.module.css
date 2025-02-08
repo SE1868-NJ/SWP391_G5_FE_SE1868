@@ -37,6 +37,7 @@
 }
 .tdFirst img{
     height: 5vh;
+    width: 5vh;
 }
 .Option{
     height: 10vh;
@@ -71,7 +72,7 @@
 }
 .Voucher button{
     position: absolute;
-    right: 0;
+    right: 20px;
     border: none;
     outline: none;
     background-color: white;
@@ -125,18 +126,19 @@
 }
 .paymentMethod{
     width: 70%;
-    height: 10vh;
+    height: 5vh;
     background-color: white;
-    padding:20px;
+    padding-left:20px;
     box-sizing: border-box;
     position: relative;
     font-size: large;
     select{
         position:absolute;
         right:20px;
-        top:20px;
-        height:50%;
+        top:0px;
+        height:100%;
         width:10%;
+        border: 2px solid rgb(175, 175, 175);
     }
 }
 .VoucherImg{
