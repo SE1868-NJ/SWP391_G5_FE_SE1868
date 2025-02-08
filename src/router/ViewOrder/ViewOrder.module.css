@@ -2,6 +2,7 @@
     background-color: rgb(219, 219, 219);
     width: 100vw;
     padding-top:10px;
+    display: flex;
 }
 .innerContent{
     width: 70vw;
@@ -9,6 +10,6 @@
 .index{
     img{
         width: 50px;
-        height: 100px;
+        height:50px;
     }
 }

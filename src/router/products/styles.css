@@ -10,7 +10,7 @@
 .list-product{
     width: 80vw;
     height: auto;
-    
+    padding-bottom: 24px;
 }
 
 .side-bar-search{
@@ -21,7 +21,10 @@
     border-radius: 10px;
     
 }
+.menu-side-bar-search >  .ant-menu-item:hover, .menu-side-bar-search >  li:hover, .menu-side-bar-search >  li ul li:hover{
+    text-decoration: none !important
 
+}
 .menu-side-bar-search >  .ant-menu-item, .ant-menu > .ant-menu-submenu-selected>.ant-menu-submenu-title, .ant-menu-dark .ant-menu-item, .ant-menu-dark .ant-menu-submenu-title{
     color: gray !important;
 }
