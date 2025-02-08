@@ -14,7 +14,7 @@ function Header() {
   return (
     <header className={styles.wrapper_header}>
       <img
-        src="logo.png"
+        src="/logo.png"
         alt="logo-header"
         style={{ height: "6vh", width: "8%", cursor: "pointer" }}
         onClick={() => handleNavigate("/")}

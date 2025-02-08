@@ -1,76 +1,43 @@
 import React from "react";
+import { Route, Routes, Link } from "react-router-dom";
 import styles from "./Portal.module.css";
 import Header from "../../../layout/Header/Header";
+import Category from "./Category/Category";
 
+const Categories = [
+  { Title: "Đặt Đồ Ăn & Đi Chợ", Link: "/category/food", Img: "./StoreIcon.png" },
+  { Title: "Đặt Giao Hàng", Link: "/category/delivery", Img: "./CarIcon.png" },
+  { Title: "Khuyến Mãi", Link: "/category/promo", Img: "./SaleIcon.png" },
+  { Title: "Thanh Toán & Hoàn Tiền", Link: "/category/payment", Img: "./PayIcon.png" },
+  { Title: "Tài Khoản", Link: "/category/account", Img: "./accoutIcon.png" },
+  { Title: "Thông Tin Chung", Link: "/category/info", Img: "./InforIcon.png" },
+];
 
 function Portal() {
-  const listFunction = [
-    {
-      content: "Đặt đồ ăn & Đi chợ",
-      link: "/Category",
-      img: "./storeIcon.png",
-    },
-    {
-      content: "Đặt giao hàng",
-      link: "/Category",
-      img: "./carIcon.png",
-    },
-    {
-      content: "Khuyến mãi",
-      link: "/Category",
-      img: "./saleIcon.png",
-    },
-    {
-      content: "Thanh toán & Hoàn tiền",
-      link: "/Category",
-      img: "./payIcon.png",
-    },
-    {
-      content: "Tài khoản ",
-      link: "/Category",
-      img: "./accoutIcon.png",
-    },
-    {
-      content: "Thông tin chung",
-      link: "/Category",
-      img: "./inforIcon.png",
-    },
-  ];
   return (
-    <div
-      style={{
-        width: "100vw",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <div className={styles.container}>
       <Header />
-
-
       <div className={styles.searchBanner}>
-        <h1>Chúng tôi có thể giúp gì cho bạn?</h1>
+        <h1>Chúng Tôi Có Thể Giúp Gì Cho Bạn?</h1>
         <div className={styles.searchBar}>
-          <input type="text" placeholder="Nhập nội dung cần tìm" />
-          <button>Tìm kiếm</button>
+          <input type="text" placeholder="Nhập Nội Dung Cần Tìm" />
+          <button>Tìm Kiếm</button>
         </div>
       </div>
       <div className={styles.content}>
-        <h1>Mục lục</h1>
+        <h1>Mục Lục</h1>
         <div className={styles.Listsection}>
-          {listFunction.map((item, index) => (
-            <div className={styles.section}>
-              <img alt="" src={item.img} />
-              <a href={item.link}>{item.content}</a>
+          {Categories.map((item) => (
+            <div key={item.Title} className={styles.section}>
+              <img alt={item.Title} src={item.Img} />
+              <Link to={item.Link}>{item.Title}</Link>
             </div>
           ))}
         </div>
-        <div className={styles.Ques}>
-          <h1>Các câu hỏi thường gặp</h1>
-
-        </div>
       </div>
+      <Routes>
+        <Route path="/category/:category" element={<Category />} />
+      </Routes>
     </div>
   );
 }

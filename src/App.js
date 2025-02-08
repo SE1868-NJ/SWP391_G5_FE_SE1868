@@ -9,6 +9,7 @@ import SearchProduct from "./router/products/SearchProducts";
 import Prepay from "./router/Prepay/Prepay.js"
 import ViewOrder from './router/ViewOrder/ViewOrrder.js'
 import Header from "./layout/Header/Header.js";
+import Category from "./router/Home/Portal/Category/Category.js";
 
 
 function App() {
@@ -19,12 +20,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Header />} />
         <Route path="/cart" element={<Cart />} />
-
+        <Route path="/Category" element={<Category />} />
         <Route path="/search" element={<SearchProduct />} />
         <Route path="/Portal" element={<Portal />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/ViewOrder" element={<ViewOrder />} />
         <Route path="/Prepay" element={<Prepay />} />
+        <Route path="/category/:category" element={<Category />} />
+
       </Routes>
     </Router>
   );
