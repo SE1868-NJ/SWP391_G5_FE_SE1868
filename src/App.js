@@ -18,10 +18,8 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/login" element={<Header />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Header />} />
         <Route path="/search" element={<SearchProduct />} />
         <Route path="/Order" element={<Order/>} />
-        <Route path="/" element={<Home />} />
         <Route path="/ViewOrder" element={<ViewOrder />} />
         <Route path="/Prepay" element={<Prepay />} />
       </Routes>
