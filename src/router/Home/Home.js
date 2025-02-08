@@ -9,7 +9,6 @@ function Home() {
   return (
     <div>
       <Header />
-      <button onClick={()=> navigate('/StatusOrder')}> Order Status</button>
       <Background>
         <Main></Main>
         <Footer></Footer>
