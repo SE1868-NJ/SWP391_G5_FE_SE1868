@@ -83,7 +83,7 @@ function MenuHeader() {
             position: "absolute",
             top: "8vh",
             left: "19.5vw",
-            width: "60vw",
+            width: "65vw",
             backgroundColor: "white",
             borderRadius: "10px",
             padding: "10px",
@@ -146,6 +146,8 @@ function MenuHeader() {
                         color: "red",
                         marginBottom: "0.2vw",
                         height: "1.7vw",
+                        display: "flex",
+                        flexDirection: "row"
                       }}
                     >
                       {item.Price}{" "}
