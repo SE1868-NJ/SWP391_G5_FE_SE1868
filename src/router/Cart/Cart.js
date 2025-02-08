@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
+<<<<<<< HEAD
 // import "./Cart.css";
+=======
+import "./Cart.module.css";
+>>>>>>> 3105241ff0c9f19d6e7e4e0dd3a62bbc76d5bf10
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -40,12 +44,12 @@ const Cart = () => {
         body: JSON.stringify({ quantity: newQuantity }),
       });
 
-      // if (response?.ok) {
-      //   setCartItems((prevItems) =>
-      //     prevItems.map((item) => 
-      //       item.id === id ? { ...item, quantity: newQuantity } : item
-      //     )
-      //   );
+      // if (response.ok) {
+        setCartItems((prevItems) =>
+          prevItems.map((item) => 
+            item.id === id ? { ...item, quantity: newQuantity } : item
+          )
+        );
       // }
     } catch (error) {
       console.error("An error occurred:", error);

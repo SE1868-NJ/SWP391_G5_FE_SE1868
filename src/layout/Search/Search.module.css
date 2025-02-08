@@ -34,6 +34,13 @@
     transform: translateY(-50%);
     background-color: red;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover{
+        background-color: blue;
+    }
 }
 
 .fhs_mouse_point {

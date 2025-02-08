@@ -54,6 +54,15 @@ function Main() {
           >
             Tất Cả
           </div>
+          {/* <div>aagssssssssssssssssssssgssssssssssssssssssss</div>
+          <div>aadhhsdhhs</div>
+          <div>bdbsa</div>
+          <div>ahjs</div>
+          <div>sjja</div>          <div>aagssssssssssssssssssssgssssssssssssssssssss</div>
+          <div>aadhhsdhhs</div>
+          <div>bdbsa</div>
+          <div>ahjs</div>
+          <div>sjja</div> */}
           {Array.isArray(categoryList) && categoryList.length > 0 ? (
             categoryList.map((item, index) => (
               <div
@@ -76,7 +85,7 @@ function Main() {
         <div className={styles.showProducts}>
         {Array.isArray(productList) && productList.length > 0 ? (
                 productList.map((item, index) => (
-                  <div key={index} className={styles.items_showProducts}>
+                  <div key={index} className={styles.itemProduct}>
                     <img className={styles.img} src={item.ProductImg} alt="" />
                     <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>
                       {item.ProductName}
@@ -86,6 +95,8 @@ function Main() {
                         color: "red",
                         marginBottom: "0.2vw",
                         height: "1.7vw",
+                        display: "flex",
+                        flexDirection: "row"
                       }}
                     >
                       {item.Price}{" "}
