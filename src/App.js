@@ -7,7 +7,7 @@ import  SearchProduct  from "./router/products/SearchProducts";
 import Prepay from "./router/Prepay/Prepay.js"
 import ViewOrder from './router/ViewOrder/ViewOrrder.js'
 import Header from "./layout/Header/Header.js";
-
+import CustomerRoutes from "./router/Profile/CustomerRoutes.js";
 
 function App() {
 
@@ -22,6 +22,7 @@ function App() {
         <Route path="/Order" element={<Order/>} />
         <Route path="/ViewOrder" element={<ViewOrder />} />
         <Route path="/Prepay" element={<Prepay />} />
+        <Route path="customers/*" element={<CustomerRoutes/>}/>
       </Routes>
     </Router>
   );

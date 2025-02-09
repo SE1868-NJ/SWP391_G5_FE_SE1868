@@ -36,7 +36,7 @@
      right: 0.5vw;
      top: 50%;
      transform: translateY(-50%);
-     background-color: red;
+     background-color: rgb(255, 0, 0);
      border-radius: 10px;
  }
 
