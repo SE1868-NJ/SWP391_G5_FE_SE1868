@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
-import "./Cart.css";
+import "./Cart.module.css";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -32,7 +32,7 @@ const Cart = () => {
     const newQuantity = Math.max(1, updatedItems.quantity + amount);
 
     try {
-      fetch(`http://localhost:3001/cart/${id}`, {
+      const response = fetch(`http://localhost:3001/cart/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
