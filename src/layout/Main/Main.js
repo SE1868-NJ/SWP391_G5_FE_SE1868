@@ -54,15 +54,6 @@ function Main() {
           >
             Tất Cả
           </div>
-          {/* <div>aagssssssssssssssssssssgssssssssssssssssssss</div>
-          <div>aadhhsdhhs</div>
-          <div>bdbsa</div>
-          <div>ahjs</div>
-          <div>sjja</div>          <div>aagssssssssssssssssssssgssssssssssssssssssss</div>
-          <div>aadhhsdhhs</div>
-          <div>bdbsa</div>
-          <div>ahjs</div>
-          <div>sjja</div> */}
           {Array.isArray(categoryList) && categoryList.length > 0 ? (
             categoryList.map((item, index) => (
               <div
