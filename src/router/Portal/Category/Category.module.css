@@ -219,3 +219,20 @@
     font-weight: bold;
     color: #333;
 }
+
+.item {
+    font-size: 20px;
+    /* Làm phông chữ to hơn */
+
+    /* Tăng độ đậm */
+    color: black;
+    /* Màu chữ mặc định */
+    padding: 10px 0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.item:hover {
+    color: #ee4d2d;
+    /* Hiệu ứng hover đổi màu */
+}
