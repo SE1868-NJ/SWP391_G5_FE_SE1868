@@ -13,13 +13,13 @@ const categoryDetails = {
             "Giới thiệu về dịch vụ": {
                 subItems: [
                     "Quán Đối Tác là gì?",
-                    "Quán Yêu Thích trên  là gì?",
-                    "Hướng dẫn thêm địa chỉ đặt hàng trên Ứng dụng ",
+                    "Quán Yêu Thích trên Group5Group5Food là gì?",
+                    "Hướng dẫn thêm địa chỉ đặt hàng trên Ứng dụng ShopeeFood",
                     "Làm thế nào để thông báo nếu tôi có yêu cầu đặc biệt về món?",
-                    "Làm thế nào để đặt món từ ?",
-                    "Hướng dẫn đặt đơn nhóm trên ",
+                    "Làm thế nào để đặt món từ ShopeeFood?",
+                    "Hướng dẫn đặt đơn nhóm trên ShopeeFood",
                     "Mart là gì?",
-                    "Group5Food là gì?"
+                    "ShopeeFood là gì?"
                 ]
             },
             "Vấn đề về món nhận được": { subItems: ["Báo cáo lỗi món ăn", "Hoàn tiền món bị lỗi"] },
@@ -70,9 +70,8 @@ function Category() {
     const normalizedCategory = category?.toLowerCase();
     const details = categoryDetails[normalizedCategory] || { title: "Danh Mục Không Tồn Tại", items: {} };
     const [expanded, setExpanded] = useState(true);
-    const [selectedCategory, setSelectedCategory] = useState(Object.keys(details.items)[0] || null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubItem, setSelectedSubItem] = useState(null);
-    const [selectedDetail, setSelectedDetail] = useState(null);
 
     return (
         <div className={styles.container}>
@@ -86,7 +85,10 @@ function Category() {
                         <ul className={styles.subcategoryList}>
                             {Object.keys(details.items).map((item, i) => (
                                 <li key={i} className={`${styles.subcategoryItem} ${selectedCategory === item ? styles.active : ''}`}
-                                    onClick={() => setSelectedCategory(item)}>
+                                    onClick={() => {
+                                        setSelectedCategory(item);
+                                        setSelectedSubItem(null);
+                                    }}>
                                     {item}
                                 </li>
                             ))}
@@ -94,15 +96,26 @@ function Category() {
                     )}
                 </div>
                 <div className={styles.contentArea}>
-                    <h3 className={styles.selectedItemTitle}>{selectedCategory}</h3>
-                    <ul className={styles.itemList}>
-                        {details.items[selectedCategory]?.subItems?.map((subItem, i) => (
-                            <li key={i} className={styles.item} onClick={() => setSelectedSubItem(subItem)}>
-                                {subItem}
-                            </li>
-                        ))}
-                    </ul>
-                    {selectedSubItem && <div className={styles.detailContent}><h4 className={styles.detailTitle}>{selectedSubItem}</h4><p>Thông tin chi tiết về {selectedSubItem}</p></div>}
+                    {selectedSubItem ? (
+                        <div className={styles.detailContent}>
+                            <h3>{selectedSubItem}</h3>
+                            <p>Chi tiết nội dung cho {selectedSubItem}</p>
+                        </div>
+                    ) : (
+                        selectedCategory && (
+                            <>
+                                <h3 className={styles.selectedItemTitle}>{selectedCategory}</h3>
+                                <ul className={styles.itemList}>
+                                    {details.items[selectedCategory]?.subItems?.map((subItem, i) => (
+                                        <li key={i} className={`${styles.item} ${selectedSubItem === subItem ? styles.active : ''}`}
+                                            onClick={() => setSelectedSubItem(subItem)}>
+                                            {subItem}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
+                        )
+                    )}
                 </div>
             </div>
         </div>
