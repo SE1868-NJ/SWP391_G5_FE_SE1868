@@ -9,7 +9,10 @@ import SearchProduct from "./router/products/SearchProducts";
 import Prepay from "./router/Prepay/Prepay.js"
 import ViewOrder from './router/ViewOrder/ViewOrrder.js'
 import Header from "./layout/Header/Header.js";
+import CustomerRoutes from "./router/Profile/CustomerRoutes";
 import Category from "./router/Home/Portal/Category/Category.js";
+import React from "react";
+
 
 
 function App() {
@@ -17,15 +20,17 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/OrderCheckOut" element={<Order />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Header />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/Category" element={<Category />} />
         <Route path="/search" element={<SearchProduct />} />
-        <Route path="/Portal" element={<Portal />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/ViewOrder" element={<ViewOrder />} />
         <Route path="/Prepay" element={<Prepay />} />
+        <Route path="customers/*" element={<CustomerRoutes />} />
+        <Route path="/Category" element={<Category />} />
+        <Route path="/Portal" element={<Portal />} />
         <Route path="/category/:category" element={<Category />} />
 
       </Routes>

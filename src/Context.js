@@ -4,7 +4,7 @@ const CustomerContext = createContext(null);
 
 const CustomerProvider = ({ children }) => {
   const [customer, setCustomer] = useState({
-    CustomerID: 2,
+    CustomerID: 1,
     FirstName: 'John',
     LastName: 'Doe',
     DateOfBirth: '1990-01-15 00:00:00',

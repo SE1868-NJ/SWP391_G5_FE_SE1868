@@ -1,5 +1,6 @@
 import React from 'react'
 import Header from '../../layout/Header/Header'
+import Footer from '../../layout/Footer/Footer'
 import styles from './ViewOrder.module.css'
 import { useCustomer } from '../../Context'
 
@@ -16,6 +17,7 @@ function StatusOrrder() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   )
 }
