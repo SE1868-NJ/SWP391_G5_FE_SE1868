@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes, Link } from "react-router-dom";
 import styles from "./Portal.module.css";
-import Header from "../../../layout/Header/Header";
+import Header from "../../layout/Header/Header";
 import Category from "./Category/Category";
 
 const Categories = [
