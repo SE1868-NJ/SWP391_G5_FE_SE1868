@@ -27,7 +27,7 @@
 
 .fhs_button_search_header{
     position:absolute;
-    width: 5vw;
+    width: 4vw;
     height: 4vh;
     right: 0.5vw;
     top: 50%;
@@ -39,8 +39,12 @@
     align-items: center;
 
     &:hover{
-        background-color: blue;
+        background-color: rgb(8, 8, 225);
     }
+}
+
+.fhs_button_search_header img{
+    width: 1.5vw;
 }
 
 .fhs_mouse_point {
