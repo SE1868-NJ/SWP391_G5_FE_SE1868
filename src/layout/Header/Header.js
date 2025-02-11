@@ -15,15 +15,15 @@ function Header() {
     <header className={styles.wrapper}>
       <div className={styles.header}>
         <img
-          src="logo.png"
+          src="/logo.png"
           alt="logo-header"
           style={{ height: "6vh", width: "8%", cursor: "pointer" }}
           onClick={() => handleNavigate("/")}
         />
-  
+
         <MenuHeader />
         <Search />
-  
+
         <div className={styles.fhs_center_space_header}>
           <div className={styles.fhs_noti_header}>
             <img

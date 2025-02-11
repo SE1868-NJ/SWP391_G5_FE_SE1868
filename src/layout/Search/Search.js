@@ -26,7 +26,6 @@ function Search() {
         <img
           src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_search_white.svg"
           alt=""
-          style={{ width: "20px" }} // Giữ nguyên style inline theo yêu cầu
         />
       </button>
     </div>

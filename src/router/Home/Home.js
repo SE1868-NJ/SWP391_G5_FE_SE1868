@@ -2,18 +2,17 @@ import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import Background from "../../layout/Background/Background";
 import Main from "../../layout/Main/Main";
-import {useNavigate}  from 'react-router-dom'
+import { GlobalProvider } from "../../globalContext/GlobalContext"; // Sử dụng GlobalProvider
 
 function Home() {
-  const navigate = useNavigate();
   return (
-    <div>
+    <GlobalProvider> {/* BỌC Ở NGOÀI TOÀN BỘ ỨNG DỤNG */}
       <Header />
       <Background>
-        <Main></Main>
-        <Footer></Footer>
+        <Main />
+        <Footer />
       </Background>
-    </div>
+    </GlobalProvider>
   );
 }
 
