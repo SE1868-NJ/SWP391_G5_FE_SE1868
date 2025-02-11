@@ -12,29 +12,32 @@ import Header from "./layout/Header/Header.js";
 import CustomerRoutes from "./router/Profile/CustomerRoutes";
 import Category from "./router/Portal/Category/Category.js";
 import React from "react";
+import { GlobalProvider } from "./globalContext/GlobalContext";
 
 
 
 function App() {
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/OrderCheckOut" element={<Order />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Header />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/search" element={<SearchProduct />} />
-        <Route path="/Order" element={<Order />} />
-        <Route path="/ViewOrder" element={<ViewOrder />} />
-        <Route path="/Prepay" element={<Prepay />} />
-        <Route path="customers/*" element={<CustomerRoutes />} />
-        <Route path="/Category" element={<Category />} />
-        <Route path="/Portal" element={<Portal />} />
-        <Route path="/category/:category" element={<Category />} />
+    <GlobalProvider>
+      <Router>
+        <Routes>
+          <Route path="/OrderCheckOut" element={<Order />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Header />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/search" element={<SearchProduct />} />
+          <Route path="/Order" element={<Order />} />
+          <Route path="/ViewOrder" element={<ViewOrder />} />
+          <Route path="/Prepay" element={<Prepay />} />
+          <Route path="customers/*" element={<CustomerRoutes />} />
+          <Route path="/Category" element={<Category />} />
+          <Route path="/Portal" element={<Portal />} />
+          <Route path="/category/:category" element={<Category />} />
 
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </GlobalProvider>
   );
 }
 

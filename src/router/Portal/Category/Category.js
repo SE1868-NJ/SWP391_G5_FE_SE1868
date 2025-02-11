@@ -13,13 +13,12 @@ const categoryDetails = {
             "Giới thiệu về dịch vụ": {
                 subItems: [
                     "Quán Đối Tác là gì?",
-                    "Quán Yêu Thích trên Group5Group5Food là gì?",
-                    "Hướng dẫn thêm địa chỉ đặt hàng trên Ứng dụng ShopeeFood",
+                    "Quán Yêu Thích trên Group5Food là gì?",
+                    "Hướng dẫn thêm địa chỉ đặt hàng trên Ứng dụng Group5Food",
                     "Làm thế nào để thông báo nếu tôi có yêu cầu đặc biệt về món?",
-                    "Làm thế nào để đặt món từ ShopeeFood?",
-                    "Hướng dẫn đặt đơn nhóm trên ShopeeFood",
-                    "Mart là gì?",
-                    "ShopeeFood là gì?"
+                    "Làm thế nào để đặt món từ Group5Food?",
+                    "Hướng dẫn đặt đơn nhóm trên Group5Food",
+                    "Group5Food là gì?"
                 ]
             },
             "Vấn đề về món nhận được": { subItems: ["Báo cáo lỗi món ăn", "Hoàn tiền món bị lỗi"] },
