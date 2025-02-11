@@ -4,21 +4,27 @@ import { LayoutCommon } from "../../layout/layout-common/LayoutCommon";
 import { searchProduct } from "../../service/product";
 import { MenuSearch } from "./MenuSearch";
 import './styles.css'
+import { useSelector } from "react-redux";
+
 function SearchProduct() {
     const [products,setProducts] = useState([])
     const [valueFilter,setValueFilter] = useState([])
+    const keywordRD = useSelector((state) => state.filterSearch.keyword);
 
     const handleGetData = async() =>{
+       const params = new URLSearchParams(window.location.search);
         const res = await searchProduct({
             categoryName: valueFilter?.categoryName,
-            pageIndex: valueFilter?.pageIndex || 1
+            pageIndex: valueFilter?.pageIndex || 1,
+            keyword: keywordRD?.keyword || params.get("keyword") 
         });
        setProducts(res.data)
         
     }
+    
     useEffect(()=>{
         handleGetData()
-    },[valueFilter])
+    },[valueFilter, window?.location?.search, keywordRD?.keyword])
     return (
         <LayoutCommon>
             <div className="container-list">
