@@ -74,38 +74,40 @@ function Main() {
           )}
         </div>
         <div className={styles.showProducts}>
-        {Array.isArray(productList) && productList.length > 0 ? (
-                productList.map((item, index) => (
-                  <div key={index} className={styles.itemProduct}>
-                    <img className={styles.img} src={item.ProductImg} alt="" />
-                    <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>
-                      {item.ProductName}
-                    </p>
-                    <div
-                      style={{
-                        color: "red",
-                        marginBottom: "0.2vw",
-                        height: "1.7vw",
-                        display: "flex",
-                        flexDirection: "row"
-                      }}
-                    >
-                      {item.Price}{" "}
-                      <img
-                        style={{ width: "1vw", height: "1.3vw" }}
-                        src="https://static.thenounproject.com/png/1060425-200.png"
-                        alt=""
-                      />
-                    </div>
-                    <div>
-                      =&gt; Đã bán:{" "}
-                      <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>Không có dữ liệu</p>
-              )}
+          {Array.isArray(productList) && productList.length > 0 ? (
+            productList.map((item, index) => (
+              <div key={index} className={styles.items_showProducts}>
+                <img className={styles.img} src={item.ProductImg} alt="" />
+                <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>
+                  {item.ProductName}
+                </p>
+                <div
+                  style={{
+                    color: "red",
+                    marginBottom: "0.2vw",
+                    height: "2vw",
+                    display: "flex",
+                    flexDirection: "row",
+                    fontSize: "1.3vw", 
+                    fontWeight: "bold",
+                  }}
+                >
+                  {item.Price}{" "}
+                  <img
+                    style={{ width: "1.5vw", height: "1.5vw" }}
+                    src="https://static.thenounproject.com/png/1060425-200.png"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  =&gt; Đã bán:{" "}
+                  <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>Không có dữ liệu</p>
+          )}
         </div>
       </div>
     )
