@@ -5,7 +5,7 @@ import Home from "./router/Home/Home";
 import Cart from "./router/Cart/Cart";
 import  SearchProduct  from "./router/products/SearchProducts";
 import Prepay from "./router/Prepay/Prepay.js"
-import ViewOrder from './router/ViewOrder/ViewOrrder.js'
+import OrderandVoucher from './router/OrderandVoucher/OrderandVoucher.js'
 import Header from "./layout/Header/Header.js";
 
 
@@ -22,7 +22,7 @@ function App() {
         <Route path="/search" element={<SearchProduct />} />
         <Route path="/Order" element={<Order/>} />
         <Route path="/" element={<Home />} />
-        <Route path="/ViewOrder" element={<ViewOrder />} />
+        <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
         <Route path="/Prepay" element={<Prepay />} />
       </Routes>
     </Router>

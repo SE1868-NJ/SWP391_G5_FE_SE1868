@@ -1,0 +1,65 @@
+.viewOrder{
+    flex-grow: 1;
+}
+.orderStatus{
+    height: 5vh;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    div{
+        height: 100%;
+        width: 20%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 2px solid rgb(219, 219, 219);
+        cursor: pointer;
+    }
+    div:hover{
+        color:orange;
+    }
+}
+.choose{
+    color:orange;
+    border-bottom: 2px solid orange !important;
+}
+.listOrder{
+    margin-top: 20px;
+    background-color: white;
+    padding:0 20px;
+
+}
+.orderDetail{
+    padding-top: 20px;
+}
+.orderDetailTop{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    button{
+        margin-left: 20px;
+        color:orange;
+        border: 1.5px solid orange;
+        padding: 5px 10px;
+    }
+}
+.orderDetailCenter{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:10px 0;
+    border-bottom: 1px  solid rgb(219, 219, 219);
+    border-top: 1px  solid rgb(219, 219, 219);
+    img{
+        width: 75px;
+        height: 75px;
+        margin-right: 10px;
+    }
+}
+.orderDetailBottom{
+    display: flex;
+    justify-content: end;
+}
