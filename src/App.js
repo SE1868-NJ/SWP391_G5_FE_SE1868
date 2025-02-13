@@ -7,7 +7,7 @@ import Home from "./router/Home/Home";
 import Cart from "./router/Cart/Cart.js";
 import SearchProduct from "./router/products/SearchProducts";
 import Prepay from "./router/Prepay/Prepay.js"
-import ViewOrder from './router/ViewOrder/ViewOrrder.js'
+import OrderandVoucher from './router/OrderandVoucher/OrderandVoucher.js'
 import Header from "./layout/Header/Header.js";
 import CustomerRoutes from "./router/Profile/CustomerRoutes";
 import Category from "./router/Portal/Category/Category.js";
@@ -19,6 +19,22 @@ import { GlobalProvider } from "./globalContext/GlobalContext";
 function App() {
 
   return (
+<<<<<<< HEAD
+    <Router>
+      <Routes>
+        <Route path="/OrderCheckOut" element={<Order/>} />
+        <Route path="/" element={<Home/>} />
+        <Route path="/login" element={<Header />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/login" element={<Header />} />
+        <Route path="/search" element={<SearchProduct />} />
+        <Route path="/Order" element={<Order/>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
+        <Route path="/Prepay" element={<Prepay />} />
+      </Routes>
+    </Router>
+=======
     <GlobalProvider>
       <Router>
         <Routes>
@@ -38,6 +54,7 @@ function App() {
         </Routes>
       </Router>
     </GlobalProvider>
+>>>>>>> 020c16c97ac5dbbd9b92ae6899c783fa6e1e3d6a
   );
 }
 
