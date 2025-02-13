@@ -2,17 +2,18 @@ import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import Background from "../../layout/Background/Background";
 import Main from "../../layout/Main/Main";
-import {useNavigate}  from 'react-router-dom'
+import { GlobalProvider } from "../../globalContext/GlobalContext";
 
 function Home() {
-  const navigate = useNavigate();
   return (
     <div>
-      <Header />
-      <Background>
-        <Main></Main>
-        <Footer></Footer>
-      </Background>
+      <GlobalProvider>
+        <Header />
+        <Background>
+          <Main></Main>
+          <Footer></Footer>
+        </Background>
+      </GlobalProvider>
     </div>
   );
 }

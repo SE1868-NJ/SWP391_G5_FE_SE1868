@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"name": "ReactJS",
+			"path": "../../../.."
+		},
+		{
+			"name": "react-bootstrap-tutorial",
+			"path": "../../../../../Users/User/Downloads/react-bootstrap-tutorial"
+		},
+		{
+			"path": "D:/HuongDanThi"
+		},
+		{
+			"path": "../../../../../Users/User/Downloads/14_01_2025___Exercise04 (1)"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "react-bootstrap-tutorial"
+	}
+}
