@@ -27,9 +27,7 @@ export const ListProduct = ({ products, setValueFilter }) => {
 
 
     />
-      <Pagination defaultCurrent={1} total={products.counts} align='end' style={{ marginBottom: 24 }} onChange={(page) => {
-        console.log("setValueFilter",page);
-        
+      <Pagination showSizeChanger={false} pageSize={12} defaultCurrent={1} total={products.counts} align='end' style={{ marginBottom: 24 }} onChange={(page) => {
         setValueFilter(pre => {
           return (
             {

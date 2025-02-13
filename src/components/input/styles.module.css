@@ -1,0 +1,38 @@
+/* */ 
+.container {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .label {
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    border-radius: 6px;
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+  
+    .icon {
+      position: absolute;
+      top: 53%;
+      right: 0;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+      color: #c5c5c5;
+    }
+  
+    .input {
+      background-color: transparent;
+      outline: none;
+      border: none;
+      color: #c5c5c5;
+      font-size: 16px;
+    }
+  }
+  
