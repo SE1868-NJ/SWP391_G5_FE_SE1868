@@ -125,6 +125,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin: 3px;
 }
 
 button:hover {
@@ -135,5 +136,6 @@ button:hover {
 button:active {
     transform: scale(0.95); /* Hiệu ứng nhấn nút */
 }
+
 
 
