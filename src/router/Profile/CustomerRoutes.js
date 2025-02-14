@@ -6,6 +6,7 @@ import { getCurrentCustomerById } from './services/user.services';
 import './CustomerRoutes.css';
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
+import Address from './Address'
 
 function CustomerRoutes() {
     const [customer, setCustomer] = useState(null);
@@ -14,7 +15,7 @@ function CustomerRoutes() {
     useEffect(() => {
         const fetchCustomer = async () => {
             try {
-                const customerData = await getCurrentCustomerById(2);
+                const customerData = await getCurrentCustomerById(1);
                 setCustomer(customerData);
             } catch (err) {
                 setError('Không thể tải dữ liệu khách hàng. ' + err?.response?.data?.message);
@@ -62,7 +63,17 @@ function CustomerRoutes() {
                                 )}
                             </>
                         } />
-                        <Route path="address" element={<h1 className="header-title">Địa Chỉ</h1>} />
+                        <Route path="address" element={
+                            <>
+                                <h1 className="header-title">Địa Chỉ</h1>
+                                {error && <p className="error-text">{error}</p>}
+                                {customer ? (
+                                    <Address customerID={customer.CustomerID} />
+                                ) : (
+                                    <p className="loading-text">Đang tải dữ liệu...</p>
+                                )}
+                            </>
+                        } />
                         <Route path="bank" element={<h1 className="header-title">Ngân Hàng</h1>} />
                         <Route path="setting" element={<h1 className="header-title">Cài Đặt</h1>} />
                     </Routes>
