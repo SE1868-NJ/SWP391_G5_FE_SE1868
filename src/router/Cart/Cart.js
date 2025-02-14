@@ -25,12 +25,12 @@ function Cart() {
     const updatedItem = cartItems.find(item => item.cartDetailID === cartDetailID);
     if (!updatedItem) return;
 
-    const newQuantity = Math.max(1, updatedItem.quantity + amount);
+    const newQuantity = Math.max(1, updatedItem.Quantity + amount);
     try {
-      await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartDetailID, quantity: newQuantity });
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          item.cartDetailID === cartDetailID ? { ...item, quantity: newQuantity } : item
+      await axios.put("http://localhost:3001/api/Cart/updateQuantity", { cartDetailID, quantity: newQuantity });
+      setCartItems(prevItems =>
+        prevItems.map(item =>
+          item.cartDetailID === cartDetailID ? { ...item, Quantity: newQuantity } : item
         )
       );
     } catch (error) {
@@ -41,7 +41,7 @@ function Cart() {
   const removeItem = async (cartDetailID) => {
     try {
       await axios.delete(`http://localhost:3001/api/Cart/deleteItem`, { data: { cartDetailID } });
-      setCartItems(cartItems.filter(item => item.cartDetailID !== cartDetailID));
+      setCartItems(prevItems => prevItems.filter(item => item.cartDetailID !== cartDetailID));
     } catch (error) {
       console.error("Lỗi xóa sản phẩm:", error);
     }
@@ -50,15 +50,15 @@ function Cart() {
   const checkout = async () => {
     try {
       if (cartItems.length === 0) return;
-      await axios.post("http://localhost:3001/api/Cart/checkout/", { cartID: cartItems[0].cartID });
+      await axios.post("http://localhost:3001/api/Cart/checkout", { cartID: cartItems[0].cartID });
       alert("Thanh toán thành công!");
       setCartItems([]);
     } catch (error) {
-      console.error("An error occurred:", error);
+      console.error("Lỗi khi thanh toán:", error);
     }
   };
 
-  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalPrice = cartItems.reduce((total, item) => total + item.productPrice * item.Quantity, 0);
 
   return (
     <div>
@@ -71,6 +71,7 @@ function Cart() {
           ) : (
             cartItems.map((item) => (
               <div key={item.cartDetailID} className={styles.cart_item}>
+              <img src={item.productImg} alt={item.productName} className={styles.item_image} />
                 <div className={styles.item_details}>
                   <h3 className={styles.item_name}>{item.productName}</h3>
                   <p className={styles.item_price}>{item.productPrice.toLocaleString()} VNĐ</p>

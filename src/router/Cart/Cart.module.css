@@ -30,6 +30,11 @@
     font: 1em sans-serif;
     color: #555;
   }
+  .item_image {
+    width: 15vw;
+    height: 30vh;
+    object-fit: cover;
+  }
   .quantity_control {
     display: flex;
     align-items: center;
