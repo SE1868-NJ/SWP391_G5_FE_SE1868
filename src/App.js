@@ -8,53 +8,38 @@ import Cart from "./router/Cart/Cart.js";
 import SearchProduct from "./router/products/SearchProducts";
 import Prepay from "./router/Prepay/Prepay.js"
 import OrderandVoucher from './router/OrderandVoucher/OrderandVoucher.js'
-import Header from "./layout/Header/Header.js";
+import Login from "./layout/Login/Login.js";
 import CustomerRoutes from "./router/Profile/CustomerRoutes";
 import Category from "./router/Portal/Category/Category.js";
 import React from "react";
 import { GlobalProvider } from "./globalContext/GlobalContext";
+import { AuthProvider } from "./globalContext/AuthContext.js";
 
 
 
 function App() {
 
   return (
-<<<<<<< HEAD
-    <Router>
-      <Routes>
-        <Route path="/OrderCheckOut" element={<Order/>} />
-        <Route path="/" element={<Home/>} />
-        <Route path="/login" element={<Header />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Header />} />
-        <Route path="/search" element={<SearchProduct />} />
-        <Route path="/Order" element={<Order/>} />
-        <Route path="/" element={<Home />} />
-        <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
-        <Route path="/Prepay" element={<Prepay />} />
-      </Routes>
-    </Router>
-=======
     <GlobalProvider>
-      <Router>
-        <Routes>
-          <Route path="/OrderCheckOut" element={<Order />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Header />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/search" element={<SearchProduct />} />
-          <Route path="/Order" element={<Order />} />
-          <Route path="/ViewOrder" element={<ViewOrder />} />
-          <Route path="/Prepay" element={<Prepay />} />
-          <Route path="customers/*" element={<CustomerRoutes />} />
-          <Route path="/Category" element={<Category />} />
-          <Route path="/Portal" element={<Portal />} />
-          <Route path="/category/:category" element={<Category />} />
-
-        </Routes>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/OrderCheckOut" element={<Order />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/search" element={<SearchProduct />} />
+            <Route path="/Order" element={<Order />} />
+            {/* <Route path="/ViewOrder" element={<ViewOrder />} /> */}
+            <Route path="/Prepay" element={<Prepay />} />
+            <Route path="customers/*" element={<CustomerRoutes />} />
+            <Route path="/Category" element={<Category />} />
+            <Route path="/Portal" element={<Portal />} />
+            <Route path="/category/:category" element={<Category />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </GlobalProvider>
->>>>>>> 020c16c97ac5dbbd9b92ae6899c783fa6e1e3d6a
   );
 }
 
