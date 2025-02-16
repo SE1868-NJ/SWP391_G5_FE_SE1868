@@ -7,12 +7,13 @@ import styles from "./Cart.module.css";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
-  const cusID = 2;
+  const cusID = 5;
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const response = await axios.post('http://localhost:3001/api/Cart/cusID', { cusID: cusID });
+        console.log(response.data);
         await setCartItems(response.data)
       } catch (error) {
         console.error("Lỗi khi lấy giỏ hàng:", error);
