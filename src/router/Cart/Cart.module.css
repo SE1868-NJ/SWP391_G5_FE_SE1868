@@ -3,7 +3,6 @@
     margin: 0 auto;
     padding: 20px;
   }
-  
   .cart_header {
     font: 1em sans-serif;
     text-align: center;
@@ -11,7 +10,6 @@
     font-weight: bold;
     margin-bottom: 20px;
   }
-  
   .cart_item {
     display: flex;
     align-items: center;
@@ -19,84 +17,68 @@
     padding: 15px 0;
     border-bottom: 1px solid #ddd;
   }
-
-  .view_all_button {
-    margin: 10px 0;
-    padding: 8px 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .view_all_button:hover {
-    background-color: #0056b3;
-  }
-  
   .item_details {
     flex-grow: 1;
     margin-left: 15px;
   }
-  
   .item_name {
     font: 1em sans-serif;
     font-size: 18px;
     font-weight: bold;
   }
-  
   .item_price {
     font: 1em sans-serif;
     color: #555;
   }
-  
+  .item_image {
+    width: 15vw;
+    height: 30vh;
+    object-fit: cover;
+  }
   .quantity_control {
     display: flex;
     align-items: center;
   }
-  
   .quantity_button {
     padding: 5px 10px;
     margin: 5px;
     background: #f0f0f0;
+    border: none; 
     border-radius: 3px;
     cursor: pointer;
     transition: background 0.3s;
   }
-
   .quantity_button:hover {
     background: #e0e0e0;
   }
-  
   .remove_button {
     background: #ff4d4f;
     color: white;
     margin-left: 5px;
     padding: 5px 10px;
+    border: none; 
     border-radius: 3px;
     cursor: pointer;
     transition: background 0.3s;
   }
-  
   .remove_button:hover {
     background: #ff7875;
     transform: scale(1.05);
   }
-
   .total {
     font: 1em sans-serif;
     text-align: right;
     margin-top: 20px;
   }
-  
   .checkout_button {
     background: #1890ff;
     color: white;
     padding: 10px 20px;
+    border: none; 
     border-radius: 3px;
     cursor: pointer;
     transition: background 0.3s;
   }
-
   .checkout_button:hover {
     background: #40a9ff;
     transform: scale(1.05);

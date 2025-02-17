@@ -54,7 +54,9 @@ function Header() {
             />
             <div className={styles.fhs_top_menu_labe}>Thông Báo</div>
           </div>
-          <div  className={styles.fhs_noti_header}>
+          <div
+            onClick={() => handleNavigate("/cart")}
+            className={styles.fhs_noti_header}>
             <img
               style={{ width: "2.5vw" }}
               src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-question-mark-vector-icon-png-image_5152512.jpg"
