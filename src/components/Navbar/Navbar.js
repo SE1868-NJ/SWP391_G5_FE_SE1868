@@ -8,7 +8,7 @@ const Navbar = () => {
         <nav>
             {user ? (
                 <>
-                    <Link to="/OrderCheckOut">Giỏ Hàng</Link>
+                    <Link to="/OrderCheckOut"></Link>
                     <button onClick={logout}>Đăng Xuất</button>
                 </>
             ) : (
