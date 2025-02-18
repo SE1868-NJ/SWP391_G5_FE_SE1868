@@ -47,7 +47,6 @@ function Header() {
             <div className={styles.fhs_top_menu_labe}>Thông Báo</div>
           </div>
           <div
-            onClick={() => handleNavigate("/cart")}
             className={styles.fhs_noti_header}>
             <img
               style={{ width: "2.5vw" }}
@@ -57,7 +56,9 @@ function Header() {
             />
             <div className={styles.fhs_top_menu_labe}>Hỗ Trợ</div>
           </div>
-          <div className={styles.fhs_noti_header}>
+          <div
+            onClick={() => handleNavigate("/cart")}
+            className={styles.fhs_noti_header}>
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
               alt=""
@@ -70,16 +71,16 @@ function Header() {
             className={styles.fhs_noti_header}
           >
             {user && user.avatar ? (
-                <img src={user.avatar} alt="Avatar" className={styles.avatar} />
+              <img src={user.avatar} alt="Avatar" className={styles.avatar} />
             ) : (
-                <img
-                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_account_gray.svg"
-                    alt="Tài Khoản"
-                    className={styles.fhs_noti_icon_header}
-                />
+              <img
+                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_account_gray.svg"
+                alt="Tài Khoản"
+                className={styles.fhs_noti_icon_header}
+              />
             )}
             <div className={user ? styles.name : styles.fhs_top_menu_labe}>
-                {user ? user.name : "Tài Khoản"}
+              {user ? user.name : "Tài Khoản"}
             </div>
           </div>
           <div className={styles.fhs_language_header_second_bar}>
