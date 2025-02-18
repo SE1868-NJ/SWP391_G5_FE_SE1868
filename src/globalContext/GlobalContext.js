@@ -1,5 +1,6 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { useAuth } from "../globalContext/AuthContext"; // ✅ Import useAuth
 
 // Tạo context
 export const GlobalContext = createContext();
@@ -7,14 +8,18 @@ export const GlobalContext = createContext();
 export function GlobalProvider({ children }) {
   const [categoryList, setCategoryList] = useState([]);
   const [productList, setProductList] = useState([]);
+  const [notificationsList, setNotificationsList] = useState([]);
   const [option, setOption] = useState("Tất Cả");
   const [type, setType] = useState("Mới Nhất");
+  const [typeNotification, setTypeNotification] = useState("Tất Cả Thông Báo");
   const [menuDataLoaded, setMenuDataLoaded] = useState(false);
-  const [loading, setLoading] = useState(false); // Trạng thái tải dữ liệu
+  const [loading, setLoading] = useState(false);
 
-  // Hàm gọi API danh mục sản phẩm
+  const { customerID } = useAuth(); // ✅ Nhận customerID từ AuthContext
+
+  // ✅ Hàm gọi API danh mục sản phẩm
   const fetchCategories = async () => {
-    setMenuDataLoaded(false); // Đánh dấu đang tải danh mục
+    setMenuDataLoaded(false);
     try {
       const response = await axios.get("http://localhost:3001/api/Products/Category");
       setCategoryList(response.data[0]);
@@ -24,9 +29,9 @@ export function GlobalProvider({ children }) {
     }
   };
 
-  // Hàm gọi API sản phẩm theo `option` và `type`
+  // ✅ Hàm gọi API sản phẩm theo `option` và `type`
   const fetchProducts = async (selectedOption, selectedType) => {
-    setLoading(true); // Đánh dấu đang tải sản phẩm
+    setLoading(true);
     try {
       const response = await axios.get("http://localhost:3001/api/Products/All/New", {
         params: { option: selectedOption, type: selectedType },
@@ -38,12 +43,37 @@ export function GlobalProvider({ children }) {
     setLoading(false);
   };
 
-  // Gọi API danh mục khi component mount
+  // ✅ Hàm gọi API Notifications theo customerID
+  const fetchNotifications = async (customerID,typeNotification) => {
+    if (!customerID) {
+      setNotificationsList([]); // Nếu không có customerID, đặt notifications rỗng
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await axios.get("http://localhost:3001/api/notifications", {
+        params: { customerID, typeNotification },
+      });
+      setNotificationsList(response.data.length > 0 ? response.data : []);
+    } catch (error) {
+      console.error("Lỗi khi tải thông báo:", error);
+    }
+    setLoading(false);
+  };
+
+  // ✅ Gọi API danh mục khi component mount
   useEffect(() => {
     fetchCategories();
   }, []);
 
-  // Gọi API sản phẩm khi `option` hoặc `type` thay đổi
+  // ✅ Gọi API Notifications khi customerID thay đổi (tự động cập nhật khi đăng nhập)
+  useEffect(() => {
+    if (customerID && typeNotification) {
+      fetchNotifications(customerID, typeNotification);
+    }
+  }, [customerID, typeNotification]);
+
+  // ✅ Gọi API sản phẩm khi `option` hoặc `type` thay đổi
   useEffect(() => {
     fetchProducts(option, type);
   }, [option, type]);
@@ -60,6 +90,9 @@ export function GlobalProvider({ children }) {
         menuDataLoaded,
         loading,
         fetchProducts,
+        notificationsList,
+        typeNotification,
+        setTypeNotification
       }}
     >
       {children}

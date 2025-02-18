@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MenuHeader from "../MenuHeader/MenuHeader";
 import Search from "../Search/Search";
 import { useEffect, useState } from "react";
+import { notification } from "antd";
 
 function Header() {
   const navigate = useNavigate();
@@ -19,10 +20,17 @@ function Header() {
     if (storedUser) {
       const userData = JSON.parse(storedUser);
       setUser(userData);
-    } else {
-      navigate("/login"); // Nếu chưa đăng nhập, chuyển hướng về Login
-    }
+    } 
   }, []);
+
+  const handleNotificationClick = () => {
+    if (user) {
+        navigate("/Notifications"); // Nếu có user, vào trang thông báo
+    } else {
+        navigate("/login"); // Nếu chưa đăng nhập, vào trang login
+    }
+  };
+
 
   return (
     <header className={styles.wrapper}>
@@ -38,7 +46,7 @@ function Header() {
         <Search />
 
         <div className={styles.fhs_center_space_header}>
-          <div className={styles.fhs_noti_header}>
+          <div onClick={() => handleNotificationClick()}  className={styles.fhs_noti_header}>
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_noti_gray.svg"
               alt=""
