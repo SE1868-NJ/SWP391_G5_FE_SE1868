@@ -7,15 +7,14 @@ import styles from "./Cart.module.css";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
-  const [allCarts, setAllCarts] = useState([]);
-  const customerID = 3;
+  const cusID = 5;
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/Cart/cusID", { cusID: customerID });
-        console.log("Dữ liệu giỏ hàng từ API:", response.data);
-        setCartItems(response.data);
+        const response = await axios.post('http://localhost:3001/api/Cart/cusID', { cusID: cusID });
+        console.log(response.data);
+        await setCartItems(response.data)
       } catch (error) {
         console.error("Lỗi khi lấy giỏ hàng:", error);
       }
@@ -23,26 +22,16 @@ function Cart() {
     fetchCart();
   }, []);
 
-  // const fetchAllCarts = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:3001/api/Cart/");
-  //     console.log("Tất cả giỏ hàng:", response.data);
-  //   } catch (error) {
-  //     console.error("Lỗi khi lấy danh sách giỏ hàng:", error);
-  //   }
-  // };
-
   const updateQuantity = async (cartDetailID, amount) => {
     const updatedItem = cartItems.find(item => item.cartDetailID === cartDetailID);
     if (!updatedItem) return;
 
-    const newQuantity = Math.max(1, updatedItem.quantity + amount);
-
+    const newQuantity = Math.max(1, updatedItem.Quantity + amount);
     try {
-      await axios.put("http://localhost:3001/api/Cart/update/", { cartDetailID, quantity: newQuantity });
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          item.cartDetailID === cartDetailID ? { ...item, quantity: newQuantity } : item
+      await axios.put("http://localhost:3001/api/Cart/updateQuantity", { cartDetailID, quantity: newQuantity });
+      setCartItems(prevItems =>
+        prevItems.map(item =>
+          item.cartDetailID === cartDetailID ? { ...item, Quantity: newQuantity } : item
         )
       );
     } catch (error) {
@@ -52,9 +41,8 @@ function Cart() {
 
   const removeItem = async (cartDetailID) => {
     try {
-      await axios.delete(`http://localhost:3001/api/Cart/delete/`, { data: { cartDetailID } });
-
-      setCartItems(cartItems.filter(item => item.cartDetailID !== cartDetailID));
+      await axios.delete(`http://localhost:3001/api/Cart/deleteItem`, { data: { cartDetailID } });
+      setCartItems(prevItems => prevItems.filter(item => item.cartDetailID !== cartDetailID));
     } catch (error) {
       console.error("Lỗi xóa sản phẩm:", error);
     }
@@ -63,40 +51,28 @@ function Cart() {
   const checkout = async () => {
     try {
       if (cartItems.length === 0) return;
-      await axios.post("http://localhost:3001/api/Cart/checkout/", { cartID: cartItems[0].CartID });
+      await axios.post("http://localhost:3001/api/Cart/checkout", { cartID: cartItems[0].cartID });
       alert("Thanh toán thành công!");
       setCartItems([]);
     } catch (error) {
-      console.error("An error occurred:", error);
+      console.error("Lỗi khi thanh toán:", error);
     }
   };
 
-  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalPrice = cartItems.reduce((total, item) => total + item.productPrice * item.Quantity, 0);
 
   return (
     <div>
       <Header />
       <div className={styles.cart_container}>
         <h2 className={styles.cart_header}>Giỏ hàng</h2>
-        {/* <button className={styles.view_all_button} onClick={fetchAllCarts}>Xem tất cả giỏ hàng</button>
-        {allCarts.length > 0 && (
-          <div className={styles.all_carts}>
-            <h3>Danh sách tất cả giỏ hàng</h3>
-            <ul>
-              {allCarts.map((cart) => (
-                <li key={cart.cartID}>
-                  <strong>Giỏ hàng {cart.cartID}</strong> - Khách hàng {cart.customerID}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )} */}
         <div className={styles.cart_content}>
           {cartItems.length === 0 ? (
             <p className={styles.empty_cart}>Giỏ hàng đang trống</p>
           ) : (
             cartItems.map((item) => (
               <div key={item.cartDetailID} className={styles.cart_item}>
+              <img src={item.productImg} alt={item.productName} className={styles.item_image} />
                 <div className={styles.item_details}>
                   <h3 className={styles.item_name}>{item.productName}</h3>
                   <p className={styles.item_price}>{item.productPrice.toLocaleString()} VNĐ</p>
