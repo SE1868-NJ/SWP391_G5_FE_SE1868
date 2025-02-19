@@ -1,9 +1,9 @@
-
+import Footer from "../../../layout/Footer/Footer";
 import Header from "../../../layout/Header/Header";
+import SearchBar from "../SearchBar/SearchBar";
 import styles from "./Category.module.css";
-import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
-
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 const categoryDetails = {
     food: {
@@ -75,10 +75,19 @@ function Category() {
     return (
         <div className={styles.container}>
             <Header />
+            <div className={styles.searchBanner}>
+    <h1 className={styles.bannerText}>Xin chào! Chúng tôi có thể giúp gì cho bạn?</h1>
+    <div className={styles.searchBar}>
+        <input type="text" placeholder="Nhập từ khóa cần tìm" />
+        <button>Tìm kiếm</button>
+    </div>
+</div>
+
             <div className={styles.categoryContainer}>
                 <div className={styles.sidebar}>
                     <h2 className={styles.mainCategory} onClick={() => setExpanded(!expanded)}>
-                        {details.title} <img src={expanded ? '/up.png' : '/down.png'} alt='toggle' className={styles.dropdownIcon} />
+                        {details.title} 
+                        <img src={expanded ? '/up.png' : '/down.png'} alt='toggle' className={styles.dropdownIcon} />
                     </h2>
                     {expanded && (
                         <ul className={styles.subcategoryList}>
@@ -117,6 +126,7 @@ function Category() {
                     )}
                 </div>
             </div>
+            
         </div>
     );
 }

@@ -14,6 +14,7 @@ import Category from "./router/Portal/Category/Category.js";
 import React from "react";
 import { GlobalProvider } from "./globalContext/GlobalContext";
 import { AuthProvider } from "./globalContext/AuthContext.js";
+import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/Category" element={<Category />} />
             <Route path="/Portal" element={<Portal />} />
             <Route path="/category/:category" element={<Category />} />
+            <Route path="/searchPortal" element={<SearchResults />} />
           </Routes>
         </Router>
       </GlobalProvider>

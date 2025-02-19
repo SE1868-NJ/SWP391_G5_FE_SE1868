@@ -232,3 +232,62 @@
     color: #ee4d2d;
 
 }
+/* SEARCH BANNER */
+.searchBanner {
+    width: 100vw;
+    height: 25vh;
+    background-color: #ee4d2d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.searchBanner h1 {
+    color: white;
+    font-weight: 600;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* SEARCH BAR (ĐỒNG NHẤT VỚI CÁC TRANG KHÁC) */
+.searchBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 5px;
+    border: 3px solid white;
+    width: 50%;
+    height: 50px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.searchBar input {
+    flex: 1;
+    padding: 14px;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    color: #333;
+}
+
+.searchBar button {
+    background-color: #ee4d2d;
+    color: white;
+    border: none;
+    padding: 8px 15px; /* Giảm padding */
+    font-size: 16px; /* Giảm kích thước chữ */
+    cursor: pointer;
+    border-radius: 2px; /* Giảm độ bo tròn */
+    white-space: nowrap;
+    transition: background 0.3s;
+}
+
+.searchBar button:hover {
+    background-color: #d84315;
+}
+

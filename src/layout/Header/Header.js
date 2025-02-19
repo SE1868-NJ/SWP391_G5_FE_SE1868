@@ -55,7 +55,7 @@ function Header() {
             <div className={styles.fhs_top_menu_labe}>Thông Báo</div>
           </div>
           <div
-            onClick={() => handleNavigate("/cart")}
+            onClick={() => handleNavigate("/Portal")}
             className={styles.fhs_noti_header}>
             <img
               style={{ width: "2.5vw" }}

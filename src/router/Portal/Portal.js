@@ -3,14 +3,16 @@ import { Route, Routes, Link } from "react-router-dom";
 import styles from "./Portal.module.css";
 import Header from "../../layout/Header/Header";
 import Category from "./Category/Category";
+import SearchBar from "./SearchBar/SearchBar";
+import Footer from "../../layout/Footer/Footer";
 
 const Categories = [
-  { Title: "Đặt Đồ Ăn & Đi Chợ", Link: "/category/food", Img: "./StoreIcon.png" },
-  { Title: "Đặt Giao Hàng", Link: "/category/delivery", Img: "./CarIcon.png" },
-  { Title: "Khuyến Mãi", Link: "/category/promo", Img: "./SaleIcon.png" },
-  { Title: "Thanh Toán & Hoàn Tiền", Link: "/category/payment", Img: "./PayIcon.png" },
-  { Title: "Tài Khoản", Link: "/category/account", Img: "./accoutIcon.png" },
-  { Title: "Thông Tin Chung", Link: "/category/info", Img: "./InforIcon.png" },
+  { title: "Đặt Đồ Ăn & Đi Chợ", link: "/category/food", img: "./StoreIcon.png" },
+  { title: "Đặt Giao Hàng", link: "/category/delivery", img: "./CarIcon.png" },
+  { title: "Khuyến Mãi", link: "/category/promo", img: "./SaleIcon.png" },
+  { title: "Thanh Toán & Hoàn Tiền", link: "/category/payment", img: "./PayIcon.png" },
+  { title: "Tài Khoản", link: "/category/account", img: "./accoutIcon.png" },
+  { Title: "Thông Tin Chung", Link: "/category/info", Img: "./InforIcon.png" }
 ];
 
 function Portal() {
@@ -18,26 +20,26 @@ function Portal() {
     <div className={styles.container}>
       <Header />
       <div className={styles.searchBanner}>
-        <h1>Chúng Tôi Có Thể Giúp Gì Cho Bạn?</h1>
-        <div className={styles.searchBar}>
-          <input type="text" placeholder="Nhập Nội Dung Cần Tìm" />
-          <button>Tìm Kiếm</button>
-        </div>
+        <h1>Xin chào! Chúng tôi có thể giúp gì cho bạn?</h1>
+        <SearchBar />
       </div>
+
       <div className={styles.content}>
-        <h1>Mục Lục</h1>
-        <div className={styles.Listsection}>
+        <h1>Danh Mục</h1>
+        <div className={styles.categoryGrid}>
           {Categories.map((item) => (
-            <div key={item.Title} className={styles.section}>
-              <img alt={item.Title} src={item.Img} />
-              <Link to={item.Link}>{item.Title}</Link>
-            </div>
+            <Link to={item.link} key={item.title} className={styles.categoryItem}>
+              <img alt={item.title} src={item.img} />
+              <span>{item.title}</span>
+            </Link>
           ))}
         </div>
       </div>
+
       <Routes>
         <Route path="/category/:category" element={<Category />} />
       </Routes>
+      <Footer/>
     </div>
   );
 }
