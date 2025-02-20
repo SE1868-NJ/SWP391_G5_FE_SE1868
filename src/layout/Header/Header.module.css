@@ -75,6 +75,16 @@
     }
 }
 
+.avatar{
+    width: 4vw;
+    height: 3.5vh;
+    margin-top: 1vh;
+}
+
+.name{
+    font-size: 0.9vw;
+}
+
 .fhs_noti_icon_header{
     width: 100%;
     height: 3vh;

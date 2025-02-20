@@ -17,6 +17,7 @@
 .indexIntro{
     display: flex;
     align-items: center;
+    cursor: pointer;
     img{
         width: 75px;
         height:75px;  
@@ -39,4 +40,4 @@
 }
 .choose{
     color:orange;
-}     
+}   
