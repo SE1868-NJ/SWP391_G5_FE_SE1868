@@ -1,10 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { formatMoney } from '../utils';
 import styles from './card/styles.module.css'
 import { ProductDetailModal } from './products/ProductDetailModal';
-const Card = ({item}) => {
+import { iconFavorite, iconFavoriteDefault } from './icon/Icon';
+import { setProductFavorite } from '../service/product';
+const Card = ({item, isFavoriteProduct}) => {
   const [isOpen, setIsOpen] = useState(false)
-  
+  const [isFavorite, setIsFavorite] = useState(false)
+
+
+  const handleSetFavorite = async() =>{
+    setIsFavorite(!isFavorite)
+    try {
+      const storedUser = localStorage.getItem("user");
+        const userData = JSON.parse(storedUser);
+      const rs = await setProductFavorite({
+        CustomerID: userData.id,
+        ProductID: item.ProductID
+      })
+      
+    } catch (error) {
+      console.error("error handleSetFavorite: ",error);
+      
+    }
+  }
+
+  useEffect(()=>{
+    setIsFavorite(isFavoriteProduct)
+  },[isFavoriteProduct])
   return (
     <div className={styles.card_container}>
       <div className={styles.card_imageContainer} >
@@ -16,7 +39,11 @@ const Card = ({item}) => {
             <span className={styles.card_infoTitleName} onClick={()=> setIsOpen(true)}>{item.ProductName}</span>
             <p className={styles.card_infoQuantity}>SL: {item.StockQuantity}</p>
           </div>
+          <div className={styles.card_infoRight}>
           <span className={styles.card_infoMoney}>{formatMoney(item.Price)} VND</span>
+          <div onClick={handleSetFavorite} className={styles.card_infoRight_favorite}>{isFavorite ?iconFavorite : iconFavoriteDefault}</div>
+          </div>
+
         </div>
         <button className={styles.card_button}>Add to cart</button>
       </div>

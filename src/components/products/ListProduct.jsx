@@ -4,7 +4,7 @@ import Card from './../Card';
 import './styles.css'
 
 
-export const ListProduct = ({ products, setValueFilter }) => {
+export const ListProduct = ({ products, setValueFilter, listFavorite }) => {
   return (
     <> <List
       grid={{
@@ -20,7 +20,7 @@ export const ListProduct = ({ products, setValueFilter }) => {
       renderItem={(item) => {
         return (
           <List.Item>
-            <Card item={item} />
+            <Card item={item} isFavoriteProduct={!!listFavorite?.find(i => i.ProductID === item.ProductID)}/>
           </List.Item>
         )
       }}
