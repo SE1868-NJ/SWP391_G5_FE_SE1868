@@ -1,116 +1,117 @@
+import { useState, useContext } from "react";
 import styles from "./Main.module.css";
-import { useState } from "react";
-import axios from "axios";
-import { useEffect, useCallback } from "react";
+import { GlobalContext } from "../../globalContext/GlobalContext";
 
 function Main() {
-  const [categoryList, setCategoryList] = useState([]);
-  const [activeCategory, setActiveCategory] = useState(-1);
-  const [productList, setProductList] = useState([]);
-  const [option, setOption] = useState("Tất Cả");
+  const { categoryList, productList = [], option, setOption, loading } = useContext(GlobalContext);
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8; // Hiển thị 8 sản phẩm mỗi trang
 
-  const allProducts = useCallback(async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:3001/api/Products/All",
-        {
-          params: { option },
-        }
-      );
-      setProductList(response.data[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [option]); // allNew sẽ được re-created khi option hoặc type thay đổi
+  // Tính toán số trang
+  const totalPages = Math.ceil((productList?.length || 0) / productsPerPage);
 
-  useEffect(() => {
-    allProducts(); // Gọi hàm allNew khi type hoặc option thay đổi
-  }, [allProducts]);
-
-  async function allCategory() {
-    try {
-      const response = await axios.get(
-        "http://localhost:3001/api/Products/Category"
-      );
-      return setCategoryList(response.data[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // Cắt danh sách sản phẩm để hiển thị trang hiện tại
+  const currentProducts = productList?.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  ) || [];
 
   return (
-    allCategory(),
-    (
-      <div className={styles.wrapper}>
-        <div className={styles.options}>
-          <div
-            className={`${styles.items_options} ${
-              activeCategory === -1 ? styles.active : ""
-            }`}
-            onClick={() => {
-              setActiveCategory(-1);
-              setOption("Tất Cả");
-            }}
-          >
-            Tất Cả
-          </div>
-          {Array.isArray(categoryList) && categoryList.length > 0 ? (
-            categoryList.map((item, index) => (
+    <div className={styles.wrapper}>
+      {/* Category Options */}
+      <div className={styles.options}>
+        <div
+          className={`${styles.items_options} ${option === "Tất Cả" ? styles.active : ""}`}
+          onClick={() => setOption("Tất Cả")}
+        >
+          Tất Cả
+        </div>
+        {Array.isArray(categoryList) && categoryList.length > 0 ? (
+          categoryList.map((item, index) => (
+            <div
+              key={index}
+              className={`${styles.items_options} ${option === item.Category ? styles.active : ""}`}
+              onClick={() => setOption(item.Category)}
+            >
+              {item.Category}
+            </div>
+          ))
+        ) : (
+          <p>Không có dữ liệu</p>
+        )}
+      </div>
+
+      {/* Product List */}
+      <div className={styles.showProducts}>
+        {loading ? (
+          <p>Đang tải sản phẩm...</p>
+        ) : currentProducts.length > 0 ? (
+          currentProducts.map((item, index) => (
+            <div key={index} className={styles.items_showProducts}>
+              <img className={styles.img} src={item.ProductImg} alt={item.ProductName} />
+              <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>{item.ProductName}</p>
               <div
-                key={index}
-                className={`${styles.items_options} ${
-                  activeCategory === index ? styles.active : ""
-                }`}
-                onClick={() => {
-                  setActiveCategory(index);
-                  setOption(item.Category);
+                style={{
+                  color: "red",
+                  marginBottom: "0.2vw",
+                  height: "2vw",
+                  display: "flex",
+                  flexDirection: "row",
+                  fontSize: "1vw",
+                  fontWeight: "bold",
                 }}
               >
-                {item.Category}
+                {Number(item.Price).toLocaleString("vi-VI", {
+                  style: "currency",
+                  currency: "VND",
+                })}{" "}
               </div>
-            ))
-          ) : (
-            <p>Không có dữ liệu</p>
-          )}
-        </div>
-        <div className={styles.showProducts}>
-          {Array.isArray(productList) && productList.length > 0 ? (
-            productList.map((item, index) => (
-              <div key={index} className={styles.items_showProducts}>
-                <img className={styles.img} src={item.ProductImg} alt="" />
-                <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>
-                  {item.ProductName}
-                </p>
-                <div
-                  style={{
-                    color: "red",
-                    marginBottom: "0.2vw",
-                    height: "2vw",
-                    display: "flex",
-                    flexDirection: "row",
-                    fontSize: "1.3vw", 
-                    fontWeight: "bold",
-                  }}
-                >
-                  {item.Price}{" "}
-                  <img
-                    style={{ width: "1.5vw", height: "1.5vw" }}
-                    src="https://static.thenounproject.com/png/1060425-200.png"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  =&gt; Đã bán:{" "}
-                  <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
-                </div>
+              <div>
+                =&gt; Đã bán:{" "}
+                <span style={{ color: "blue" }}>
+                  {Number(item.SoldQuantity).toLocaleString("vi-VI", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
               </div>
-            ))
-          ) : (
-            <p>Không có dữ liệu</p>
-          )}
-        </div>
+            </div>
+          ))
+        ) : (
+          <p>Không có dữ liệu</p>
+        )}
       </div>
-    )
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className={styles.pagination}>
+          <button
+            className={styles.pageButton}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            &lt;
+          </button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              className={`${styles.pageButton} ${currentPage === index + 1 ? styles.activePage : ""}`}
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            className={styles.pageButton}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            &gt;
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 

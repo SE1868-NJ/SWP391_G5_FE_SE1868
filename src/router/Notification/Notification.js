@@ -1,18 +1,21 @@
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import Background from "../../layout/Background/Background";
-import Main from "../../layout/Main/Main";
+import Notification from "../../layout/Notification/Notification";
 import { GlobalProvider } from "../../globalContext/GlobalContext";
+import { AuthProvider } from "../../globalContext/AuthContext";
 
 function Home() {
   return (
     <div>
       <GlobalProvider>
-        <Header />
-        <Background>
-          <Main></Main>
-          <Footer></Footer>
-        </Background>
+        <AuthProvider>
+          <Header />
+          <Background>
+            <Notification></Notification>
+            <Footer></Footer>
+          </Background>
+        </AuthProvider>
       </GlobalProvider>
     </div>
   );

@@ -5,7 +5,7 @@ import styles from "./MenuHeader.module.css";
 function MenuHeader() {
   const {
     categoryList,
-    productList,
+    productList =[],
     option,
     setOption,
     type,
@@ -133,6 +133,8 @@ function MenuHeader() {
                         color: "red",
                         marginBottom: "0.2vw",
                         height: "1.7vw",
+                        display: "flex",
+                        flexDirection:"row"
                       }}
                     >
                       {item.Price}{" "}
@@ -160,3 +162,5 @@ function MenuHeader() {
 }
 
 export default MenuHeader;
+
+

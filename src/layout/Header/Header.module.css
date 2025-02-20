@@ -56,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 30vw;
+    width: 35vw;
     padding-left: 1.8%;
 }
 
@@ -73,6 +73,16 @@
         margin-bottom: 0.5vw;
         background: rgb(226, 226, 230);
     }
+}
+
+.avatar{
+    width: 4vw;
+    height: 3.5vh;
+    margin-top: 1vh;
+}
+
+.name{
+    font-size: 0.9vw;
 }
 
 .fhs_noti_icon_header{

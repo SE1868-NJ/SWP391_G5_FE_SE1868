@@ -1,16 +1,15 @@
 .fhs_search_header{
 
     position: relative;
-    width: 40vw;
+    width: 36vw;
     background: rgba(22, 24, 35, 0.06);
     border-radius: 10px;
     display: flex;
     justify-content: center;
-    left: 1vw;
 
     input {
         height: 5vh;
-        width: 38vw;
+        width: 35vw;
         color: black;
         font-size: 1.5rem;
         border: none;
@@ -29,8 +28,8 @@
     position:absolute;
     width: 4vw;
     height: 4vh;
-    right: 0.5vw;
-    top: 50%;
+    right: 0.2vw;
+    top: 42%;
     transform: translateY(-50%);
     background-color: red;
     border-radius: 10px;
