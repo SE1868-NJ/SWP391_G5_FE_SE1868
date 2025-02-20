@@ -12,6 +12,10 @@ export function GlobalProvider({ children }) {
   const [option, setOption] = useState("Tất Cả");
   const [type, setType] = useState("Mới Nhất");
   const [typeNotification, setTypeNotification] = useState("Tất Cả Thông Báo");
+  const [statusNotification, setStatusNotification] = useState ("unread");
+  const [order_ID, setOrder_ID] = useState("");
+  const [customer_ID, setCustomer_ID] = useState("");
+  const [voucher_ID, setVoucher_ID] = useState("");
   const [menuDataLoaded, setMenuDataLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -43,6 +47,20 @@ export function GlobalProvider({ children }) {
     setLoading(false);
   };
 
+    // ✅ Hàm gọi API sản phẩm theo `option` và `type`
+    const fetchStatusNotification = async (order_ID, customer_ID, voucher_ID, statusNotification) => {
+      setLoading(true);
+      try {
+        const response = await axios.get("http://localhost:3001/api/notifications_status", {
+          params: { order_ID, customer_ID, voucher_ID, statusNotification },
+        });
+        setProductList(response.data[0]);
+      } catch (error) {
+        console.error("Lỗi khi tải status sản phẩm:", error);
+      }
+      setLoading(false);
+    };
+
   // ✅ Hàm gọi API Notifications theo customerID
   const fetchNotifications = async (customerID,typeNotification) => {
     if (!customerID) {
@@ -71,7 +89,9 @@ export function GlobalProvider({ children }) {
     if (customerID && typeNotification) {
       fetchNotifications(customerID, typeNotification);
     }
-  }, [customerID, typeNotification]);
+    fetchStatusNotification( order_ID, customer_ID, voucher_ID, statusNotification);
+    console.log("đã cập nhật lại Status Noti");
+  }, [customerID, typeNotification, statusNotification, order_ID, customer_ID, voucher_ID]);
 
   // ✅ Gọi API sản phẩm khi `option` hoặc `type` thay đổi
   useEffect(() => {
@@ -92,7 +112,15 @@ export function GlobalProvider({ children }) {
         fetchProducts,
         notificationsList,
         typeNotification,
-        setTypeNotification
+        setTypeNotification, 
+        setStatusNotification,
+        statusNotification,
+        order_ID,
+        setOrder_ID,
+        customer_ID,
+        setCustomer_ID,
+        voucher_ID,
+        setVoucher_ID
       }}
     >
       {children}
