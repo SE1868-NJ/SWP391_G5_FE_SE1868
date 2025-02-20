@@ -10,6 +10,7 @@ import Prepay from "./router/Prepay/Prepay.js";
 import Notification from "./router/Notification/Notification.js";
 import Login from "./layout/Login/Login.js";
 import CustomerRoutes from "./router/Profile/CustomerRoutes";
+import OrderandVoucher from "./router/OrderandVoucher/OrderandVoucher";
 import Category from "./router/Portal/Category/Category.js";
 import React from "react";
 import { GlobalProvider } from "./globalContext/GlobalContext";
@@ -24,6 +25,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/OrderCheckOut" element={<Order />} />
+            <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart />} />
