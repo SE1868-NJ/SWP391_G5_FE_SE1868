@@ -1,9 +1,13 @@
 import styles from './styles.module.css';
 
-export const InputCustom = () => {
+export const InputCustom = ({textComment, setTextComment, onComment}) => {
+    const handleComment = (text) =>{
+        onComment(text)
+        setTextComment('')
+    }
     return (
         <label className={styles.label}>
-            <span className={styles.icon}>
+            <span className={styles.icon} onClick={()=> handleComment(textComment)}>
                 <svg
                     className="w-6 h-6 text-gray-800 dark:text-white"
                     aria-hidden="true"
@@ -21,6 +25,13 @@ export const InputCustom = () => {
                 </svg>
             </span>
             <input
+            onKeyPress={(e) => {
+                if(e.key === 'Enter'){
+                    handleComment(e.target.value)
+                }
+            }}
+            onChange={(e) => setTextComment(e.target.value)}
+            value={textComment}
                 type="text"
                 className={styles.input}
                 placeholder="Nêu cảm nghĩ của bạn ..."

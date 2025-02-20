@@ -23,7 +23,7 @@
     height: 50px;
     margin-left: 10px;
     border-radius: 10px;
-    background: linear-gradient(#d7cfcf, #9198e5);
+    /* background: linear-gradient(#d7cfcf, #9198e5); */
   }
   
   /* .card:hover > .img {
@@ -61,10 +61,18 @@
 /* User comment */ 
   
   
-.comment_container{
-
+.comment_container_page{
+  width: 86vw;
+  background-color: white;
+    border-radius: 16px;
+    padding: 15px 25px 15px 15px;
 }
 .comment_body{
     height: 25vh;
     overflow-y: auto;
+}
+
+.comment_body_page{
+  height: 40vh;
+  overflow-y: auto;
 }

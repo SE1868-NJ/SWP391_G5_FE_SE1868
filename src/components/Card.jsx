@@ -3,7 +3,7 @@ import { formatMoney } from '../utils';
 import styles from './card/styles.module.css'
 import { ProductDetailModal } from './products/ProductDetailModal';
 import { iconFavorite, iconFavoriteDefault } from './icon/Icon';
-import { setProductFavorite } from '../service/product';
+import { deleteProductFavorite, setProductFavorite } from '../service/product';
 const Card = ({item, isFavoriteProduct}) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
@@ -14,10 +14,18 @@ const Card = ({item, isFavoriteProduct}) => {
     try {
       const storedUser = localStorage.getItem("user");
         const userData = JSON.parse(storedUser);
-      const rs = await setProductFavorite({
-        CustomerID: userData.id,
-        ProductID: item.ProductID
-      })
+        if(!isFavorite){
+          const rs = await setProductFavorite({
+            CustomerID: userData.id,
+            ProductID: item.ProductID
+          })
+        }else{
+          const rs = await deleteProductFavorite({
+            CustomerID: userData.id,
+            ProductID: item.ProductID
+          })
+        }
+     
       
     } catch (error) {
       console.error("error handleSetFavorite: ",error);

@@ -1,16 +1,18 @@
 import styles from './styles.module.css';
 
-export const UserComment = () =>{
+export const UserComment = ({review}) =>{
     return(
 
         <div className={styles.card}>
-            <div className={styles.img}></div>
+            <div className={styles.img} style={!review?.avatarViewer ? { background: 'linear-gradient(#d7cfcf, #9198e5)'} : {}}>
+                <img src={review?.avatarViewer} alt="" style={{width: '50px'}}/>
+            </div>
             <div className={styles.textBox}>
                 <div className={styles.textContent}>
-                    <p className={styles.h1}>Đỗ Đức Việt</p>
+                    <p className={styles.h1} style={{margin: '5px 0'}}>{review?.reviewer}</p>
                     <span className={styles.span}>12 min ago</span>
                 </div>
-                <p className={styles.p}>Món này thật sự ngon! Hương vị đậm đà, gia vị nêm nếm vừa phải, kết cấu món ăn cũng rất hoàn hảo.</p>
+                <p className={styles.p} style={{margin: '0 0 15px 0'}}>{review?.Review}</p>
             </div>
         </div>
 

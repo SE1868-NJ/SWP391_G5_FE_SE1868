@@ -3,12 +3,28 @@
     padding: 24px;
 }
 
+.productModal_container_page{
+    width: 100vw;
+    padding: 0px 100px;
+}
+
 .product_container{
     width: fit-content;
     height: 20rem;
     padding: 0.75rem ;
     display: flex;
     flex-direction: row;
+    gap: 0.25rem;
+    border-radius: 1rem
+}
+
+.product_container_page{
+    width: 80vw;
+    height: 20rem;
+    padding: 0.75rem ;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     gap: 0.25rem;
     border-radius: 1rem
 }
