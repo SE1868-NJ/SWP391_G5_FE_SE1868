@@ -17,6 +17,7 @@ import { GlobalProvider } from "./globalContext/GlobalContext";
 import { AuthProvider } from "./globalContext/AuthContext.js";
 import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
 import { PageProductDetail } from "./components/products/ProductDetail.jsx";
+import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
 
 function App() {
   return (
@@ -40,6 +41,9 @@ function App() {
             <Route path="/Category" element={<Category />} />
             <Route path="/Portal" element={<Portal />} />
             <Route path="/category/:category" element={<Category />} />
+            <Route path="/searchPortal" element={<SearchResults />} />
+            <Route path="/category/:category/:itemId" element={<Category />} />
+
           </Routes>
         </Router>
       </GlobalProvider>
