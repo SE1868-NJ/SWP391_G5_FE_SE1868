@@ -5,7 +5,7 @@ import styles from "./MenuHeader.module.css";
 function MenuHeader() {
   const {
     categoryList,
-    productList,
+    productList =[],
     option,
     setOption,
     type,

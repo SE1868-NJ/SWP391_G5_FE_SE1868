@@ -10,9 +10,21 @@ function Notification() {
   const { user } = useAuth();
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
-  const { typeNotification, setTypeNotification } = useContext(GlobalContext);
+  const {
+    typeNotification,
+    setTypeNotification,
+    setStatusNotification,
+    statusNotification,
+    order_ID,
+    setOrder_ID,
+    customer_ID,
+    setCustomer_ID,
+    voucher_ID,
+    setVoucher_ID,
+  } = useContext(GlobalContext);
   const items = ["Thông Báo", "Đơn Mua", "Kho Voucher"];
   const itemNoti = ["Tất Cả Thông Báo", "Cập Nhật Đơn Hàng", "Khuyến Mãi"];
+  console.log("Status khi click: ",statusNotification);
 
   const handleClick = (item) => {
     if (item === "Đơn Mua") {
@@ -25,7 +37,14 @@ function Notification() {
   useEffect(() => {
     console.log("typeNotification has changed:", typeNotification);
     console.log("Notification List has changed:", notificationsList);
-  }, [typeNotification, notificationsList]);
+  }, [
+    typeNotification,
+    notificationsList,
+    statusNotification,
+    order_ID,
+    customer_ID,
+    voucher_ID,
+  ]);
 
   return (
     <div className={styles.wrapper}>
@@ -51,12 +70,11 @@ function Notification() {
           )}
         </div>
         <div className={styles.block_items}>
-          {items.map((item, index) => (
-            <>
+          {items.map((item, itemIndex) => (
+            <div key={itemIndex}>
               <div
                 onClick={() => handleClick(item)}
                 className={styles.items}
-                key={index}
               >
                 {item}
               </div>
@@ -78,7 +96,7 @@ function Notification() {
                   ))}
                 </ul>
               )}
-            </>
+            </div>
           ))}
         </div>
       </div>
@@ -99,57 +117,120 @@ function Notification() {
               }}
             >
               {typeNotification === "Tất Cả Thông Báo" && (
-                <>
+                <div
+                  onClick={() => {
+                    setCustomer_ID(item.CustomerID);
+                    setOrder_ID(item.OrderID);
+                    setStatusNotification("read");
+                    setVoucher_ID(item.VoucherID);
+                  }}
+                  className={`${styles.focus} ${!item.notification_status || item.notification_status === "unread" ? styles.unread : ""}`}
+                  >
                   <img
                     className={styles.img_noti}
-                    src={item.image1}
+                    src={item.VoucherImg}
                     alt="Thông Báo"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" , marginLeft: "3vw"}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      marginLeft: "3vw",
+                    }}
+                  >
                     <div className={styles.show_noti_item}>
                       {item.VoucherTitle}
                     </div>
                     <div className={styles.show_noti_item}>
                       {item.VoucherName}
                     </div>
+                    <div className={styles.show_noti_item}>
+                      {new Date(item.DeliveryTime).toLocaleString("vi-VN", {
+                        timeZone: "Asia/Ho_Chi_Minh",
+                      })}
+                    </div>
                   </div>
-                </>
+                  <button className={styles.button_detail}>Xem Chi Tiết</button>
+                </div>
               )}
 
               {typeNotification === "Cập Nhật Đơn Hàng" && (
-                <>
+                <div
+                  onClick={() => {
+                    setCustomer_ID(item.CustomerID);
+                    setOrder_ID(item.OrderID);
+                    setStatusNotification("read");
+                    setVoucher_ID("");
+                  }}
+                  className={`${styles.focus} ${!item.notification_status || item.notification_status === "unread" ? styles.unread : ""}`}
+                  >
                   <img
                     className={styles.img_noti}
                     src={item.ProductImgs}
                     alt="Đơn Hàng"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" , marginLeft: "3vw"}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      marginLeft: "3vw",
+                    }}
+                  >
+                    <div className={styles.show_noti_item}>{item.Status}</div>
                     <div className={styles.show_noti_item}>
-                      {item.Status}
+                      Đơn Hàng
+                      {"  "}
+                      <span className={styles.highlight}>{item.OrderID}</span>
+                      {"  "}
+                      Đã {"  "}{" "}
+                      <span className={styles.highlight}>{item.Status}</span>
                     </div>
                     <div className={styles.show_noti_item}>
-                      Đơn Hàng {item.OrderID} Đã {item.Status}
+                      {new Date(item.DeliveryTime).toLocaleString("vi-VN", {
+                        timeZone: "Asia/Ho_Chi_Minh",
+                      })}
                     </div>
                   </div>
-                </>
+                  <button className={styles.button_detail}>Xem Chi Tiết</button>
+                </div>
               )}
 
               {typeNotification === "Khuyến Mãi" && (
-                <>
+                <div
+                  onClick={() => {
+                    setCustomer_ID(item.CustomerID);
+                    setOrder_ID("");
+                    setStatusNotification("read");
+                    setVoucher_ID(item.VoucherID);
+                  }}
+                  className={`${styles.focus} ${!item.notification_status || item.notification_status === "unread" ? styles.unread : ""}`}
+                  >
                   <img
                     className={styles.img_noti}
                     src={item.VoucherImg}
                     alt="Khuyến Mãi"
                   />
-                  <div style={{ display: "flex", flexDirection: "column" , marginLeft: "3vw"}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      marginLeft: "3vw",
+                    }}
+                  >
                     <div className={styles.show_noti_item}>
                       {item.VoucherTitle}
                     </div>
                     <div className={styles.show_noti_item}>
                       {item.VoucherName}
                     </div>
+                    <div className={styles.show_noti_item}>
+                      {new Date(item.DeliveryTime).toLocaleString("vi-VN", {
+                        timeZone: "Asia/Ho_Chi_Minh",
+                      })}
+                    </div>
                   </div>
-                </>
+                  <button className={styles.button_detail}>Xem Chi Tiết</button>
+                </div>
               )}
             </div>
           );

@@ -1,24 +1,28 @@
+import { useState, useContext } from "react";
 import styles from "./Main.module.css";
-import { useContext } from "react";
 import { GlobalContext } from "../../globalContext/GlobalContext";
 
 function Main() {
-  const {
-    categoryList,
-    productList,
-    option,
-    setOption,
-    loading,
-  } = useContext(GlobalContext);
+  const { categoryList, productList = [], option, setOption, loading } = useContext(GlobalContext);
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8; // Hiển thị 8 sản phẩm mỗi trang
+
+  // Tính toán số trang
+  const totalPages = Math.ceil((productList?.length || 0) / productsPerPage);
+
+  // Cắt danh sách sản phẩm để hiển thị trang hiện tại
+  const currentProducts = productList?.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  ) || [];
 
   return (
     <div className={styles.wrapper}>
       {/* Category Options */}
       <div className={styles.options}>
         <div
-          className={`${styles.items_options} ${
-            option === "Tất Cả" ? styles.active : ""
-          }`}
+          className={`${styles.items_options} ${option === "Tất Cả" ? styles.active : ""}`}
           onClick={() => setOption("Tất Cả")}
         >
           Tất Cả
@@ -27,9 +31,7 @@ function Main() {
           categoryList.map((item, index) => (
             <div
               key={index}
-              className={`${styles.items_options} ${
-                option === item.Category ? styles.active : ""
-              }`}
+              className={`${styles.items_options} ${option === item.Category ? styles.active : ""}`}
               onClick={() => setOption(item.Category)}
             >
               {item.Category}
@@ -44,13 +46,11 @@ function Main() {
       <div className={styles.showProducts}>
         {loading ? (
           <p>Đang tải sản phẩm...</p>
-        ) : Array.isArray(productList) && productList.length > 0 ? (
-          productList.map((item, index) => (
+        ) : currentProducts.length > 0 ? (
+          currentProducts.map((item, index) => (
             <div key={index} className={styles.items_showProducts}>
-              <img className={styles.img} src={item.ProductImg} alt="" />
-              <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>
-                {item.ProductName}
-              </p>
+              <img className={styles.img} src={item.ProductImg} alt={item.ProductName} />
+              <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>{item.ProductName}</p>
               <div
                 style={{
                   color: "red",
@@ -58,20 +58,23 @@ function Main() {
                   height: "2vw",
                   display: "flex",
                   flexDirection: "row",
-                  fontSize: "1.3vw", 
+                  fontSize: "1vw",
                   fontWeight: "bold",
                 }}
               >
-                {item.Price}{" "}
-                <img
-                  style={{ width: "1.5vw", height: "1.5vw" }}
-                  src="https://static.thenounproject.com/png/1060425-200.png"
-                  alt=""
-                />
+                {Number(item.Price).toLocaleString("vi-VI", {
+                  style: "currency",
+                  currency: "VND",
+                })}{" "}
               </div>
               <div>
                 =&gt; Đã bán:{" "}
-                <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
+                <span style={{ color: "blue" }}>
+                  {Number(item.SoldQuantity).toLocaleString("vi-VI", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
               </div>
             </div>
           ))
@@ -79,6 +82,35 @@ function Main() {
           <p>Không có dữ liệu</p>
         )}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className={styles.pagination}>
+          <button
+            className={styles.pageButton}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            &lt;
+          </button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              className={`${styles.pageButton} ${currentPage === index + 1 ? styles.activePage : ""}`}
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            className={styles.pageButton}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            &gt;
+          </button>
+        </div>
+      )}
     </div>
   );
 }
