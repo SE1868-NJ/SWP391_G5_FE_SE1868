@@ -4,6 +4,7 @@ import styles from "./Portal.module.css";
 import Header from "../../layout/Header/Header";
 import Category from "./Category/Category";
 import SearchBar from "./SearchBar/SearchBar";
+import FAQ from "./FAQ/FAQ";
 import Footer from "../../layout/Footer/Footer";
 
 const Categories = [
@@ -12,13 +13,15 @@ const Categories = [
   { title: "Khuyến Mãi", link: "/category/promo", img: "./SaleIcon.png" },
   { title: "Thanh Toán & Hoàn Tiền", link: "/category/payment", img: "./PayIcon.png" },
   { title: "Tài Khoản", link: "/category/account", img: "./accoutIcon.png" },
-  { Title: "Thông Tin Chung", Link: "/category/info", Img: "./InforIcon.png" }
+  { title: "Thông Tin Chung", link: "/category/info", img: "./inforIcon.png" },
 ];
 
 function Portal() {
   return (
     <div className={styles.container}>
-      <Header />
+      <div className={styles.headerWrapper}>
+        <Header />
+      </div>
       <div className={styles.searchBanner}>
         <h1>Xin chào! Chúng tôi có thể giúp gì cho bạn?</h1>
         <SearchBar />
@@ -36,10 +39,19 @@ function Portal() {
         </div>
       </div>
 
+      <div className={styles.faqWrapper}>
+        <FAQ />
+      </div>
+
+
       <Routes>
         <Route path="/category/:category" element={<Category />} />
       </Routes>
-      <Footer/>
+
+
+      <div className={styles.headerWrapper}>
+        <Footer />
+      </div>
     </div>
   );
 }

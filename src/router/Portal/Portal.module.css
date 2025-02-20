@@ -1,3 +1,15 @@
+.headerWrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 0;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  /* Căn giữa nội dung trong header */
+  align-items: center;
+}
+
 /* ============================ */
 /* Global container */
 .container {
@@ -201,4 +213,38 @@
 
 .resultsList li strong {
   color: #f04e30;
+}
+
+/* ============================ */
+/* Câu hỏi trong FAQ - Hiệu ứng hover màu xám nhạt */
+.faqItem {
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #f3f3f3;
+  /* Viền mỏng màu xám nhạt */
+  background-color: #fcfcfc;
+  /* Màu nền rất nhẹ */
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Hover - Thêm màu xám nhạt */
+.faqItem:hover {
+  background-color: #f5f5f5;
+  /* Màu xám nhạt khi di chuột vào */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+  /* Hiệu ứng nổi nhẹ */
+}
+
+.faqWrapper {
+  width: 50%;
+  /* Đảm bảo cân đối với danh mục */
+  padding-left: 0px;
+  /* Đưa sát về bên trái */
+  border-left: 3px solid #ddd;
+  /* Thêm đường viền lệch về trái */
+  padding-left: 15px;
+  /* Giữ khoảng cách giữa border và nội dung */
+  text-align: left;
+  /* Đảm bảo nội dung FAQ căn trái */
 }

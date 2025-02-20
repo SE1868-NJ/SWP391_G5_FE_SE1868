@@ -35,6 +35,8 @@ function App() {
             <Route path="/Portal" element={<Portal />} />
             <Route path="/category/:category" element={<Category />} />
             <Route path="/searchPortal" element={<SearchResults />} />
+            <Route path="/category/:category/:itemId" element={<Category />} />
+
           </Routes>
         </Router>
       </GlobalProvider>
