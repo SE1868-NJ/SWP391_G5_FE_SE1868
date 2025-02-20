@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
         if (storedUser) {
             const parsedUser = JSON.parse(storedUser);
             setUser(parsedUser);
-            setCustomerID(parsedUser.id); // ✅ Cập nhật customerID
+            setCustomerID(parsedUser.id); 
         }
     }, []);
 
