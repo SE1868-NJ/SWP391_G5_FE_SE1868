@@ -11,7 +11,7 @@ function Cart() {
   const [selectedAll, setSelectedAll] = useState(false);
   const cusID = 2;
   const address =
-    "Bùi Tiến Anh\n(+84)123456789\nThạch Thán, Quốc Oai, TP Hà Nội";
+    "Nguyễn Anh Đức (+84) 919824069    Xưởng may Cơ Xen, Xã Vũ Hòa, Huyện Kiến Xương, Thái Bình";
   const navigate = useNavigate();
 
   const handleCheckout = () => {
