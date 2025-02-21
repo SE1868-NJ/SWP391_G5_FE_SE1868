@@ -5,7 +5,7 @@ import styles from "./MenuHeader.module.css";
 function MenuHeader() {
   const {
     categoryList,
-    productList,
+    productList = [],
     option,
     setOption,
     type,
@@ -68,8 +68,9 @@ function MenuHeader() {
           {/* Danh mục */}
           <div className={styles.option}>
             <div
-              className={`${styles.items_option} ${activeCategory === -1 ? styles.active : ""
-                }`}
+              className={`${styles.items_option} ${
+                activeCategory === -1 ? styles.active : ""
+              }`}
               onClick={() => {
                 setActiveCategory(-1);
                 setOption("Tất Cả");
@@ -82,8 +83,9 @@ function MenuHeader() {
               categoryList.map((item, index) => (
                 <div
                   key={index}
-                  className={`${styles.items_option} ${activeCategory === index ? styles.active : ""
-                    }`}
+                  className={`${styles.items_option} ${
+                    activeCategory === index ? styles.active : ""
+                  }`}
                   onClick={() => {
                     setActiveCategory(index);
                     setOption(item.Category);
@@ -105,8 +107,9 @@ function MenuHeader() {
                 (label, index) => (
                   <div
                     key={index}
-                    className={`${styles.items_type} ${activeType === index ? styles.active : ""
-                      }`}
+                    className={`${styles.items_type} ${
+                      activeType === index ? styles.active : ""
+                    }`}
                     onClick={() => {
                       setActiveType(index);
                       setType(label);
@@ -134,15 +137,13 @@ function MenuHeader() {
                         marginBottom: "0.2vw",
                         height: "1.7vw",
                         display: "flex",
-                        flexDirection:"row"
+                        flexDirection: "row",
                       }}
                     >
-                      {item.Price}{" "}
-                      <img
-                        style={{ width: "1vw", height: "1.3vw" }}
-                        src="https://static.thenounproject.com/png/1060425-200.png"
-                        alt=""
-                      />
+                      {Number(item.Price).toLocaleString("vi-VI", {
+                        style: "currency",
+                        currency: "VND",
+                      })}{" "}
                     </div>
                     <div>
                       =&gt; Đã bán:{" "}
@@ -162,5 +163,3 @@ function MenuHeader() {
 }
 
 export default MenuHeader;
-
-

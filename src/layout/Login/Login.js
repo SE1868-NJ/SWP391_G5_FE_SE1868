@@ -6,13 +6,13 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const { login, logout } = useAuth();
+    const { login, logout, user } = useAuth();
     const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
         const result = login(email, password);
-        
+        console.log(result)
         if (result.success) {
             navigate("/"); // Chuyển hướng về trang chủ sau khi đăng nhập
         } else {
@@ -24,8 +24,8 @@ const Login = () => {
     const handleLogout = () => {
         try {
             logout();
-            navigate("/login"); 
-            console.log("Logout Success");
+            navigate("/"); 
+            console.log("Logout Success: ");
         } catch (error) {
             setError("Logout Error");
         }

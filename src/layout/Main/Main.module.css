@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 85vw;
-    height: 80vh;
+    height: 85vh;
 }
 
 .options{
@@ -40,26 +40,59 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 6vh;
-    overflow-y: scroll;
-    height: 70vh;
+    gap: 5vh;
+    height: 75vh;
+    justify-content: space-around;
 }
 
 .items_showProducts{
     display: flex;
     flex-direction: column;
-    width: 25vw;
-    height: 45vh;
-    background: yellowgreen;
+    width: 18vw;
+    height: 26vh;
+    background: white;
     justify-content: space-around;
     align-items: center;
-    padding: 1vw 0;
+    padding-top: 1vw;
+    padding-bottom: 0.5vw;
     font-size: 1vw;
-    font-weight: 800;
+    font-weight: 600;
+    border-radius: 20px;
 }
 
 .img{
     display: flex;
-    width: 20vw;
-    height: 28vh;
+    width: 15vw;
+    height: 16vh;
+    border-radius: 10px;
+    margin-bottom: 0.5vw;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+}
+  
+.pageButton {
+    border: none;
+    background: #eee;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+  
+.pageButton:hover {
+    background: #39e113;
+    color: black;
+}
+  
+.activePage {
+    background: red;
+    color: white;
+    border: none;
+}
+  
