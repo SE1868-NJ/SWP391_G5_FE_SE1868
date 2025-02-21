@@ -10,6 +10,8 @@ export function GlobalProvider({ children }) {
   const [productList, setProductList] = useState([]);
   const [notificationsList, setNotificationsList] = useState([]);
   const [option, setOption] = useState("Tất Cả");
+  const [optionMain, setOptionMain] = useState("Tất Cả");
+  const [productListMain, setProductListMain] = useState([]);
   const [type, setType] = useState("Mới Nhất");
   const [typeNotification, setTypeNotification] = useState("Tất Cả Thông Báo");
   const [statusNotification, setStatusNotification] = useState ("unread");
@@ -32,6 +34,20 @@ export function GlobalProvider({ children }) {
       console.error("Lỗi khi tải danh mục:", error);
     }
   };
+
+    // ✅ Hàm gọi API sản phẩm theo `option`
+    const fetchProductsMain = async (optionMain) => {
+      setLoading(true);
+      try {
+        const response = await axios.get("http://localhost:3001/api/Products/All", {
+          params: { option: optionMain},
+        });
+        setProductListMain(response.data[0]);
+      } catch (error) {
+        console.error("Lỗi khi tải sản phẩm:", error);
+      }
+      setLoading(false);
+    };
 
   // ✅ Hàm gọi API sản phẩm theo `option` và `type`
   const fetchProducts = async (selectedOption, selectedType) => {
@@ -98,6 +114,11 @@ export function GlobalProvider({ children }) {
     fetchProducts(option, type);
   }, [option, type]);
 
+    // ✅ Gọi API sản phẩm khi `option` thay đổi
+    useEffect(() => {
+      fetchProductsMain(optionMain);
+    }, [optionMain]);
+
   return (
     <GlobalContext.Provider
       value={{
@@ -120,7 +141,11 @@ export function GlobalProvider({ children }) {
         customer_ID,
         setCustomer_ID,
         voucher_ID,
-        setVoucher_ID
+        setVoucher_ID,
+        setOptionMain,
+        optionMain,
+        productListMain, 
+        setProductListMain
       }}
     >
       {children}

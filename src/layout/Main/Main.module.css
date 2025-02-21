@@ -42,6 +42,7 @@
     flex-wrap: wrap;
     gap: 5vh;
     height: 75vh;
+    justify-content: space-around;
 }
 
 .items_showProducts{
@@ -64,6 +65,7 @@
     width: 15vw;
     height: 16vh;
     border-radius: 10px;
+    margin-bottom: 0.5vw;
 }
 
 .pagination {
