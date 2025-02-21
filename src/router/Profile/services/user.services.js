@@ -1,5 +1,6 @@
 import axiosInstance from "./axiosInstance";
 
+
 export const getCurrentCustomerById = async (customerId) => {
   const response = await axiosInstance.get(`/customers/${customerId}`);
   return response.data;
@@ -42,11 +43,21 @@ export const addAddress = async (customerID, houseAddress, area) => {
 };
 
 
-
-
 export const removeAddress = async (addressId, customerId) => {
   const response = await axiosInstance.delete(`/address`, {
     params: { addressId, customerId },
   });
   return response.data;
 };
+
+const sendOtpToEmail = async (email) => {
+  try {
+    const response = await axiosInstance.post('/sendOtp', { email });
+    return response.data;
+  } catch (error) {
+    console.error("Lỗi khi gửi mã OTP:", error.response ? error.response.data : error.message);
+    throw error;
+  }
+};
+
+export { sendOtpToEmail };

@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../globalContext/AuthContext"; // ✅ Import useAuth
 
@@ -21,7 +21,7 @@ export function GlobalProvider({ children }) {
   const [menuDataLoaded, setMenuDataLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { customerID } = useAuth(); // ✅ Nhận customerID từ AuthContext
+  const { customerID } = useAuth() || {}; // ✅ Nhận customerID từ AuthContext
 
   // ✅ Hàm gọi API danh mục sản phẩm
   const fetchCategories = async () => {

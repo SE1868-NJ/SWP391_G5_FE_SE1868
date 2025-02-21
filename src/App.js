@@ -1,31 +1,38 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Portal from "./router/Portal/Portal.js";
-
 import Order from "./router/Order/Order.js";
 import Home from "./router/Home/Home";
 import Cart from "./router/Cart/Cart.js";
 import SearchProduct from "./router/products/SearchProducts";
 import Prepay from "./router/Prepay/Prepay.js";
+import OrderandVoucher from './router/OrderandVoucher/OrderandVoucher.js';
 import Notification from "./router/Notification/Notification.js";
 import Login from "./layout/Login/Login.js";
 import CustomerRoutes from "./router/Profile/CustomerRoutes";
-import OrderandVoucher from "./router/OrderandVoucher/OrderandVoucher";
 import Category from "./router/Portal/Category/Category.js";
-import React from "react";
+import React, { useContext } from "react";
 import { GlobalProvider } from "./globalContext/GlobalContext";
 import { AuthProvider } from "./globalContext/AuthContext.js";
+import { ThemeProvider, ThemeContext } from "./contexts/ThemeContext.js";
+import DarkModeButton from "./components/DarkModeButton";
 import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
 import { PageProductDetail } from "./components/products/ProductDetail.jsx";
 import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
 
-function App() {
+function AppContent() {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <AuthProvider>
-      <GlobalProvider>
-        <Router>
-          <Routes>
-            <Route path="/OrderCheckOut" element={<Order />} />
+    <div className={`min-h-screen transition-all duration-300 ${
+      theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
+    }`}>
+      <header className="p-4 flex justify-between items-center">
+        <DarkModeButton />
+      </header>
+
+      <Routes>
+      <Route path="/OrderCheckOut" element={<Order />} />
             <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -33,7 +40,6 @@ function App() {
             <Route path="/search" element={<SearchProduct />} />
             <Route path="/my-favorite" element={<FavoriteProduct />} />
             <Route path="/product/:id" element={<PageProductDetail />} />
-
             <Route path="/Order" element={<Order />} />
             <Route path="/Notifications" element={<Notification />} />
             <Route path="/Prepay" element={<Prepay />} />
@@ -44,10 +50,22 @@ function App() {
             <Route path="/searchPortal" element={<SearchResults />} />
             <Route path="/category/:category/:itemId" element={<Category />} />
 
-          </Routes>
-        </Router>
+      </Routes>
+    </div>
+  );
+}
+
+function App() {
+  return (
+      <GlobalProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <Router>
+              <AppContent />
+            </Router>
+          </ThemeProvider>
+        </AuthProvider>
       </GlobalProvider>
-    </AuthProvider>
   );
 }
 
