@@ -88,10 +88,8 @@ function Cart() {
     });
   };
 
-
-
   const totalPrice = cartItems
-    .filter(item => selectedItems.includes(item.cartDetailID))
+    .filter(item => selectedItems.includes(item.cartID))
     .reduce((total, item) => total + item.productPrice * item.Quantity, 0);
 
   return (
