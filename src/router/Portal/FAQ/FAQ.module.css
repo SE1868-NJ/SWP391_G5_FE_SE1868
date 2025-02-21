@@ -1,0 +1,65 @@
+.faqContainer {
+    max-width: 800px;
+    /* Căn lề theo danh mục */
+    margin: 40px auto;
+    padding: 0 20px;
+    /* Giữ khoảng cách giống danh mục */
+}
+
+.faqContainer h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.faqList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.faqItem {
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.faqItem:last-child {
+    border-bottom: none;
+}
+
+/* Kiểu dáng câu hỏi */
+.faqQuestion {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #333;
+    display: block;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Hiệu ứng hover giống danh mục */
+.faqQuestion:hover {
+    color: #ff5a00;
+    /* Màu giống hover của danh mục */
+}
+
+/* Hiệu ứng khi mở câu trả lời */
+.faqAnswer {
+    font-size: 14px;
+    padding: 10px 0;
+    color: #666;
+    display: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Khi câu hỏi được mở */
+.faqItem.active .faqAnswer {
+    display: block;
+}

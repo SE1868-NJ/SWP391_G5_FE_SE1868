@@ -15,6 +15,9 @@ import Category from "./router/Portal/Category/Category.js";
 import React from "react";
 import { GlobalProvider } from "./globalContext/GlobalContext";
 import { AuthProvider } from "./globalContext/AuthContext.js";
+import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
+import { PageProductDetail } from "./components/products/ProductDetail.jsx";
+import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/search" element={<SearchProduct />} />
+            <Route path="/my-favorite" element={<FavoriteProduct />} />
+            <Route path="/product/:id" element={<PageProductDetail />} />
+
             <Route path="/Order" element={<Order />} />
             <Route path="/Notifications" element={<Notification />} />
             <Route path="/Prepay" element={<Prepay />} />
@@ -35,6 +41,9 @@ function App() {
             <Route path="/Category" element={<Category />} />
             <Route path="/Portal" element={<Portal />} />
             <Route path="/category/:category" element={<Category />} />
+            <Route path="/searchPortal" element={<SearchResults />} />
+            <Route path="/category/:category/:itemId" element={<Category />} />
+
           </Routes>
         </Router>
       </GlobalProvider>
