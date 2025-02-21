@@ -9,7 +9,7 @@ function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAll, setSelectedAll] = useState(false);
-  const cusID = 5;
+  const cusID = 2;
   const address =
     "Bùi Tiến Anh\n(+84)123456789\nThạch Thán, Quốc Oai, TP Hà Nội";
   const navigate = useNavigate();
@@ -22,8 +22,8 @@ function Cart() {
     const fetchCart = async () => {
       try {
         const response = await axios.post('http://localhost:3001/api/Cart/cusID', { cusID: cusID });
-        console.log(response.data);
-        await setCartItems(response.data)
+        console.log("Fetched Cart Data:", response.data);
+        await setCartItems(response.data);
       } catch (error) {
         console.error("Lỗi khi lấy giỏ hàng:", error);
       }
@@ -31,31 +31,30 @@ function Cart() {
     fetchCart();
   }, []);
 
-  const updateQuantity = async (cartDetailID, amount) => {
-    setCartItems(prevItems => 
-      prevItems.map(item => 
-        item.cartDetailID === cartDetailID
+  const updateQuantity = async (cartID, amount) => {
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.cartID === cartID
           ? { ...item, Quantity: Math.max(1, item.Quantity + amount) }
           : item
       )
     );
 
     try {
-      await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartDetailID, amount });
+      await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, amount });
     } catch (error) {
       console.error(error);
     }
   };
 
-  const removeItem = async (cartDetailID) => {
+  const removeItem = async (cartID) => {
     try {
-      await axios.delete(`http://localhost:3001/api/Cart/deleteItem`, { data: { cartDetailID } });
-      setCartItems(prevItems => prevItems.filter(item => item.cartDetailID !== cartDetailID));
+      await axios.delete(`http://localhost:3001/api/Cart/deleteItem`, { data: { cartID } });
+      setCartItems(prevItems => prevItems.filter(item => item.cartID !== cartID));
     } catch (error) {
       console.error(error);
     }
   };
-
   const handleSelectAll = () => {
     if (selectedAll) {
       setSelectedItems([]);
@@ -66,12 +65,30 @@ function Cart() {
   }
 
   const handleSelectItem = (cartDetailID) => {
-    setSelectedItems((prevSelectedItems) =>
-      prevSelectedItems.includes(cartDetailID)
-        ? prevSelectedItems.filter(id => id !== cartDetailID)
-        : [...prevSelectedItems, cartDetailID]
-    );
+    if (cartDetailID === undefined || cartDetailID === null) {
+      console.error("Error: cartDetailID is undefined or null!");
+      return;
+    }
+    console.log("Selected Item:", cartDetailID);
+    setSelectedItems(prevSelected => {
+      if (!Array.isArray(prevSelected)) {
+        prevSelected = [];
+      }
+
+      const isSelected = prevSelected.includes(cartDetailID);
+      const newSelected = isSelected
+        ? prevSelected.filter(id => id !== cartDetailID)
+        : [...prevSelected, cartDetailID];
+
+      console.log("Selected Items:", newSelected);
+      console.log("Selected All:", newSelected.length === cartItems.length);
+      setSelectedAll(newSelected.length === cartItems.length);
+
+      return newSelected;
+    });
   };
+
+
 
   const totalPrice = cartItems
     .filter(item => selectedItems.includes(item.cartDetailID))
@@ -98,7 +115,7 @@ function Cart() {
               <tr>
                 <th className={styles.c0}><input type="checkbox"
                   checked={selectedAll}
-                  onChange={handleSelectAll}/></th>
+                  onChange={handleSelectAll} /></th>
                 <th className={styles.c1}>Sản phẩm</th>
                 <th className={styles.c2}>Giá</th>
                 <th className={styles.c3}>Số lượng</th>
@@ -111,37 +128,40 @@ function Cart() {
                 <p className={styles.empty_cart}>Giỏ hàng đang trống</p>
               ) : (
                 cartItems.map((item) => (
-                  <tr key={item.cartDetailID}>
+                  <tr key={item.cartID}>
                     <td><input
                       type="checkbox"
-                      checked={selectedItems.includes(item.cartDetailID)}
-                      onChange={() => handleSelectItem(item.cartDetailID)}
+                      checked={selectedItems.includes(item.cartID)}
+                      onChange={() => {
+                        console.log("Clicked item ID:", item.cartID);
+                        handleSelectItem(item.cartID);
+                      }}
                     /></td>
-                  <td className={styles.item_info}>
-                    <img src={item.productImg} alt={item.productName} className={styles.item_image} />
-                    <span className={styles.item_name}>{item.productName}</span>
+                    <td className={styles.item_info}>
+                      <img src={item.productImg} alt={item.productName} className={styles.item_image} />
+                      <span className={styles.item_name}>{item.productName}</span>
                     </td>
-                  <td className={styles.c2}>
-                    {item.productPrice.toLocaleString()} VNĐ
-                  </td>
-                  <td className={styles.c3}>
-                    <div className={styles.quantity_control}>
-                      <button className={styles.quantity_button} onClick={() => updateQuantity(item.cartDetailID, -1)}>
-                        -
-                      </button>
-                      <span className={styles.quantity_value}>{item.Quantity}</span>
-                      <button className={styles.quantity_button} onClick={() => updateQuantity(item.cartDetailID, 1)}>
-                        +
-                      </button>
-                    </div>
+                    <td className={styles.c2}>
+                      {item.productPrice.toLocaleString()} VNĐ
+                    </td>
+                    <td className={styles.c3}>
+                      <div className={styles.quantity_control}>
+                        <button className={styles.quantity_button} onClick={() => updateQuantity(item.cartID, -1)}>
+                          -
+                        </button>
+                        <span className={styles.quantity_value}>{item.Quantity}</span>
+                        <button className={styles.quantity_button} onClick={() => updateQuantity(item.cartID, 1)}>
+                          +
+                        </button>
+                      </div>
                     </td>
                     <td className={styles.c4}>
                       {(item.productPrice * item.Quantity).toLocaleString()} VNĐ
                     </td>
                     <td className={styles.c5}>
-                      <button className={styles.remove_button} onClick={() => removeItem(item.cartDetailID)}>
-                      Xóa
-                    </button>
+                      <button className={styles.remove_button} onClick={() => removeItem(item.cartID)}>
+                        Xóa
+                      </button>
                     </td>
                   </tr>
                 ))

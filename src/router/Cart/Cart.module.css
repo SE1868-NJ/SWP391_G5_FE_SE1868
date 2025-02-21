@@ -7,7 +7,7 @@
 }
 
 .cart_header {
-  font-family: 1em sans-serif;
+  font: 1em sans-serif;
   text-align: center;
   font-size: 24px;
   font-weight: bold;
@@ -26,6 +26,7 @@
 }
 
 .address {
+  font: 1em sans-serif;
   width: 82%;
   background-color: white;
   margin: 10px;
@@ -69,26 +70,31 @@
 
 .cart_content .c1 {
   width: 40%;
+  font: 1em sans-serif;
   text-align: left;
 }
 
 .cart_content .c2 {
   width: 15%;
+  font: 1em sans-serif;
   text-align: center;
 }
 
 .cart_content .c3 {
   width: 15%;
+  font: 1em sans-serif;
   text-align: center;
 }
 
 .cart_content .c4 {
   width: 15%;
+  font: 1em sans-serif;
   text-align: center;
 }
 
 .cart_content .c5 {
   width: 10%;
+  font: 1em sans-serif;
   text-align: center;
 }
 
@@ -106,11 +112,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 180px;
-}
-
-.item_price {
-  font: 1em sans-serif;
-  color: #555;
 }
 
 .item_image {
