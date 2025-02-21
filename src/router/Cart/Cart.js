@@ -59,26 +59,26 @@ function Cart() {
     if (selectedAll) {
       setSelectedItems([]);
     } else {
-      setSelectedItems(cartItems.map(item => item.cartDetailID));
+      setSelectedItems(cartItems.map(item => item.cartID));
     }
     setSelectedAll(!selectedAll);
   }
 
-  const handleSelectItem = (cartDetailID) => {
-    if (cartDetailID === undefined || cartDetailID === null) {
+  const handleSelectItem = (cartID) => {
+    if (cartID === undefined || cartID === null) {
       console.error("Error: cartDetailID is undefined or null!");
       return;
     }
-    console.log("Selected Item:", cartDetailID);
+    console.log("Selected Item:", cartID);
     setSelectedItems(prevSelected => {
       if (!Array.isArray(prevSelected)) {
         prevSelected = [];
       }
 
-      const isSelected = prevSelected.includes(cartDetailID);
+      const isSelected = prevSelected.includes(cartID);
       const newSelected = isSelected
-        ? prevSelected.filter(id => id !== cartDetailID)
-        : [...prevSelected, cartDetailID];
+        ? prevSelected.filter(id => id !== cartID)
+        : [...prevSelected, cartID];
 
       console.log("Selected Items:", newSelected);
       console.log("Selected All:", newSelected.length === cartItems.length);
