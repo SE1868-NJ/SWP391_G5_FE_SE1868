@@ -57,15 +57,15 @@ function AppContent() {
 
 function App() {
   return (
-    <ThemeProvider>
       <GlobalProvider>
         <AuthProvider>
+          <ThemeProvider>
             <Router>
               <AppContent />
             </Router>
+          </ThemeProvider>
         </AuthProvider>
       </GlobalProvider>
-    </ThemeProvider>
   );
 }
 
