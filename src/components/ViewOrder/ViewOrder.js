@@ -34,7 +34,7 @@ function ViewOrder() {
     const response = await axios.post('http://localhost:3001/api/Order/OrderDetailCusID',{cusID: customer.CustomerID});
     await setAllOrder(response.data)
     await setOrderList(response.data);
-    const response1 = await axios.post('http://localhost:3001/api/Products/Favorite',{cusID: customer.CustomerID});
+    const response1 = await axios.post('http://localhost:3001/api/Products/getFavorite',{cusID: customer.CustomerID});
     console.log(response1.data)
     await setFavorites(response1.data);
   }
@@ -168,7 +168,7 @@ function ViewOrder() {
               <p>Còn: {item.StockQuantity} sản phẩm</p>
             </div>
           </div>
-        )): ''}
+        )): (<h3>Bạn chưa thích sản phẩm nào</h3>)}
       </div>
       </div>
       {reviewPopup !== null ?(
