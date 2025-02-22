@@ -12,7 +12,7 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         const result = login(email, password);
-        
+        console.log(result)
         if (result.success) {
             navigate("/"); // Chuyển hướng về trang chủ sau khi đăng nhập
         } else {

@@ -28,8 +28,8 @@
     position:absolute;
     width: 4vw;
     height: 4vh;
-    right: 0.5vw;
-    top: 50%;
+    right: 0.2vw;
+    top: 42%;
     transform: translateY(-50%);
     background-color: red;
     border-radius: 10px;

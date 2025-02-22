@@ -111,5 +111,34 @@
 
 .show_noti_item{
     display: flex;
+    margin-bottom: 0.5vw;
 }
 
+.focus{
+    display: flex;
+    width: 100%;
+    &:hover{
+        background-color: rgb(227, 223, 223);
+    }
+}
+
+.unread{
+    background: rgb(245, 204, 181);
+}
+
+.highlight {
+    font-weight: bold;
+    color: #0a5cea; 
+    padding: 0 0.4vw;
+}
+
+.button_detail{
+    position: absolute;
+    right: 8vw;
+    justify-content: center;
+    align-items: center;
+
+    &:hover{
+        background-color: red;
+    }
+}

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import MenuHeader from "../MenuHeader/MenuHeader";
 import Search from "../Search/Search";
 import { useEffect, useState } from "react";
-import { notification } from "antd";
 
 function Header() {
   const navigate = useNavigate();
@@ -20,14 +19,20 @@ function Header() {
     if (storedUser) {
       const userData = JSON.parse(storedUser);
       setUser(userData);
-    } 
+    }
   }, []);
 
-  const handleNotificationClick = () => {
+  const handleClick = (e) => {
     if (user) {
+      if (e === "Thông Báo") {
         navigate("/Notifications"); // Nếu có user, vào trang thông báo
+      } else if (e === "Hỗ Trợ") {
+        navigate("/Portal"); // Nếu có user, vào trang thông báo
+      } else if (e === "Giỏ Hàng") {
+        navigate("/cart"); // Nếu có user, vào trang thông báo
+      }
     } else {
-        navigate("/login"); // Nếu chưa đăng nhập, vào trang login
+      navigate("/login"); // Nếu chưa đăng nhập, vào trang login
     }
   };
 
@@ -46,7 +51,7 @@ function Header() {
         <Search />
 
         <div className={styles.fhs_center_space_header}>
-          <div onClick={() => handleNotificationClick()}  className={styles.fhs_noti_header}>
+          <div onClick={() => handleClick("Thông Báo")} className={styles.fhs_noti_header}>
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_noti_gray.svg"
               alt=""
@@ -55,7 +60,7 @@ function Header() {
             <div className={styles.fhs_top_menu_labe}>Thông Báo</div>
           </div>
           <div
-            onClick={() => handleNavigate("/cart")}
+            onClick={() => handleNavigate("/Portal")}
             className={styles.fhs_noti_header}>
             <img
               style={{ width: "2.5vw" }}
@@ -65,7 +70,9 @@ function Header() {
             />
             <div className={styles.fhs_top_menu_labe}>Hỗ Trợ</div>
           </div>
-          <div className={styles.fhs_noti_header}>
+          <div
+            onClick={() => handleNavigate("/cart")}
+            className={styles.fhs_noti_header}>
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
               alt=""
@@ -78,16 +85,16 @@ function Header() {
             className={styles.fhs_noti_header}
           >
             {user && user.avatar ? (
-                <img src={user.avatar} alt="Avatar" className={styles.avatar} />
+              <img src={user.avatar} alt="Avatar" className={styles.avatar} />
             ) : (
-                <img
-                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_account_gray.svg"
-                    alt="Tài Khoản"
-                    className={styles.fhs_noti_icon_header}
-                />
+              <img
+                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_account_gray.svg"
+                alt="Tài Khoản"
+                className={styles.fhs_noti_icon_header}
+              />
             )}
             <div className={user ? styles.name : styles.fhs_top_menu_labe}>
-                {user ? user.name : "Tài Khoản"}
+              {user ? user.name : "Tài Khoản"}
             </div>
           </div>
           <div className={styles.fhs_language_header_second_bar}>
