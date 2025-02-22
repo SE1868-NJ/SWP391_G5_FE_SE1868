@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Order.module.css";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 
 function Order() {
   const location = useLocation();
-  const order = location.state;
+  const order = location.state || null;
   const cusID = 2;
   const navigate = useNavigate();
   const address =
@@ -18,8 +18,8 @@ function Order() {
     Discount: 0,
     voucher: null,
   });
-  const [typeVoucher,setTypeVoucher] = useState();
-  const [voucherShop,setVoucherShop] = useState([]);
+  const [typeVoucher, setTypeVoucher] = useState();
+  const [voucherShop, setVoucherShop] = useState([]);
   const [bestVoucherShop, setBestVoucherShop] = useState([]);
   const [status, setStatus] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Trả sau");
@@ -28,7 +28,7 @@ function Order() {
   const [voucherDetail, setVoucherDetail] = useState([]);
   const [products, setProducts] = useState([]);
   const [listVoucher, setListVoucher] = useState([]);
-  
+
   useEffect(() => {
     getCartCheckOut();
   }, []);
@@ -60,26 +60,33 @@ function Order() {
     const shop = products.map((item) => {
       return {
         shopID: item.ShopID,
-        total : item.totalAmount - item.feeShip,
-      }
+        total: item.totalAmount - item.feeShip,
+      };
     });
-    const responseShop = await axios.post("http://localhost:3001/api/Voucher/getVoucherByShopID",{shop,cusID});
+    const responseShop = await axios.post(
+      "http://localhost:3001/api/Voucher/getVoucherByShopID",
+      { shop, cusID }
+    );
     await setVoucherDetail(response.data);
     await setVoucherShop(responseShop.data);
   }
 
   useEffect(() => {
     updateVoucherShop();
-  },[voucherShop])
+  }, [voucherShop]);
 
   async function updateVoucherShop() {
     const tmp = [];
     const tmp1 = [];
-    await products.map(async (item,index) => {
+    await products.map(async (item, index) => {
       const totalShip = item.feeShip;
-      const bestVoucher = await getBestVoucher(item.totalAmount - item.feeShip,totalShip,voucherShop[index]);
+      const bestVoucher = await getBestVoucher(
+        item.totalAmount - item.feeShip,
+        totalShip,
+        voucherShop[index]
+      );
       tmp.push(bestVoucher);
-      tmp1.push(item.totalAmount -bestVoucher.Discount );
+      tmp1.push(item.totalAmount - bestVoucher.Discount);
     });
     await setBestVoucherShop(tmp);
     await setTotalAmountProduct(tmp1);
@@ -87,37 +94,43 @@ function Order() {
 
   useEffect(() => {
     updateVoucherAll();
-  },[totalAmountProduct]);
-    
+  }, [totalAmountProduct]);
 
   async function updateVoucherAll() {
     const totalShip = products.reduce((sum, item) => sum + item.feeShip, 0);
-    const bestVoucher = await getBestVoucher(totalPrice,totalShip,voucherDetail);
+    const bestVoucher = await getBestVoucher(
+      totalPrice,
+      totalShip,
+      voucherDetail
+    );
     await setChooseVoucher(bestVoucher);
   }
-  const getBestVoucher = async(totalPrice,totalShip,voucherList)=> {
+  const getBestVoucher = async (totalPrice, totalShip, voucherList) => {
     const discountVoucher = {
       Discount: 0,
       voucher: null,
     };
-    {voucherList && voucherList.map((item) => {
-      let discountTmp = 0;
-      if (item.type === "Sản phẩm") {
-        if (item.Discount === 0) {
-          discountTmp = (totalPrice * item.DiscountPercent) / 100;
+    if (voucherList) {
+      voucherList.map((item) => {
+        let discountTmp = 0;
+        if (item.type === "Sản phẩm") {
+          if (item.Discount === 0) {
+            discountTmp = (totalPrice * item.DiscountPercent) / 100;
+          } else {
+            discountTmp =
+              item.Discount < totalPrice ? item.Discount : totalPrice;
+          }
         } else {
-          discountTmp = item.Discount < totalPrice ? item.Discount : totalPrice;
+          discountTmp = totalShip;
         }
-      } else {
-        discountTmp = totalShip;
-      }
-      if (discountTmp > discountVoucher.Discount) {
-        discountVoucher.Discount = discountTmp;
-        discountVoucher.voucher = item;
-      }
-    });}
+        if (discountTmp > discountVoucher.Discount) {
+          discountVoucher.Discount = discountTmp;
+          discountVoucher.voucher = item;
+        }
+      });
+    }
     return discountVoucher;
-  }
+  };
 
   async function selectVoucherShop(index) {
     await setListVoucher(voucherShop[index]);
@@ -125,7 +138,6 @@ function Order() {
     await setVoucher(!voucher);
   }
   async function selectVoucherAll() {
-    
     await setListVoucher(voucherDetail);
     await setTypeVoucher(-1);
     await setVoucher(!voucher);
@@ -133,10 +145,10 @@ function Order() {
   async function handleChooseVoucher(voucher) {
     let feeShip;
     let price;
-    if(typeVoucher === -1){
-       feeShip = products.reduce((sum, item) => sum + item.feeShip, 0);
+    if (typeVoucher === -1) {
+      feeShip = products.reduce((sum, item) => sum + item.feeShip, 0);
       price = totalPrice;
-    }else{
+    } else {
       price = products[typeVoucher].totalAmount - products[typeVoucher].feeShip;
       feeShip = products[typeVoucher].feeShip;
     }
@@ -145,23 +157,23 @@ function Order() {
       if (voucher.Discount === 0) {
         discountTmp = (price * voucher.DiscountPercent) / 100;
       } else {
-        discountTmp =
-          voucher.Discount < price ? voucher.Discount : price;
+        discountTmp = voucher.Discount < price ? voucher.Discount : price;
       }
     } else {
-      
       discountTmp = feeShip;
     }
     const discountVoucher = {
       Discount: discountTmp,
       voucher: voucher,
     };
-    if(typeVoucher === -1){
+    if (typeVoucher === -1) {
       await setChooseVoucher(discountVoucher);
-    }else{
-      setBestVoucherShop(prevItems => prevItems.map((item,index)=>
-        index === typeVoucher ? discountVoucher : item
-      ))
+    } else {
+      setBestVoucherShop((prevItems) =>
+        prevItems.map((item, index) =>
+          index === typeVoucher ? discountVoucher : item
+        )
+      );
     }
     setVoucher(!voucher);
   }
@@ -173,14 +185,14 @@ function Order() {
       const OrderInfor = [];
       products.map((item) =>
         OrderInfor.push({
-          feeShip:item.feeShip,
+          feeShip: item.feeShip,
           productID: item.productID,
           Quantity: item.Quantity,
           CartDetailID: item.cartID,
-          distance: Math.random() * 6
+          distance: Math.random() * 6,
         })
       );
-      const voucherChoose = [...bestVoucherShop,chooseVoucher];
+      const voucherChoose = [...bestVoucherShop, chooseVoucher];
       const response = await axios.post(
         "http://localhost:3001/api/Order/CheckOut",
         { OrderInfor, voucherChoose, totalPayment, cusID }
@@ -209,134 +221,167 @@ function Order() {
         Địa chỉ
         <p>{address}</p>
       </div>
-      {/* BẢNG PRODUCT */}
-      <div className={styles.OrderDetail}>
-        <table style={{ padding: "20px 20px 0", backgroundColor: "white" }}>
-          <tr>
-            <th style={{ width: "35%" }}>Sản phẩm</th>
-            <th className={styles.t2}>Giá thành</th>
-            <th className={styles.t3}>Số lượng</th>
-            <th className={styles.t4}>Phí vận chuyển</th>
-            <th className={styles.t5}>Tổng tiền</th>
-          </tr>
-        </table>
-        {products.map((item,index) => (
-          <div className={styles.product}>
-            <table>
-              <tr>
-                <td className={styles.tdFirst}>
-                  <img alt="" src={item.productImg} />
-                  <p>
-                    {item.productName}
-                    <br /> <span>{item.productCategory}</span>
-                  </p>
-                </td>
-                <td className={styles.t2}>
-                  {Number(item.productPrice).toLocaleString("vi-VI", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
-                </td>
-                <td className={styles.t3}>{item.Quantity}</td>
-                <td className={styles.t4}>
-                  {Number(item.feeShip).toLocaleString("vi-VI", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
-                </td>
-                <td className={styles.t5}>
-                  {Number(item.totalAmount).toLocaleString("vi-VI", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
-                </td>
-              </tr>
-            </table>
-            <div className={styles.shopVoucher}>
-              <div
-                style={{
-                  padding: "0 20px 0 0",
-                  borderRight: "2px solid rgb(175, 175, 175)",
-                }}
-              >
-                <button onClick={()=>selectVoucherShop(index)}>Chọn mã giảm giá của cửa hàng</button>
-                <p>{Number(bestVoucherShop[index] ? bestVoucherShop[index].Discount : 0).toLocaleString('vi-VI',{style:'currency',currency:'VND'})}</p>
+      <div className={styles.content}>
+        {/* BẢNG PRODUCT */}
+        <div className={styles.OrderDetail}>
+          <table style={{ padding: "20px 20px 0", backgroundColor: "white" }}>
+            <tr>
+              <th style={{ width: "35%" }}>Sản phẩm</th>
+              <th className={styles.t2}>Giá thành</th>
+              <th className={styles.t3}>Số lượng</th>
+              <th className={styles.t4}>Phí vận chuyển</th>
+              <th className={styles.t5}>Tổng tiền</th>
+            </tr>
+          </table>
+          {products.length !== 0 &&
+            products.map((item, index) => (
+              <div className={styles.product}>
+                <table>
+                  <tr>
+                    <td className={styles.tdFirst}>
+                      <img alt="" src={item.productImg} />
+                      <p>
+                        {item.productName}
+                        <br /> <span>{item.productCategory}</span>
+                      </p>
+                    </td>
+                    <td className={styles.t2}>
+                      {Number(item.productPrice).toLocaleString("vi-VI", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </td>
+                    <td className={styles.t3}>{item.Quantity}</td>
+                    <td className={styles.t4}>
+                      {Number(item.feeShip).toLocaleString("vi-VI", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </td>
+                    <td className={styles.t5}>
+                      {Number(item.totalAmount).toLocaleString("vi-VI", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </td>
+                  </tr>
+                </table>
+                <div className={styles.shopVoucher}>
+                  <div
+                    style={{
+                      padding: "0 20px 0 0",
+                      borderRight: "2px solid rgb(175, 175, 175)",
+                    }}
+                  >
+                    <button onClick={() => selectVoucherShop(index)}>
+                      Chọn mã giảm giá của cửa hàng
+                    </button>
+                    <p>
+                      {Number(
+                        bestVoucherShop[index]
+                          ? bestVoucherShop[index].Discount
+                          : 0
+                      ).toLocaleString("vi-VI", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </p>
+                  </div>
+                  <div style={{ paddingLeft: " 20px" }}>
+                    <p>Tổng tiền sản phẩm</p>
+                    <p style={{ color: "red", fontWeight: "500" }}>
+                      {Number(
+                        totalAmountProduct[index]
+                          ? totalAmountProduct[index]
+                          : 0
+                      ).toLocaleString("vi-VI", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div style={{ paddingLeft: " 20px" }}>
-                <p>Tổng tiền sản phẩm</p>
-                <p style={{color:'red',fontWeight:'500'}}>{Number(totalAmountProduct[index] ? totalAmountProduct[index] : 0 ).toLocaleString('vi-VI',{style:'currency',currency:'VND'})}</p>
+            ))}
+        </div>
+        {/* VOUCHER  */}
+        <div className={styles.Voucher}>
+          <img alt="" src="./voucherIcon.png" /> Mã giảm giá
+          <button onClick={() => selectVoucherAll()}>Chọn mã giảm giá </button>
+        </div>
+        {/* pHƯƠNG THỨC TRẢ TIỀN */}
+        <div className={styles.paymentMethod}>
+          Phương thức thanh toán :{paymentMethod}
+          <select onChange={(event) => setPaymentMethod(event.target.value)}>
+            <option value="Trả sau">Trả sau</option>
+            <option value="Trả trước">Trả trước</option>
+          </select>
+        </div>
+        {chooseVoucher !== 0 ? (
+          <div
+            style={{
+              width: "70%",
+              position: "relative",
+              backgroundColor: "white",
+              padding: " 0 20px ",
+              boxSizing: "border-box",
+            }}
+          >
+            <div style={{ height: "5vh" }}>
+              Giảm giá
+              <div style={{ position: "absolute", right: "20px", top: "0" }}>
+                {chooseVoucher
+                  ? Number(chooseVoucher.Discount).toLocaleString("vi-VI", {
+                      style: "currency",
+                      currency: "VND",
+                    })
+                  : ""}
+              </div>
+            </div>
+            <div style={{ height: "5vh", position: "relative" }}>
+              Tổng thanh toán
+              <div style={{ position: "absolute", right: "0", top: "0" }}>
+                {chooseVoucher
+                  ? Number(totalPrice - chooseVoucher.Discount).toLocaleString(
+                      "vi-VI",
+                      {
+                        style: "currency",
+                        currency: "VND",
+                      }
+                    )
+                  : ""}
               </div>
             </div>
           </div>
-        ))}
-      </div>
-      {/* VOUCHER  */}
-      <div className={styles.Voucher}>
-        <img alt="" src="./voucherIcon.png" /> Mã giảm giá
-        <button onClick={() => selectVoucherAll()}>Chọn mã giảm giá </button>
-      </div>
-      {/* HIỆN VOUCHER */}
-      {chooseVoucher !== 0 ? (
+        ) : (
+          ""
+        )}
         <div
           style={{
-            width: "82%",
-            position: "relative",
+            width: "70%",
             backgroundColor: "white",
-            padding: " 0 20px ",
-            boxSizing: "border-box",
+            position: "relative",
+            height: "13vh",
           }}
         >
-          <div style={{ height: "5vh" }}>
-            Giảm giá
-            <div style={{ position: "absolute", right: "20px", top: "0" }}>
-              {chooseVoucher? Number(chooseVoucher.Discount).toLocaleString("vi-VI", {
-                style: "currency",
-                currency: "VND",
-              }): ""}
-            </div>
-          </div>
-          <div style={{ height: "5vh", position: "relative" }}>
-            Tổng thanh toán
-            <div style={{ position: "absolute", right: "0", top: "0" }}>
-              {chooseVoucher? Number(totalPrice - chooseVoucher.Discount).toLocaleString("vi-VI", {
-                style: "currency",
-                currency: "VND",
-              }):''}
-            </div>
-          </div>
+          <button
+            onClick={() => checkout()}
+            style={{
+              position: "absolute",
+              bottom: "3vh",
+              right: "20px",
+              padding: "10px",
+              border: "2px solid rgb(175, 175, 175)",
+            }}
+          >
+            Xác nhận mua
+          </button>
         </div>
-      ) : (
-        ""
-      )}
-      {/* pHƯƠNG THỨC TRẢ TIỀN */}
-      <div className={styles.paymentMethod}>
-        Phương thức thanh toán :{paymentMethod}
-        <select onChange={(event) => setPaymentMethod(event.target.value)}>
-          <option value="Trả sau">Trả sau</option>
-          <option value="Trả trước">Trả trước</option>
-        </select>
+        <div className={styles.favorite}>
+
+        </div>
       </div>
-      <div
-        style={{
-          width: "82%",
-          backgroundColor: "white",
-          position: "relative",
-          height: "13vh",
-        }}
-      >
-        <button
-          onClick={() => checkout()}
-          style={{
-            position: "absolute",
-            bottom: "3vh",
-            right: "20px",
-            padding: "10px",
-            border: "2px solid rgb(175, 175, 175)",
-          }}
-        >
-          Xác nhận mua
-        </button>
-      </div>
+
       {/* VOUCHER POPUP */}
       {voucher ? (
         <div
@@ -346,15 +391,19 @@ function Order() {
           className={styles.voucherPopup}
         >
           <div className={styles.voucherInner}>
-            <h1>Chọn Voucher</h1>
-            {listVoucher.length === 0 ? (<h2 style={{textAlign:'center'}}>Không có mã giảm giá </h2>):''}
+            <h1>Chọn mã giảm giá</h1>
+            {listVoucher.length === 0 ? (
+              <h2 style={{ textAlign: "center" }}>Không có mã giảm giá </h2>
+            ) : (
+              ""
+            )}
             {listVoucher.map((item) => (
               <div
                 className={styles.VoucherDetail}
                 onClick={() => handleChooseVoucher(item)}
               >
                 <div className={styles.VoucherImg}>
-                  <p>{item.type} Voucher</p>
+                  <p> Voucher {item.type}</p>
                 </div>
                 <div className={styles.inforVoucher}>
                   <p>{item.VoucherName}</p>
@@ -408,9 +457,10 @@ function Order() {
       ) : (
         ""
       )}
+
       <Footer></Footer>
     </div>
   );
 }
 
-export default Order;                      
+export default Order;
