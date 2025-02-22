@@ -18,7 +18,7 @@ export function GlobalProvider({ children }) {
   const [menuDataLoadedMain, setMenuDataLoadedMain] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { customerID } = useAuth(); // ✅ Nhận customerID từ AuthContext
+  const { customerID } = useAuth() || {}; // ✅ Nhận customerID từ AuthContext
 
   // ✅ Hàm gọi API danh mục sản phẩm
   const fetchCategories = async () => {
