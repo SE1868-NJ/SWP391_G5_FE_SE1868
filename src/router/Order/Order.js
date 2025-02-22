@@ -36,9 +36,12 @@ function Order() {
     const response = await axios.post("http://localhost:3001/api/Cart/cusID", {
       cusID: cusID,
     });
-    const productss = [...response.data,order]     
-    console.log(productss)                                                        
-    await setProducts(productss);
+    if (order === null) {
+      await setProducts(response.data);
+    } else {
+      const productss = [...response.data, order];
+      await setProducts(productss);
+    }
   }
   useEffect(() => {
     let newTotal = products.reduce((sum, item) => sum + item.totalAmount, 0);
