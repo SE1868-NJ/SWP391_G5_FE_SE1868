@@ -1,24 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { formatMoney } from '../utils';
+import styles from './card/styles.module.css'
+import { ProductDetailModal } from './products/ProductDetailModal';
+import { iconFavorite, iconFavoriteDefault } from './icon/Icon';
+import { deleteProductFavorite, setProductFavorite } from '../service/product';
+const Card = ({item, isFavoriteProduct}) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
 
-const Card = ({item}) => {
-  // console.log("item",item);
-  
+
+  const handleSetFavorite = async() =>{
+    setIsFavorite(!isFavorite)
+    try {
+      const storedUser = localStorage.getItem("user");
+        const userData = JSON.parse(storedUser);
+        if(!isFavorite){
+          const rs = await setProductFavorite({
+            CustomerID: userData.id,
+            ProductID: item.ProductID
+          })
+        }else{
+          const rs = await deleteProductFavorite({
+            CustomerID: userData.id,
+            ProductID: item.ProductID
+          })
+        }
+     
+      
+    } catch (error) {
+      console.error("error handleSetFavorite: ",error);
+      
+    }
+  }
+
+  useEffect(()=>{
+    setIsFavorite(isFavoriteProduct)
+  },[isFavoriteProduct])
   return (
-    <div className="w-60 h-80 bg-gray-50 p-3 flex flex-col gap-1 rounded-2xl">
-      <div className="h-48  rounded-xl" >
-        <img className='h-48 w-60' src={item.ProductImg}/>
+    <div className={styles.card_container}>
+      <div className={styles.card_imageContainer} >
+        <img className={styles.card_image} src={item.ProductImg} onClick={()=> setIsOpen(true)}/>
       </div>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-col">
-            <span className="text-sm font-bold">{item.ProductName}</span>
-            <p className="text-xs text-gray-700">SL: {item.StockQuantity}</p>
+      <div className={styles.card_info}>
+        <div className={styles.card_infoContainer}>
+          <div className={styles.card_infoTitle}>
+            <span className={styles.card_infoTitleName} onClick={()=> setIsOpen(true)}>{item.ProductName}</span>
+            <p className={styles.card_infoQuantity}>SL: {item.StockQuantity}</p>
           </div>
-          <span className="font-bold text-red-600">{formatMoney(item.Price)} VND</span>
+          <div className={styles.card_infoRight}>
+          <span className={styles.card_infoMoney}>{formatMoney(item.Price)} VND</span>
+          <div onClick={handleSetFavorite} className={styles.card_infoRight_favorite}>{isFavorite ?iconFavorite : iconFavoriteDefault}</div>
+          </div>
+
         </div>
-        <button className="hover:bg-sky-700 text-gray-50 bg-sky-800 py-2 rounded-md">Add to cart</button>
+        <button className={styles.card_button}>Add to cart</button>
       </div>
+      <ProductDetailModal isOpen={isOpen}  setIsOpen={setIsOpen} product={item} />
+
     </div>
   );
 }
