@@ -1,10 +1,14 @@
 import { useState, useContext } from "react";
 import { GlobalContext } from "../../globalContext/GlobalContext"; // Import context
+import {MenuHeaderContext} from "../../globalContext/MenuHeaderContext";
 import styles from "./MenuHeader.module.css";
 
 function MenuHeader() {
   const {
-    categoryList,
+    categoryList = []
+  } = useContext(GlobalContext); // Lấy dữ liệu từ context
+
+  const {
     productList = [],
     option,
     setOption,
@@ -12,7 +16,7 @@ function MenuHeader() {
     setType,
     menuDataLoaded,
     fetchProducts,
-  } = useContext(GlobalContext); // Lấy dữ liệu từ context
+  } = useContext(MenuHeaderContext);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hover, setHover] = useState(false);
@@ -96,7 +100,7 @@ function MenuHeader() {
                 </div>
               ))
             ) : (
-              <p>Không có dữ liệu</p>
+              <div>Không có dữ liệu</div>
             )}
           </div>
 

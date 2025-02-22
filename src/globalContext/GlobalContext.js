@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../globalContext/AuthContext"; // ✅ Import useAuth
 
@@ -7,29 +7,26 @@ export const GlobalContext = createContext();
 
 export function GlobalProvider({ children }) {
   const [categoryList, setCategoryList] = useState([]);
-  const [productList, setProductList] = useState([]);
   const [notificationsList, setNotificationsList] = useState([]);
-  const [option, setOption] = useState("Tất Cả");
   const [optionMain, setOptionMain] = useState("Tất Cả");
   const [productListMain, setProductListMain] = useState([]);
-  const [type, setType] = useState("Mới Nhất");
   const [typeNotification, setTypeNotification] = useState("Tất Cả Thông Báo");
   const [statusNotification, setStatusNotification] = useState ("unread");
   const [order_ID, setOrder_ID] = useState("");
   const [customer_ID, setCustomer_ID] = useState("");
   const [voucher_ID, setVoucher_ID] = useState("");
-  const [menuDataLoaded, setMenuDataLoaded] = useState(false);
+  const [menuDataLoadedMain, setMenuDataLoadedMain] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { customerID } = useAuth(); // ✅ Nhận customerID từ AuthContext
 
   // ✅ Hàm gọi API danh mục sản phẩm
   const fetchCategories = async () => {
-    setMenuDataLoaded(false);
+    setMenuDataLoadedMain(false);
     try {
       const response = await axios.get("http://localhost:3001/api/Products/Category");
       setCategoryList(response.data[0]);
-      setMenuDataLoaded(true);
+      setMenuDataLoadedMain(true);
     } catch (error) {
       console.error("Lỗi khi tải danh mục:", error);
     }
@@ -49,19 +46,6 @@ export function GlobalProvider({ children }) {
       setLoading(false);
     };
 
-  // ✅ Hàm gọi API sản phẩm theo `option` và `type`
-  const fetchProducts = async (selectedOption, selectedType) => {
-    setLoading(true);
-    try {
-      const response = await axios.get("http://localhost:3001/api/Products/All/New", {
-        params: { option: selectedOption, type: selectedType },
-      });
-      setProductList(response.data[0]);
-    } catch (error) {
-      console.error("Lỗi khi tải sản phẩm:", error);
-    }
-    setLoading(false);
-  };
 
     // ✅ Hàm gọi API sản phẩm theo `option` và `type`
     const fetchStatusNotification = async (order_ID, customer_ID, voucher_ID, statusNotification) => {
@@ -70,7 +54,7 @@ export function GlobalProvider({ children }) {
         const response = await axios.get("http://localhost:3001/api/notifications_status", {
           params: { order_ID, customer_ID, voucher_ID, statusNotification },
         });
-        setProductList(response.data[0]);
+        setNotificationsList(response.data[0]);
       } catch (error) {
         console.error("Lỗi khi tải status sản phẩm:", error);
       }
@@ -109,28 +93,18 @@ export function GlobalProvider({ children }) {
     console.log("đã cập nhật lại Status Noti");
   }, [customerID, typeNotification, statusNotification, order_ID, customer_ID, voucher_ID]);
 
-  // ✅ Gọi API sản phẩm khi `option` hoặc `type` thay đổi
-  useEffect(() => {
-    fetchProducts(option, type);
-  }, [option, type]);
-
     // ✅ Gọi API sản phẩm khi `option` thay đổi
     useEffect(() => {
       fetchProductsMain(optionMain);
     }, [optionMain]);
 
+
   return (
     <GlobalContext.Provider
       value={{
         categoryList,
-        productList,
-        option,
-        setOption,
-        type,
-        setType,
-        menuDataLoaded,
+        menuDataLoadedMain,
         loading,
-        fetchProducts,
         notificationsList,
         typeNotification,
         setTypeNotification, 
