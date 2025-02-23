@@ -103,10 +103,14 @@
     height: 30vh;
     background: rgb(219, 217, 217);
     margin-bottom: 1vh;
+    border-radius: 10px;
+
 }
 
 .img{
     width: 11vw;
     height: 7vw;
     margin: 1vw 0;
+    border-radius: 6px;
+
 }

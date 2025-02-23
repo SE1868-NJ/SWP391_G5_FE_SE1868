@@ -16,7 +16,7 @@ function Footer() {
           "CafeMuoi.png", "ComRang.png", "TrungLonXaoMe.png", "Nom.png",
           "BanhRan.png", "NemLui.png", "Shashimi.png"
         ].map((imgSrc, index) => (
-          <img key={index} src={imgSrc} alt={imgSrc.replace(".png", "")} />
+          <img key={index} src={"/" +imgSrc} alt={imgSrc.replace(".png", "")} />
         ))}
       </div>
       <div className={styles.footer_block_middle}>

@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { updateCustomerById } from "./services/user.services";
-import "./CustomerProfile.css";
-
+import styles from "./CustomerProfile.module.css";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 const CustomerProfile = ({ customer, onUpdate }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [error, setError] = useState("");
     const [previewAvatar, setPreviewAvatar] = useState(customer?.Avatar || "");
+    const { theme, toggleTheme } = useContext(ThemeContext); 
     const [formData, setFormData] = useState({
         CustomerID: "",
         FirstName: "",
@@ -15,20 +16,14 @@ const CustomerProfile = ({ customer, onUpdate }) => {
         Email: "",
         PhoneNumber: "",
         Gender: "",
-        password:"",
         Avatar: null,
     });
-
-
-    const [oldPassword, setOldPassword] = useState("");
 
     const [validationErrors, setValidationErrors] = useState({
         FirstName: "",
         LastName: "",
         PhoneNumber: "",
         Email: "",
-        password:"",
-        oldPassword: "",
     });
 
     useEffect(() => {
@@ -46,7 +41,6 @@ const CustomerProfile = ({ customer, onUpdate }) => {
                 Email: customer.Email || "",
                 PhoneNumber: customer.PhoneNumber || "",
                 Gender: customer.Gender || "",
-                password :customer.password || "",
                 Avatar: null,
             });
 
@@ -76,15 +70,7 @@ const CustomerProfile = ({ customer, onUpdate }) => {
             LastName: "",
             PhoneNumber: "",
             Email: "",
-            Password:"",
-            oldPassword: "",
         };
-
-        if (!oldPassword) {
-            errors.oldPassword = "Vui lòng nhập mật khẩu !";
-        } else if (oldPassword !== customer.password) {
-            errors.oldPassword = "Mật khẩu không chính xác!";
-        }
 
         // Kiểm tra các trường FirstName, LastName, PhoneNumber không được để trống
         if (!formData.FirstName) errors.FirstName = "Vui lòng nhập First Name!";
@@ -120,8 +106,8 @@ const CustomerProfile = ({ customer, onUpdate }) => {
 
         if (!formData.DateOfBirth) {
             errors.DateOfBirth = "Vui lòng nhập Date of Birth!";
-        } else if (age > 100) {
-            errors.DateOfBirth = "Tuổi không được quá 100!";
+        } else if (age > 150) {
+            errors.DateOfBirth = "Tuổi không được quá 150!";
         } else if (age < 0) {
             errors.DateOfBirth = "Ngày sinh không hợp lệ!";
         }
@@ -160,103 +146,94 @@ const CustomerProfile = ({ customer, onUpdate }) => {
         return phone.slice(0, 3) + "*****" + phone.slice(-2);
     };
 
-
     return (
-        <div className="profile-wrapper">
-            <div className="profile-container">
-            <div className="avatar-container">
-                <img src={previewAvatar} alt="Avatar" className="avatar" />
+        <div className={`${styles.profileWrapper} ${theme === "dark" ? styles.dark : ""}`}>
+            <div className={`${styles.profileContainer} ${theme === "dark" ? styles.darkContainer : ""}`}>
+                <div className={styles.avatarContainer}>
+                    <img src={previewAvatar} alt="Avatar" className={styles.avatar} />
 
-                {isEditing && (
-                 <label className="edit-icon">
-                 <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
-                 </label>
-                )}
-            </div>
+                    {isEditing && (
+                        <label>
+                            <input type="file" accept="image/*" onChange={handleFileChange} className={styles.hidden} />
+                        </label>
+                    )}
+                </div>
 
-                <div className="info-container">
+                <div className={styles.infoContainer}>
                     {isEditing ? (
-                        <form onSubmit={handleUpdateCustomer} className="profile-form">
-                            {error && <p className="error-message">{error}</p>}
+                        <form onSubmit={handleUpdateCustomer} className={styles.profileForm}>
+                            {validationErrors.FirstName && <span className={styles.errorMessage}>{validationErrors.FirstName}</span>}
+
                             <label>Họ:</label>
-                            <input 
-                                type="text" 
-                                name="FirstName" 
-                                value={formData.FirstName} 
-                                onChange={handleInputChange} 
+                            <input
+                                type="text"
+                                name="FirstName"
+                                value={formData.FirstName}
+                                onChange={handleInputChange}
+                                className={theme === "dark" ? styles.darkInput : ""}
                             />
-                            {validationErrors.FirstName && <span className="error-message">{validationErrors.FirstName}</span>}
 
                             <label>Tên:</label>
-                            <input 
-                                type="text" 
-                                name="LastName" 
-                                value={formData.LastName} 
-                                onChange={handleInputChange} 
+                            <input
+                                type="text"
+                                name="LastName"
+                                value={formData.LastName}
+                                onChange={handleInputChange}
+                                className={theme === "dark" ? styles.darkInput : ""}
                             />
-                            {validationErrors.LastName && <span className="error-message">{validationErrors.LastName}</span>}
 
                             <label>Ngày Sinh:</label>
-                            <input 
-                                type="date" 
-                                name="DateOfBirth" 
-                                value={formData.DateOfBirth} 
-                                onChange={handleInputChange} 
+                            <input
+                                type="date"
+                                name="DateOfBirth"
+                                value={formData.DateOfBirth}
+                                onChange={handleInputChange}
+                                className={theme === "dark" ? styles.darkInput : ""}
                             />
-                            {validationErrors.DateOfBirth && <span className="error-message">{validationErrors.DateOfBirth}</span>}
 
                             <label>Email:</label>
-                            <input 
-                                type="email" 
-                                name="Email" 
-                                value={maskEmail(formData.Email)} 
-                                onChange={handleInputChange} 
-                                placeholder={formData.Email ? "" : "Nhập email mới"} 
+                            <input
+                                type="email"
+                                name="Email"
+                                value={maskEmail(formData.Email)}
+                                onChange={handleInputChange}
+                                placeholder={formData.Email ? "" : "Nhập email mới"}
+                                className={theme === "dark" ? styles.darkInput : ""}
                             />
-                            {validationErrors.Email && <span className="error-message">{validationErrors.Email}</span>}
 
                             <label>Số Điện Thoại:</label>
-                            <input 
-                                type="text" 
-                                name="PhoneNumber" 
-                                value={maskPhoneNumber(formData.PhoneNumber)} 
-                                onChange={handleInputChange} 
+                            <input
+                                type="text"
+                                name="PhoneNumber"
+                                value={maskPhoneNumber(formData.PhoneNumber)}
+                                onChange={handleInputChange}
                                 placeholder="Nhập số mới"
+                                className={theme === "dark" ? styles.darkInput : ""}
                             />
-                            {validationErrors.PhoneNumber && <span className="error-message">{validationErrors.PhoneNumber}</span>}
 
                             <label>Giới Tính:</label>
-                            <select 
-                                name="Gender" 
-                                value={formData.Gender} 
+                            <select
+                                name="Gender"
+                                value={formData.Gender}
                                 onChange={handleInputChange}
+                                className={theme === "dark" ? styles.darkSelect : ""}
                             >
                                 <option value="1">Nam</option>
                                 <option value="2">Nữ</option>
                             </select>
 
-                            <label>Mật Khẩu:</label>
-                            <input
-                                type="password"
-                                value={oldPassword}
-                                onChange={(e) => setOldPassword(e.target.value)}
-                                placeholder="Nhập mật khẩu "
-                            />
-                            {validationErrors.oldPassword && <span className="error-message">{validationErrors.oldPassword}</span>}
-                   
-
-                            <button type="submit">Update</button>
-                            <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
+                            <button type="submit" className={theme === "dark" ? styles.darkButton : ""}>Cập nhật</button>
+                            <button type="button" onClick={() => setIsEditing(false)} className={theme === "dark" ? styles.darkButton : ""}>Hủy bỏ</button>
                         </form>
                     ) : (
-                        <div className="profile-info">
-                        <p><strong>Họ:</strong> <strong2>{customer.FirstName}</strong2></p>
-                        <p><strong>Tên:</strong> <strong2>{customer.LastName}</strong2></p>
-                        <p><strong>Ngày Sinh:</strong> <strong2>{new Date(customer.DateOfBirth).toLocaleDateString("vi-VN")}</strong2></p>
-                        <p><strong>Email:</strong> <strong2>{maskEmail(customer.Email)}</strong2></p>
-                        <p><strong>Số Điện Thoại:</strong> <strong2>{maskPhoneNumber(customer.PhoneNumber)}</strong2></p>
-                        <p><strong>Giới Tính:</strong> <strong2>{customer.Gender === "1" ? "Nam" : "Nữ"}</strong2></p>
-                            <button onClick={() => setIsEditing(true)}>Edit</button>
+                        <div className={styles.profileInfo}>
+                            <p><strong>Họ:</strong> <span className={styles.infoText}>{customer.FirstName}</span></p>
+                            <p><strong>Tên:</strong> <span className={styles.infoText}>{customer.LastName}</span></p>
+                            <p><strong>Ngày Sinh:</strong> <span className={styles.infoText}>{new Date(customer.DateOfBirth).toLocaleDateString("vi-VN")}</span></p>
+                            <p><strong>Email:</strong> <span className={styles.infoText}>{maskEmail(customer.Email)}</span></p>
+                            <p><strong>Số Điện Thoại:</strong> <span className={styles.infoText}>{maskPhoneNumber(customer.PhoneNumber)}</span></p>
+                            <p><strong>Giới Tính:</strong> <span className={styles.infoText}>{customer.Gender === "1" ? "Nam" : "Nữ"}</span></p>
+                            <button onClick={() => setIsEditing(true)} className={theme === "dark" ? styles.darkButton : ""}>Sửa</button>
                         </div>
                     )}
                 </div>

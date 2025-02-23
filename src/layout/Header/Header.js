@@ -70,7 +70,9 @@ function Header() {
             />
             <div className={styles.fhs_top_menu_labe}>Hỗ Trợ</div>
           </div>
-          <div onClick={() => handleClick("Giỏ Hàng")} className={styles.fhs_noti_header}>
+          <div
+            onClick={() => handleNavigate("/cart")}
+            className={styles.fhs_noti_header}>
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
               alt=""

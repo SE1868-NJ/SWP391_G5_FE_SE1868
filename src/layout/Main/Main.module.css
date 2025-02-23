@@ -1,3 +1,20 @@
+.block_main{
+    width: 85vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.bar_one{
+    display: flex;
+    background: #ffffff;
+    margin-top: 4vh;
+    font-size: 1.5vw;
+    font-weight: 600;
+    padding-left: 1vw;
+    padding-bottom: 1vh;
+    border-bottom: 2px solid #eee;    
+}
+
 .wrapper{
     display: flex;
     flex-direction: column;
@@ -42,6 +59,7 @@
     flex-wrap: wrap;
     gap: 5vh;
     height: 75vh;
+    justify-content: space-around;
 }
 
 .items_showProducts{
@@ -64,6 +82,7 @@
     width: 15vw;
     height: 16vh;
     border-radius: 10px;
+    margin-bottom: 0.5vw;
 }
 
 .pagination {
