@@ -15,7 +15,7 @@ function Cart() {
   const navigate = useNavigate();
 
   const handleCheckout = () => {
-    navigate("/order");
+    navigate("/OrderCheckOut", { state: { selectedItems } });
   };
 
   useEffect(() => {
