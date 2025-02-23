@@ -14,8 +14,9 @@ function Cart() {
     "Nguyễn Anh Đức (+84) 919824069    Xưởng may Cơ Xen, Xã Vũ Hòa, Huyện Kiến Xương, Thái Bình";
   const navigate = useNavigate();
 
-  const handleCheckout = () => {
-    navigate("/OrderCheckOut", { state: { selectedItems } });
+  const handleCheckout = async() => {
+    const selectCart = await cartItems.filter((item)=> selectedItems.includes(item.cartID))
+    navigate("/OrderCheckOut", { state:  selectCart  });
   };
 
   useEffect(() => {
