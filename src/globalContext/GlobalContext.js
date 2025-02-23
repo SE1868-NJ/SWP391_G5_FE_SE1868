@@ -102,7 +102,7 @@ export function GlobalProvider({ children }) {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {    
     if (shopID) {
       fetchInforShopList(shopID);
     }
@@ -146,6 +146,7 @@ export function GlobalProvider({ children }) {
         inforShopList,
         shopID, // ✅ Thêm shopID vào context
         setShopID, // ✅ Cho phép component con thay đổi shopID
+        fetchInforShopList
       }}
     >
       {children}

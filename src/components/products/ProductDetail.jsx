@@ -1,17 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './stylesProduct.module.css'
 import { getProductDetail } from '../../service/product';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, useRoutes } from 'react-router-dom';
 import { formatMoney } from '../../utils';
 import { Comments } from '../comment/Comments';
 import { LayoutCommon } from '../../layout/layout-common/LayoutCommon';
+import { GlobalContext } from '../../globalContext/GlobalContext';
 
 
 export const ProductDetail = ({ product, setIsOpen, isPage }) => {
+      const {setShopID, shopID: id, fetchInforShopList } = useContext(GlobalContext);
+  const navigate = useNavigate();
+
     const handleGoToShop = () =>{
         const shopID = product?.ShopID
         if(!shopID) return
-        
+        setShopID(shopID)
+        navigate('/shop')
     }
     if (!product) return (<></>)
     return (
