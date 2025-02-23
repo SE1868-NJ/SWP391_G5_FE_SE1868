@@ -4,6 +4,7 @@ import Portal from "./router/Portal/Portal.js";
 import Order from "./router/Order/Order.js";
 import Home from "./router/Home/Home";
 import Cart from "./router/Cart/Cart.js";
+import Shop from "./router/Shop/Shop.js";
 import SearchProduct from "./router/products/SearchProducts";
 import Prepay from "./router/Prepay/Prepay.js";
 import OrderandVoucher from "./router/OrderandVoucher/OrderandVoucher.js";
@@ -39,6 +40,7 @@ function AppContent() {
         <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/shop" element={<Shop/>}/>
         <Route path="/cart" element={<Cart />} />
         <Route path="/search" element={<SearchProduct />} />
         <Route path="/my-favorite" element={<FavoriteProduct />} />

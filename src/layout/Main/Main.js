@@ -67,12 +67,28 @@ function Main() {
                 flexDirection: "row",
                 fontSize: "1vw",
                 fontWeight: "bold",
+                alignItems: "center",
+                position: "relative",
               }}
             >
               {Number(item.price).toLocaleString("vi-VI", {
                 style: "currency",
                 currency: "VND",
               })}{" "}
+              <span>
+                <img
+                  style={{
+                    position: "absolute",
+                    right: "-5vw",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    width: "1vw",
+                    height: "1vw",
+                  }}
+                  src="/tym.png"
+                  alt=""
+                />
+              </span>
             </div>
             <div>
               =&gt; Đã bán: <span style={{ color: "blue" }}>15</span>
@@ -132,12 +148,28 @@ function Main() {
                     flexDirection: "row",
                     fontSize: "1vw",
                     fontWeight: "bold",
+                    alignItems: "center",
+                    position: "relative",
                   }}
                 >
                   {Number(item.Price).toLocaleString("vi-VI", {
                     style: "currency",
                     currency: "VND",
                   })}{" "}
+                  <span>
+                    <img
+                      style={{
+                        position: "absolute",
+                        right: "-5vw",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        width: "1vw",
+                        height: "1vw",
+                      }}
+                      src="/tym.png"
+                      alt=""
+                    />
+                  </span>
                 </div>
                 <div>
                   =&gt; Đã bán:{" "}
