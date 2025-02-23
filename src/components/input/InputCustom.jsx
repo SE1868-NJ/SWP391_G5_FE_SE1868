@@ -21,7 +21,7 @@ export const InputCustom = ({textComment, setTextComment, onComment}) => {
             value={textComment}
                 type="text"
                 className={styles.input}
-                placeholder="Nêu cảm nghĩ của bạn ..."
+                placeholder="Đánh giá và nêu cảm nghĩ của bạn ..."
                 autoComplete="off"
             />
         </label>

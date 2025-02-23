@@ -110,6 +110,7 @@ font-weight: 500;
 .product_infoDescription{
     /* padding: 12px 0; */
     width: 100%;
+    text-align: start;
 }
 
 .product_infoDescription_title{

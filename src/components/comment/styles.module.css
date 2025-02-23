@@ -76,3 +76,48 @@
   height: 40vh;
   overflow-y: auto;
 }
+
+.comment_rateContain{
+  width: 100%;
+  text-align: start;
+}
+
+.comment_rate li{
+ padding: 0;
+}
+
+.comment_rate .ant-rate-star.ant-rate-star-full i svg {
+  width: 150px;
+  height: 200px;
+  /* margin: -3.5px; */
+}
+.comment_rate .ant-rate-star.ant-rate-star-zero i svg {
+  width: 150px;
+  height: 200px;
+  /* margin: -3.5px; */
+}
+
+.comment_rate .ant-rate-star.ant-rate-star-half.ant-rate-star-active i svg {
+  width: 150px;
+  height: 200px;
+  /* margin: -3.5px; */
+}
+
+.comment_rate .ant-rate-star.ant-rate-star-full,
+.comment_rate .ant-rate-star.ant-rate-star-zero,
+.comment_rate .ant-rate-star.ant-rate-star-half.ant-rate-star-active {
+  transition: transform 0s;
+}
+
+.comment_rate .ant-rate-star.ant-rate-star-half.ant-rate-star-active:hover {
+  transform: scale(0.91);
+}
+
+.comment_rate .ant-rate-star.ant-rate-star-full:hover {
+  transform: scale(0.91);
+}
+
+.comment_rate .ant-rate-star.ant-rate-star-zero:hover {
+  transform: scale(0.91);
+}
+

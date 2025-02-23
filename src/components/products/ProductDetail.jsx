@@ -8,7 +8,7 @@ import { LayoutCommon } from '../../layout/layout-common/LayoutCommon';
 import { GlobalContext } from '../../globalContext/GlobalContext';
 
 
-export const ProductDetail = ({ product, setIsOpen, isPage }) => {
+export const ProductDetail = ({ product, setIsOpen, isPage,isOpen }) => {
       const {setShopID, shopID: id, fetchInforShopList } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -53,7 +53,7 @@ export const ProductDetail = ({ product, setIsOpen, isPage }) => {
                 </div>
 
             </div>
-            <Comments isPage={isPage} product={product} />
+            <Comments isPage={isPage} product={product} isOpen={isOpen}/>
         </div>
     )
 }
