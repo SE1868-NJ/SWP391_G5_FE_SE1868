@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function Notification() {
-  const { notificationsList } = useContext(GlobalContext);
+  const { notificationsList = [] } = useContext(GlobalContext);
   const { user } = useAuth();
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
