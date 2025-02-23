@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 function StatusOrrder() {
   const navigate = useNavigate();
   const { customer } = useCustomer();
-  const [chooseFunction, setChooseFunction] = useState("Kho mã giảm giá");
+  const [chooseFunction, setChooseFunction] = useState("Đơn mua");
 
 
   return (

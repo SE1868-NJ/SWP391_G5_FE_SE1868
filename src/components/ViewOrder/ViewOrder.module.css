@@ -24,6 +24,38 @@
   border-bottom: 2px solid orange !important;
 }
 .listOrder {
+  display: flex;
+  justify-content: space-between;
+}
+.favorite{
+  width: 35%;
+  background-color: white;
+  margin-top: 20px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.favoriteItem{
+  padding:10px 0;
+  border-bottom: 1px solid rgb(179, 179, 179);
+  width: 100%;
+  height: 15vh;
+  margin-bottom: 20px;
+  display: flex;
+  img{
+    height:15vh;
+    width: 15vh;
+    padding-right:20px
+  }
+  div{
+    padding: 10px 0;
+  }
+  p{
+    margin: 0;
+    display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  }
 }
 .orderDetail {
   margin-top: 20px;

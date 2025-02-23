@@ -14,6 +14,7 @@ function ViewOrder() {
   const [messPopup,setMessPopup] = useState(null);
   const [chooseQuantity,setChooseQuantity] = useState(null)
   const [buyOrder,setBuyOrder] = useState(null);
+  const [favorites,setFavorites] = useState([]);
   const [formReview, setFormReview] = useState({
     category: "",
     reviewText: "",
@@ -33,6 +34,9 @@ function ViewOrder() {
     const response = await axios.post('http://localhost:3001/api/Order/OrderDetailCusID',{cusID: customer.CustomerID});
     await setAllOrder(response.data)
     await setOrderList(response.data);
+    const response1 = await axios.post('http://localhost:3001/api/Products/getFavorite',{cusID: customer.CustomerID});
+    console.log(response1.data)
+    await setFavorites(response1.data);
   }
   const statusFunction = (status) => {
     return statusMap[status];
@@ -117,6 +121,7 @@ function ViewOrder() {
         <div onClick={()=>setChooseStatus("Hoàn đơn")} className={chooseStatus === "Hoàn đơn" ? styles.choose : ''} >Hoàn đơn</div>
       </div>
       <div className={styles.listOrder}>
+      <div>
       {orderList.map((order,index)=>(
         <div className={styles.orderDetail} key={index}>
           <div className={styles.orderDetailTop}>
@@ -149,6 +154,22 @@ function ViewOrder() {
           </div>
         </div>
       ))}
+      </div>
+      <div className={styles.favorite}>
+        <h2>Các sản phẩm bạn thích </h2>
+        {favorites.length !== 0 ? favorites.map((item)=>(
+          <div className={styles.favoriteItem}>
+            <img alt='' src={item.ProductImg} />
+            <div>
+              <p>{item.ProductName}</p>
+              <p>{item.Description}</p>
+              <p>Giá: {item.Price}</p>
+              <p>Khối lượng: {item.Weight}g</p>
+              <p>Còn: {item.StockQuantity} sản phẩm</p>
+            </div>
+          </div>
+        )): (<h3>Bạn chưa thích sản phẩm nào</h3>)}
+      </div>
       </div>
       {reviewPopup !== null ?(
         <div className={styles.popup} onClick={(e)=>e.target === e.currentTarget? closeReviewPopup():''}>
