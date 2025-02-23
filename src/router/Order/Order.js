@@ -30,17 +30,15 @@ function Order() {
   const [listVoucher, setListVoucher] = useState([]);
 
   useEffect(() => {
+    console.log()
     getCartCheckOut();
   }, []);
   async function getCartCheckOut() {
-    const response = await axios.post("http://localhost:3001/api/Cart/cusID", {
-      cusID: cusID,
-    });
-    if (order === null) {
-      await setProducts(response.data);
-    } else {
-      const productss = [...response.data, order];
-      await setProducts(productss);
+    if(order === null){
+      console.log(211)
+    }else{
+      console.log()
+      await setProducts(order)
     }
   }
   useEffect(() => {
