@@ -11,6 +11,8 @@ function Shop() {
     productShopIDList =[]
   } = useContext(GlobalContext);
 
+  console.log("Danh sách shop: ", categoryProductByShopID);
+
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Giá");
 
