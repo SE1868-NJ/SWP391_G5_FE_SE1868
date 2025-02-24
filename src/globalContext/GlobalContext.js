@@ -157,7 +157,7 @@ export function GlobalProvider({ children }) {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {    
     if (shopID) {
       fetchInforShopList(shopID);
       fetchVoucherShopList(shopID);

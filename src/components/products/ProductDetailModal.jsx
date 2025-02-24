@@ -10,7 +10,7 @@ import { ProductDetail } from "./ProductDetail";
 export const ProductDetailModal = ({ product, isOpen, setIsOpen }) => {
     return (
         <ModalCustom isOpen={isOpen} setIsOpen={setIsOpen} hindTitle>
-             <ProductDetail product={product} />
+             <ProductDetail product={product} isOpen={isOpen}/>
         </ModalCustom>
     )
 }
