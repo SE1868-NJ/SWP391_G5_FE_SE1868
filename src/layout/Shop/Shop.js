@@ -1,6 +1,7 @@
 import styles from "./Shop.module.css";
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../globalContext/GlobalContext";
+import { ShopContext } from "../../globalContext/ShopContext";
 
 function Shop() {
   const {
@@ -8,13 +9,36 @@ function Shop() {
     voucherShopList,
     productShopSuggestList,
     categoryProductByShopID,
-    productShopIDList =[]
+    setShopID,
   } = useContext(GlobalContext);
+
+  const { productShopList, setTypeCategory, setOptionProductShop } =   useContext(ShopContext);
+
 
   console.log("Danh sách shop: ", categoryProductByShopID);
 
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Giá");
+  const [activeButton, setActiveButton] = useState("Phổ Biến");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8; // Hiển thị 8 sản phẩm mỗi trang
+
+  // Tính toán số trang
+  const totalPages = Math.ceil(
+    (productShopList?.length || 0) / productsPerPage
+  );
+
+  // Cắt danh sách sản phẩm để hiển thị trang hiện tại
+  const currentProducts =
+    productShopList?.slice(
+      (currentPage - 1) * productsPerPage,
+      currentPage * productsPerPage
+    ) || [];
+
+  const handleSortButtonClick = (option) => {
+    setActiveButton(option);
+  };
 
   const handleSelect = (option) => {
     setSelected(option);
@@ -43,31 +67,22 @@ function Shop() {
     }
   };
 
-  const prevProducts = () => {
-    if (currentProduct > 0) {
-      setCurrentProduct(currentProduct - visibleItemsProduct);
-    }
-  };
-
-  const nextProducts = () => {
-    if (currentProduct + visibleItemsProduct < productShopIDList.length) {
-      setCurrentProduct(currentProduct + visibleItemsProduct);
-    }
-  };
-
   const prevSuggest = () => {
-    if (currentIndexSuggest > 0) {
-      setCurrentIndexSuggest(currentIndexSuggest - visibleItemsSuggest);
-    }
+    setCurrentIndexSuggest((prevIndex) =>
+      prevIndex - visibleItemsSuggest >= 0
+        ? prevIndex - visibleItemsSuggest
+        : productShopSuggestList.length -
+          (productShopSuggestList.length % visibleItemsSuggest ||
+            visibleItemsSuggest)
+    );
   };
 
   const nextSuggest = () => {
-    if (
-      currentIndexSuggest + visibleItemsSuggest <
-      productShopSuggestList.length
-    ) {
-      setCurrentIndexSuggest(currentIndexSuggest + visibleItemsSuggest);
-    }
+    setCurrentIndexSuggest((prevIndex) =>
+      prevIndex + visibleItemsSuggest < productShopSuggestList.length
+        ? prevIndex + visibleItemsSuggest
+        : 0
+    );
   };
 
   return (
@@ -191,13 +206,18 @@ function Shop() {
               borderRadius: "50%",
             }}
             onClick={prevVouchers}
-            disabled={currentIndex === 0}
           >
             &lt;
           </button>
         )}
 
-        <div style={{ display: "flex", gap: "1vw" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "1vw",
+          }}
+        >
           {voucherShopList
             .slice(currentIndex, currentIndex + visibleItems)
             .map((item, index) => (
@@ -219,7 +239,7 @@ function Shop() {
                     padding: "0.4vw",
                   }}
                 >
-                  Áp Dụng
+                  Lưu
                 </button>
               </div>
             ))}
@@ -278,7 +298,6 @@ function Shop() {
               borderRadius: "50%",
             }}
             onClick={prevSuggest}
-            disabled={currentIndexSuggest === 0}
           >
             &lt;
           </button>
@@ -330,10 +349,6 @@ function Shop() {
               borderRadius: "50%",
             }}
             onClick={nextSuggest}
-            disabled={
-              currentIndexSuggest + visibleItemsSuggest >=
-              productShopSuggestList.length
-            }
           >
             &gt;
           </button>
@@ -373,7 +388,6 @@ function Shop() {
               borderRadius: "50%",
             }}
             onClick={prevSuggest}
-            disabled={currentIndexSuggest === 0}
           >
             &lt;
           </button>
@@ -425,10 +439,6 @@ function Shop() {
               borderRadius: "50%",
             }}
             onClick={nextSuggest}
-            disabled={
-              currentIndexSuggest + visibleItemsSuggest >=
-              productShopSuggestList.length
-            }
           >
             &gt;
           </button>
@@ -448,7 +458,10 @@ function Shop() {
           </div>
           {categoryProductByShopID.map((itemCategory, index) => (
             <div
-              onClick={() => setActiveIndex(index)}
+              onClick={() => {
+                setActiveIndex(index);
+                setTypeCategory(itemCategory.Category);
+              }}
               className={`${styles.categoryItem} ${
                 activeIndex === index ? styles.active : ""
               }`}
@@ -463,20 +476,63 @@ function Shop() {
             style={{
               display: "flex",
               position: "relative",
-              width: "70vw",
+              width: "65vw",
               height: "8vh",
               flexDirection: "row",
             }}
           >
             <span>
               Sắp Xếp Theo
-              <button>Phổ Biến</button>
-              <button>Mới Nhất</button>
-              <button>Bán Chạy</button>
+              <button
+                style={{ border: "none" }}
+                className={
+                  activeButton === "Phổ Biến" ? styles.activeButton : ""
+                }
+                onClick={() => {
+                  handleSortButtonClick("Phổ Biến");
+                  setOptionProductShop("Phổ Biến");
+                }}
+              >
+                Phổ Biến
+              </button>
+              <button
+                style={{ border: "none" }}
+                className={
+                  activeButton === "Mới Nhất" ? styles.activeButton : ""
+                }
+                onClick={() => {
+                  handleSortButtonClick("Mới Nhất");
+                  setOptionProductShop("Mới Nhất");
+                }}
+              >
+                Mới Nhất
+              </button>
+              <button
+                style={{ border: "none" }}
+                className={
+                  activeButton === "Bán Chạy" ? styles.activeButton : ""
+                }
+                onClick={() => {
+                  handleSortButtonClick("Bán Chạy");
+                  setOptionProductShop("Bán Chạy");
+                }}
+              >
+                Bán Chạy
+              </button>
               <span>
                 <button
-                  style={{ width: "15vw" }}
-                  onClick={() => setIsOpen(!isOpen)}
+                  className={
+                    ["Giá", "Giá: Thấp đến Cao", "Giá: Cao đến Thấp"].includes(
+                      activeButton
+                    )
+                      ? styles.activeButton
+                      : ""
+                  }
+                  style={{ width: "15vw", border: "none" }}
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                    handleSortButtonClick("Giá");
+                  }}
                 >
                   {selected} <span>▼</span>
                 </button>
@@ -488,29 +544,160 @@ function Shop() {
                       zIndex: "10",
                       width: "15vw",
                       position: "absolute",
-                      left: "31.7vw",
+                      left: "31vw",
                     }}
                   >
                     <button
                       style={{ border: "none" }}
-                      onClick={() => handleSelect("Giá: Thấp đến Cao")}
+                      onClick={() => {
+                        handleSelect("Giá: Thấp đến Cao");
+                        handleSortButtonClick("Giá: Thấp đến Cao");
+                        setOptionProductShop("Giá: Thấp đến Cao");
+                      }}
+                      className={
+                        [
+                          "Giá",
+                          "Giá: Thấp đến Cao",
+                          "Giá: Cao đến Thấp",
+                        ].includes(activeButton)
+                          ? styles.activeButton
+                          : ""
+                      }
                     >
                       Giá: Thấp đến Cao
                     </button>
                     <button
                       style={{ border: "none" }}
-                      onClick={() => handleSelect("Giá: Cao đến Thấp")}
+                      onClick={() => {
+                        handleSelect("Giá: Cao đến Thấp");
+                        handleSortButtonClick("Giá: Cao đến Thấp");
+                        setOptionProductShop("Giá: Cao đến Thấp");
+                      }}
+                      className={
+                        [
+                          "Giá",
+                          "Giá: Thấp đến Cao",
+                          "Giá: Cao đến Thấp",
+                        ].includes(activeButton)
+                          ? styles.activeButton
+                          : ""
+                      }
                     >
                       Giá: Cao đến Thấp
                     </button>
                   </div>
                 )}
               </span>
-              <span style={{position:"absolute", right:"1vw", marginTop: "1vh"}}>
-                              
-                      </span>
+              <button onClick={() => setShopID(2)}>hihi</button>
+              <span style={{ marginLeft: "4.1vw" }}>
+                {currentPage} /{" "}
+                <span style={{ color: "red" }}>{totalPages} </span>
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                >
+                  &lt;
+                </button>
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  disabled={currentPage === totalPages}
+                >
+                  &gt;
+                </button>
+              </span>
             </span>
           </div>
+          <div className={styles.showProducts_Shop}>
+            {currentProducts.length > 0 ? (
+              currentProducts.map((item, index) => (
+                <div key={index} className={styles.items_showProducts}>
+                  <img
+                    className={styles.img}
+                    src={item.ProductImg}
+                    alt={item.ProductName}
+                  />
+                  <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>
+                    {item.ProductName}
+                  </p>
+                  <div
+                    style={{
+                      color: "red",
+                      marginBottom: "0.2vw",
+                      height: "2vw",
+                      display: "flex",
+                      flexDirection: "row",
+                      fontSize: "1vw",
+                      fontWeight: "bold",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    {Number(item.Price).toLocaleString("vi-VI", {
+                      style: "currency",
+                      currency: "VND",
+                    })}{" "}
+                    <span>
+                      <img
+                        style={{
+                          cursor: "pointer",
+                          position: "absolute",
+                          right: "-4vw",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          width: "1vw",
+                          height: "1vw",
+                        }}
+                        src="/tym.png"
+                        alt=""
+                      />
+                    </span>
+                  </div>
+                  <div>
+                    =&gt; Đã bán:{" "}
+                    <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>Không có dữ liệu</p>
+            )}
+          </div>
+          {/* Chuyển trang */}
+          {totalPages > 0 && (
+            <div className={styles.pagination}>
+              <button
+                className={styles.pageButton}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+              >
+                &lt;&lt;
+              </button>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`${styles.pageButton} ${
+                    currentPage === index + 1 ? styles.activePage : ""
+                  }`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              <button
+                className={styles.pageButton}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                disabled={currentPage === totalPages}
+              >
+                &gt;&gt;
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -68,7 +68,6 @@
     background: rgb(255, 255, 255);
     margin-bottom: 1vh;
     border-radius: 10px;
-
 }
 
 .img{
@@ -86,10 +85,11 @@
 }
 
 .block_sidebar_shop{
-    width: 15vw;
+    width: 18vw;
     height: auto;
     display: flex;
     flex-direction: column;
+    margin-right: 2vw;
 }
 
 .categoryItem {
@@ -115,3 +115,45 @@
     color: rgb(250, 93, 2);
 }
 
+.activeButton{
+    background: rgb(250, 93, 2);
+    color: white;
+    border: none;
+}
+
+.showProducts_Shop{
+    display: grid;
+    width: 65vw;
+    grid-template-columns: repeat(4, 1fr); /* Chia 4 cột */
+    grid-gap: 2vh; /* Khoảng cách giữa các ô */
+    
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+}
+  
+.pageButton {
+    border: none;
+    background: #eee;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+  
+.pageButton:hover {
+    background: #39e113;
+    color: black;
+}
+  
+.activePage {
+    background: red;
+    color: white;
+    border: none;
+}

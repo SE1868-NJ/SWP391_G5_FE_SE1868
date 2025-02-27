@@ -124,7 +124,7 @@ export function GlobalProvider({ children }) {
   const fetchStatusNotification = async (order_ID, customer_ID, voucher_ID, statusNotification) => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:3001/api/notifications_status", {
+      const response = await axios.get("http://localhost:3001/api/notifications/status", {
         params: { order_ID, customer_ID, voucher_ID, statusNotification },
       });
       setNotificationsList(response.data[0]);
