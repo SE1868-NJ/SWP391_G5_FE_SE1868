@@ -142,7 +142,7 @@ function Cart() {
                       <span className={styles.item_name}>
                         {item.productName}
                         <br />
-                        Số lượng: {item.productPopularity}
+                        Số lượng: {item.productQuantity}
                       </span>
                     </td>
                     <td className={styles.c2}>{item.ShopName}</td>
