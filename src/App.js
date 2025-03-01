@@ -4,6 +4,7 @@ import Portal from "./router/Portal/Portal.js";
 import Order from "./router/Order/Order.js";
 import Home from "./router/Home/Home";
 import Cart from "./router/Cart/Cart.js";
+import Shop from "./router/Shop/Shop.js";
 import SearchProduct from "./router/products/SearchProducts";
 import OrderandVoucher from "./router/OrderandVoucher/OrderandVoucher.js";
 import Notification from "./router/Notification/Notification.js";
@@ -11,8 +12,9 @@ import Login from "./layout/Login/Login.js";
 import CustomerRoutes from "./router/Profile/CustomerRoutes";
 import Category from "./router/Portal/Category/Category.js";
 import React, { useContext } from "react";
-import { GlobalProvider } from "./globalContext/GlobalContext";
+import { GlobalProvider, GlobalContext } from "./globalContext/GlobalContext";
 import { AuthProvider } from "./globalContext/AuthContext.js";
+import ShopProvider from "./globalContext/ShopContext.js";
 import { ThemeProvider, ThemeContext } from "./contexts/ThemeContext.js";
 import MenuHeaderProvider from "./globalContext/MenuHeaderContext.js";
 import DarkModeButton from "./components/DarkModeButton";
@@ -22,7 +24,7 @@ import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
-
+  
   return (
     <div
       className={`min-h-screen transition-all duration-300 ${
@@ -38,6 +40,7 @@ function AppContent() {
         <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/shop" element={<Shop/>}/>
         <Route path="/cart" element={<Cart />} />
         <Route path="/search" element={<SearchProduct />} />
         <Route path="/my-favorite" element={<FavoriteProduct />} />
@@ -60,11 +63,13 @@ function App() {
     <GlobalProvider>
       <AuthProvider>
         <MenuHeaderProvider>
-          <ThemeProvider>
-            <Router>
-              <AppContent />
-            </Router>
-          </ThemeProvider>
+          <ShopProvider>
+            <ThemeProvider>
+              <Router>
+                <AppContent />
+              </Router>
+            </ThemeProvider>
+          </ShopProvider>
         </MenuHeaderProvider>
       </AuthProvider>
     </GlobalProvider>

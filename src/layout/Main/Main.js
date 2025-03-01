@@ -49,7 +49,7 @@ function Main() {
         {products.map((item, index) => (
           <div
             key={index}
-            style={{ marginTop: "2vh", background: "#eee" }}
+            style={{ marginLeft:"0.7vw", marginTop: "2vh", background: "#eee" }}
             className={styles.items_showProducts}
           >
             <img
@@ -67,12 +67,28 @@ function Main() {
                 flexDirection: "row",
                 fontSize: "1vw",
                 fontWeight: "bold",
+                alignItems: "center",
+                position: "relative",
               }}
             >
               {Number(item.price).toLocaleString("vi-VI", {
                 style: "currency",
                 currency: "VND",
               })}{" "}
+              <span>
+                <img
+                  style={{
+                    position: "absolute",
+                    right: "-5vw",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    width: "1vw",
+                    height: "1vw",
+                  }}
+                  src="/tym.png"
+                  alt=""
+                />
+              </span>
             </div>
             <div>
               =&gt; Đã bán: <span style={{ color: "blue" }}>15</span>
@@ -87,7 +103,7 @@ function Main() {
             className={`${styles.items_options} ${
               optionMain === "Tất Cả" ? styles.active : ""
             }`}
-            onClick={() => setOptionMain("Tất Cả")}
+            onClick={() => {setOptionMain("Tất Cả"); setCurrentPage(1)}}
           >
             Tất Cả
           </div>
@@ -98,7 +114,7 @@ function Main() {
                 className={`${styles.items_options} ${
                   optionMain === item.Category ? styles.active : ""
                 }`}
-                onClick={() => setOptionMain(item.Category)}
+                onClick={() => {setOptionMain(item.Category); setCurrentPage(1)}}
               >
                 {item.Category}
               </div>
@@ -132,12 +148,28 @@ function Main() {
                     flexDirection: "row",
                     fontSize: "1vw",
                     fontWeight: "bold",
+                    alignItems: "center",
+                    position: "relative",
                   }}
                 >
                   {Number(item.Price).toLocaleString("vi-VI", {
                     style: "currency",
                     currency: "VND",
                   })}{" "}
+                  <span>
+                    <img
+                      style={{
+                        position: "absolute",
+                        right: "-5vw",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        width: "1vw",
+                        height: "1vw",
+                      }}
+                      src="/tym.png"
+                      alt=""
+                    />
+                  </span>
                 </div>
                 <div>
                   =&gt; Đã bán:{" "}
