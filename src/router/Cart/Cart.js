@@ -10,12 +10,12 @@ function Cart() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAll, setSelectedAll] = useState(false);
   const cusID = 2;
-  const address =
-    "Nguyễn Anh Đức (+84) 919824069    Xưởng may Cơ Xen, Xã Vũ Hòa, Huyện Kiến Xương, Thái Bình";
+  const address ="Nguyễn Anh Đức (+84) 919824069    Xưởng may Cơ Xen, Xã Vũ Hòa, Huyện Kiến Xương, Thái Bình";
   const navigate = useNavigate();
 
-  const handleCheckout = () => {
-    navigate("/order",{state:selectedItems});
+  const handleCheckout = async() => {
+    const selectCart = await cartItems.filter((item)=> selectedItems.includes(item.cartID))
+    navigate("/OrderCheckOut", { state:  selectCart  });
   };
 
   useEffect(() => {

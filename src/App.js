@@ -5,7 +5,6 @@ import Order from "./router/Order/Order.js";
 import Home from "./router/Home/Home";
 import Cart from "./router/Cart/Cart.js";
 import SearchProduct from "./router/products/SearchProducts";
-import Prepay from "./router/Prepay/Prepay.js";
 import OrderandVoucher from "./router/OrderandVoucher/OrderandVoucher.js";
 import Notification from "./router/Notification/Notification.js";
 import Login from "./layout/Login/Login.js";
@@ -45,7 +44,6 @@ function AppContent() {
         <Route path="/product/:id" element={<PageProductDetail />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/Notifications" element={<Notification />} />
-        <Route path="/Prepay" element={<Prepay />} />
         <Route path="customers/*" element={<CustomerRoutes />} />
         <Route path="/Category" element={<Category />} />
         <Route path="/Portal" element={<Portal />} />
