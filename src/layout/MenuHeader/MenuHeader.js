@@ -55,7 +55,6 @@ function MenuHeader() {
           onMouseLeave={() => setHover(false)}
         />
       </div>
-
       {/* Menu Dropdown */}
       {isMenuOpen && (
         <div
@@ -67,6 +66,7 @@ function MenuHeader() {
             backgroundColor: "white",
             borderRadius: "10px",
             padding: "10px",
+            zIndex: "100"
           }}
         >
           {/* Danh mục */}

@@ -13,8 +13,9 @@ import Login from "./layout/Login/Login.js";
 import CustomerRoutes from "./router/Profile/CustomerRoutes";
 import Category from "./router/Portal/Category/Category.js";
 import React, { useContext } from "react";
-import { GlobalProvider } from "./globalContext/GlobalContext";
+import { GlobalProvider, GlobalContext } from "./globalContext/GlobalContext";
 import { AuthProvider } from "./globalContext/AuthContext.js";
+import ShopProvider from "./globalContext/ShopContext.js";
 import { ThemeProvider, ThemeContext } from "./contexts/ThemeContext.js";
 import MenuHeaderProvider from "./globalContext/MenuHeaderContext.js";
 import DarkModeButton from "./components/DarkModeButton";
@@ -24,7 +25,7 @@ import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
-
+  
   return (
     <div
       className={`min-h-screen transition-all duration-300 ${
@@ -64,11 +65,13 @@ function App() {
     <GlobalProvider>
       <AuthProvider>
         <MenuHeaderProvider>
-          <ThemeProvider>
-            <Router>
-              <AppContent />
-            </Router>
-          </ThemeProvider>
+          <ShopProvider>
+            <ThemeProvider>
+              <Router>
+                <AppContent />
+              </Router>
+            </ThemeProvider>
+          </ShopProvider>
         </MenuHeaderProvider>
       </AuthProvider>
     </GlobalProvider>
