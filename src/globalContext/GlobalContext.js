@@ -50,19 +50,7 @@ export function GlobalProvider({ children }) {
       console.error("Lỗi khi tải danh mục:", error);
     }
   };
-  
 
-
-    // ✅ Hàm gọi API sản phẩm theo `option` và `type`
-    const fetchStatusNotification = async (order_ID, customer_ID, voucher_ID, statusNotification) => {
-      setLoading(true);
-      try {
-        const response = await axios.get("http://localhost:3001/api/notifications/status", {
-          params: { order_ID, customer_ID, voucher_ID, statusNotification },
-        });
-        setNotificationsList(response.data[0]);
-      } catch (error) {
-        console.error("Lỗi khi tải status sản phẩm:", error);
   // ✅ Sửa lỗi thiếu dấu `}`
   const fetchInforShopList = async (shopID) => {
     try {
