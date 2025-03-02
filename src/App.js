@@ -18,9 +18,13 @@ import { AuthProvider } from "./globalContext/AuthContext.js";
 import { ThemeProvider, ThemeContext } from "./contexts/ThemeContext.js";
 import MenuHeaderProvider from "./globalContext/MenuHeaderContext.js";
 import DarkModeButton from "./components/DarkModeButton";
+import ShopProvider from "./globalContext/ShopContext.js";
 import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
 import { PageProductDetail } from "./components/products/ProductDetail.jsx";
 import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
+import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
+import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
+// import { GlobalProvider, GlobalContext } from "./globalContext/GlobalContext";
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 
@@ -48,14 +52,14 @@ function AppContent() {
         <Route path="/product/:id" element={<PageProductDetail />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/Notifications" element={<Notification />} />
-
         <Route path="customers/*" element={<CustomerRoutes />} />
-        <Route path="
-        " element={<Category />} />
+        <Route path="/Category" element={<Category />} />
         <Route path="/Portal" element={<Portal />} />
         <Route path="/category/:category" element={<Category />} />
         <Route path="/searchPortal" element={<SearchResults />} />
         <Route path="/category/:category/:itemId" element={<Category />} />
+        <Route path="/new-combo" element={<NewComboProduct />} />
+        <Route path="/list-combo" element={<ListComboProduct />} />
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
       </Routes>
@@ -68,11 +72,13 @@ function App() {
     <GlobalProvider>
       <AuthProvider>
         <MenuHeaderProvider>
-          <ThemeProvider>
-            <Router>
-              <AppContent />
-            </Router>
-          </ThemeProvider>
+          <ShopProvider>
+            <ThemeProvider>
+              <Router>
+                <AppContent />
+              </Router>
+            </ThemeProvider>
+          </ShopProvider>
         </MenuHeaderProvider>
       </AuthProvider>
     </GlobalProvider>
