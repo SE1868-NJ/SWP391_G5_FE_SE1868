@@ -63,7 +63,7 @@
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    width: 14vw;
+    width: 15vw;
     height: 33vh;
     background: rgb(255, 255, 255);
     margin-bottom: 1vh;
@@ -89,7 +89,7 @@
     height: auto;
     display: flex;
     flex-direction: column;
-    margin-right: 2vw;
+    margin-right: 3vw;
 }
 
 .categoryItem {
