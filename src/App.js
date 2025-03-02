@@ -33,9 +33,6 @@ function AppContent() {
         theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
       }`}
     >
-      <header className="p-4 flex justify-between items-center">
-        <DarkModeButton />
-      </header>
 
       <Routes>
         <Route path="/OrderCheckOut" element={<Order />} />

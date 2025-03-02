@@ -44,11 +44,11 @@ const Card = ({item, isFavoriteProduct}) => {
       <div className={styles.card_info}>
         <div className={styles.card_infoContainer}>
           <div className={styles.card_infoTitle}>
-            <span className={styles.card_infoTitleName} onClick={()=> setIsOpen(true)}>{item.ProductName}</span>
+            <span className={styles.card_infoTitleName} onClick={()=> setIsOpen(true)} style={{margin: 0}}>{item.ProductName}</span>
             <p className={styles.card_infoQuantity}>SL: {item.StockQuantity}</p>
           </div>
           <div className={styles.card_infoRight}>
-          <span className={styles.card_infoMoney}>{formatMoney(item.Price)} VND</span>
+          <span className={styles.card_infoMoney} >{formatMoney(item.Price)} VND</span>
           <div onClick={handleSetFavorite} className={styles.card_infoRight_favorite}>{isFavorite ?iconFavorite : iconFavoriteDefault}</div>
           </div>
 
