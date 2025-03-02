@@ -33,12 +33,9 @@
   margin-top: 20px;
   padding: 0 20px;
   box-sizing: border-box;
-  height: 90vh;
-  overflow-y: scroll;
 }
 .favoriteItem{
   padding:10px 0;
-  cursor: pointer;
   border-bottom: 1px solid rgb(179, 179, 179);
   width: 100%;
   height: 15vh;
@@ -59,29 +56,6 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   }
-}
-.pageControll{
-  height: 30px;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: end;
-  span{
-      font-size: 20px;
-      cursor: pointer;
-      height: 30px;
-  }
-}
-.indexList{
-  height: 100%;
-  width: 30px;
-  text-align: center;
-  margin: 0 5px;
-  background-color: #757575;
-}
-.choosePage{
-  background-color: rgb(255, 123, 0);
-  color: white;
 }
 .orderDetail {
   margin-top: 20px;

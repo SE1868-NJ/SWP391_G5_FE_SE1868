@@ -67,7 +67,6 @@ function Shop() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [statusFollow, setStatusFollow] = useState(false);
   const [statusDeleteFollow, setStatusDeleteFollow] = useState(false);
-  const [changeStatusFollow, setChangeStatusFollow] = useState(false);
   const [savedVouchers, setSavedVouchers] = useState({});
   const [saveVoucherID, setSaveVoucherID] = useState(null);
   const [deleteVoucherID, setDeleteVoucherID] = useState(null);
@@ -270,19 +269,6 @@ function Shop() {
     }
   }, [deleteProductIDTym, customerID, activeDeleteTym]);
 
-  const isFollowing = listCustomerShopFollow.some(
-    (item) => String(item.CustomerID) === String(customerID) && String(item.ShopID) === String(shopID)
-  );
-  
-  // Sử dụng useEffect để cập nhật trạng thái khi `isFollowing` thay đổi
-  useEffect(() => {
-    if (isFollowing) {
-      setChangeStatusFollow(true);
-    } else {
-      setChangeStatusFollow(false);
-    }
-  }, [isFollowing]);
-
   return (
     <>
       <div className={styles.block_one}>
@@ -304,7 +290,9 @@ function Shop() {
             src={inforShopList.ShopAvatar}
             alt=""
           />
-          {changeStatusFollow  ? (
+          {listCustomerShopFollow.some(
+           (item) => String(item.CustomerID) === String(customerID) && String(item.ShopID) === String(shopID)
+          ) ? (
             <button
               style={{
                 width: "11vw",
@@ -318,10 +306,7 @@ function Shop() {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onClick={() => {
-                setStatusDeleteFollow(!statusDeleteFollow);
-                setChangeStatusFollow(!changeStatusFollow);
-              }}
+              onClick={() => setStatusDeleteFollow(!statusDeleteFollow)}
             >
               ✅ Đang Theo Dõi
             </button>
@@ -339,10 +324,7 @@ function Shop() {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onClick={() => {
-                setStatusFollow(!statusFollow);
-                setChangeStatusFollow(!changeStatusFollow);
-              }}
+              onClick={() => setStatusFollow(!statusFollow)}
             >
               + Theo Dõi
             </button>
@@ -839,7 +821,7 @@ function Shop() {
             }}
           >
             <span>
-              <span style={{marginLeft: "0vw", marginRight: "1vw"}}>Sắp Xếp Theo</span>
+              <span style={{ marginRight: "2vw" }}>Sắp Xếp Theo</span>
               <button
                 style={{ border: "none" }}
                 className={
@@ -885,7 +867,7 @@ function Shop() {
                       ? styles.activeButton
                       : ""
                   }
-                  style={{ marginLeft: "-1vw", width: "17vw", border: "none" }}
+                  style={{ width: "15vw", border: "none" }}
                   onClick={() => {
                     setIsOpen(!isOpen);
                     handleSortButtonClick("Giá");
@@ -901,7 +883,7 @@ function Shop() {
                       zIndex: "10",
                       width: "15vw",
                       position: "absolute",
-                      left: "33.5vw",
+                      left: "31vw",
                     }}
                   >
                     <button
@@ -946,9 +928,9 @@ function Shop() {
                 )}
               </span>
 
-              <span style={{ marginLeft: "4.8vw" }}>
-                {currentPage}
-                <span style={{ marginLeft: "0.2vw", color: "red" }}>/{" "}{totalPages}</span>
+              <span style={{ marginLeft: "4.1vw" }}>
+                {currentPage} /{" "}
+                <span style={{ color: "red" }}>{totalPages} </span>
                 <button
                   onClick={() =>
                     setCurrentPage((prev) => Math.max(prev - 1, 1))
@@ -1047,12 +1029,9 @@ function Shop() {
                       )}
                     </span>
                   </div>
-                  {item.Category === "Đồ Tươi Sống" && (
-                    <div style={{paddingBottom: "0.5vh"}}>Khối Lượng: <span style={{ marginLeft:"0.5vw",color: "Green", fontWeight: "500"}}>{item.Weight}{" "}g</span> </div>
-                  )}
                   <div>
                     =&gt; Đã bán:{" "}
-                    <span style={{ marginLeft:"0.5vw", color: "blue" }}>{item.SoldQuantity}</span>
+                    <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
                   </div>
                 </div>
               ))

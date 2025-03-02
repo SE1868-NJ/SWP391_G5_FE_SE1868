@@ -49,11 +49,7 @@ function Main() {
         {products.map((item, index) => (
           <div
             key={index}
-            style={{
-              marginLeft: "0.7vw",
-              marginTop: "2vh",
-              background: "#eee",
-            }}
+            style={{ marginLeft:"0.7vw", marginTop: "2vh", background: "#eee" }}
             className={styles.items_showProducts}
           >
             <img
@@ -107,10 +103,7 @@ function Main() {
             className={`${styles.items_options} ${
               optionMain === "Tất Cả" ? styles.active : ""
             }`}
-            onClick={() => {
-              setOptionMain("Tất Cả");
-              setCurrentPage(1);
-            }}
+            onClick={() => {setOptionMain("Tất Cả"); setCurrentPage(1)}}
           >
             Tất Cả
           </div>
@@ -121,10 +114,7 @@ function Main() {
                 className={`${styles.items_options} ${
                   optionMain === item.Category ? styles.active : ""
                 }`}
-                onClick={() => {
-                  setOptionMain(item.Category);
-                  setCurrentPage(1);
-                }}
+                onClick={() => {setOptionMain(item.Category); setCurrentPage(1)}}
               >
                 {item.Category}
               </div>
@@ -181,17 +171,9 @@ function Main() {
                     />
                   </span>
                 </div>
-                {item.Category === "Đồ Tươi Sống" && (
-                  <div style={{ paddingBottom: "0.5vh" }}>
-                    Khối Lượng:
-                    <span style={{ marginLeft:"0.5vw", color: "Green", fontWeight: "500" }}>
-                      {item.Weight} g
-                    </span>{" "}
-                  </div>
-                )}
                 <div>
-                  =&gt; Đã bán:
-                  <span style={{ marginLeft:"0.5vw", color: "blue" }}>{item.SoldQuantity}</span>
+                  =&gt; Đã bán:{" "}
+                  <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
                 </div>
               </div>
             ))

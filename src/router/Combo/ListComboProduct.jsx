@@ -81,7 +81,6 @@ export const ListComboProduct = () => {
                                 </div>
 
                             }
-                            
                         >
                             <List.Item.Meta
                             style={{width: '100%'}}
@@ -92,6 +91,7 @@ export const ListComboProduct = () => {
                                     <span style={{marginRight: 30}}>Giảm giá: <strong>{formatMoney(item.Discount || 0)} VND</strong></span>
                                     <span style={{marginRight: 30}}>Số lượng: <strong>{formatMoney(item.StockQuantity || 0)} </strong></span>
                                     <span style={{marginRight: 30}}>Đã bán: <strong>{formatMoney(item.SoldQuantity || 0)} </strong></span>
+
                                 </div>}
                             />
                             {item.content}

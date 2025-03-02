@@ -15,7 +15,6 @@ function ViewOrder() {
   const [chooseQuantity,setChooseQuantity] = useState(null)
   const [buyOrder,setBuyOrder] = useState(null);
   const [favorites,setFavorites] = useState([]);
-  const [indexList, setIndexList] = useState(0);
   const [formReview, setFormReview] = useState({
     category: "",
     reviewText: "",
@@ -34,19 +33,10 @@ function ViewOrder() {
   async function getAllOrder(){
     const response = await axios.post('http://localhost:3001/api/Order/OrderDetailCusID',{cusID: customer.CustomerID});
     await setAllOrder(response.data)
-    await sliceOrder(response.data);
-    console.log(response.data)
+    await setOrderList(response.data);
     const response1 = await axios.post('http://localhost:3001/api/Products/getFavorite',{cusID: customer.CustomerID});
+    console.log(response1.data)
     await setFavorites(response1.data);
-  }
-  async function sliceOrder(OrderSample){
-    if(OrderSample !== null){
-      let pages = []; 
-      for (let i = 0; i < OrderSample.length; i += 3) {
-        pages.push(OrderSample.slice(i, i + 3));
-      }
-      await setOrderList(pages);
-    }
   }
   const statusFunction = (status) => {
     return statusMap[status];
@@ -56,9 +46,9 @@ function ViewOrder() {
   },[chooseStatus])
   async function changeStatus(){
     if(chooseStatus !== "Tất cả"){
-      await sliceOrder(allOrder.filter(item => item.status === chooseStatus));
+      await setOrderList(allOrder.filter(item => item.status === chooseStatus));
     }else{
-      await sliceOrder(allOrder);
+      await setOrderList(allOrder);
     }
   }
   const chooseQuantityPopup = async(order)=>{
@@ -74,9 +64,8 @@ function ViewOrder() {
     console.log(chooseQuantity)
   },[chooseQuantity])
   const buyAgain = async()=>{
-    const selectCart = [{...buyOrder, Quantity : chooseQuantity,totalAmount: chooseQuantity * buyOrder.productPrice + 32000,}]
-    console.log(selectCart)
-    navigate('/OrderCheckOut',{state:selectCart})
+    const order = {...buyOrder, Quantity : chooseQuantity,totalAmount: chooseQuantity * buyOrder.productPrice + 32000,}
+    navigate('/OrderCheckOut',{state:order})
   }
   const handleChange =async (e) => {
     if(e.target.name === 'rating' && (e.target.value <0 || e.target.value >5)){
@@ -126,9 +115,6 @@ function ViewOrder() {
     const order = response.data
     navigate('/OrderCheckOut',{state:order})
   }
-  const changeIndex = async (value) => {
-    await setIndexList(value);
-  };
   return (
     <div className={styles.viewOrder} >
       <div className={styles.orderStatus}>
@@ -140,7 +126,7 @@ function ViewOrder() {
       </div>
       <div className={styles.listOrder}>
       <div style={{width:'64%'}}>
-      {orderList.length >0 && orderList[indexList].map((order,index)=>(
+      {orderList.map((order,index)=>(
         <div className={styles.orderDetail} key={index}>
           <div className={styles.orderDetailTop}>
             <div>
@@ -153,10 +139,9 @@ function ViewOrder() {
             <div style={{display: 'flex',width:'60%'}}>
               <img src={order.productImg} alt='product'/>
               <div>
-                <p style={{cursor:'pointer'}} onClick={()=>navigate(`/product/${order.productID}`)}>{order.productName}</p>
+                <p>{order.productName}</p>
                 <p style={{color:'#bbbaba'}}>{order.description}</p>
                 <button onClick={()=>setReviewPopup(index)} >Đánh Giá</button>
-                <button onClick={()=>navigate(`/OrderDetail/${order.orderDetailID}`,{state:order})} >Chi tiết</button>
                 <button className= {`${order.status === 'Chờ thanh toán' ? styles.hidden: ''}`} onClick={()=> chooseQuantityPopup(order)}>Mua Lại</button>
               
                 <button className={`${order.status === 'Chờ thanh toán' ? '' :styles.hidden}`}  onClick={()=> payment(order)}>Thanh toán</button>
@@ -175,37 +160,11 @@ function ViewOrder() {
           </div>
         </div>
       ))}
-      <div className={styles.pageControll}>
-          <span
-            className={indexList === 0 ? styles.hidden : ""}
-            onClick={() => changeIndex(indexList - 1)}
-          >
-            &lt;
-          </span>
-          {orderList.map((item, index) => (
-            <span
-              className={`${styles.indexList} ${
-                index === indexList ? styles.choosePage : ""
-              } `}
-              onClick={() => changeIndex(index)}
-            >
-              {index + 1}
-            </span>
-          ))}
-          <span
-            className={
-              indexList === orderList.length - 1 ? styles.hidden : ""
-            }
-            onClick={() => changeIndex(indexList + 1)}
-          >
-            &gt;
-          </span>
-        </div>
       </div>
       <div className={styles.favorite}>
         <h2>Các sản phẩm bạn thích </h2>
         {favorites.length !== 0 ? favorites.map((item)=>(
-          <div className={styles.favoriteItem} onClick={()=>navigate(`/product/${item.ProductID}`)}>
+          <div className={styles.favoriteItem}>
             <img alt='' src={item.ProductImg} />
             <div>
               <p>{item.ProductName}</p>
