@@ -22,6 +22,8 @@ import DarkModeButton from "./components/DarkModeButton";
 import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
 import { PageProductDetail } from "./components/products/ProductDetail.jsx";
 import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
+import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
+import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
@@ -55,6 +57,8 @@ function AppContent() {
         <Route path="/category/:category" element={<Category />} />
         <Route path="/searchPortal" element={<SearchResults />} />
         <Route path="/category/:category/:itemId" element={<Category />} />
+        <Route path="/new-combo" element={<NewComboProduct />} />
+        <Route path="/list-combo" element={<ListComboProduct />} />
       </Routes>
     </div>
   );

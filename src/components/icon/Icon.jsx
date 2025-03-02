@@ -10,3 +10,32 @@ export const iconFavorite = (
 export const iconSend = (
     <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g clip-path="url(#clip0_15_829)"> <rect width="24" height="24" fill="white"></rect> <path d="M19.364 5.05026L3.10051 8.58579L10.8787 13.5355M19.364 5.05026L15.8284 21.3137L10.8787 13.5355M19.364 5.05026L10.8787 13.5355" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"></path> </g> <defs> <clipPath id="clip0_15_829"> <rect width="24" height="24" fill="white"></rect> </clipPath> </defs> </g></svg>
 )
+
+export const iconSuccess = (
+    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="34px" height="34px">
+        <g id="SVGRepo_iconCarrier">
+            <circle style={{ fill: "#25AE88" }} cx="25" cy="25" r="25"></circle>
+            <polyline
+                style={{ fill: "none", stroke: "#FFFFFF", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", strokeMiterlimit: 10 }}
+                points="38,15 22,33 12,25"
+            ></polyline>
+        </g>
+    </svg>
+);
+
+
+export const iconFail = (
+    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="34px" height="34px">
+        <g id="SVGRepo_iconCarrier">
+            <circle style={{ fill: "#D75A4A" }} cx="25" cy="25" r="25"></circle>
+            <polyline
+                style={{ fill: "none", stroke: "#FFFFFF", strokeWidth: 2, strokeLinecap: "round", strokeMiterlimit: 10 }}
+                points="16,34 25,25 34,16"
+            ></polyline>
+            <polyline
+                style={{ fill: "none", stroke: "#FFFFFF", strokeWidth: 2, strokeLinecap: "round", strokeMiterlimit: 10 }}
+                points="16,16 25,25 34,34"
+            ></polyline>
+        </g>
+    </svg>
+);
