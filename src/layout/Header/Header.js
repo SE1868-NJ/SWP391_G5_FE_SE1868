@@ -2,11 +2,13 @@ import styles from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
 import MenuHeader from "../MenuHeader/MenuHeader";
 import Search from "../Search/Search";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext"; // Import ThemeContext
 
 function Header() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const { theme } = useContext(ThemeContext); // Lấy theme từ ThemeContext
 
   // Hàm điều hướng
   const handleNavigate = (path) => {
@@ -36,10 +38,9 @@ function Header() {
     }
   };
 
-
   return (
-    <header className={styles.wrapper}>
-      <div className={styles.header}>
+    <header className={`${styles.wrapper} ${theme === "dark" ? styles.dark : ""}`}>
+      <div className={`${styles.header} ${theme === "dark" ? styles.dark : ""}`}>
         <img
           src="/logo.png"
           alt="logo-header"
@@ -50,39 +51,39 @@ function Header() {
         <MenuHeader />
         <Search />
 
-        <div className={styles.fhs_center_space_header}>
-          <div onClick={() => handleClick("Thông Báo")} className={styles.fhs_noti_header}>
+        <div className={`${styles.fhs_center_space_header} ${theme === "dark" ? styles.dark : ""}`}>
+          <div onClick={() => handleClick("Thông Báo")} className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_noti_gray.svg"
               alt=""
               className={styles.fhs_noti_icon_header}
             />
-            <div className={styles.fhs_top_menu_labe}>Thông Báo</div>
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Thông Báo</div>
           </div>
           <div
             onClick={() => handleNavigate("/Portal")}
-            className={styles.fhs_noti_header}>
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
             <img
               style={{ width: "2.5vw" }}
               src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-question-mark-vector-icon-png-image_5152512.jpg"
               alt=""
               className={styles.fhs_noti_icon_header}
             />
-            <div className={styles.fhs_top_menu_labe}>Hỗ Trợ</div>
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Hỗ Trợ</div>
           </div>
           <div
             onClick={() => handleNavigate("/cart")}
-            className={styles.fhs_noti_header}>
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
               alt=""
               className={styles.fhs_noti_icon_header}
             />
-            <div className={styles.fhs_top_menu_labe}>Giỏ Hàng</div>
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Giỏ Hàng</div>
           </div>
           <div
             onClick={() => handleNavigate("/login")}
-            className={styles.fhs_noti_header}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}
           >
             {user && user.avatar ? (
               <img src={user.avatar} alt="Avatar" className={styles.avatar} />

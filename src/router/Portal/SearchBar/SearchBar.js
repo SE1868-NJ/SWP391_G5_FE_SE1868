@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./SearchBar.module.css";
+import { ThemeContext } from "../../../contexts/ThemeContext"; // Import ThemeContext
 
 const searchCache = {}; // Cache kết quả tìm kiếm
 
@@ -9,6 +10,9 @@ function SearchBar() {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
+
+  // Lấy giá trị theme từ ThemeContext
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     if (query.trim().length < 2) {
@@ -63,21 +67,22 @@ function SearchBar() {
   };
 
   return (
-    <div className={styles.searchContainer}>
+    <div className={`${styles.searchContainer} ${theme === "dark" ? styles.dark : ""}`}>
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Nhập từ khóa cần tìm"
+        className={theme === "dark" ? styles.darkInput : ""}
       />
-      <button onClick={handleSearch}>
+      <button onClick={handleSearch} className={theme === "dark" ? styles.darkButton : ""}>
         Tìm kiếm
       </button>
 
       {suggestions.length > 0 && (
-        <ul className={styles.suggestions}>
+        <ul className={`${styles.suggestions} ${theme === "dark" ? styles.darkSuggestions : ""}`}>
           {suggestions.map((item) => (
-            <li key={item.id} onClick={() => handleSuggestionClick(item)}>
+            <li key={item.id} onClick={() => handleSuggestionClick(item)} className={theme === "dark" ? styles.darkText : ""}>
               <strong>{item.title}</strong>
             </li>
           ))}

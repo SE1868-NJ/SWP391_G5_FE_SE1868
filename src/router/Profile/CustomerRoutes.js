@@ -9,6 +9,7 @@ import Footer from "../../layout/Footer/Footer";
 import Address from './Address';
 import Setting from './Setting';
 import Privacy from './Privacy';
+import Email from './Email';
 import { ThemeContext } from "../../contexts/ThemeContext"; // Chỉ import ThemeContext, không bọc lại ThemeProvider
 
 function CustomerRoutes() {
@@ -39,6 +40,7 @@ function CustomerRoutes() {
                     <ul>
                         <li><Link to="/customers/customer-info">Thông tin khách hàng</Link></li>
                         <li><Link to="/customers/password">Mật Khẩu</Link></li>
+                        <li><Link to="/customers/email">Email</Link></li> 
                         <li><Link to="/customers/address">Địa Chỉ</Link></li>
                         <li><Link to="/customers/setting">Cài Đặt Thông Báo</Link></li>
                         <li><Link to="/customers/privacy">Quyền Riêng Tư</Link></li>
@@ -63,6 +65,19 @@ function CustomerRoutes() {
                                 <h1 className={styles.headerTitle}>Đổi Mật Khẩu</h1>
                                 {customer ? (
                                     <Password customer={customer} onUpdate={setCustomer} />
+                                ) : (
+                                    <p className={styles.loadingText}>Đang tải dữ liệu...</p>
+                                )}
+                            </>
+                        } />
+                        <Route path="email" element={
+                            <>
+                                <h1 className={styles.headerTitle}>Cập Nhật Email</h1>
+                                {customer ? (
+                                    <Email 
+                                        customerID={customer.CustomerID} 
+                                        onUpdate={(newEmail) => setCustomer({ ...customer, Email: newEmail })} 
+                                    />
                                 ) : (
                                     <p className={styles.loadingText}>Đang tải dữ liệu...</p>
                                 )}

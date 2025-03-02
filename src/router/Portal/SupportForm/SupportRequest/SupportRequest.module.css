@@ -1,0 +1,75 @@
+.headerWrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 0;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    /* Căn giữa nội dung trong header */
+    align-items: center;
+}
+
+.supportContainer {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.supportTitle {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.supportForm label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.supportForm select,
+.supportForm input,
+.supportForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.supportForm button {
+    width: 100%;
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.supportForm button:hover {
+    background: #0056b3;
+}
+
+.supportMessage {
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.successMessage {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.errorMessage {
+    background-color: #f8d7da;
+    color: #721c24;
+}
