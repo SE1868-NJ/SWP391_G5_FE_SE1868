@@ -1,9 +1,10 @@
+/* Chế độ sáng mặc định */
 .cart_container {
   width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fff
+  background-color: #fff;
 }
 
 .cart_header {
@@ -17,12 +18,12 @@
 .link {
   width: 82%;
   color: orange;
+}
 
-  a {
-    text-decoration: none;
-    color: orange;
-    cursor: pointer;
-  }
+.link a {
+  text-decoration: none;
+  color: orange;
+  cursor: pointer;
 }
 
 .address {
@@ -183,3 +184,72 @@
   background: #40a9ff;
   transform: scale(1.05);
 }
+
+/* Chế độ tối */
+.dark {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.dark .cart_container {
+  background-color: #1e1e1e;
+}
+
+.dark .cart_header,
+.dark .address,
+.dark .cart_content,
+.dark .total {
+  color: #ccc;
+}
+
+.dark .cart_content table {
+  background-color: #1e1e1e;
+}
+
+.dark .cart_content th,
+.dark .cart_content td {
+  border-color: #1e1e1e;
+}
+
+.dark .quantity_button {
+  background: #1e1e1e;
+  color: white;
+}
+
+.dark .remove_button {
+  background: #ff7875;
+}
+
+.dark .checkout_button {
+  background: #3a3a3a;
+}
+
+.dark .item_name {
+  color: #bbb;
+}
+
+.dark .item_info img {
+  border-radius: 5px;
+}
+
+.dark .link a {
+  color: #ffa500;
+}
+
+.dark .empty_cart {
+  color: #bbb;
+  text-align: center;
+}
+
+.dark .quantity_button:hover {
+  background: #444;
+}
+
+.dark .remove_button:hover {
+  background: #ff5a5f;
+}
+
+.darkText {
+  color: #ccc;
+}
+

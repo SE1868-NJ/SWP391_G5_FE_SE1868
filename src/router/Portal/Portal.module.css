@@ -292,3 +292,142 @@
   color: #0056b3;
   text-decoration: underline;
 }
+
+/* ============================ */
+/* Dark Mode */
+.dark {
+  background-color: #1e1e1e;
+  /* Nền tối cho toàn bộ trang */
+  color: white;
+  /* Văn bản sáng */
+}
+
+.dark .headerWrapper {
+  background-color: #1e1e1e;
+}
+
+/* ============================ */
+/* Dark Mode Search Banner */
+.dark .searchBanner {
+  background-color: #222;
+  /* Nền tối cho banner */
+  color: white;
+  /* Văn bản sáng */
+}
+
+.dark .searchBanner h1 {
+  color: white;
+  /* Chữ sáng trong banner */
+}
+
+/* ============================ */
+/* Dark Mode Category Grid */
+.dark .categoryItem {
+  background-color: #222;
+  /* Nền tối cho từng mục danh mục */
+  color: white;
+  /* Màu chữ sáng */
+}
+
+.dark .categoryItem:hover {
+  background-color: #333;
+  /* Màu nền khi hover trong chế độ tối */
+}
+
+.dark .categoryItem img {
+  filter: brightness(0) invert(1);
+  /* Đảo màu cho hình ảnh trong chế độ tối */
+}
+
+.dark .categoryItem span {
+  color: white;
+  /* Chữ sáng cho tên danh mục */
+}
+
+/* ============================ */
+/* Dark Mode for Search Results */
+.dark .resultsContainer h2 {
+  color: #ccc;
+  /* Màu chữ sáng cho tiêu đề kết quả tìm kiếm */
+}
+
+.dark .resultsList li {
+  background-color: #333;
+  /* Nền tối cho mỗi mục kết quả */
+  color: white;
+  /* Chữ sáng cho kết quả */
+  border-bottom: 1px solid #444;
+  /* Viền tối cho mục kết quả */
+}
+
+.dark .resultsList li:hover {
+  background: #444;
+  /* Màu nền khi hover trong chế độ tối */
+}
+
+.dark .resultsList li strong {
+  color: #f04e30;
+  /* Chữ nổi bật màu cam trong chế độ tối */
+}
+
+/* ============================ */
+/* Dark Mode for Sidebar */
+.dark .sidebar {
+  background-color: #222;
+  color: white;
+  border-right: 1px solid #444;
+}
+
+.dark .sidebar ul li {
+  color: white;
+  /* Chữ sáng trong danh sách sidebar */
+}
+
+.dark .sidebar ul li:hover,
+.dark .sidebar ul li.active {
+  background-color: #333;
+  color: white;
+}
+
+/* ============================ */
+/* Dark Mode for Footer */
+.dark .footer {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.dark .footer a {
+  color: white;
+}
+
+.dark .footer a:hover {
+  color: #f04e30;
+}
+
+/* ============================ */
+/* Dark Mode for FAQ */
+.dark .faqItem {
+  background-color: #333;
+  /* Nền tối cho FAQ item */
+  color: white;
+  /* Chữ sáng cho FAQ item */
+  border: 1px solid #444;
+  /* Viền tối cho FAQ item */
+}
+
+.dark .faqItem:hover {
+  background-color: #444;
+  /* Nền khi hover trong FAQ */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  /* Hiệu ứng box shadow khi hover */
+}
+
+.dark .faqWrapper {
+  width: 50%;
+  padding-left: 15px;
+  border-left: 3px solid #444;
+  /* Viền trái tối cho FAQ */
+  text-align: left;
+  color: white;
+  /* Chữ sáng trong FAQ */
+}
