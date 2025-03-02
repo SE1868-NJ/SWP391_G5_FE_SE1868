@@ -6,7 +6,6 @@ import Home from "./router/Home/Home";
 import Cart from "./router/Cart/Cart.js";
 import Shop from "./router/Shop/Shop.js";
 import SearchProduct from "./router/products/SearchProducts";
-import Prepay from "./router/Prepay/Prepay.js";
 import OrderandVoucher from "./router/OrderandVoucher/OrderandVoucher.js";
 import Notification from "./router/Notification/Notification.js";
 import Login from "./layout/Login/Login.js";
@@ -22,6 +21,8 @@ import DarkModeButton from "./components/DarkModeButton";
 import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
 import { PageProductDetail } from "./components/products/ProductDetail.jsx";
 import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
+import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
+import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
@@ -48,13 +49,14 @@ function AppContent() {
         <Route path="/product/:id" element={<PageProductDetail />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/Notifications" element={<Notification />} />
-        <Route path="/Prepay" element={<Prepay />} />
         <Route path="customers/*" element={<CustomerRoutes />} />
         <Route path="/Category" element={<Category />} />
         <Route path="/Portal" element={<Portal />} />
         <Route path="/category/:category" element={<Category />} />
         <Route path="/searchPortal" element={<SearchResults />} />
         <Route path="/category/:category/:itemId" element={<Category />} />
+        <Route path="/new-combo" element={<NewComboProduct />} />
+        <Route path="/list-combo" element={<ListComboProduct />} />
       </Routes>
     </div>
   );

@@ -10,8 +10,7 @@ function Cart() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedAll, setSelectedAll] = useState(false);
   const cusID = 2;
-  const address =
-    "Nguyễn Anh Đức (+84) 919824069    Xưởng may Cơ Xen, Xã Vũ Hòa, Huyện Kiến Xương, Thái Bình";
+  const address ="Nguyễn Anh Đức (+84) 919824069    Xưởng may Cơ Xen, Xã Vũ Hòa, Huyện Kiến Xương, Thái Bình";
   const navigate = useNavigate();
 
   const handleCheckout = async() => {
@@ -116,10 +115,11 @@ function Cart() {
                   checked={selectedAll}
                   onChange={handleSelectAll} /></th>
                 <th className={styles.c1}>Sản phẩm</th>
-                <th className={styles.c2}>Giá</th>
-                <th className={styles.c3}>Số lượng</th>
-                <th className={styles.c4}>Số tiền</th>
-                <th className={styles.c5}>Tùy chọn</th>
+                <th className={styles.c2}>Cửa hàng</th>
+                <th className={styles.c3}>Giá</th>
+                <th className={styles.c4}>Số lượng</th>
+                <th className={styles.c5}>Số tiền</th>
+                <th className={styles.c6}>Tùy chọn</th>
               </tr>
             </thead>
             <tbody>
@@ -138,12 +138,17 @@ function Cart() {
                     /></td>
                     <td className={styles.item_info}>
                       <img src={item.productImg} alt={item.productName} className={styles.item_image} />
-                      <span className={styles.item_name}>{item.productName}</span>
+                      <span className={styles.item_name}>
+                        {item.productName}
+                        <br />
+                        Số lượng: {item.productQuantity}
+                      </span>
                     </td>
-                    <td className={styles.c2}>
+                    <td className={styles.c2}>{item.ShopName}</td>
+                    <td className={styles.c3}>
                       {item.productPrice.toLocaleString()} VNĐ
                     </td>
-                    <td className={styles.c3}>
+                    <td className={styles.c4}>
                       <div className={styles.quantity_control}>
                         <button className={styles.quantity_button} onClick={() => updateQuantity(item.cartID, -1)}>
                           -
@@ -154,10 +159,10 @@ function Cart() {
                         </button>
                       </div>
                     </td>
-                    <td className={styles.c4}>
+                    <td className={styles.c5}>
                       {(item.productPrice * item.Quantity).toLocaleString()} VNĐ
                     </td>
-                    <td className={styles.c5}>
+                    <td className={styles.c6}>
                       <button className={styles.remove_button} onClick={() => removeItem(item.cartID)}>
                         Xóa
                       </button>
