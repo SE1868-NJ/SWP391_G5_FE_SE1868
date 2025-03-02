@@ -1,25 +1,45 @@
 import styles from "./Shop.module.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../globalContext/GlobalContext";
+import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
+import axios from "axios";
 
 function Shop() {
   const {
+    shopID,
     inforShopList,
     voucherShopList,
     productShopSuggestList,
     categoryProductByShopID,
-    setShopID,
+    productFavoriteList = [],
+    listVoucherByCustomerID = [],
+    listCustomerShopFollow = [],
   } = useContext(GlobalContext);
 
-  const { productShopList, setTypeCategory, setOptionProductShop } =   useContext(ShopContext);
-
-
-  console.log("Danh sách shop: ", categoryProductByShopID);
+  const { productShopList, setTypeCategory, setOptionProductShop } =
+    useContext(ShopContext);
 
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Giá");
   const [activeButton, setActiveButton] = useState("Phổ Biến");
+  const [favouriteProducts, setFavouriteProducts] = useState({});
+  const [productIDTym, setProductIDTym] = useState("");
+  const [categoryLove, setCategoryLove] = useState("");
+  const [deleteProductIDTym, setDeleteProductIDTym] = useState("");
+  const [deleteCategoryLove, setDeleteCategoryLove] = useState("");
+  const [activeAddTym, setActiveAddTym] = useState(false);
+  const [activeDeleteTym, setActiveDeleteTym] = useState(false);
+  const [activeAddVoucherID, setActiveAddVoucherID] = useState(false);
+  const [activeDeleteVoucherID, setActiveDeleteVoucherID] = useState(false);
+  const { customerID } = useAuth() || {};
+
+  const toggleFavourite = (productId) => {
+    setFavouriteProducts((prev) => ({
+      ...prev,
+      [productId]: !prev[productId], // Đảo trạng thái yêu thích của sản phẩm
+    }));
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8; // Hiển thị 8 sản phẩm mỗi trang
@@ -45,14 +65,22 @@ function Shop() {
     setIsOpen(false);
   };
   const [activeIndex, setActiveIndex] = useState(0);
-  const [indexProduct, setIndexProduct] = useState(0);
   const [statusFollow, setStatusFollow] = useState(false);
+  const [statusDeleteFollow, setStatusDeleteFollow] = useState(false);
+  const [savedVouchers, setSavedVouchers] = useState({});
+  const [saveVoucherID, setSaveVoucherID] = useState(null);
+  const [deleteVoucherID, setDeleteVoucherID] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentProduct, setCurrentProduct] = useState(0);
   const [currentIndexSuggest, setCurrentIndexSuggest] = useState(0);
   const visibleItems = 3;
   const visibleItemsSuggest = 5;
-  const visibleItemsProduct = 4;
+
+  const handleSaveVoucher = (voucherId) => {
+    setSavedVouchers((prevState) => ({
+      ...prevState,
+      [voucherId]: !prevState[voucherId], // Đảo trạng thái của voucher tương ứng
+    }));
+  };
 
   // Xử lý chuyển trang
   const nextVouchers = () => {
@@ -85,6 +113,162 @@ function Shop() {
     );
   };
 
+  // ADD Customer follow shop
+  const fetchAddCustomerShopFollow = async (shopID, customerID) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/CustomerShopFollow/AddCustomerShopFollow",
+        {
+          shopID: shopID,
+          customerID: customerID,
+        }
+      );
+
+      console.log("Thêm follow thành công:", response.data);
+    } catch (error) {
+      console.error("Lỗi khi thêm follow:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (customerID && shopID && statusFollow) {
+      fetchAddCustomerShopFollow(shopID, customerID);
+    }
+  }, [customerID, shopID, statusFollow]);
+
+  //Xóa Customer follow shop
+  const fetchDeleteCustomerShopFollow = async (shopID, customerID) => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:3001/api/CustomerShopFollow/DeleteCustomerShopFollow",
+        {
+          params: {
+            shopID: shopID,
+            customerID: customerID,
+          },
+        }
+      );
+
+      console.log("Xóa follow thành công:", response.data);
+    } catch (error) {
+      console.error("Lỗi khi Xóa follow:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (customerID && shopID && statusDeleteFollow) {
+      fetchDeleteCustomerShopFollow(shopID, customerID);
+    }
+  }, [customerID, shopID, statusDeleteFollow]);
+
+  const fetchAddProductFavorite = async (
+    productIDTym,
+    categoryLove,
+    customerID
+  ) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/ProductFavorite/AddProductIDTym",
+        {
+          productIDTym: productIDTym,
+          categoryLove: categoryLove,
+          customerID: customerID,
+        }
+      );
+
+      console.log("Thêm sản phẩm yêu thích thành công:", response.data);
+    } catch (error) {
+      console.error("Lỗi khi thêm sản phẩm yêu thích:", error);
+    }
+  };
+
+  const fetchDeleteProductFavorite = async (
+    deleteProductIDTym,
+    deleteCategoryLove,
+    customerID
+  ) => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:3001/api/ProductFavorite/DeleteProductIDTym",
+        {
+          params: {
+            deleteProductIDTym,
+            deleteCategoryLove,
+            customerID,
+          },
+        }
+      );
+
+      console.log("✅ Xóa sản phẩm yêu thích thành công:", response.data);
+    } catch (error) {
+      console.error(
+        "❌ Lỗi khi xóa sản phẩm yêu thích:",
+        error.response?.data || error.message
+      );
+    }
+  };
+
+  //Lưu Voucher của shop mà Customer nhậnnhận
+  const fetchSaveVoucherID = async (saveVoucherID, customerID) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/VoucherDetail/SaveVoucherID",
+        {
+          saveVoucherID: saveVoucherID,
+          customerID: customerID,
+        }
+      );
+      console.log("✅Thêm voucher thành công:", response.data);
+    } catch (error) {
+      console.error("Lỗi khi thêm Voucher :", error);
+    }
+  };
+
+  const fetchDeleteVoucherID = async (deleteVoucherID, customerID) => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:3001/api/VoucherDetail/DeleteVoucherID",
+        {
+          params: {
+            deleteVoucherID: deleteVoucherID,
+            customerID: customerID,
+          },
+        }
+      );
+      console.log("✅Xóa voucher thành công:", response.data);
+    } catch (error) {
+      console.error("Lỗi khi thêm Voucher :", error);
+    }
+  };
+
+  useEffect(() => {
+    if (deleteVoucherID && customerID) {
+      fetchDeleteVoucherID(deleteVoucherID, customerID);
+    }
+  }, [deleteVoucherID, customerID, activeDeleteVoucherID]);
+
+  useEffect(() => {
+    if (saveVoucherID && customerID) {
+      fetchSaveVoucherID(saveVoucherID, customerID);
+    }
+  }, [saveVoucherID, customerID, activeAddVoucherID]);
+
+  useEffect(() => {
+    if (productIDTym && customerID) {
+      fetchAddProductFavorite(productIDTym, categoryLove, customerID);
+    }
+  }, [productIDTym, customerID, activeAddTym]);
+
+  useEffect(() => {
+    if (deleteProductIDTym && customerID) {
+      fetchDeleteProductFavorite(
+        deleteProductIDTym,
+        deleteCategoryLove,
+        customerID
+      );
+    }
+  }, [deleteProductIDTym, customerID, activeDeleteTym]);
+
   return (
     <>
       <div className={styles.block_one}>
@@ -106,23 +290,46 @@ function Shop() {
             src={inforShopList.ShopAvatar}
             alt=""
           />
-          <button
-            style={{
-              width: "11vw",
-              height: "1vh",
-              borderRadius: "5px",
-              position: "absolute",
-              left: "0.5vw",
-              top: "10vh",
-              fontSize: "0.8vw",
-              display: "flex", // ✅ Căn giữa
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onClick={() => setStatusFollow(!statusFollow)}
-          >
-            <span>{statusFollow ? "Đang Theo Dõi" : "+ Theo Dõi"}</span>
-          </button>
+          {listCustomerShopFollow.some(
+           (item) => String(item.CustomerID) === String(customerID) && String(item.ShopID) === String(shopID)
+          ) ? (
+            <button
+              style={{
+                width: "11vw",
+                height: "1vh",
+                borderRadius: "5px",
+                position: "absolute",
+                left: "0.5vw",
+                top: "10vh",
+                fontSize: "0.8vw",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={() => setStatusDeleteFollow(!statusDeleteFollow)}
+            >
+              ✅ Đang Theo Dõi
+            </button>
+          ) : (
+            <button
+              style={{
+                width: "11vw",
+                height: "1vh",
+                borderRadius: "5px",
+                position: "absolute",
+                left: "0.5vw",
+                top: "10vh",
+                fontSize: "0.8vw",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={() => setStatusFollow(!statusFollow)}
+            >
+              + Theo Dõi
+            </button>
+          )}
+
           <button
             style={{
               width: "11vw",
@@ -132,7 +339,7 @@ function Shop() {
               left: "13vw",
               top: "10vh",
               fontSize: "0.8vw",
-              display: "flex", // ✅ Căn giữa
+              display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -150,7 +357,9 @@ function Shop() {
           <div className={styles.item}>
             Đang Theo:{" "}
             <span style={{ color: "red", marginLeft: "1vw" }}>
-              {inforShopList.following}
+              {statusFollow
+                ? inforShopList.following + 1
+                : inforShopList.following}
             </span>
           </div>
           <div className={styles.item}>
@@ -222,7 +431,7 @@ function Shop() {
             .slice(currentIndex, currentIndex + visibleItems)
             .map((item, index) => (
               <div key={index} className={styles.block_item_voucher}>
-                <div>{item.VoucherTitle}</div>
+                <div style={{ marginTop: "3.5vh" }}>{item.VoucherTitle}</div>
                 <div>{item.VoucherName}</div>
                 <div>
                   EndDate:{" "}
@@ -230,17 +439,47 @@ function Shop() {
                     timeZone: "Asia/Ho_Chi_Minh",
                   })}
                 </div>
-                <button
-                  style={{
-                    position: "absolute",
-                    right: "1vw",
-                    top: "0.1vh",
-                    fontSize: "1vw",
-                    padding: "0.4vw",
-                  }}
-                >
-                  Lưu
-                </button>
+                {savedVouchers[item.VoucherID] ||
+                (Array.isArray(listVoucherByCustomerID) &&
+                  listVoucherByCustomerID.some(
+                    (voucher) =>
+                      voucher.VoucherID === item.VoucherID &&
+                      voucher.CustomerID === customerID
+                  )) ? (
+                  <button
+                    onClick={() => {
+                      handleSaveVoucher(item.VoucherID);
+                      setDeleteVoucherID(item.VoucherID);
+                      setActiveDeleteVoucherID(!activeDeleteVoucherID);
+                    }}
+                    style={{
+                      position: "absolute",
+                      right: "1vw",
+                      top: "0.01vh",
+                      fontSize: "1vw",
+                      padding: "0.4vw",
+                    }}
+                  >
+                    ✅ Đã Lưu
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      handleSaveVoucher(item.VoucherID);
+                      setSaveVoucherID(item.VoucherID);
+                      setActiveAddVoucherID(!activeAddVoucherID);
+                    }}
+                    style={{
+                      position: "absolute",
+                      right: "1vw",
+                      top: "0.01vh",
+                      fontSize: "1vw",
+                      padding: "0.4vw",
+                    }}
+                  >
+                    Lưu
+                  </button>
+                )}
               </div>
             ))}
         </div>
@@ -320,12 +559,62 @@ function Shop() {
                       height: "1.7vw",
                       display: "flex",
                       flexDirection: "row",
+                      position: "relative",
                     }}
                   >
                     {Number(item.Price).toLocaleString("vi-VI", {
                       style: "currency",
                       currency: "VND",
                     })}{" "}
+                    <span
+                      onClick={() => {
+                        toggleFavourite(item.ProductID);
+                      }}
+                    >
+                      {favouriteProducts[item.ProductID] ||
+                      (Array.isArray(productFavoriteList) &&
+                        productFavoriteList.some(
+                          (fav) => fav.ProductID === item.ProductID
+                        )) ? (
+                        <img
+                          onClick={() => {
+                            setDeleteCategoryLove(item.Category);
+                            setDeleteProductIDTym(item.ProductID);
+                            setActiveDeleteTym(!activeDeleteTym);
+                          }}
+                          style={{
+                            cursor: "pointer",
+                            position: "absolute",
+                            right: "-4vw",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            width: "2.5vw",
+                            height: "2vw",
+                          }}
+                          src="/tym_do.png"
+                          alt="Yêu thích"
+                        />
+                      ) : (
+                        <img
+                          onClick={() => {
+                            setProductIDTym(item.ProductID);
+                            setCategoryLove(item.Category);
+                            setActiveAddTym(!activeAddTym);
+                          }}
+                          style={{
+                            cursor: "pointer",
+                            position: "absolute",
+                            right: "-4vw",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            width: "1vw",
+                            height: "1vw",
+                          }}
+                          src="/tym.png"
+                          alt="Yêu thích"
+                        />
+                      )}
+                    </span>
                   </div>
                   <div>
                     =&gt; Đã bán:{" "}
@@ -410,12 +699,62 @@ function Shop() {
                       height: "1.7vw",
                       display: "flex",
                       flexDirection: "row",
+                      position: "relative",
                     }}
                   >
                     {Number(item.Price).toLocaleString("vi-VI", {
                       style: "currency",
                       currency: "VND",
                     })}{" "}
+                    <span
+                      onClick={() => {
+                        toggleFavourite(item.ProductID);
+                      }}
+                    >
+                      {favouriteProducts[item.ProductID] ||
+                      (Array.isArray(productFavoriteList) &&
+                        productFavoriteList.some(
+                          (fav) => fav.ProductID === item.ProductID
+                        )) ? (
+                        <img
+                          onClick={() => {
+                            setDeleteCategoryLove(item.Category);
+                            setDeleteProductIDTym(item.ProductID);
+                            setActiveDeleteTym(!activeDeleteTym);
+                          }}
+                          style={{
+                            cursor: "pointer",
+                            position: "absolute",
+                            right: "-4vw",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            width: "2.5vw",
+                            height: "2vw",
+                          }}
+                          src="/tym_do.png"
+                          alt="Yêu thích"
+                        />
+                      ) : (
+                        <img
+                          onClick={() => {
+                            setProductIDTym(item.ProductID);
+                            setCategoryLove(item.Category);
+                            setActiveAddTym(!activeAddTym);
+                          }}
+                          style={{
+                            cursor: "pointer",
+                            position: "absolute",
+                            right: "-4vw",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            width: "1vw",
+                            height: "1vw",
+                          }}
+                          src="/tym.png"
+                          alt="Yêu thích"
+                        />
+                      )}
+                    </span>
                   </div>
                   <div>
                     =&gt; Đã bán:{" "}
@@ -482,7 +821,7 @@ function Shop() {
             }}
           >
             <span>
-              Sắp Xếp Theo
+              <span style={{ marginRight: "2vw" }}>Sắp Xếp Theo</span>
               <button
                 style={{ border: "none" }}
                 className={
@@ -588,7 +927,7 @@ function Shop() {
                   </div>
                 )}
               </span>
-              <button onClick={() => setShopID(2)}>hihi</button>
+
               <span style={{ marginLeft: "4.1vw" }}>
                 {currentPage} /{" "}
                 <span style={{ color: "red" }}>{totalPages} </span>
@@ -640,20 +979,54 @@ function Shop() {
                       style: "currency",
                       currency: "VND",
                     })}{" "}
-                    <span>
-                      <img
-                        style={{
-                          cursor: "pointer",
-                          position: "absolute",
-                          right: "-4vw",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          width: "1vw",
-                          height: "1vw",
-                        }}
-                        src="/tym.png"
-                        alt=""
-                      />
+                    <span
+                      onClick={() => {
+                        toggleFavourite(item.ProductID);
+                      }}
+                    >
+                      {favouriteProducts[item.ProductID] ||
+                      (Array.isArray(productFavoriteList) &&
+                        productFavoriteList.some(
+                          (fav) => fav.ProductID === item.ProductID
+                        )) ? (
+                        <img
+                          onClick={() => {
+                            setDeleteCategoryLove(item.Category);
+                            setDeleteProductIDTym(item.ProductID);
+                            setActiveDeleteTym(!activeDeleteTym);
+                          }}
+                          style={{
+                            cursor: "pointer",
+                            position: "absolute",
+                            right: "-4vw",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            width: "2.5vw",
+                            height: "2vw",
+                          }}
+                          src="/tym_do.png"
+                          alt="Yêu thích"
+                        />
+                      ) : (
+                        <img
+                          onClick={() => {
+                            setProductIDTym(item.ProductID);
+                            setCategoryLove(item.Category);
+                            setActiveAddTym(!activeAddTym);
+                          }}
+                          style={{
+                            cursor: "pointer",
+                            position: "absolute",
+                            right: "-4vw",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            width: "1vw",
+                            height: "1vw",
+                          }}
+                          src="/tym.png"
+                          alt="Yêu thích"
+                        />
+                      )}
                     </span>
                   </div>
                   <div>
