@@ -21,6 +21,7 @@ import DarkModeButton from "./components/DarkModeButton";
 import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
 import { PageProductDetail } from "./components/products/ProductDetail.jsx";
 import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
+import OrderDetail from './router/OrderDetail/OrderDetail'
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
@@ -53,6 +54,7 @@ function AppContent() {
         <Route path="/category/:category" element={<Category />} />
         <Route path="/searchPortal" element={<SearchResults />} />
         <Route path="/category/:category/:itemId" element={<Category />} />
+        <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail/>} />
       </Routes>
     </div>
   );

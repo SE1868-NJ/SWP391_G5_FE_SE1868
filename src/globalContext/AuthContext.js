@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [customers, setCustomers] = useState([]);
     const [inforFullUser, setInforFullUser] = useState("");
-    const [customerID, setCustomerID] = useState(""); // ✅ Thêm state để lưu customerID
+    const [customerID, setCustomerID] = useState(""); 
 
     // Lấy danh sách Customers từ Backend khi ứng dụng khởi chạy
     useEffect(() => {
@@ -31,11 +31,11 @@ export const AuthProvider = ({ children }) => {
         if (storedUser) {
             const parsedUser = JSON.parse(storedUser);
             setUser(parsedUser);
+            setInforFullUser(parsedUser)
             setCustomerID(parsedUser.id); 
         }
     }, []);
 
-    // ✅ Hàm đăng nhập
     const login = (email, password) => {
         
         const foundUser = customers.find(user => user.Email === email && user.password === password);
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
             setUser(userData);
             setInforFullUser(foundUser);
             setCustomerID(foundUser.CustomerID); 
-            console.log(user);
+            console.log('cinhhsh',foundUser);
 
             return { success: true, message: "Đăng nhập thành công!" };
         } else {
