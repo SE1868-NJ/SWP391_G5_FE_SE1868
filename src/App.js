@@ -20,6 +20,7 @@ import DarkModeButton from "./components/DarkModeButton";
 import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
 import { PageProductDetail } from "./components/products/ProductDetail.jsx";
 import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
+import ActivityLog from "./router/Profile/ActivityLog.jsx";
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
@@ -47,6 +48,7 @@ function AppContent() {
         <Route path="/Notifications" element={<Notification />} />
         <Route path="/Prepay" element={<Prepay />} />
         <Route path="customers/*" element={<CustomerRoutes />} />
+        <Route path="/customers/activity-log" element={<ActivityLog />} />
         <Route path="/Category" element={<Category />} />
         <Route path="/Portal" element={<Portal />} />
         <Route path="/category/:category" element={<Category />} />

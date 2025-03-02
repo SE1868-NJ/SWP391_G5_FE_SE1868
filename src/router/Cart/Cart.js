@@ -14,9 +14,9 @@ function Cart() {
     "Nguyễn Anh Đức (+84) 919824069    Xưởng may Cơ Xen, Xã Vũ Hòa, Huyện Kiến Xương, Thái Bình";
   const navigate = useNavigate();
 
-  const handleCheckout = async() => {
-    const selectCart = await cartItems.filter((item)=> selectedItems.includes(item.cartID))
-    navigate("/OrderCheckOut", { state:  selectCart  });
+  const handleCheckout = async () => {
+    const selectCart = await cartItems.filter((item) => selectedItems.includes(item.cartID))
+    navigate("/OrderCheckOut", { state: selectCart });
   };
 
   useEffect(() => {
@@ -34,11 +34,18 @@ function Cart() {
 
   const updateQuantity = async (cartID, amount) => {
     setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.cartID === cartID
-          ? { ...item, Quantity: Math.max(1, item.Quantity + amount) }
-          : item
-      )
+      prevItems.map(item => {
+        if (item.cartID === cartID) {
+          const newQuantity = Math.max(1, Math.min(item.Quantity + amount, item.productQuantity));
+          const updatedProductQuantity = { ...item, Quantity: newQuantity };
+          return {
+            ...item,
+            Quantity: newQuantity,
+            newQuantity: updatedProductQuantity
+          };
+        }
+        return item;
+      })
     );
 
     try {
@@ -151,11 +158,15 @@ function Cart() {
                     </td>
                     <td className={styles.c4}>
                       <div className={styles.quantity_control}>
-                        <button className={styles.quantity_button} onClick={() => updateQuantity(item.cartID, -1)}>
+                        <button className={styles.quantity_button}
+                          onClick={() => updateQuantity(item.cartID, -1)}
+                          disabled={item.Quantity <= 1}>
                           -
                         </button>
                         <span className={styles.quantity_value}>{item.Quantity}</span>
-                        <button className={styles.quantity_button} onClick={() => updateQuantity(item.cartID, 1)}>
+                        <button className={styles.quantity_button}
+                          onClick={() => updateQuantity(item.cartID, 1)}
+                          disabled={item.productQuantity <= 0}>
                           +
                         </button>
                       </div>
