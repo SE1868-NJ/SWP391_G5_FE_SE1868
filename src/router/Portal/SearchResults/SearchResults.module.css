@@ -141,3 +141,107 @@
     padding: 6px 10px;
   }
 }
+
+
+/* ============================ */
+/* Dark Mode */
+.dark {
+  background-color: #121212;
+  color: white;
+}
+
+/* Search Banner */
+.dark .searchBanner {
+  background-color: #f04e30;
+  color: white;
+}
+
+.dark .searchBanner h1 {
+  color: white;
+}
+
+/* ============================ */
+/* Search Results Container */
+.dark .searchContainer {
+  background-color: #333;
+}
+
+.dark .searchContainer input {
+  background-color: #444;
+  color: white;
+  border: 1px solid #555;
+}
+
+.dark .searchContainer input:focus {
+  border: 1px solid #f04e30;
+}
+
+/* Heading */
+.dark .resultsContainer h2 {
+  color: #ccc;
+}
+
+/* Results List */
+.dark .resultsList li {
+  background-color: #222;
+  color: white;
+  border-bottom: 1px solid #444;
+}
+
+.dark .resultsList li:hover {
+  background: #333;
+}
+
+.dark .resultsList li strong {
+  color: #f04e30;
+}
+
+/* ============================ */
+/* Pagination */
+.dark .pagination span {
+  color: white;
+  background-color: #333;
+  border: 1px solid #555;
+}
+
+.dark .pagination span.active {
+  background: #f04e30;
+  color: white;
+  font-weight: bold;
+}
+
+.dark .pagination span:hover {
+  background: #444;
+}
+
+/* ============================ */
+/* Footer */
+.dark .footer {
+  background-color: #181818;
+  color: white;
+}
+
+.dark .footer a {
+  color: white;
+}
+
+.dark .footer a:hover {
+  color: #f04e30;
+}
+
+/* ============================ */
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dark .resultsContainer {
+    max-width: 95%;
+    padding: 15px;
+  }
+
+  .dark .resultsList li {
+    font-size: 14px;
+  }
+
+  .dark .pagination span {
+    padding: 6px 10px;
+  }
+}

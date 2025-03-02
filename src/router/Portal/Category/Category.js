@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../../../layout/Header/Header";
 import SearchBar from "../SearchBar/SearchBar";
 import Footer from "../../../layout/Footer/Footer";
 import styles from "./Category.module.css";
+import { ThemeContext } from "../../../contexts/ThemeContext"; // Import ThemeContext
 
 function Category() {
     const { category, itemId } = useParams();
@@ -13,6 +14,9 @@ function Category() {
     const [subItems, setSubItems] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
     const [error, setError] = useState(null);
+
+    // Lấy giá trị theme từ ThemeContext
+    const { theme } = useContext(ThemeContext);
 
     useEffect(() => {
         const fetchCategoryData = async () => {
@@ -56,30 +60,30 @@ function Category() {
         }
     };
 
-
+    // Xử lý lỗi nếu có
     if (error) return <p>{error}</p>;
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${theme === "dark" ? styles.dark : ""}`}>
             <div className={styles.headerWrapper}>
                 <Header />
             </div>
             <div className={styles.searchBanner}>
-
-                <div className={styles.searchBanner}>
-                    <h1>Xin chào! Chúng tôi có thể giúp gì cho bạn?</h1>
-                    <SearchBar />
-                </div>
+                <h1>Xin chào! Chúng tôi có thể giúp gì cho bạn?</h1>
+                <SearchBar />
             </div>
             <div className={styles.categoryLayout}>
                 <div className={styles.sidebar}>
-                    <h2 className={styles.categoryTitle}>{categoryDetails?.name}</h2>
+                    <h2 className={`${styles.categoryTitle} ${theme === "dark" ? styles.darkText : ""}`}>
+                        {categoryDetails?.name}
+                    </h2>
                     <ul>
                         {subItems.map((item) => (
                             <li
                                 key={item.id}
                                 className={selectedItem?.id === item.id ? styles.active : ""}
-                                onClick={() => handleItemClick(item)}>
+                                onClick={() => handleItemClick(item)}
+                            >
                                 {item.title}
                             </li>
                         ))}
@@ -88,11 +92,11 @@ function Category() {
                 <div className={styles.detailsPanel}>
                     {selectedItem ? (
                         <>
-                            <h3>{selectedItem.title}</h3>
-                            <p>{selectedItem.details}</p>
+                            <h3 className={theme === "dark" ? styles.darkText : ""}>{selectedItem.title}</h3>
+                            <p className={theme === "dark" ? styles.darkText : ""}>{selectedItem.details}</p>
                         </>
                     ) : (
-                        <p>Vui lòng chọn một mục để xem chi tiết.</p>
+                        <p className={theme === "dark" ? styles.darkText : ""}>Vui lòng chọn một mục để xem chi tiết.</p>
                     )}
                 </div>
             </div>
