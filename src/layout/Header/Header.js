@@ -61,7 +61,7 @@ function Header() {
     {
       key: '3',
       label: (
-        <a href="/my-favorite">
+        <a href="/login">
           {user ? 'Đăng xuất' : 'Đăng nhập'}
         </a>
       ),
