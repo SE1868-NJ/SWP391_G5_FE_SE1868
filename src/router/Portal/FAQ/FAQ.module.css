@@ -1,62 +1,53 @@
+/* Câu hỏi thường gặp - Căn chỉnh giao diện */
 .faqContainer {
-    max-width: 800px;
-    /* Căn lề theo danh mục */
+    max-width: 900px;
     margin: 40px auto;
-    padding: 0 20px;
-    /* Giữ khoảng cách giống danh mục */
+    text-align: center;
 }
 
-.faqContainer h2 {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
+/* Điều chỉnh danh sách câu hỏi */
 .faqList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Hiển thị 2 cột */
+    gap: 15px;
+    justify-content: center;
 }
 
+/* Từng phần tử câu hỏi */
 .faqItem {
-    padding: 15px 0;
-    border-bottom: 1px solid #ddd;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
+    text-align: center;
 }
 
-.faqItem:last-child {
-    border-bottom: none;
-}
-
-/* Kiểu dáng câu hỏi */
+/* Màu chữ đen */
 .faqQuestion {
     font-size: 16px;
-    font-weight: 500;
-    text-align: left;
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    color: #333;
-    display: block;
-    transition: color 0.3s ease-in-out;
+    font-weight: 600;
+    color: #000 !important;
+    /* Đặt màu chữ thành đen */
+    transition: color 0.2s ease-in-out;
 }
 
-/* Hiệu ứng hover giống danh mục */
-.faqQuestion:hover {
-    color: #ff5a00;
-    /* Màu giống hover của danh mục */
+/* Khi hover vào câu hỏi */
+.faqItem:hover {
+    background-color: #f5f5f5;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Hiệu ứng khi mở câu trả lời */
+/* Câu trả lời */
 .faqAnswer {
     font-size: 14px;
-    padding: 10px 0;
-    color: #666;
+    padding-top: 10px;
+    color: #000 !important;
+    /* Đặt màu chữ đen */
     display: none;
-    transition: opacity 0.3s ease-in-out;
 }
 
 /* Khi câu hỏi được mở */

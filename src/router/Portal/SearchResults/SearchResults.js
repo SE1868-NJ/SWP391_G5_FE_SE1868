@@ -5,6 +5,7 @@ import Header from "../../../layout/Header/Header";
 import SearchBar from "../SearchBar/SearchBar";
 import Footer from "../../../layout/Footer/Footer";
 import styles from "./SearchResults.module.css";
+import Breadcrumb from "../Breadcrumb/Breadcrumb";
 
 const searchCache = {}; // Lưu cache để tránh gọi lại API
 
@@ -62,6 +63,7 @@ function SearchResults() {
       <div className={styles.headerWrapper}>
         <Header />
       </div>
+      <Breadcrumb />
       <div className={styles.searchBanner}>
         <SearchBar />
       </div>

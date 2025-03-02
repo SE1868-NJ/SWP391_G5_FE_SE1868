@@ -6,6 +6,7 @@ import Category from "./Category/Category";
 import SearchBar from "./SearchBar/SearchBar";
 import FAQ from "./FAQ/FAQ";
 import Footer from "../../layout/Footer/Footer";
+import Breadcrumb from "./Breadcrumb/Breadcrumb";
 
 const Categories = [
   { title: "Đặt Đồ Ăn & Đi Chợ", link: "/category/food", img: "./StoreIcon.png" },
@@ -22,6 +23,7 @@ function Portal() {
       <div className={styles.headerWrapper}>
         <Header />
       </div>
+      <Breadcrumb />
       <div className={styles.searchBanner}>
         <h1>Xin chào! Chúng tôi có thể giúp gì cho bạn?</h1>
         <SearchBar />
@@ -39,9 +41,9 @@ function Portal() {
         </div>
       </div>
 
-      <div className={styles.faqWrapper}>
-        <FAQ />
-      </div>
+      <h2>Câu hỏi thường gặp</h2>
+      <FAQ />
+
 
 
       <Routes>
@@ -52,6 +54,11 @@ function Portal() {
       <div className={styles.headerWrapper}>
         <Footer />
       </div>
+      <div className={styles.supportLinks}>
+        <Link to="/support/request" className={styles.supportLink}>Gửi yêu cầu hỗ trợ</Link>
+        <Link to="/support/history" className={styles.supportLink}>Lịch sử hỗ trợ</Link>
+      </div>
+
     </div>
   );
 }

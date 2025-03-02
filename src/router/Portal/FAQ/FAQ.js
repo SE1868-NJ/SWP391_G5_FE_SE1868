@@ -42,7 +42,7 @@ function FAQ() {
 
     return (
         <div className={styles.faqContainer}>
-            <h2>Câu hỏi thường gặp</h2>
+
             <ul className={styles.faqList}>
                 {faqs.map((faq, index) => (
                     <li

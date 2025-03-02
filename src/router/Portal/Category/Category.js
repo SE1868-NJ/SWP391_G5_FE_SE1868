@@ -5,6 +5,7 @@ import Header from "../../../layout/Header/Header";
 import SearchBar from "../SearchBar/SearchBar";
 import Footer from "../../../layout/Footer/Footer";
 import styles from "./Category.module.css";
+import Breadcrumb from "../Breadcrumb/Breadcrumb";
 
 function Category() {
     const { category, itemId } = useParams();
@@ -64,6 +65,7 @@ function Category() {
             <div className={styles.headerWrapper}>
                 <Header />
             </div>
+            <Breadcrumb />
             <div className={styles.searchBanner}>
 
                 <div className={styles.searchBanner}>
