@@ -1,9 +1,9 @@
+/* ============================ */
+/* FAQ Container */
 .faqContainer {
     max-width: 800px;
-    /* Căn lề theo danh mục */
     margin: 40px auto;
     padding: 0 20px;
-    /* Giữ khoảng cách giống danh mục */
 }
 
 .faqContainer h2 {
@@ -12,12 +12,15 @@
     margin-bottom: 15px;
 }
 
+/* ============================ */
+/* FAQ List */
 .faqList {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/* FAQ Item */
 .faqItem {
     padding: 15px 0;
     border-bottom: 1px solid #ddd;
@@ -25,6 +28,7 @@
     transition: background-color 0.2s ease-in-out;
 }
 
+/* Khi chọn câu hỏi */
 .faqItem:last-child {
     border-bottom: none;
 }
@@ -44,13 +48,12 @@
     transition: color 0.3s ease-in-out;
 }
 
-/* Hiệu ứng hover giống danh mục */
+/* Hover câu hỏi */
 .faqQuestion:hover {
     color: #ff5a00;
-    /* Màu giống hover của danh mục */
 }
 
-/* Hiệu ứng khi mở câu trả lời */
+/* Khi mở câu trả lời */
 .faqAnswer {
     font-size: 14px;
     padding: 10px 0;
@@ -62,4 +65,53 @@
 /* Khi câu hỏi được mở */
 .faqItem.active .faqAnswer {
     display: block;
+}
+
+/* ============================ */
+/* Chế độ tối */
+.dark {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.darkText {
+    color: #ccc;
+}
+
+.dark .faqContainer {
+    background-color: #181818;
+}
+
+.dark .faqItem {
+    border-bottom: 1px solid #444;
+}
+
+.dark .faqQuestion {
+    color: #ccc;
+}
+
+.dark .faqItem.active .faqQuestion {
+    font-weight: bold;
+}
+
+.dark .faqQuestion:hover {
+    color: #ff5a00;
+}
+
+.dark .faqAnswer {
+    color: #bbb;
+}
+
+/* Khi mở câu trả lời trong chế độ tối */
+.dark .faqItem.active .faqAnswer {
+    display: block;
+}
+
+/* Đổi màu hover và active cho các mục */
+.dark .faqItem:hover {
+    background-color: #333;
+}
+
+.dark .faqItem.active {
+    background-color: #444;
 }

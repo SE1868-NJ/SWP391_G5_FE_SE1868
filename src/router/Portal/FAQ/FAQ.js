@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./FAQ.module.css";
+import { ThemeContext } from "../../../contexts/ThemeContext"; // Import ThemeContext
 
 function FAQ() {
     const [faqs, setFaqs] = useState([]);
     const [expandedIndex, setExpandedIndex] = useState(null);
     const navigate = useNavigate();
+
+    // Lấy giá trị theme từ ThemeContext
+    const { theme } = useContext(ThemeContext);
 
     useEffect(() => {
         const fetchFAQs = async () => {
@@ -41,17 +45,17 @@ function FAQ() {
     };
 
     return (
-        <div className={styles.faqContainer}>
-            <h2>Câu hỏi thường gặp</h2>
+        <div className={`${styles.faqContainer} ${theme === "dark" ? styles.dark : ""}`}>
+            <h2 className={theme === "dark" ? styles.darkText : ""}>Câu hỏi thường gặp</h2>
             <ul className={styles.faqList}>
                 {faqs.map((faq, index) => (
                     <li
                         key={faq.id}
-                        className={`${styles.faqItem} ${expandedIndex === index ? styles.active : ""}`}
+                        className={`${styles.faqItem} ${expandedIndex === index ? styles.active : ""} ${theme === "dark" ? styles.darkItem : ""}`}
                         onClick={() => handleFAQClick(index, faq)}
                     >
-                        <h3 className={styles.faqQuestion}>{faq.question}</h3>
-                        {expandedIndex === index && <p className={styles.faqAnswer}>{faq.answer}</p>}
+                        <h3 className={`${styles.faqQuestion} ${theme === "dark" ? styles.darkText : ""}`}>{faq.question}</h3>
+                        {expandedIndex === index && <p className={`${styles.faqAnswer} ${theme === "dark" ? styles.darkText : ""}`}>{faq.answer}</p>}
                     </li>
                 ))}
             </ul>

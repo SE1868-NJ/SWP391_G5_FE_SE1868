@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../../layout/Header/Header";
 import SearchBar from "../SearchBar/SearchBar";
 import Footer from "../../../layout/Footer/Footer";
 import styles from "./SearchResults.module.css";
+import { ThemeContext } from "../../../contexts/ThemeContext"; // Import ThemeContext
 
 const searchCache = {}; // Lưu cache để tránh gọi lại API
 
@@ -14,6 +15,9 @@ function SearchResults() {
   const query = new URLSearchParams(location.search).get("q");
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
+
+  // Lấy giá trị theme từ ThemeContext
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     if (!query) return;
@@ -58,7 +62,7 @@ function SearchResults() {
   };
 
   return (
-    <div className={styles.pageContainer}>
+    <div className={`${styles.pageContainer} ${theme === "dark" ? styles.dark : ""}`}>
       <div className={styles.headerWrapper}>
         <Header />
       </div>
@@ -71,13 +75,17 @@ function SearchResults() {
           <p className={styles.noResults}>{error}</p>
         ) : (
           <>
-            <h2>
+            <h2 className={theme === "dark" ? styles.darkText : ""}>
               {results.length} Kết quả tìm kiếm cho <strong>{query}</strong>
             </h2>
             <ul className={styles.resultsList}>
               {results.map((item) => (
-                <li key={item.id} className={styles.resultItem} onClick={() => handleResultClick(item)}>
-                  <strong className={styles.resultLink}>{item.title}</strong>
+                <li
+                  key={item.id}
+                  className={`${styles.resultItem} ${theme === "dark" ? styles.darkItem : ""}`}
+                  onClick={() => handleResultClick(item)}
+                >
+                  <strong className={theme === "dark" ? styles.darkText : ""}>{item.title}</strong>
                 </li>
               ))}
             </ul>
