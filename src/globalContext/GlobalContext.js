@@ -50,7 +50,6 @@ export function GlobalProvider({ children }) {
       console.error("Lỗi khi tải danh mục:", error);
     }
   };
-  
 
   // ✅ Sửa lỗi thiếu dấu `}`
   const fetchInforShopList = async (shopID) => {
