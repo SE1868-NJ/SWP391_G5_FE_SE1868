@@ -25,6 +25,7 @@ import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
 import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
 import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
 // import { GlobalProvider, GlobalContext } from "./globalContext/GlobalContext";
+import OrderDetail from './router/OrderDetail/OrderDetail'
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 
@@ -60,6 +61,7 @@ function AppContent() {
         <Route path="/category/:category/:itemId" element={<Category />} />
         <Route path="/new-combo" element={<NewComboProduct />} />
         <Route path="/list-combo" element={<ListComboProduct />} />
+        <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
       </Routes>
