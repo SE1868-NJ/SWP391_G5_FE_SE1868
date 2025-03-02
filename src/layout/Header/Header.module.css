@@ -110,4 +110,50 @@
     padding-left: 15%;
 }
 
+/* ============================ */
+/* Dark Mode */
+.dark {
+    background-color: #1e1e1e; /* Nền tối cho header */
+    color: white; /* Chữ sáng trong header */
+  }
 
+  
+  .dark .fhs_top_menu_labe {
+    color: white; /* Màu chữ sáng cho menu trong chế độ tối */
+  }
+  
+  .dark .fhs_noti_header {
+    background-color: #1e1e1e; /* Nền tối cho mỗi mục header */
+  }
+  
+  .dark .fhs_noti_header:hover {
+    background-color: #444; /* Nền khi hover trong chế độ tối */
+  }
+  
+  .dark .fhs_noti_icon_header {
+    filter: brightness(0) invert(1); /* Đảo màu cho biểu tượng trong chế độ tối */
+  }
+  
+  .dark .avatar {
+    border: 2px solid #444; /* Viền sáng cho avatar khi chế độ tối */
+  }
+  
+  .dark .name {
+    color: #ccc; /* Chữ sáng cho tên người dùng */
+  }
+  
+  .dark .fhs_language_header_second_bar {
+    background-color: #222; /* Nền tối cho phần ngôn ngữ */
+  }
+  
+  .dark .fhs_top_language {
+    border: 1px solid #444; /* Viền tối cho phần ngôn ngữ */
+  }
+  
+  .dark .fhs_top_language img {
+    filter: brightness(0) invert(1); /* Đảo màu cho hình ảnh trong chế độ tối */
+  }
+  
+  .dark .wrapper {
+    background-color: #121212; /* Nền tối cho phần wrapper */
+  }

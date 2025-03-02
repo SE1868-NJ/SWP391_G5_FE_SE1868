@@ -9,7 +9,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [customers, setCustomers] = useState([]);
-    const [inforFullUser, setInforFullUser] = useState("");
+    const [inforFullUser, setInforFullUser] = useState(null);
     const [customerID, setCustomerID] = useState(""); // ✅ Thêm state để lưu customerID
 
     // Lấy danh sách Customers từ Backend khi ứng dụng khởi chạy
@@ -30,12 +30,12 @@ export const AuthProvider = ({ children }) => {
         if (storedUser) {
             const parsedUser = JSON.parse(storedUser);
             setUser(parsedUser);
+            setInforFullUser(parsedUser)
             setInforFullUser(parsedUser);
             setCustomerID(parsedUser.id); 
         }
     }, []);
 
-    // ✅ Hàm đăng nhập
     const login = (email, password) => {
         
         const foundUser = customers.find(user => user.Email === email && user.password === password);
@@ -51,8 +51,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem("user", JSON.stringify(userData));
             setUser(userData);
             setInforFullUser(foundUser);
-            setCustomerID(foundUser.CustomerID); 
-            console.log(user);
+            setCustomerID(foundUser.CustomerID); // ✅ Cập nhật customerID ngay khi đăng nhập
 
             return { success: true, message: "Đăng nhập thành công!" };
         } else {
