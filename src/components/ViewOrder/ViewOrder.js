@@ -65,7 +65,6 @@ function ViewOrder() {
   },[chooseQuantity])
   const buyAgain = async()=>{
     const order = {...buyOrder, Quantity : chooseQuantity,totalAmount: chooseQuantity * buyOrder.productPrice + 32000,}
-    console.log(order);
     navigate('/OrderCheckOut',{state:order})
   }
   const handleChange =async (e) => {
@@ -111,6 +110,11 @@ function ViewOrder() {
     }
     closeReviewPopup();
   }
+  async function payment(orders){
+    const response = await axios.post('http://localhost:3001/api/Order/getOrderByOrderItem',{OrderID: orders.orderID});
+    const order = response.data
+    navigate('/OrderCheckOut',{state:order})
+  }
   return (
     <div className={styles.viewOrder} >
       <div className={styles.orderStatus}>
@@ -121,7 +125,7 @@ function ViewOrder() {
         <div onClick={()=>setChooseStatus("Hoàn đơn")} className={chooseStatus === "Hoàn đơn" ? styles.choose : ''} >Hoàn đơn</div>
       </div>
       <div className={styles.listOrder}>
-      <div>
+      <div style={{width:'64%'}}>
       {orderList.map((order,index)=>(
         <div className={styles.orderDetail} key={index}>
           <div className={styles.orderDetailTop}>
@@ -138,7 +142,9 @@ function ViewOrder() {
                 <p>{order.productName}</p>
                 <p style={{color:'#bbbaba'}}>{order.description}</p>
                 <button onClick={()=>setReviewPopup(index)} >Đánh Giá</button>
-              <button onClick={()=> chooseQuantityPopup(order)}>Mua Lại</button>
+                <button className= {`${order.status === 'Chờ thanh toán' ? styles.hidden: ''}`} onClick={()=> chooseQuantityPopup(order)}>Mua Lại</button>
+              
+                <button className={`${order.status === 'Chờ thanh toán' ? '' :styles.hidden}`}  onClick={()=> payment(order)}>Thanh toán</button>
               </div>
               
             </div>

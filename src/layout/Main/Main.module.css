@@ -54,12 +54,12 @@
 }
 
 .showProducts{
-    display: flex;
+    display: grid;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 5vh;
     height: 75vh;
-    justify-content: space-around;
+    grid-template-columns: repeat(4,1fr);
 }
 
 .items_showProducts{

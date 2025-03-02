@@ -11,3 +11,9 @@ export const deleteProductFavorite = (param) => post(`/Products/Favorite/delete`
 export const getProductsFavorite = (param) => post(`/Products/Favorite/getAll-product`, param)
 
 export const getProductDetail = (param) => post(`/Products/detail`, param)
+
+export const checkUserCanComment = (param) => post(`/Products/check-user-can-comment`, param)
+
+export const getProductByShop = (param) => post(`/Products/search-product-by-shop`, param)
+
+
