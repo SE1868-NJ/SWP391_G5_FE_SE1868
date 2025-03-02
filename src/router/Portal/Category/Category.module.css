@@ -242,3 +242,108 @@
 .searchContainer button:hover {
     background-color: #d43e1d;
 }
+
+/* Chế độ tối */
+.dark {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.dark .headerWrapper {
+    background-color: #1e1e1e;
+}
+
+.dark .searchBanner {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.dark .searchContainer {
+    background-color: #333;
+    color: white;
+}
+
+.dark .searchContainer input {
+    background-color: #444;
+    color: white;
+    border: 1px solid #555;
+}
+
+.dark .searchContainer button {
+    background-color: #d43e1d;
+}
+
+.dark .categoryLayout {
+    background-color: #1e1e1e;
+}
+
+.dark .sidebar {
+    background-color: #1e1e1e;
+    border-right: 2px solid #444;
+}
+
+.dark .sidebar h2 {
+    color: #ccc;
+}
+
+.dark .sidebar li {
+    color: #ccc;
+    border-bottom: 1px solid #444;
+}
+
+.dark .sidebar li:hover,
+.dark .sidebar li.active {
+    background-color: #333;
+    color: #f04e30;
+}
+
+.dark .detailsPanel {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.dark .detailsPanel h3 {
+    color: #ccc;
+}
+
+.dark .detailsPanel p {
+    color: #bbb;
+}
+
+.dark .searchContainer input:focus {
+    border: 1px solid #f04e30;
+}
+
+.dark .searchContainer button:hover {
+    background-color: #e2573b;
+}
+
+.dark .remove_button {
+    background-color: #ff7875;
+    color: white;
+}
+
+.dark .checkout_button {
+    background-color: #3a3a3a;
+}
+
+.dark .active {
+    background-color: #444;
+}
+
+/* Chế độ tối - Hover và các trạng thái */
+.dark .sidebar li.active:hover {
+    background-color: #555;
+}
+
+.dark .remove_button:hover {
+    background-color: #ff5a5f;
+}
+
+.dark .checkout_button:hover {
+    background-color: #555;
+}
+
+.dark .empty_cart {
+    color: #bbb;
+}

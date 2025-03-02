@@ -7,7 +7,7 @@ const CustomerProfile = ({ customer, onUpdate }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [error, setError] = useState("");
     const [previewAvatar, setPreviewAvatar] = useState(customer?.Avatar || "");
-    const { theme, toggleTheme } = useContext(ThemeContext); 
+    const { theme } = useContext(ThemeContext); 
     const [formData, setFormData] = useState({
         CustomerID: "",
         FirstName: "",
@@ -18,6 +18,8 @@ const CustomerProfile = ({ customer, onUpdate }) => {
         Gender: "",
         Avatar: null,
     });
+    
+
 
     const [validationErrors, setValidationErrors] = useState({
         FirstName: "",
@@ -25,6 +27,7 @@ const CustomerProfile = ({ customer, onUpdate }) => {
         PhoneNumber: "",
         Email: "",
     });
+    
 
     useEffect(() => {
         if (customer) {
@@ -69,7 +72,6 @@ const CustomerProfile = ({ customer, onUpdate }) => {
             FirstName: "",
             LastName: "",
             PhoneNumber: "",
-            Email: "",
         };
 
         // Kiểm tra các trường FirstName, LastName, PhoneNumber không được để trống
@@ -151,77 +153,72 @@ const CustomerProfile = ({ customer, onUpdate }) => {
             <div className={`${styles.profileContainer} ${theme === "dark" ? styles.darkContainer : ""}`}>
                 <div className={styles.avatarContainer}>
                     <img src={previewAvatar} alt="Avatar" className={styles.avatar} />
-
+    
                     {isEditing && (
                         <label>
                             <input type="file" accept="image/*" onChange={handleFileChange} className={styles.hidden} />
                         </label>
                     )}
                 </div>
-
+    
                 <div className={styles.infoContainer}>
                     {isEditing ? (
                         <form onSubmit={handleUpdateCustomer} className={styles.profileForm}>
-                            {validationErrors.FirstName && <span className={styles.errorMessage}>{validationErrors.FirstName}</span>}
-
                             <label>Họ:</label>
                             <input
                                 type="text"
                                 name="FirstName"
                                 value={formData.FirstName}
                                 onChange={handleInputChange}
+                                placeholder={validationErrors.FirstName || "Nhập Họ"}
                                 className={theme === "dark" ? styles.darkInput : ""}
                             />
-
+    
                             <label>Tên:</label>
                             <input
                                 type="text"
                                 name="LastName"
                                 value={formData.LastName}
                                 onChange={handleInputChange}
+                                placeholder={validationErrors.LastName || "Nhập Tên"}
                                 className={theme === "dark" ? styles.darkInput : ""}
                             />
-
+    
                             <label>Ngày Sinh:</label>
                             <input
                                 type="date"
                                 name="DateOfBirth"
                                 value={formData.DateOfBirth}
                                 onChange={handleInputChange}
+                                placeholder={validationErrors.DateOfBirth || "Chọn Ngày Sinh"}
                                 className={theme === "dark" ? styles.darkInput : ""}
                             />
-
-                            <label>Email:</label>
-                            <input
-                                type="email"
-                                name="Email"
-                                value={maskEmail(formData.Email)}
-                                onChange={handleInputChange}
-                                placeholder={formData.Email ? "" : "Nhập email mới"}
-                                className={theme === "dark" ? styles.darkInput : ""}
-                            />
-
+    
                             <label>Số Điện Thoại:</label>
                             <input
                                 type="text"
                                 name="PhoneNumber"
-                                value={maskPhoneNumber(formData.PhoneNumber)}
+                                value={formData.PhoneNumber}
                                 onChange={handleInputChange}
-                                placeholder="Nhập số mới"
+                                placeholder={validationErrors.PhoneNumber || "Nhập số điện thoại"}
                                 className={theme === "dark" ? styles.darkInput : ""}
                             />
-
+    
                             <label>Giới Tính:</label>
                             <select
                                 name="Gender"
-                                value={formData.Gender}
                                 onChange={handleInputChange}
                                 className={theme === "dark" ? styles.darkSelect : ""}
                             >
                                 <option value="1">Nam</option>
                                 <option value="2">Nữ</option>
                             </select>
-
+    
+                            <label>Email:</label>
+                            <div className={styles.profileInfo}>
+                                <p> <span className={styles.infoText}>{maskEmail(customer.Email)}</span></p>
+                            </div>
+    
                             <button type="submit" className={theme === "dark" ? styles.darkButton : ""}>Cập nhật</button>
                             <button type="button" onClick={() => setIsEditing(false)} className={theme === "dark" ? styles.darkButton : ""}>Hủy bỏ</button>
                         </form>
@@ -230,16 +227,16 @@ const CustomerProfile = ({ customer, onUpdate }) => {
                             <p><strong>Họ:</strong> <span className={styles.infoText}>{customer.FirstName}</span></p>
                             <p><strong>Tên:</strong> <span className={styles.infoText}>{customer.LastName}</span></p>
                             <p><strong>Ngày Sinh:</strong> <span className={styles.infoText}>{new Date(customer.DateOfBirth).toLocaleDateString("vi-VN")}</span></p>
-                            <p><strong>Email:</strong> <span className={styles.infoText}>{maskEmail(customer.Email)}</span></p>
                             <p><strong>Số Điện Thoại:</strong> <span className={styles.infoText}>{maskPhoneNumber(customer.PhoneNumber)}</span></p>
                             <p><strong>Giới Tính:</strong> <span className={styles.infoText}>{customer.Gender === "1" ? "Nam" : "Nữ"}</span></p>
+                            <p><strong>Email:</strong> <span className={styles.infoText}>{maskEmail(customer.Email)}</span></p>
                             <button onClick={() => setIsEditing(true)} className={theme === "dark" ? styles.darkButton : ""}>Sửa</button>
                         </div>
                     )}
                 </div>
             </div>
         </div>
-    );
+    );    
 };
 
 export default CustomerProfile;

@@ -50,14 +50,22 @@ export const removeAddress = async (addressId, customerId) => {
   return response.data;
 };
 
-const sendOtpToEmail = async (email) => {
+export const sendOTP = async (email) => {
   try {
-    const response = await axiosInstance.post('/sendOtp', { email });
-    return response.data;
+      const response = await axiosInstance.post("/send-otp", { email });
+      return response.data;
   } catch (error) {
-    console.error("Lỗi khi gửi mã OTP:", error.response ? error.response.data : error.message);
-    throw error;
+      console.error("Lỗi khi gửi OTP:", error.response ? error.response.data : error.message);
+      throw error;
   }
 };
 
-export { sendOtpToEmail };
+export const verifyOTP = async (email, otp) => {
+  try {
+      const response = await axiosInstance.post("/verify-otp", { email, otp });
+      return response.data;
+  } catch (error) {
+      console.error("Lỗi khi xác minh OTP:", error.response ? error.response.data : error.message);
+      throw error;
+  }
+};
