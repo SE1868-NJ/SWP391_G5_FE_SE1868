@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
-import { Route, Routes, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./Portal.module.css";
 import Header from "../../layout/Header/Header";
-import Category from "./Category/Category";
 import SearchBar from "./SearchBar/SearchBar";
 import FAQ from "./FAQ/FAQ";
 import Footer from "../../layout/Footer/Footer";
@@ -26,6 +25,7 @@ function Portal() {
       <div className={styles.headerWrapper}>
         <Header />
       </div>
+      <Breadcrumb />
       <div className={`${styles.searchBanner} ${theme === "dark" ? styles.dark : ""}`}>
         <h1 className={theme === "dark" ? styles.darkText : ""}>Xin chào! Chúng tôi có thể giúp gì cho bạn?</h1>
         <SearchBar />
@@ -45,18 +45,13 @@ function Portal() {
 
       <h2>Câu hỏi thường gặp</h2>
       <FAQ />
-
-
-      <Routes>
-        <Route path="/category/:category" element={<Category />} />
-      </Routes>
-
-      <div className={styles.headerWrapper}>
-        <Footer />
-      </div>
+      <h2>Các chức</h2>
       <div className={styles.supportLinks}>
         <Link to="/support/request" className={styles.supportLink}>Gửi yêu cầu hỗ trợ</Link>
         <Link to="/support/history" className={styles.supportLink}>Lịch sử hỗ trợ</Link>
+      </div>
+      <div className={styles.headerWrapper}>
+        <Footer />
       </div>
 
     </div>
