@@ -66,7 +66,7 @@
 }
 
 .cart_content .c0 {
-  text-align: center;
+  text-align: left;
   width: 5%;
 }
 
@@ -157,7 +157,7 @@
 .quantity_value {
   font: 1em sans-serif;
   text-align: center;
-  margin-right: auto;
+  margin: 5px;
 }
 
 .remove_button {
