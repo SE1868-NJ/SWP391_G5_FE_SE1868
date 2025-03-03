@@ -46,7 +46,7 @@ function FAQ() {
 
     return (
         <div className={`${styles.faqContainer} ${theme === "dark" ? styles.dark : ""}`}>
-            <h2 className={theme === "dark" ? styles.darkText : ""}>Câu hỏi thường gặp</h2>
+
             <ul className={styles.faqList}>
                 {faqs.map((faq, index) => (
                     <li

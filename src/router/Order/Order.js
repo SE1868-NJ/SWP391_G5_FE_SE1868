@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import styles from "./Order.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -8,8 +8,9 @@ import Address from '../../components/address/Address'
 
 function Order() {
   const location = useLocation();
+  const inforFullUser = localStorage.getItem("user");
+  const[cusID,setCusID] = useState();
   const selectCart = location.state || null;
-  const cusID = 2;
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0);
   const [voucher, setVoucher] = useState(false);
@@ -30,15 +31,22 @@ function Order() {
   const [indexList, setIndexList] = useState(0);
   const [listProducts, setListProducts] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [address,setAddress] = useState();
+  const [url,setUrl] = useState('/');
 
   useEffect(() => {
-    if( selectCart === null || selectCart.length === 0 ){
+    console.log(selectCart)
+    if(!selectCart || selectCart === null || selectCart.length === 0 ){
       navigate('/');
     }else{
-      getProduct();
-      getFavorite();
+      const cus = JSON.parse(inforFullUser);
+      setCusID(cus.id)
     }
   }, []);
+  useEffect(()=>{
+    getProduct();
+    getFavorite();
+  },[cusID])
   async function getFavorite() {
     const response = await axios.post(
       "http://localhost:3001/api/Products/getFavorite",
@@ -47,12 +55,13 @@ function Order() {
     await setFavorites(response.data.slice(0,5));
   }
   async function getProduct() {
-    
-    let pages = [];
+    if(selectCart !== null){
+      let pages = []; 
     for (let i = 0; i < selectCart.length; i += 3) {
       pages.push(selectCart.slice(i, i + 3));
     }
     await setListProducts(pages);
+    }
   }
   useEffect(() => { 
     if (listProducts.length > 0) {
@@ -69,7 +78,6 @@ function Order() {
       setTotalPrice(newTotal);
     }
   }, [products]);
-
   useEffect(() => {
     getVoucher();
   }, [totalPrice]);
@@ -170,6 +178,9 @@ function Order() {
     await setTypeVoucher(-1);
     await setVoucher(!voucher);
   }
+  useEffect(()=>{
+    console.log(products);
+  },[])
   async function handleChooseVoucher(voucher) {
     let feeShip;
     let price;
@@ -208,7 +219,7 @@ function Order() {
   async function checkout() {
     const totalPayment = totalPrice - chooseVoucher.Discount;
       const OrderInfor = [];
-      products.map((item) =>
+      selectCart.map((item) =>
         OrderInfor.push({
           feeShip: item.feeShip,
           productID: item.productID,
@@ -219,13 +230,12 @@ function Order() {
       );
       const voucherChoose = [...bestVoucherShop, chooseVoucher];
     if (paymentMethod === "Trả trước") {
-      const response = await axios.post('http://localhost:3001/api/Order/prepay',{   OrderInfor, voucherChoose, totalPayment, cusID });
+      const response = await axios.post('http://localhost:3001/api/Order/prepay',{  address, OrderInfor, voucherChoose, totalPayment, cusID ,url});
       window.location.href = response.data.payUrl;
-      
     } else {
       const response = await axios.post(
         "http://localhost:3001/api/Order/CheckOut",
-        { OrderInfor, voucherChoose, totalPayment, cusID }
+        {address, OrderInfor, voucherChoose, totalPayment, cusID }
       );
       if (response.status === 200) {
         await setStatus(true);
@@ -235,7 +245,13 @@ function Order() {
   }
   function checkOutSuccess() {
     setMess(false);
-    navigate("/");
+    navigate(url);
+  }
+  async function changeUrl(item){
+    const result = window.confirm(`Hãy thực hiện xong việc checkout! Bạn có muốn chuyển sang trang sản phầm ${item.ProductName}sau khi xong không ?`)
+    if(result){
+      await setUrl(`/product/${item.ProductID}`)
+    }
   }
   return (
     <div className={styles.Order}>
@@ -247,7 +263,7 @@ function Order() {
         <a>Order Check Out</a>
       </div>
       <div className={styles.address}>
-        <Address></Address>
+        <Address setInfor={setAddress}></Address>
       </div>
       
       <div style={{display:'flex',width:'82%',justifyContent:'space-between',marginBottom:'10px'}}>
@@ -323,8 +339,8 @@ function Order() {
                     <p>Tổng tiền sản phẩm</p>
                     <p style={{ color: "red", fontWeight: "500" }}>
                       {Number(
-                        totalAmountProduct[index]
-                          ? totalAmountProduct[index]
+                        totalAmountProduct[3 * indexList +index]
+                          ? totalAmountProduct[3 * indexList +index]
                           : 0
                       ).toLocaleString("vi-VI", {
                         style: "currency",
@@ -407,7 +423,7 @@ function Order() {
           <h2>Các sản phẩm bạn thích </h2>
           {favorites.length !== 0 ? (
             favorites.map((item) => (
-              <div className={styles.favoriteItem}>
+              <div className={styles.favoriteItem} onClick={()=>changeUrl(item)}>
                 <img alt="" src={item.ProductImg} />
                 <div>
                   <p>{item.ProductName}</p>

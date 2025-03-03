@@ -6,6 +6,7 @@ import Category from "./Category/Category";
 import SearchBar from "./SearchBar/SearchBar";
 import FAQ from "./FAQ/FAQ";
 import Footer from "../../layout/Footer/Footer";
+import Breadcrumb from "./Breadcrumb/Breadcrumb";
 import { ThemeContext } from "../../contexts/ThemeContext"; // Import ThemeContext
 
 const Categories = [
@@ -42,9 +43,9 @@ function Portal() {
         </div>
       </div>
 
-      <div className={styles.faqWrapper}>
-        <FAQ />
-      </div>
+      <h2>Câu hỏi thường gặp</h2>
+      <FAQ />
+
 
       <Routes>
         <Route path="/category/:category" element={<Category />} />
@@ -53,6 +54,11 @@ function Portal() {
       <div className={styles.headerWrapper}>
         <Footer />
       </div>
+      <div className={styles.supportLinks}>
+        <Link to="/support/request" className={styles.supportLink}>Gửi yêu cầu hỗ trợ</Link>
+        <Link to="/support/history" className={styles.supportLink}>Lịch sử hỗ trợ</Link>
+      </div>
+
     </div>
   );
 }

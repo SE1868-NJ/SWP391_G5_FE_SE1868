@@ -30,12 +30,12 @@ export const AuthProvider = ({ children }) => {
         if (storedUser) {
             const parsedUser = JSON.parse(storedUser);
             setUser(parsedUser);
+            setInforFullUser(parsedUser)
             setInforFullUser(parsedUser);
             setCustomerID(parsedUser.id); 
         }
     }, []);
 
-    // ✅ Hàm đăng nhập
     const login = (email, password) => {
         
         const foundUser = customers.find(user => user.Email === email && user.password === password);

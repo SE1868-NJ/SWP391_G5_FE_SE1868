@@ -5,6 +5,7 @@ import Header from "../../../layout/Header/Header";
 import SearchBar from "../SearchBar/SearchBar";
 import Footer from "../../../layout/Footer/Footer";
 import styles from "./Category.module.css";
+import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import { ThemeContext } from "../../../contexts/ThemeContext"; // Import ThemeContext
 
 function Category() {
@@ -68,6 +69,7 @@ function Category() {
             <div className={styles.headerWrapper}>
                 <Header />
             </div>
+            <Breadcrumb />
             <div className={styles.searchBanner}>
                 <h1>Xin chào! Chúng tôi có thể giúp gì cho bạn?</h1>
                 <SearchBar />
