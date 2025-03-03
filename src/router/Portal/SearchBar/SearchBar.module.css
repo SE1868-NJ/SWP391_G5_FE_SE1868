@@ -232,75 +232,72 @@
   }
 }
 
-/* ============================ */
 /* Dark Mode Styles */
 .dark {
-background-color: #121212; /* Nền tối cho phần chính */
-color: white; /* Văn bản sáng khi chế độ tối */
+background-color: #121212; 
+color: white; 
 }
 
-/* Dark Mode Input */
 .darkInput {
-background-color: #333; /* Nền input tối */
-color: white; /* Văn bản sáng trong input */
-border: 1px solid #555; /* Đổi màu viền */
+background-color: #333;
+color: white; 
+border: 1px solid #555;
 }
 
 /* Dark Mode Button */
 .darkButton {
-background-color: #f04e30; /* Nền nút sáng khi hover */
-color: white; /* Màu chữ trắng */
+background-color: #f04e30;
+color: white;
 border: none;
 padding: 10px 15px;
 border-radius: 5px;
 }
 
-/* Dark Mode Search Suggestions */
+
 .darkSuggestions {
-background-color: #444; /* Nền gợi ý tối */
-color: white; /* Chữ sáng */
+background-color: #444;
+color: white; 
 }
 
 .darkText {
-color: white; /* Chữ sáng trong chế độ tối */
+color: white;
 }
 
-/* Dark Mode for suggestions */
+
 .dark .suggestions {
-background-color: #333; /* Nền gợi ý tối */
+background-color: #333;
 }
 
 .dark .suggestions li {
-color: white; /* Văn bản gợi ý sáng */
+color: white; 
 }
 
 .dark .suggestions li:hover {
-background-color: #555; /* Màu nền gợi ý khi hover */
+background-color: #555;
 }
 
-/* Dark Mode for the container */
+
 .dark .searchContainer {
-background-color: #222; /* Nền tối cho container tìm kiếm */
+background-color: #222;
 }
 
 .dark .searchContainer button:hover {
-background-color: #d43e1d; /* Hiệu ứng hover nút tìm kiếm */
+background-color: #d43e1d;
 }
 
-/* Dark Mode for search input */
+
 .dark .searchContainer input {
-background-color: #444; /* Nền tối cho input */
-color: white; /* Chữ sáng trong input */
-border: 1px solid #555; /* Viền tối cho input */
+background-color: #444; 
+color: white;
+border: 1px solid #555;
 }
 
-/* Dark Mode Search Banner */
+
 .dark .searchBanner {
 background-color: #f04e30;
 color: white;
 }
 
-/* Dark Mode for the FAQ Section */
 .dark .faqItem {
 background-color: #333;
 color: white;
@@ -319,7 +316,6 @@ color: #bbb;
 display: block;
 }
 
-/* Dark Mode for Sidebar */
 .dark .sidebar {
 background-color: #222;
 border-right: 2px solid #444;
@@ -340,7 +336,6 @@ background-color: #333;
 color: #f04e30;
 }
 
-/* Dark Mode for Details Panel */
 .dark .detailsPanel {
 background-color: #222;
 color: white;
@@ -354,7 +349,6 @@ color: #ccc;
 color: #bbb;
 }
 
-/* Dark Mode for Footer */
 .dark .footer {
 background-color: #181818;
 color: white;

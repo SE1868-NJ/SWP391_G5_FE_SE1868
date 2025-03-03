@@ -331,7 +331,6 @@
     background-color: #444;
 }
 
-/* Chế độ tối - Hover và các trạng thái */
 .dark .sidebar li.active:hover {
     background-color: #555;
 }

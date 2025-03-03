@@ -23,9 +23,15 @@ import { PageProductDetail } from "./components/products/ProductDetail.jsx";
 import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
 import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
 import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
+import { useTranslation } from "react-i18next";
+import "./i18n.js";
+
+
+
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
+  const { t } = useTranslation();
   
   return (
     <div

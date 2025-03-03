@@ -3,12 +3,17 @@ import { useNavigate } from "react-router-dom";
 import MenuHeader from "../MenuHeader/MenuHeader";
 import Search from "../Search/Search";
 import { useEffect, useState, useContext } from "react";
-import { ThemeContext } from "../../contexts/ThemeContext"; // Import ThemeContext
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
+import "../../i18n.js";
+import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
 
 function Header() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const { theme } = useContext(ThemeContext); // Lấy theme từ ThemeContext
+  const { theme } = useContext(ThemeContext);
+  const { t } = useTranslation();
+
 
   // Hàm điều hướng
   const handleNavigate = (path) => {
@@ -25,18 +30,21 @@ function Header() {
   }, []);
 
   const handleClick = (e) => {
-    if (user) {
-      if (e === "Thông Báo") {
-        navigate("/Notifications"); // Nếu có user, vào trang thông báo
-      } else if (e === "Hỗ Trợ") {
-        navigate("/Portal"); // Nếu có user, vào trang thông báo
-      } else if (e === "Giỏ Hàng") {
-        navigate("/cart"); // Nếu có user, vào trang thông báo
+    if (e === "Tài Khoản") {
+      if (user) {
+        navigate("/customers"); // Nếu đã đăng nhập, chuyển đến trang tài khoản
+      } else {
+        navigate("/login"); // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
       }
-    } else {
-      navigate("/login"); // Nếu chưa đăng nhập, vào trang login
+    } else if (e === "Thông Báo") {
+      navigate("/Notifications");
+    } else if (e === "Hỗ Trợ") {
+      navigate("/Portal");
+    } else if (e === "Giỏ Hàng") {
+      navigate("/cart");
     }
   };
+  
 
   return (
     <header className={`${styles.wrapper} ${theme === "dark" ? styles.dark : ""}`}>
@@ -58,7 +66,7 @@ function Header() {
               alt=""
               className={styles.fhs_noti_icon_header}
             />
-            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Thông Báo</div>
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>{t("Notifications")}</div>
           </div>
           <div
             onClick={() => handleNavigate("/Portal")}
@@ -69,7 +77,7 @@ function Header() {
               alt=""
               className={styles.fhs_noti_icon_header}
             />
-            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Hỗ Trợ</div>
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>{t("Portal")}</div>
           </div>
           <div
             onClick={() => handleNavigate("/cart")}
@@ -79,35 +87,27 @@ function Header() {
               alt=""
               className={styles.fhs_noti_icon_header}
             />
-            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Giỏ Hàng</div>
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>{t("cart")}</div>
           </div>
           <div
-            onClick={() => handleNavigate("/login")}
-            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}
-          >
-            {user && user.avatar ? (
-              <img src={user.avatar} alt="Avatar" className={styles.avatar} />
-            ) : (
-              <img
-                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_account_gray.svg"
-                alt="Tài Khoản"
-                className={styles.fhs_noti_icon_header}
-              />
-            )}
-            <div className={user ? styles.name : styles.fhs_top_menu_labe}>
-              {user ? user.name : "Tài Khoản"}
+              onClick={() => handleClick("Tài Khoản")}
+              className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}
+            >
+              {user && user.avatar ? (
+                <img src={user.avatar} alt="Avatar" className={styles.avatar} />
+              ) : (
+                <img
+                  src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_account_gray.svg"
+                  alt="Tài Khoản"
+                  className={styles.fhs_noti_icon_header}
+                />
+              )}
+              <div className={user ? styles.name : styles.fhs_top_menu_labe}>
+                {user ? user.name : t("account")}
+              </div>
             </div>
-          </div>
-          <div className={styles.fhs_language_header_second_bar}>
-            <div className={styles.fhs_top_language}>
-              <img
-                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/default.svg"
-                alt=""
-                style={{ width: "80%" }} // Giữ nguyên style inline
-              />
-            </div>
-          </div>
         </div>
+        <LanguageSwitcher/>
       </div>
     </header>
   );

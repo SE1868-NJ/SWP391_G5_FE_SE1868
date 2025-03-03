@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import styles from "./Privacy.module.css";
 import { ThemeContext } from "../../contexts/ThemeContext"; // Import ThemeContext
+import { useTranslation } from "react-i18next";
+import "../../i18n";
 
 const PrivacySettings = () => {
   const [showName, setShowName] = useState(true);

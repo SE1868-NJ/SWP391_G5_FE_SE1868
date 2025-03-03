@@ -2,7 +2,8 @@ import { useState, useContext } from "react";
 import { updateCustomerById } from "./services/user.services";
 import styles from "./Password.module.css"; // Import CSS module
 import { ThemeContext } from "../../contexts/ThemeContext"; // Import ThemeContext
-
+import { useTranslation } from "react-i18next";
+import "../../i18n";
 const Password = ({ customer }) => {
     const [passwordData, setPasswordData] = useState({
         oldPassword: "",
