@@ -10,12 +10,15 @@ import Address from './Address';
 import Setting from './Setting';
 import Privacy from './Privacy';
 import Email from './Email';
-import { ThemeContext } from "../../contexts/ThemeContext"; // Chỉ import ThemeContext, không bọc lại ThemeProvider
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
+import "../../i18n";
 
 function CustomerRoutes() {
     const [customer, setCustomer] = useState(null);
     const [error, setError] = useState(null);
-    const { theme } = useContext(ThemeContext);  // Lấy theme từ Context
+    const { theme } = useContext(ThemeContext);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchCustomer = async () => {
@@ -38,12 +41,12 @@ function CustomerRoutes() {
             <div className={`${styles.app} ${theme === "dark" ? styles.dark : ""}`}>
                 <nav className={`${styles.sidebar} ${theme === "dark" ? styles.dark : ""}`}>
                     <ul>
-                        <li><Link to="/customers/customer-info">Thông tin khách hàng</Link></li>
-                        <li><Link to="/customers/password">Mật Khẩu</Link></li>
+                        <li><Link to="/customers/customer-info">{t("CustomerDetail")}</Link></li>
+                        <li><Link to="/customers/password">{t("PassWord")}</Link></li>
                         <li><Link to="/customers/email">Email</Link></li> 
-                        <li><Link to="/customers/address">Địa Chỉ</Link></li>
-                        <li><Link to="/customers/setting">Cài Đặt Thông Báo</Link></li>
-                        <li><Link to="/customers/privacy">Quyền Riêng Tư</Link></li>
+                        <li><Link to="/customers/address">{t("Address")}</Link></li>
+                        <li><Link to="/customers/setting">{t("NotificationSetting")}</Link></li>
+                        <li><Link to="/customers/privacy">{t("Privacy")}</Link></li>
                     </ul>
                 </nav>
 
@@ -51,68 +54,68 @@ function CustomerRoutes() {
                     <Routes>
                         <Route path="customer-info" element={
                             <>
-                                <h1 className={styles.headerTitle}>Hồ sơ của tôi</h1>
+                                <h1 className={styles.headerTitle}>{t("MyDetail")}</h1>
                                 {error && <p className={styles.errorText}>{error}</p>}
                                 {customer ? (
                                     <CustomerProfile customer={customer} onUpdate={setCustomer} />
                                 ) : (
-                                    <p className={styles.loadingText}>Đang tải dữ liệu...</p>
+                                    <p className={styles.loadingText}>{t("Loading")}</p>
                                 )}
                             </>
                         } />
                         <Route path="password" element={
                             <>
-                                <h1 className={styles.headerTitle}>Đổi Mật Khẩu</h1>
+                                <h1 className={styles.headerTitle}>{t("PasswordChange")}</h1>
                                 {customer ? (
                                     <Password customer={customer} onUpdate={setCustomer} />
                                 ) : (
-                                    <p className={styles.loadingText}>Đang tải dữ liệu...</p>
+                                    <p className={styles.loadingText}>{t("Loading")}</p>
                                 )}
                             </>
                         } />
                         <Route path="email" element={
                             <>
-                                <h1 className={styles.headerTitle}>Cập Nhật Email</h1>
+                                <h1 className={styles.headerTitle}>{t("EmailUpdate")}</h1>
                                 {customer ? (
                                     <Email 
                                         customerID={customer.CustomerID} 
                                         onUpdate={(newEmail) => setCustomer({ ...customer, Email: newEmail })} 
                                     />
                                 ) : (
-                                    <p className={styles.loadingText}>Đang tải dữ liệu...</p>
+                                    <p className={styles.loadingText}>{t("Loading")}</p>
                                 )}
                             </>
                         } />
                         <Route path="address" element={
                             <>
-                                <h1 className={styles.headerTitle}>Địa Chỉ</h1>
+                                <h1 className={styles.headerTitle}>{t("Address")}</h1>
                                 {error && <p className={styles.errorText}>{error}</p>}
                                 {customer ? (
                                     <Address customerID={customer.CustomerID} />
                                 ) : (
-                                    <p className={styles.loadingText}>Đang tải dữ liệu...</p>
+                                    <p className={styles.loadingText}>{t("Loading")}</p>
                                 )}
                             </>
                         } />
                         <Route path="setting" element={
                             <>
-                                <h1 className={styles.headerTitle}>Cài Đặt Thông Báo</h1>
+                                <h1 className={styles.headerTitle}>{t("NotificationSetting")}</h1>
                                 {error && <p className={styles.errorText}>{error}</p>}
                                 {customer ? (
                                     <Setting customerID={customer.CustomerID} />
                                 ) : (
-                                    <p className={styles.loadingText}>Đang tải dữ liệu...</p>
+                                    <p className={styles.loadingText}>{t("Loading")}</p>
                                 )}
                             </>
                         } />
                         <Route path="privacy" element={
                             <>
-                                <h1 className={styles.headerTitle}>Quyền Riêng Tư</h1>
+                                <h1 className={styles.headerTitle}>{t("Privacy")}</h1>
                                 {error && <p className={styles.errorText}>{error}</p>}
                                 {customer ? (
                                     <Privacy customerID={customer.CustomerID} />
                                 ) : (
-                                    <p className={styles.loadingText}>Đang tải dữ liệu...</p>
+                                    <p className={styles.loadingText}>{t("Loading")}</p>
                                 )}
                             </>
                         } />

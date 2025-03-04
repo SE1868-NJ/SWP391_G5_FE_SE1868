@@ -336,65 +336,51 @@
 /* ============================ */
 /* Dark Mode Search Banner */
 .dark .searchBanner {
-  background-color: #222;
-  /* Nền tối cho banner */
+  background-color: #222; 
   color: white;
-  /* Văn bản sáng */
 }
 
 .dark .searchBanner h1 {
-  color: white;
-  /* Chữ sáng trong banner */
+  color: white; 
 }
 
 /* ============================ */
 /* Dark Mode Category Grid */
 .dark .categoryItem {
-  background-color: #222;
-  /* Nền tối cho từng mục danh mục */
-  color: white;
-  /* Màu chữ sáng */
+  background-color: #222; 
+  color: white; 
 }
 
 .dark .categoryItem:hover {
-  background-color: #333;
-  /* Màu nền khi hover trong chế độ tối */
+  background-color: #333; 
 }
 
 .dark .categoryItem img {
   filter: brightness(0) invert(1);
-  /* Đảo màu cho hình ảnh trong chế độ tối */
 }
 
 .dark .categoryItem span {
-  color: white;
-  /* Chữ sáng cho tên danh mục */
+  color: white; 
 }
 
 /* ============================ */
 /* Dark Mode for Search Results */
 .dark .resultsContainer h2 {
-  color: #ccc;
-  /* Màu chữ sáng cho tiêu đề kết quả tìm kiếm */
+  color: #ccc; 
 }
 
 .dark .resultsList li {
-  background-color: #333;
-  /* Nền tối cho mỗi mục kết quả */
+  background-color: #333; 
   color: white;
-  /* Chữ sáng cho kết quả */
-  border-bottom: 1px solid #444;
-  /* Viền tối cho mục kết quả */
+  border-bottom: 1px solid #444; 
 }
 
 .dark .resultsList li:hover {
   background: #444;
-  /* Màu nền khi hover trong chế độ tối */
 }
 
 .dark .resultsList li strong {
   color: #f04e30;
-  /* Chữ nổi bật màu cam trong chế độ tối */
 }
 
 /* ============================ */
@@ -406,8 +392,7 @@
 }
 
 .dark .sidebar ul li {
-  color: white;
-  /* Chữ sáng trong danh sách sidebar */
+  color: white; 
 }
 
 .dark .sidebar ul li:hover,
@@ -434,27 +419,20 @@
 /* ============================ */
 /* Dark Mode for FAQ */
 .dark .faqItem {
-  background-color: #333;
-  /* Nền tối cho FAQ item */
-  color: white;
-  /* Chữ sáng cho FAQ item */
+  background-color: #333; 
+  color: white; 
   border: 1px solid #444;
-  /* Viền tối cho FAQ item */
 }
 
 .dark .faqItem:hover {
-  background-color: #444;
-  /* Nền khi hover trong FAQ */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-  /* Hiệu ứng box shadow khi hover */
+  background-color: #444; 
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); 
 }
 
 .dark .faqWrapper {
   width: 50%;
   padding-left: 15px;
   border-left: 3px solid #444;
-  /* Viền trái tối cho FAQ */
   text-align: left;
-  color: white;
-  /* Chữ sáng trong FAQ */
+  color: white; 
 }

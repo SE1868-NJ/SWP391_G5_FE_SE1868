@@ -240,27 +240,43 @@
   }
 }
 
-/* ============================ */
 /* Dark Mode Styles */
 .dark {
+<<<<<<< HEAD
+background-color: #121212; 
+color: white; 
+=======
   background-color: #121212;
   /* Nền tối cho phần chính */
   color: white;
   /* Văn bản sáng khi chế độ tối */
+>>>>>>> 7fd096a7d1fd014d8970fb1f9dae34db1c4ac094
 }
 
-/* Dark Mode Input */
 .darkInput {
+<<<<<<< HEAD
+background-color: #333;
+color: white; 
+border: 1px solid #555;
+=======
   background-color: #333;
   /* Nền input tối */
   color: white;
   /* Văn bản sáng trong input */
   border: 1px solid #555;
   /* Đổi màu viền */
+>>>>>>> 7fd096a7d1fd014d8970fb1f9dae34db1c4ac094
 }
 
 /* Dark Mode Button */
 .darkButton {
+<<<<<<< HEAD
+background-color: #f04e30;
+color: white;
+border: none;
+padding: 10px 15px;
+border-radius: 5px;
+=======
   background-color: #f04e30;
   /* Nền nút sáng khi hover */
   color: white;
@@ -268,10 +284,19 @@
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
+>>>>>>> 7fd096a7d1fd014d8970fb1f9dae34db1c4ac094
 }
 
-/* Dark Mode Search Suggestions */
+
 .darkSuggestions {
+<<<<<<< HEAD
+background-color: #444;
+color: white; 
+}
+
+.darkText {
+color: white;
+=======
   background-color: #444;
   /* Nền gợi ý tối */
   color: white;
@@ -281,10 +306,22 @@
 .darkText {
   color: white;
   /* Chữ sáng trong chế độ tối */
+>>>>>>> 7fd096a7d1fd014d8970fb1f9dae34db1c4ac094
 }
 
-/* Dark Mode for suggestions */
+
 .dark .suggestions {
+<<<<<<< HEAD
+background-color: #333;
+}
+
+.dark .suggestions li {
+color: white; 
+}
+
+.dark .suggestions li:hover {
+background-color: #555;
+=======
   background-color: #333;
   /* Nền gợi ý tối */
 }
@@ -297,10 +334,18 @@
 .dark .suggestions li:hover {
   background-color: #555;
   /* Màu nền gợi ý khi hover */
+>>>>>>> 7fd096a7d1fd014d8970fb1f9dae34db1c4ac094
 }
 
-/* Dark Mode for the container */
+
 .dark .searchContainer {
+<<<<<<< HEAD
+background-color: #222;
+}
+
+.dark .searchContainer button:hover {
+background-color: #d43e1d;
+=======
   background-color: #222;
   /* Nền tối cho container tìm kiếm */
 }
@@ -308,25 +353,31 @@
 .dark .searchContainer button:hover {
   background-color: #d43e1d;
   /* Hiệu ứng hover nút tìm kiếm */
+>>>>>>> 7fd096a7d1fd014d8970fb1f9dae34db1c4ac094
 }
 
-/* Dark Mode for search input */
+
 .dark .searchContainer input {
+<<<<<<< HEAD
+background-color: #444; 
+color: white;
+border: 1px solid #555;
+=======
   background-color: #444;
   /* Nền tối cho input */
   color: white;
   /* Chữ sáng trong input */
   border: 1px solid #555;
   /* Viền tối cho input */
+>>>>>>> 7fd096a7d1fd014d8970fb1f9dae34db1c4ac094
 }
 
-/* Dark Mode Search Banner */
+
 .dark .searchBanner {
   background-color: #f04e30;
   color: white;
 }
 
-/* Dark Mode for the FAQ Section */
 .dark .faqItem {
   background-color: #333;
   color: white;
@@ -345,7 +396,6 @@
   display: block;
 }
 
-/* Dark Mode for Sidebar */
 .dark .sidebar {
   background-color: #222;
   border-right: 2px solid #444;
@@ -366,7 +416,6 @@
   color: #f04e30;
 }
 
-/* Dark Mode for Details Panel */
 .dark .detailsPanel {
   background-color: #222;
   color: white;
@@ -380,7 +429,6 @@
   color: #bbb;
 }
 
-/* Dark Mode for Footer */
 .dark .footer {
   background-color: #181818;
   color: white;
