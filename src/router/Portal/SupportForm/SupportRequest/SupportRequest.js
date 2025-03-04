@@ -1,21 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import styles from "./SupportRequest.module.css";
+import styles from '../SupportRequest/SupportRequest.module.css';
+
+
 import Header from "../../../../layout/Header/Header";
 import Breadcrumb from "../../Breadcrumb/Breadcrumb";
 
 const SupportRequest = () => {
-    const [category, setCategory] = useState("");
+    const [categories, setCategories] = useState([]); // Lưu danh sách categories
+    const [categoryId, setCategoryId] = useState(""); // Lưu ID thay vì name
     const [subject, setSubject] = useState("");
     const [details, setDetails] = useState("");
     const [status, setStatus] = useState("");
+
+    useEffect(() => {
+        axios.get("http://localhost:3001/api/support/categories")
+            .then(response => setCategories(response.data))
+            .catch(error => console.error("Lỗi khi tải danh mục hỗ trợ!", error));
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await axios.post("http://localhost:3001/api/support/request", {
                 customer_id: 1,
-                category,
+                category: categoryId,  // Gửi ID thay vì tên
                 subject,
                 details
             });
@@ -26,28 +35,25 @@ const SupportRequest = () => {
     };
 
     return (
-
         <div>
             <div className={styles.headerWrapper}>
                 <Header />
-
             </div>
-            <Breadcrumb />
+            <div className={styles.breadcrumb}>
+                <Breadcrumb />
+            </div>
+
             <div className={styles.supportContainer}>
-
-
-
                 <h2 className={styles.supportTitle}>Gửi Yêu Cầu Hỗ Trợ</h2>
                 {status && <p className={`${styles.supportMessage} ${status.includes("Lỗi") ? styles.errorMessage : styles.successMessage}`}>{status}</p>}
 
                 <form onSubmit={handleSubmit} className={styles.supportForm}>
                     <label>Loại Yêu Cầu:</label>
-                    <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+                    <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} required>
                         <option value="">Chọn loại yêu cầu</option>
-                        <option value="account">Khôi phục tài khoản</option>
-                        <option value="technical">Lỗi kỹ thuật</option>
-                        <option value="payment">Vấn đề thanh toán</option>
-
+                        {categories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                        ))}
                     </select>
 
                     <label>Tiêu đề:</label>

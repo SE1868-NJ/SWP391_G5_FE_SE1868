@@ -22,11 +22,13 @@ import ShopProvider from "./globalContext/ShopContext.js";
 import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
 import { PageProductDetail } from "./components/products/ProductDetail.jsx";
 import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
+import ActivityLog from "./router/Profile/ActivityLog.jsx";
 import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
 import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
 import OrderDetail from './router/OrderDetail/OrderDetail'
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
+import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
 
 
@@ -56,6 +58,7 @@ function AppContent() {
         <Route path="/Order" element={<Order />} />
         <Route path="/Notifications" element={<Notification />} />
         <Route path="customers/*" element={<CustomerRoutes />} />
+        <Route path="/customers/activity-log" element={<ActivityLog />} />
         <Route path="/Category" element={<Category />} />
         <Route path="/Portal" element={<Portal />} />
         <Route path="/category/:category" element={<Category />} />
@@ -66,6 +69,8 @@ function AppContent() {
         <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
+        <Route path="/support/history/:id" element={<SupportRequestDetails />} />
+
       </Routes>
     </div>
   );

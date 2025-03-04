@@ -4,7 +4,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fff;
+  justify-content: center;
+  background-color: #fff
 }
 
 .cart_header {
@@ -59,13 +60,13 @@
 
 .cart_content td {
   padding: 12px;
-  text-align: center;
+  text-align: left;
   vertical-align: middle;
   border-bottom: 1px solid #ddd;
 }
 
 .cart_content .c0 {
-  text-align: center;
+  text-align: left;
   width: 5%;
 }
 
@@ -100,7 +101,7 @@
 }
 
 .cart_content .c6 {
-  width: 10%;
+  width: 15%;
   font: 1em sans-serif;
   text-align: center;
 }
@@ -108,7 +109,8 @@
 .item_info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  text-align: left;
+  gap: 5px;
 }
 
 .item_name {
@@ -131,12 +133,16 @@
 .quantity_control {
   display: flex;
   align-items: center;
+  text-align: center;
   gap: 5px;
   justify-content: center;
+  width: 100%;
 }
 
 .quantity_button {
-  padding: 5px 10px;
+  padding: 5px 10px 5px 10px;
+  width: 30px;
+  height: 30px;
   background: #f0f0f0;
   border: none;
   border-radius: 3px;
@@ -146,6 +152,12 @@
 
 .quantity_button:hover {
   background: #e0e0e0;
+}
+
+.quantity_value {
+  font: 1em sans-serif;
+  text-align: center;
+  margin: 5px;
 }
 
 .remove_button {

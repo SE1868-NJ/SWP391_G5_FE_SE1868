@@ -10,6 +10,7 @@ function Notification() {
   const { user } = useAuth();
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
+  console.log("List notificationsList: ", notificationsList);
   const {
     typeNotification,
     setTypeNotification,
@@ -17,8 +18,6 @@ function Notification() {
     statusNotification,
     order_ID,
     setOrder_ID,
-    customer_ID,
-    setCustomer_ID,
     voucher_ID,
     setVoucher_ID,
   } = useContext(GlobalContext);
@@ -42,7 +41,6 @@ function Notification() {
     notificationsList,
     statusNotification,
     order_ID,
-    customer_ID,
     voucher_ID,
   ]);
 
@@ -119,7 +117,6 @@ function Notification() {
               {typeNotification === "Tất Cả Thông Báo" && (
                 <div
                   onClick={() => {
-                    setCustomer_ID(item.CustomerID);
                     setOrder_ID(item.OrderID);
                     setStatusNotification("read");
                     setVoucher_ID(item.VoucherID);
@@ -157,7 +154,6 @@ function Notification() {
               {typeNotification === "Cập Nhật Đơn Hàng" && (
                 <div
                   onClick={() => {
-                    setCustomer_ID(item.CustomerID);
                     setOrder_ID(item.OrderID);
                     setStatusNotification("read");
                     setVoucher_ID("");
@@ -166,7 +162,7 @@ function Notification() {
                   >
                   <img
                     className={styles.img_noti}
-                    src={item.ProductImgs}
+                    src={item.ProductImg}
                     alt="Đơn Hàng"
                   />
                   <div
@@ -179,8 +175,7 @@ function Notification() {
                     <div className={styles.show_noti_item}>{item.Status}</div>
                     <div className={styles.show_noti_item}>
                       Đơn Hàng
-                      {"  "}
-                      <span className={styles.highlight}>{item.OrderID}</span>
+                      <span style={{marginLeft: "0.5vw"}} className={styles.highlight}>{item.OrderID}</span>
                       {"  "}
                       Đã {"  "}{" "}
                       <span className={styles.highlight}>{item.Status}</span>
@@ -198,7 +193,6 @@ function Notification() {
               {typeNotification === "Khuyến Mãi" && (
                 <div
                   onClick={() => {
-                    setCustomer_ID(item.CustomerID);
                     setOrder_ID("");
                     setStatusNotification("read");
                     setVoucher_ID(item.VoucherID);
@@ -224,7 +218,7 @@ function Notification() {
                       {item.VoucherName}
                     </div>
                     <div className={styles.show_noti_item}>
-                      {new Date(item.DeliveryTime).toLocaleString("vi-VN", {
+                    End: {new Date(item.EndDate).toLocaleString("vi-VN", {
                         timeZone: "Asia/Ho_Chi_Minh",
                       })}
                     </div>
