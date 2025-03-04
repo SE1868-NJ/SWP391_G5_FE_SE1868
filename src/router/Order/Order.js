@@ -248,7 +248,7 @@ function Order() {
     navigate(url);
   }
   async function changeUrl(item){
-    const result = window.confirm(`Hãy thực hiện xong việc checkout! Bạn có muốn chuyển sang trang sản phầm ${item.ProductName}sau khi xong không ?`)
+    const result = window.confirm(`Hãy thực hiện xong việc checkout! Bạn có muốn chuyển sang trang sản phầm ${item.ProductName} sau khi xong không ?`)
     if(result){
       await setUrl(`/product/${item.ProductID}`)
     }
