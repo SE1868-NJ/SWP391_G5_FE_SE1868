@@ -49,10 +49,8 @@ function AppContent() {
         <Route path="/product/:id" element={<PageProductDetail />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/Notifications" element={<Notification />} />
-
         <Route path="customers/*" element={<CustomerRoutes />} />
-        <Route path="
-        " element={<Category />} />
+        <Route path="" element={<Category />} />
         <Route path="/Portal" element={<Portal />} />
         <Route path="/category/:category" element={<Category />} />
         <Route path="/searchPortal" element={<SearchResults />} />
