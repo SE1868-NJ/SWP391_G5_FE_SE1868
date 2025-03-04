@@ -20,7 +20,7 @@ function Footer() {
         ))}
       </div>
       <div className={styles.footer_block_middle}>
-        <img src="logo.png" alt="logo" />
+        <img src="/logo.png" alt="logo" />
       </div>
       <div className={styles.footer_block_end}>
         <div className={styles.footer_block_end_box_first}>

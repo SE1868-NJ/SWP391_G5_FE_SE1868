@@ -21,6 +21,7 @@ function Address({setInfor}) {
         const response = await axios.get(`http://localhost:3001/address/${customerID}`)
         await setAddress(response.data);
         await setSelectAddress(response.data.find(item => item.isDefault === 1));
+        
         const hehe = response.data.find(item => item.isDefault === 1)
         await setInfor({
             addressID :hehe.AddressID,

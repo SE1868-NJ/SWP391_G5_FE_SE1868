@@ -60,7 +60,7 @@ function Notification() {
               <img src={user.avatar} alt="Avatar" className={styles.avatar} />
               <div style={{ flexDirection: "column" }}>
                 <div className={styles.profile}>{user.name}</div>
-                <span className={styles.edit_profile}>Sửa Hồ Sơ</span>
+                <span onClick={() => navigate("/customers")} className={styles.edit_profile}>Sửa Hồ Sơ</span>
               </div>
             </>
           ) : (
