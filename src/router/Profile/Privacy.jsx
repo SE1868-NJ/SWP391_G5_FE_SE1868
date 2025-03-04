@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Privacy.module.css";
 import { ThemeContext } from "../../contexts/ThemeContext"; // Import ThemeContext
 
 const PrivacySettings = () => {
   const [showName, setShowName] = useState(true);
   const { theme, toggleTheme } = useContext(ThemeContext); // Lấy trạng thái theme và hàm toggleTheme
+  const navigate = useNavigate();
 
   const toggleShowName = () => {
     setShowName(!showName);
@@ -38,7 +40,9 @@ const PrivacySettings = () => {
       {/* Nhật ký hoạt động */}
       <div className={styles.setting}>
         <span>Nhật ký hoạt động</span>
-        <button className={styles.button}>Xem nhật ký</button>
+        <button className={styles.button}
+          onClick={() => navigate("/customers/activity-log")}
+        >Xem nhật ký</button>
       </div>
 
       {/* Xóa tài khoản */}
