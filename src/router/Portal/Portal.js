@@ -45,7 +45,7 @@ function Portal() {
 
       <h2>Câu hỏi thường gặp</h2>
       <FAQ />
-      <h2>Các chức</h2>
+      <h2>Các chức năng khác</h2>
       <div className={styles.supportLinks}>
         <Link to="/support/request" className={styles.supportLink}>Gửi yêu cầu hỗ trợ</Link>
         <Link to="/support/history" className={styles.supportLink}>Lịch sử hỗ trợ</Link>
