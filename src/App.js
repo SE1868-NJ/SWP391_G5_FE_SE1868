@@ -25,15 +25,17 @@ import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
 import ActivityLog from "./router/Profile/ActivityLog.jsx";
 import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
 import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
-// import { GlobalProvider, GlobalContext } from "./globalContext/GlobalContext";
 import OrderDetail from './router/OrderDetail/OrderDetail'
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
+import "./i18n.js";
+
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
 
+  
   return (
     <div
       className={`min-h-screen transition-all duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"

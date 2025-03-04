@@ -7,7 +7,6 @@ function ShopProvider({ children }) {
   const [typeCategory, setTypeCategory] = useState("Đồ Ăn");
   const [optionProductShop, setOptionProductShop] = useState("Phổ Biến");
   const [productShopList, setProductShopList] = useState([]);
-
   const { shopID } = useContext(GlobalContext);
 
   const fetchProductShop = async (typeCategory, optionProductShop, shopID) => {

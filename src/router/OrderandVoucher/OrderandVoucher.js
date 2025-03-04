@@ -6,6 +6,7 @@ import { useCustomer } from "../../Context";
 import ViewOrder from "../../components/ViewOrder/ViewOrder";
 import StoreVoucher from "../../components/StoreVoucher/StoreVoucher";
 import { useNavigate } from "react-router-dom";
+import { GlobalProvider } from "../../globalContext/GlobalContext";
 
 function StatusOrrder() {
   const navigate = useNavigate();
@@ -46,7 +47,10 @@ function StatusOrrder() {
             </div>
           </div>
           {chooseFunction === "Đơn mua" ? (
-            <ViewOrder></ViewOrder>
+            
+            <GlobalProvider>
+              <ViewOrder></ViewOrder>
+            </GlobalProvider>
           ) : (
             <StoreVoucher></StoreVoucher>
           )}

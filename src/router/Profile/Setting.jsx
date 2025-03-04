@@ -1,6 +1,8 @@
 import { useState, useContext } from "react";
 import styles from "./Setting.module.css";
 import { ThemeContext } from "../../contexts/ThemeContext"; // Import ThemeContext
+import { useTranslation } from "react-i18next";
+import "../../i18n";
 
 const Setting = () => {
     const { theme } = useContext(ThemeContext); // Lấy trạng thái Dark Mode từ Context

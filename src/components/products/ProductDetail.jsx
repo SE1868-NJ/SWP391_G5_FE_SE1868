@@ -60,7 +60,10 @@ export const ProductDetail = ({ product, setIsOpen, isPage,isOpen }) => {
 
 export const PageProductDetail = () => {
     const { id } = useParams();
-
+    const navigate = useNavigate();
+    useEffect(() => {
+        navigate(`/product/${id}`, { replace: true });
+    }, [navigate]);
     const [product, setProduct] = useState()
     const getData = async () => {
 

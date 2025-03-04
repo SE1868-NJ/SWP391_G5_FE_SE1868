@@ -2,12 +2,15 @@ import { useState, useEffect, useContext } from "react";
 import { updateCustomerById } from "./services/user.services";
 import styles from "./CustomerProfile.module.css";
 import { ThemeContext } from "../../contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
+import "../../i18n.js";
 
 const CustomerProfile = ({ customer, onUpdate }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [error, setError] = useState("");
     const [previewAvatar, setPreviewAvatar] = useState(customer?.Avatar || "");
     const { theme } = useContext(ThemeContext); 
+    const {t} = useTranslation();
     const [formData, setFormData] = useState({
         CustomerID: "",
         FirstName: "",
@@ -74,31 +77,28 @@ const CustomerProfile = ({ customer, onUpdate }) => {
             PhoneNumber: "",
         };
 
-        // Kiểm tra các trường FirstName, LastName, PhoneNumber không được để trống
-        if (!formData.FirstName) errors.FirstName = "Vui lòng nhập First Name!";
-        if (!formData.LastName) errors.LastName = "Vui lòng nhập Last Name!";
-        if (!formData.PhoneNumber) errors.PhoneNumber = "Vui lòng nhập Phone Number!";
-        if (!formData.Email) errors.Email = "Vui lòng nhập Email!";
+        // Kiểm tra PhoneNumber không được để trống
+        if (!formData.PhoneNumber) errors.PhoneNumber = t("PhoneError");
 
         // Kiểm tra PhoneNumber chỉ chứa chữ số
         const phoneNumberRegex = /^[0-9]+$/;
         if (formData.PhoneNumber && !phoneNumberRegex.test(formData.PhoneNumber)) {
-            errors.PhoneNumber = "Phone Number chỉ được chứa các chữ số!";
+            errors.PhoneNumber = t("PhoneRegex");
         }
 
         // Kiểm tra FirstName và LastName không có số
         const nameRegex = /^[A-Za-zÀ-Ỹà-ỹ\s]+$/;
 
         if (!formData.FirstName) {
-            errors.FirstName = "Vui lòng nhập First Name!";
+            errors.FirstName = t("FirstNull");
         } else if (!nameRegex.test(formData.FirstName)) {
-            errors.FirstName = "First Name không được chứa số!";
+            errors.FirstName = t("FirstRegex");
         }
 
         if (!formData.LastName) {
-            errors.LastName = "Vui lòng nhập Last Name!";
+            errors.LastName = t("LastNull");
         } else if (!nameRegex.test(formData.LastName)) {
-            errors.LastName = "Last Name không được chứa số!";
+            errors.LastName = t("LastRegex");
         }
 
         // Kiểm tra ngày sinh hợp lệ
@@ -107,11 +107,11 @@ const CustomerProfile = ({ customer, onUpdate }) => {
         const age = today.getFullYear() - birthDate.getFullYear();
 
         if (!formData.DateOfBirth) {
-            errors.DateOfBirth = "Vui lòng nhập Date of Birth!";
+            errors.DateOfBirth = t("DOBnull");
         } else if (age > 150) {
-            errors.DateOfBirth = "Tuổi không được quá 150!";
+            errors.DateOfBirth = t("DOBmax");
         } else if (age < 0) {
-            errors.DateOfBirth = "Ngày sinh không hợp lệ!";
+            errors.DateOfBirth = t("DOBerror");
         }
 
         // Nếu có lỗi, set errors và không gửi form
@@ -164,7 +164,7 @@ const CustomerProfile = ({ customer, onUpdate }) => {
                 <div className={styles.infoContainer}>
                     {isEditing ? (
                         <form onSubmit={handleUpdateCustomer} className={styles.profileForm}>
-                            <label>Họ:</label>
+                            <label>{t("FirstName")}</label>
                             <input
                                 type="text"
                                 name="FirstName"
@@ -174,7 +174,7 @@ const CustomerProfile = ({ customer, onUpdate }) => {
                                 className={theme === "dark" ? styles.darkInput : ""}
                             />
     
-                            <label>Tên:</label>
+                            <label>{t("LastName")}</label>
                             <input
                                 type="text"
                                 name="LastName"
@@ -184,7 +184,7 @@ const CustomerProfile = ({ customer, onUpdate }) => {
                                 className={theme === "dark" ? styles.darkInput : ""}
                             />
     
-                            <label>Ngày Sinh:</label>
+                            <label>{t("DOB")}</label>
                             <input
                                 type="date"
                                 name="DateOfBirth"
@@ -194,7 +194,7 @@ const CustomerProfile = ({ customer, onUpdate }) => {
                                 className={theme === "dark" ? styles.darkInput : ""}
                             />
     
-                            <label>Số Điện Thoại:</label>
+                            <label>{t("Phone")}</label>
                             <input
                                 type="text"
                                 name="PhoneNumber"
@@ -204,14 +204,14 @@ const CustomerProfile = ({ customer, onUpdate }) => {
                                 className={theme === "dark" ? styles.darkInput : ""}
                             />
     
-                            <label>Giới Tính:</label>
+                            <label>{t("Gender")}</label>
                             <select
                                 name="Gender"
                                 onChange={handleInputChange}
                                 className={theme === "dark" ? styles.darkSelect : ""}
                             >
-                                <option value="1">Nam</option>
-                                <option value="2">Nữ</option>
+                                <option value="1">{t("Male")}</option>
+                                <option value="2">{t("Female")}</option>
                             </select>
     
                             <label>Email:</label>
@@ -219,18 +219,18 @@ const CustomerProfile = ({ customer, onUpdate }) => {
                                 <p> <span className={styles.infoText}>{maskEmail(customer.Email)}</span></p>
                             </div>
     
-                            <button type="submit" className={theme === "dark" ? styles.darkButton : ""}>Cập nhật</button>
-                            <button type="button" onClick={() => setIsEditing(false)} className={theme === "dark" ? styles.darkButton : ""}>Hủy bỏ</button>
+                            <button type="submit" className={theme === "dark" ? styles.darkButton : ""}>{t("Update")}</button>
+                            <button type="button" onClick={() => setIsEditing(false)} className={theme === "dark" ? styles.darkButton : ""}>{t("Close")}</button>
                         </form>
                     ) : (
                         <div className={styles.profileInfo}>
-                            <p><strong>Họ:</strong> <span className={styles.infoText}>{customer.FirstName}</span></p>
-                            <p><strong>Tên:</strong> <span className={styles.infoText}>{customer.LastName}</span></p>
-                            <p><strong>Ngày Sinh:</strong> <span className={styles.infoText}>{new Date(customer.DateOfBirth).toLocaleDateString("vi-VN")}</span></p>
-                            <p><strong>Số Điện Thoại:</strong> <span className={styles.infoText}>{maskPhoneNumber(customer.PhoneNumber)}</span></p>
-                            <p><strong>Giới Tính:</strong> <span className={styles.infoText}>{customer.Gender === "1" ? "Nam" : "Nữ"}</span></p>
+                            <p><strong>{t("FirstName")}</strong> <span className={styles.infoText}>{customer.FirstName}</span></p>
+                            <p><strong>{t("LastName")}</strong> <span className={styles.infoText}>{customer.LastName}</span></p>
+                            <p><strong>{t("DOB")}</strong> <span className={styles.infoText}>{new Date(customer.DateOfBirth).toLocaleDateString("vi-VN")}</span></p>
+                            <p><strong>{t("Phone")}</strong> <span className={styles.infoText}>{maskPhoneNumber(customer.PhoneNumber)}</span></p>
+                            <p><strong>{t("Gender")}</strong> <span className={styles.infoText}>{customer.Gender === "1" ? t("Male") : t("Female")}</span></p>
                             <p><strong>Email:</strong> <span className={styles.infoText}>{maskEmail(customer.Email)}</span></p>
-                            <button onClick={() => setIsEditing(true)} className={theme === "dark" ? styles.darkButton : ""}>Sửa</button>
+                            <button onClick={() => setIsEditing(true)} className={theme === "dark" ? styles.darkButton : ""}>{t("Edit")}</button>
                         </div>
                     )}
                 </div>
