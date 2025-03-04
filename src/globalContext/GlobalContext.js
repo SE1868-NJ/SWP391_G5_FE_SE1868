@@ -152,14 +152,14 @@ export function GlobalProvider({ children }) {
         }
       );
       if (response.data && response.data.length > 0) {
-        setProductShopSuggestList(response.data); // ✅ Chỉ cập nhật state nếu có dữ liệu
+        setProductShopSuggestList(response.data); 
       } else {
-        setProductShopSuggestList([]); // ✅ Đặt rỗng nếu không có dữ liệu
+        setProductShopSuggestList([]); 
         console.warn("Không có dữ liệu cửa hàng.");
       }
     } catch (error) {
       console.error("Lỗi khi tải danh mục:", error);
-    } // ✅ ĐÃ THÊM DẤU ĐÓNG NGOẶC
+    }
   };
 
   //Lấy Product của shop phần gợi ý
@@ -172,15 +172,16 @@ export function GlobalProvider({ children }) {
         }
       );
       if (response.data && response.data.length > 0) {
-        setVoucherShopList(response.data); // ✅ Chỉ cập nhật state nếu có dữ liệu
+        setVoucherShopList(response.data); 
       } else {
-        setVoucherShopList([]); // ✅ Đặt rỗng nếu không có dữ liệu
+        setVoucherShopList([]);
         console.warn("Không có dữ liệu cửa hàng.");
       }
     } catch (error) {
       console.error("Lỗi khi tải danh mục:", error);
-    } // ✅ ĐÃ THÊM DẤU ĐÓNG NGOẶC
+    } 
   };
+
   // ✅ Hàm gọi API sản phẩm theo `option`
   const fetchProductsMain = async (optionMain) => {
     setLoading(true);
@@ -210,15 +211,20 @@ export function GlobalProvider({ children }) {
       const response = await axios.get(
         "http://localhost:3001/api/notifications/status",
         {
-          params: { order_ID, customerID, voucher_ID, statusNotification },
+          params: { order_ID: order_ID, customerID: customerID, voucher_ID: voucher_ID, statusNotification: statusNotification },
         }
       );
+      console.log("Status Notifi: ", response.data);
       setNotificationsList(response.data[0]);
     } catch (error) {
       console.error("Lỗi khi tải status sản phẩm:", error);
     }
     setLoading(false);
   };
+  console.log("Hehe: ", order_ID,
+    customerID,
+    voucher_ID,
+    statusNotification);
 
   // ✅ Hàm gọi API Notifications theo customerID
   const fetchNotifications = async (customerID, typeNotification) => {
@@ -227,14 +233,18 @@ export function GlobalProvider({ children }) {
       return;
     }
     setLoading(true);
+    
     try {
+      
       const response = await axios.get(
         "http://localhost:3001/api/notifications",
         {
-          params: { customerID, typeNotification },
+          params: { customerID:  customerID, typeNotification: typeNotification },
         }
       );
-      setNotificationsList(response.data.length > 0 ? response.data : []);
+      console.log("Length Notifi: ", response.data[0]);
+      setNotificationsList(response.data);
+
     } catch (error) {
       console.error("Lỗi khi tải thông báo:", error);
     }
@@ -257,24 +267,16 @@ export function GlobalProvider({ children }) {
 
   // ✅ Gọi API Notifications khi customerID thay đổi (tự động cập nhật khi đăng nhập)
   useEffect(() => {
-    if (customerID && typeNotification) {
-      fetchNotifications(customerID, typeNotification);
+    if (customerID && typeNotification) { // ✅ Đảm bảo có customerID trước khi gọi API
+        fetchNotifications(customerID, typeNotification);
     }
-    fetchStatusNotification(
-      order_ID,
-      customerID,
-      voucher_ID,
-      statusNotification
-    );
-    console.log("đã cập nhật lại Status Noti");
-  }, [
-    customerID,
-    typeNotification,
-    statusNotification,
-    order_ID,
-    customerID,
-    voucher_ID,
-  ]);
+  }, [customerID, typeNotification]);
+  
+  useEffect(() => {
+    if (customerID && order_ID && voucher_ID && statusNotification) { // ✅ Đảm bảo có customerID trước khi gọi API
+        fetchStatusNotification(order_ID, customerID, voucher_ID, statusNotification);
+    }
+  }, [customerID, statusNotification, order_ID, voucher_ID]);
 
   // ✅ Gọi API sản phẩm khi `option` thay đổi
   useEffect(() => {
@@ -308,7 +310,7 @@ export function GlobalProvider({ children }) {
         categoryProductByShopID,
         productFavoriteList,
         listVoucherByCustomerID,
-        listCustomerShopFollow
+        listCustomerShopFollow,
       }}
     >
       {children}

@@ -18,12 +18,18 @@ import { AuthProvider } from "./globalContext/AuthContext.js";
 import { ThemeProvider, ThemeContext } from "./contexts/ThemeContext.js";
 import MenuHeaderProvider from "./globalContext/MenuHeaderContext.js";
 import DarkModeButton from "./components/DarkModeButton";
+import ShopProvider from "./globalContext/ShopContext.js";
 import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
 import { PageProductDetail } from "./components/products/ProductDetail.jsx";
 import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
+import ActivityLog from "./router/Profile/ActivityLog.jsx";
+import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
+import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
+// import { GlobalProvider, GlobalContext } from "./globalContext/GlobalContext";
 import OrderDetail from './router/OrderDetail/OrderDetail'
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
+import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
@@ -50,14 +56,19 @@ function AppContent() {
         <Route path="/Order" element={<Order />} />
         <Route path="/Notifications" element={<Notification />} />
         <Route path="customers/*" element={<CustomerRoutes />} />
-        <Route path="" element={<Category />} />
+        <Route path="/customers/activity-log" element={<ActivityLog />} />
+        <Route path="/Category" element={<Category />} />
         <Route path="/Portal" element={<Portal />} />
         <Route path="/category/:category" element={<Category />} />
         <Route path="/searchPortal" element={<SearchResults />} />
         <Route path="/category/:category/:itemId" element={<Category />} />
-        <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail/>} />
+        <Route path="/new-combo" element={<NewComboProduct />} />
+        <Route path="/list-combo" element={<ListComboProduct />} />
+        <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
+        <Route path="/support/history/:id" element={<SupportRequestDetails />} />
+
       </Routes>
     </div>
   );
@@ -68,11 +79,13 @@ function App() {
     <GlobalProvider>
       <AuthProvider>
         <MenuHeaderProvider>
-          <ThemeProvider>
-            <Router>
-              <AppContent />
-            </Router>
-          </ThemeProvider>
+          <ShopProvider>
+            <ThemeProvider>
+              <Router>
+                <AppContent />
+              </Router>
+            </ThemeProvider>
+          </ShopProvider>
         </MenuHeaderProvider>
       </AuthProvider>
     </GlobalProvider>

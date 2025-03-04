@@ -4,14 +4,14 @@ import Background from "../../layout/Background/Background";
 import Main from "../../layout/Main/Main";
 import { GlobalProvider } from "../../globalContext/GlobalContext";
 import { AuthProvider } from "../../globalContext/AuthContext";
-import {useEffect} from 'react'
-import {useNavigate} from "react-router-dom"
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate();
   useEffect(() => {
     navigate("/", { replace: true });
-}, [navigate]);
+  }, [navigate]);
   return (
     <div>
       <AuthProvider>

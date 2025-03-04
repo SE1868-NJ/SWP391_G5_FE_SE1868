@@ -51,8 +51,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem("user", JSON.stringify(userData));
             setUser(userData);
             setInforFullUser(foundUser);
-            setCustomerID(foundUser.CustomerID); 
-            console.log('cinhhsh',foundUser);
+            setCustomerID(foundUser.CustomerID); // ✅ Cập nhật customerID ngay khi đăng nhập
 
             return { success: true, message: "Đăng nhập thành công!" };
         } else {

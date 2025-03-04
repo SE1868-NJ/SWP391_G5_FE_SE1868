@@ -1,12 +1,10 @@
 import { useState, useContext } from "react";
 import { GlobalContext } from "../../globalContext/GlobalContext"; // Import context
-import {MenuHeaderContext} from "../../globalContext/MenuHeaderContext";
+import { MenuHeaderContext } from "../../globalContext/MenuHeaderContext";
 import styles from "./MenuHeader.module.css";
 
 function MenuHeader() {
-  const {
-    categoryList = []
-  } = useContext(GlobalContext); // Lấy dữ liệu từ context
+  const { categoryList = [] } = useContext(GlobalContext); // Lấy dữ liệu từ context
 
   const {
     productList = [],
@@ -66,7 +64,7 @@ function MenuHeader() {
             backgroundColor: "white",
             borderRadius: "10px",
             padding: "10px",
-            zIndex: "100"
+            zIndex: "100",
           }}
         >
           {/* Danh mục */}
@@ -149,9 +147,17 @@ function MenuHeader() {
                         currency: "VND",
                       })}{" "}
                     </div>
+                    {item.Category === "Đồ Tươi Sống" && (
+                      <div style={{ paddingBottom: "0.5vh" }}>
+                        Khối Lượng:
+                        <span style={{ marginLeft:"0.5vw", color: "Green", fontWeight: "500" }}>
+                          {item.Weight} g
+                        </span>{" "}
+                      </div>
+                    )}
                     <div>
                       =&gt; Đã bán:{" "}
-                      <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
+                      <span style={{  marginLeft:"0.5vw",color: "blue" }}>{item.SoldQuantity}</span>
                     </div>
                   </div>
                 ))

@@ -4,8 +4,10 @@ import { GlobalContext } from "../../globalContext/GlobalContext";
 import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 function Shop() {
+  let navigate = useNavigate();
   const {
     shopID,
     inforShopList,
@@ -30,16 +32,7 @@ function Shop() {
   const [deleteCategoryLove, setDeleteCategoryLove] = useState("");
   const [activeAddTym, setActiveAddTym] = useState(false);
   const [activeDeleteTym, setActiveDeleteTym] = useState(false);
-  const [activeAddVoucherID, setActiveAddVoucherID] = useState(false);
-  const [activeDeleteVoucherID, setActiveDeleteVoucherID] = useState(false);
   const { customerID } = useAuth() || {};
-
-  const toggleFavourite = (productId) => {
-    setFavouriteProducts((prev) => ({
-      ...prev,
-      [productId]: !prev[productId], // Đảo trạng thái yêu thích của sản phẩm
-    }));
-  };
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8; // Hiển thị 8 sản phẩm mỗi trang
@@ -67,6 +60,7 @@ function Shop() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [statusFollow, setStatusFollow] = useState(false);
   const [statusDeleteFollow, setStatusDeleteFollow] = useState(false);
+  const [changeStatusFollow, setChangeStatusFollow] = useState(false);
   const [savedVouchers, setSavedVouchers] = useState({});
   const [saveVoucherID, setSaveVoucherID] = useState(null);
   const [deleteVoucherID, setDeleteVoucherID] = useState(null);
@@ -74,13 +68,6 @@ function Shop() {
   const [currentIndexSuggest, setCurrentIndexSuggest] = useState(0);
   const visibleItems = 3;
   const visibleItemsSuggest = 5;
-
-  const handleSaveVoucher = (voucherId) => {
-    setSavedVouchers((prevState) => ({
-      ...prevState,
-      [voucherId]: !prevState[voucherId], // Đảo trạng thái của voucher tương ứng
-    }));
-  };
 
   // Xử lý chuyển trang
   const nextVouchers = () => {
@@ -177,10 +164,25 @@ function Shop() {
       );
 
       console.log("Thêm sản phẩm yêu thích thành công:", response.data);
+
+      // Cập nhật UI ngay lập tức
+      setFavouriteProducts((prev) => ({
+        ...prev,
+        [productIDTym]: true, // Đánh dấu là yêu thích
+      }));
     } catch (error) {
       console.error("Lỗi khi thêm sản phẩm yêu thích:", error);
     }
   };
+
+  useEffect(() => {
+    // Khi productFavoriteList thay đổi, đồng bộ lại trạng thái yêu thích
+    const favoriteMap = {};
+    productFavoriteList.forEach((fav) => {
+      favoriteMap[fav.ProductID] = true; // Đánh dấu sản phẩm là yêu thích
+    });
+    setFavouriteProducts(favoriteMap);
+  }, [productFavoriteList]);
 
   const fetchDeleteProductFavorite = async (
     deleteProductIDTym,
@@ -200,6 +202,13 @@ function Shop() {
       );
 
       console.log("✅ Xóa sản phẩm yêu thích thành công:", response.data);
+
+      // Cập nhật lại trạng thái UI ngay sau khi xóa
+      setFavouriteProducts((prev) => {
+        const updatedFavorites = { ...prev };
+        delete updatedFavorites[deleteProductIDTym]; // Xóa sản phẩm khỏi danh sách yêu thích
+        return updatedFavorites;
+      });
     } catch (error) {
       console.error(
         "❌ Lỗi khi xóa sản phẩm yêu thích:",
@@ -207,7 +216,6 @@ function Shop() {
       );
     }
   };
-
   //Lưu Voucher của shop mà Customer nhậnnhận
   const fetchSaveVoucherID = async (saveVoucherID, customerID) => {
     try {
@@ -218,9 +226,16 @@ function Shop() {
           customerID: customerID,
         }
       );
-      console.log("✅Thêm voucher thành công:", response.data);
+
+      console.log("✅ Thêm voucher thành công:", response.data);
+
+      // Cập nhật UI ngay lập tức
+      setSavedVouchers((prev) => ({
+        ...prev,
+        [saveVoucherID]: true, // Đánh dấu voucher là đã lưu
+      }));
     } catch (error) {
-      console.error("Lỗi khi thêm Voucher :", error);
+      console.error("❌ Lỗi khi thêm Voucher:", error);
     }
   };
 
@@ -235,23 +250,40 @@ function Shop() {
           },
         }
       );
-      console.log("✅Xóa voucher thành công:", response.data);
+
+      console.log("✅ Xóa voucher thành công:", response.data);
+
+      // Cập nhật lại trạng thái UI ngay sau khi xóa
+      setSavedVouchers((prev) => {
+        const updatedVouchers = { ...prev };
+        delete updatedVouchers[deleteVoucherID]; // Xóa voucher khỏi danh sách đã lưu
+        return updatedVouchers;
+      });
     } catch (error) {
-      console.error("Lỗi khi thêm Voucher :", error);
+      console.error("❌ Lỗi khi xóa Voucher:", error);
     }
   };
+
+  useEffect(() => {
+    // Khi listVoucherByCustomerID thay đổi, đồng bộ lại trạng thái đã lưu
+    const voucherMap = {};
+    listVoucherByCustomerID.forEach((voucher) => {
+      voucherMap[voucher.VoucherID] = true; // Đánh dấu voucher là đã lưu
+    });
+    setSavedVouchers(voucherMap);
+  }, [listVoucherByCustomerID]);
 
   useEffect(() => {
     if (deleteVoucherID && customerID) {
       fetchDeleteVoucherID(deleteVoucherID, customerID);
     }
-  }, [deleteVoucherID, customerID, activeDeleteVoucherID]);
+  }, [deleteVoucherID, customerID]);
 
   useEffect(() => {
     if (saveVoucherID && customerID) {
       fetchSaveVoucherID(saveVoucherID, customerID);
     }
-  }, [saveVoucherID, customerID, activeAddVoucherID]);
+  }, [saveVoucherID, customerID]);
 
   useEffect(() => {
     if (productIDTym && customerID) {
@@ -268,6 +300,21 @@ function Shop() {
       );
     }
   }, [deleteProductIDTym, customerID, activeDeleteTym]);
+
+  const isFollowing = listCustomerShopFollow.some(
+    (item) =>
+      String(item.CustomerID) === String(customerID) &&
+      String(item.ShopID) === String(shopID)
+  );
+
+  // Sử dụng useEffect để cập nhật trạng thái khi `isFollowing` thay đổi
+  useEffect(() => {
+    if (isFollowing) {
+      setChangeStatusFollow(true);
+    } else {
+      setChangeStatusFollow(false);
+    }
+  }, [isFollowing]);
 
   return (
     <>
@@ -290,9 +337,7 @@ function Shop() {
             src={inforShopList.ShopAvatar}
             alt=""
           />
-          {listCustomerShopFollow.some(
-           (item) => String(item.CustomerID) === String(customerID) && String(item.ShopID) === String(shopID)
-          ) ? (
+          {changeStatusFollow ? (
             <button
               style={{
                 width: "11vw",
@@ -306,7 +351,10 @@ function Shop() {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onClick={() => setStatusDeleteFollow(!statusDeleteFollow)}
+              onClick={() => {
+                setStatusDeleteFollow(!statusDeleteFollow);
+                setChangeStatusFollow(!changeStatusFollow);
+              }}
             >
               ✅ Đang Theo Dõi
             </button>
@@ -324,7 +372,10 @@ function Shop() {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onClick={() => setStatusFollow(!statusFollow)}
+              onClick={() => {
+                setStatusFollow(!statusFollow);
+                setChangeStatusFollow(!changeStatusFollow);
+              }}
             >
               + Theo Dõi
             </button>
@@ -439,47 +490,26 @@ function Shop() {
                     timeZone: "Asia/Ho_Chi_Minh",
                   })}
                 </div>
-                {savedVouchers[item.VoucherID] ||
-                (Array.isArray(listVoucherByCustomerID) &&
-                  listVoucherByCustomerID.some(
-                    (voucher) =>
-                      voucher.VoucherID === item.VoucherID &&
-                      voucher.CustomerID === customerID
-                  )) ? (
-                  <button
-                    onClick={() => {
-                      handleSaveVoucher(item.VoucherID);
+                <button
+                  onClick={() => {
+                    if (savedVouchers[item.VoucherID]) {
+                      // Nếu đã lưu, xóa khỏi danh sách
                       setDeleteVoucherID(item.VoucherID);
-                      setActiveDeleteVoucherID(!activeDeleteVoucherID);
-                    }}
-                    style={{
-                      position: "absolute",
-                      right: "1vw",
-                      top: "0.01vh",
-                      fontSize: "1vw",
-                      padding: "0.4vw",
-                    }}
-                  >
-                    ✅ Đã Lưu
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      handleSaveVoucher(item.VoucherID);
+                    } else {
+                      // Nếu chưa lưu, thêm vào danh sách
                       setSaveVoucherID(item.VoucherID);
-                      setActiveAddVoucherID(!activeAddVoucherID);
-                    }}
-                    style={{
-                      position: "absolute",
-                      right: "1vw",
-                      top: "0.01vh",
-                      fontSize: "1vw",
-                      padding: "0.4vw",
-                    }}
-                  >
-                    Lưu
-                  </button>
-                )}
+                    }
+                  }}
+                  style={{
+                    position: "absolute",
+                    right: "1vw",
+                    top: "0.01vh",
+                    fontSize: "1vw",
+                    padding: "0.4vw",
+                  }}
+                >
+                  {savedVouchers[item.VoucherID] ? "✅ Đã Lưu" : "Lưu"}
+                </button>
               </div>
             ))}
         </div>
@@ -548,8 +578,21 @@ function Shop() {
               )
               .map((item, index) => (
                 <div key={index} className={styles.items_showProducts}>
-                  <img className={styles.img} src={item.ProductImg} alt="" />
-                  <p style={{ marginBottom: "2vh", marginTop: "0" }}>
+                  <img
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/product/${item.ProductID}`)}
+                    className={styles.img}
+                    src={item.ProductImg}
+                    alt=""
+                  />
+                  <p
+                    onClick={() => navigate(`/product/${item.ProductID}`)}
+                    style={{
+                      cursor: "pointer",
+                      marginBottom: "2vh",
+                      marginTop: "0",
+                    }}
+                  >
                     {item.ProductName}
                   </p>
                   <div
@@ -568,20 +611,23 @@ function Shop() {
                     })}{" "}
                     <span
                       onClick={() => {
-                        toggleFavourite(item.ProductID);
+                        if (favouriteProducts[item.ProductID]) {
+                          // Nếu đã yêu thích, xóa khỏi danh sách
+                          setDeleteCategoryLove(item.Category);
+                          setDeleteProductIDTym(item.ProductID);
+                          setActiveDeleteTym(!activeDeleteTym);
+
+                        } else {
+                          // Nếu chưa yêu thích, thêm vào danh sách
+                          setProductIDTym(item.ProductID);
+                          setCategoryLove(item.Category);
+                          setActiveAddTym(!activeAddTym);
+
+                        }
                       }}
                     >
-                      {favouriteProducts[item.ProductID] ||
-                      (Array.isArray(productFavoriteList) &&
-                        productFavoriteList.some(
-                          (fav) => fav.ProductID === item.ProductID
-                        )) ? (
+                      {favouriteProducts[item.ProductID] ? (
                         <img
-                          onClick={() => {
-                            setDeleteCategoryLove(item.Category);
-                            setDeleteProductIDTym(item.ProductID);
-                            setActiveDeleteTym(!activeDeleteTym);
-                          }}
                           style={{
                             cursor: "pointer",
                             position: "absolute",
@@ -596,11 +642,6 @@ function Shop() {
                         />
                       ) : (
                         <img
-                          onClick={() => {
-                            setProductIDTym(item.ProductID);
-                            setCategoryLove(item.Category);
-                            setActiveAddTym(!activeAddTym);
-                          }}
                           style={{
                             cursor: "pointer",
                             position: "absolute",
@@ -611,7 +652,7 @@ function Shop() {
                             height: "1vw",
                           }}
                           src="/tym.png"
-                          alt="Yêu thích"
+                          alt="Chưa yêu thích"
                         />
                       )}
                     </span>
@@ -688,8 +729,21 @@ function Shop() {
               )
               .map((item, index) => (
                 <div key={index} className={styles.items_showProducts}>
-                  <img className={styles.img} src={item.ProductImg} alt="" />
-                  <p style={{ marginBottom: "2vh", marginTop: "0" }}>
+                  <img
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/product/${item.ProductID}`)}
+                    className={styles.img}
+                    src={item.ProductImg}
+                    alt=""
+                  />
+                  <p
+                    onClick={() => navigate(`/product/${item.ProductID}`)}
+                    style={{
+                      cursor: "pointer",
+                      marginBottom: "2vh",
+                      marginTop: "0",
+                    }}
+                  >
                     {item.ProductName}
                   </p>
                   <div
@@ -708,20 +762,21 @@ function Shop() {
                     })}{" "}
                     <span
                       onClick={() => {
-                        toggleFavourite(item.ProductID);
+                        if (favouriteProducts[item.ProductID]) {
+                          // Nếu đã yêu thích, xóa khỏi danh sách
+                          setDeleteCategoryLove(item.Category);
+                          setDeleteProductIDTym(item.ProductID);
+                          setActiveDeleteTym(!activeDeleteTym);
+                        } else {
+                          // Nếu chưa yêu thích, thêm vào danh sách
+                          setProductIDTym(item.ProductID);
+                          setCategoryLove(item.Category);
+                          setActiveAddTym(!activeAddTym);
+                        }
                       }}
                     >
-                      {favouriteProducts[item.ProductID] ||
-                      (Array.isArray(productFavoriteList) &&
-                        productFavoriteList.some(
-                          (fav) => fav.ProductID === item.ProductID
-                        )) ? (
+                      {favouriteProducts[item.ProductID] ? (
                         <img
-                          onClick={() => {
-                            setDeleteCategoryLove(item.Category);
-                            setDeleteProductIDTym(item.ProductID);
-                            setActiveDeleteTym(!activeDeleteTym);
-                          }}
                           style={{
                             cursor: "pointer",
                             position: "absolute",
@@ -736,11 +791,6 @@ function Shop() {
                         />
                       ) : (
                         <img
-                          onClick={() => {
-                            setProductIDTym(item.ProductID);
-                            setCategoryLove(item.Category);
-                            setActiveAddTym(!activeAddTym);
-                          }}
                           style={{
                             cursor: "pointer",
                             position: "absolute",
@@ -751,7 +801,7 @@ function Shop() {
                             height: "1vw",
                           }}
                           src="/tym.png"
-                          alt="Yêu thích"
+                          alt="Chưa yêu thích"
                         />
                       )}
                     </span>
@@ -821,7 +871,9 @@ function Shop() {
             }}
           >
             <span>
-              <span style={{ marginRight: "2vw" }}>Sắp Xếp Theo</span>
+              <span style={{ marginLeft: "0vw", marginRight: "1vw" }}>
+                Sắp Xếp Theo
+              </span>
               <button
                 style={{ border: "none" }}
                 className={
@@ -867,7 +919,7 @@ function Shop() {
                       ? styles.activeButton
                       : ""
                   }
-                  style={{ width: "15vw", border: "none" }}
+                  style={{ marginLeft: "-1vw", width: "17vw", border: "none" }}
                   onClick={() => {
                     setIsOpen(!isOpen);
                     handleSortButtonClick("Giá");
@@ -883,7 +935,7 @@ function Shop() {
                       zIndex: "10",
                       width: "15vw",
                       position: "absolute",
-                      left: "31vw",
+                      left: "33.5vw",
                     }}
                   >
                     <button
@@ -928,9 +980,11 @@ function Shop() {
                 )}
               </span>
 
-              <span style={{ marginLeft: "4.1vw" }}>
-                {currentPage} /{" "}
-                <span style={{ color: "red" }}>{totalPages} </span>
+              <span style={{ marginLeft: "4.8vw" }}>
+                {currentPage}
+                <span style={{ marginLeft: "0.2vw", color: "red" }}>
+                  / {totalPages}
+                </span>
                 <button
                   onClick={() =>
                     setCurrentPage((prev) => Math.max(prev - 1, 1))
@@ -955,11 +1009,20 @@ function Shop() {
               currentProducts.map((item, index) => (
                 <div key={index} className={styles.items_showProducts}>
                   <img
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/product/${item.ProductID}`)}
                     className={styles.img}
                     src={item.ProductImg}
                     alt={item.ProductName}
                   />
-                  <p style={{ marginBottom: "0.2vw", marginTop: "0" }}>
+                  <p
+                    onClick={() => navigate(`/product/${item.ProductID}`)}
+                    style={{
+                      marginBottom: "0.2vw",
+                      marginTop: "0",
+                      cursor: "pointer",
+                    }}
+                  >
                     {item.ProductName}
                   </p>
                   <div
@@ -978,23 +1041,26 @@ function Shop() {
                     {Number(item.Price).toLocaleString("vi-VI", {
                       style: "currency",
                       currency: "VND",
-                    })}{" "}
+                    })}
                     <span
                       onClick={() => {
-                        toggleFavourite(item.ProductID);
+                        if (favouriteProducts[item.ProductID]) {
+                          // Nếu đã yêu thích, xóa khỏi danh sách
+                          setDeleteCategoryLove(item.Category);
+                          setDeleteProductIDTym(item.ProductID);
+                          setActiveDeleteTym(!activeDeleteTym);
+
+                        } else {
+                          // Nếu chưa yêu thích, thêm vào danh sách
+                          setProductIDTym(item.ProductID);
+                          setCategoryLove(item.Category);
+                          setActiveAddTym(!activeAddTym);
+
+                        }
                       }}
                     >
-                      {favouriteProducts[item.ProductID] ||
-                      (Array.isArray(productFavoriteList) &&
-                        productFavoriteList.some(
-                          (fav) => fav.ProductID === item.ProductID
-                        )) ? (
+                      {favouriteProducts[item.ProductID] ? (
                         <img
-                          onClick={() => {
-                            setDeleteCategoryLove(item.Category);
-                            setDeleteProductIDTym(item.ProductID);
-                            setActiveDeleteTym(!activeDeleteTym);
-                          }}
                           style={{
                             cursor: "pointer",
                             position: "absolute",
@@ -1009,11 +1075,6 @@ function Shop() {
                         />
                       ) : (
                         <img
-                          onClick={() => {
-                            setProductIDTym(item.ProductID);
-                            setCategoryLove(item.Category);
-                            setActiveAddTym(!activeAddTym);
-                          }}
                           style={{
                             cursor: "pointer",
                             position: "absolute",
@@ -1024,14 +1085,30 @@ function Shop() {
                             height: "1vw",
                           }}
                           src="/tym.png"
-                          alt="Yêu thích"
+                          alt="Chưa yêu thích"
                         />
                       )}
                     </span>
                   </div>
+                  {item.Category === "Đồ Tươi Sống" && (
+                    <div style={{ paddingBottom: "0.5vh" }}>
+                      Khối Lượng:{" "}
+                      <span
+                        style={{
+                          marginLeft: "0.5vw",
+                          color: "Green",
+                          fontWeight: "500",
+                        }}
+                      >
+                        {item.Weight} g
+                      </span>{" "}
+                    </div>
+                  )}
                   <div>
                     =&gt; Đã bán:{" "}
-                    <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
+                    <span style={{ marginLeft: "0.5vw", color: "blue" }}>
+                      {item.SoldQuantity}
+                    </span>
                   </div>
                 </div>
               ))
