@@ -240,17 +240,20 @@
   }
 }
 
-/* ============================ */
 /* Dark Mode Styles */
 .dark {
+background-color: #121212; 
+color: white; 
   background-color: #121212;
   /* Nền tối cho phần chính */
   color: white;
   /* Văn bản sáng khi chế độ tối */
 }
 
-/* Dark Mode Input */
 .darkInput {
+background-color: #333;
+color: white; 
+border: 1px solid #555;
   background-color: #333;
   /* Nền input tối */
   color: white;
@@ -261,6 +264,11 @@
 
 /* Dark Mode Button */
 .darkButton {
+background-color: #f04e30;
+color: white;
+border: none;
+padding: 10px 15px;
+border-radius: 5px;
   background-color: #f04e30;
   /* Nền nút sáng khi hover */
   color: white;
@@ -270,8 +278,14 @@
   border-radius: 5px;
 }
 
-/* Dark Mode Search Suggestions */
+
 .darkSuggestions {
+background-color: #444;
+color: white; 
+}
+
+.darkText {
+color: white;
   background-color: #444;
   /* Nền gợi ý tối */
   color: white;
@@ -283,8 +297,17 @@
   /* Chữ sáng trong chế độ tối */
 }
 
-/* Dark Mode for suggestions */
+
 .dark .suggestions {
+background-color: #333;
+}
+
+.dark .suggestions li {
+color: white; 
+}
+
+.dark .suggestions li:hover {
+background-color: #555;
   background-color: #333;
   /* Nền gợi ý tối */
 }
@@ -299,8 +322,13 @@
   /* Màu nền gợi ý khi hover */
 }
 
-/* Dark Mode for the container */
+
 .dark .searchContainer {
+background-color: #222;
+}
+
+.dark .searchContainer button:hover {
+background-color: #d43e1d;
   background-color: #222;
   /* Nền tối cho container tìm kiếm */
 }
@@ -310,8 +338,11 @@
   /* Hiệu ứng hover nút tìm kiếm */
 }
 
-/* Dark Mode for search input */
+
 .dark .searchContainer input {
+background-color: #444; 
+color: white;
+border: 1px solid #555;
   background-color: #444;
   /* Nền tối cho input */
   color: white;
@@ -320,13 +351,12 @@
   /* Viền tối cho input */
 }
 
-/* Dark Mode Search Banner */
+
 .dark .searchBanner {
   background-color: #f04e30;
   color: white;
 }
 
-/* Dark Mode for the FAQ Section */
 .dark .faqItem {
   background-color: #333;
   color: white;
@@ -345,7 +375,6 @@
   display: block;
 }
 
-/* Dark Mode for Sidebar */
 .dark .sidebar {
   background-color: #222;
   border-right: 2px solid #444;
@@ -366,7 +395,6 @@
   color: #f04e30;
 }
 
-/* Dark Mode for Details Panel */
 .dark .detailsPanel {
   background-color: #222;
   color: white;
@@ -380,7 +408,6 @@
   color: #bbb;
 }
 
-/* Dark Mode for Footer */
 .dark .footer {
   background-color: #181818;
   color: white;

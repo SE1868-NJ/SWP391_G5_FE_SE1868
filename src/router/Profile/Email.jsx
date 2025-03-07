@@ -2,6 +2,8 @@ import { useState, useEffect, useContext } from "react";
 import styles from "./Email.module.css";
 import { getCurrentCustomerById, updateCustomerById, sendOTP, verifyOTP } from "./services/user.services";
 import { ThemeContext } from "../../contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
+import "../../i18n";
 
 const Email = ({ customerID, onUpdate }) => {
     const [email, setEmail] = useState("");
@@ -76,6 +78,7 @@ const Email = ({ customerID, onUpdate }) => {
                 <div className={styles.editEmail}>
                     {step === 1 ? (
                         <>
+                            <h2>Email Mới:</h2>
                             <input
                                 type="email"
                                 value={newEmail}
@@ -106,7 +109,8 @@ const Email = ({ customerID, onUpdate }) => {
                 </div>
             ) : (
                 <div className={styles.viewEmail}>
-                    <p><strong>Email:</strong> {email}</p>
+                    <p><h2>Email Của Bạn</h2></p>
+                    <p> {email}</p>
                     <button onClick={() => setIsEditing(true)} className={styles.editButton}>Sửa</button>
                 </div>
             )}

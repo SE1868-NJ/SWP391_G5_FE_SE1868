@@ -2,14 +2,21 @@ import styles from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
 import MenuHeader from "../MenuHeader/MenuHeader";
 import Search from "../Search/Search";
-import { useEffect, useState } from "react";
 import DarkModeButton from "../../components/DarkModeButton";
 import { iconCart, iconHeart, iconHelp, iconLogin, iconNotify, iconProfile } from "../../components/icon/Icon";
 import { Dropdown, Space } from "antd";
+import { useEffect, useState, useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
+import "../../i18n.js";
+import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
 
 function Header() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const { theme } = useContext(ThemeContext);
+  const { t } = useTranslation();
+
 
   // Hàm điều hướng
   const handleNavigate = (path) => {
@@ -26,24 +33,27 @@ function Header() {
   }, []);
 
   const handleClick = (e) => {
-    if (user) {
-      if (e === "Thông Báo") {
-        navigate("/Notifications"); // Nếu có user, vào trang thông báo
-      } else if (e === "Hỗ Trợ") {
-        navigate("/Portal"); // Nếu có user, vào trang thông báo
-      } else if (e === "Giỏ Hàng") {
-        navigate("/cart"); // Nếu có user, vào trang thông báo
+    if (e === "Tài Khoản") {
+      if (user) {
+        navigate("/customers"); // Nếu đã đăng nhập, chuyển đến trang tài khoản
+      } else {
+        navigate("/login"); // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
       }
-    } else {
-      navigate("/login"); // Nếu chưa đăng nhập, vào trang login
+    } else if (e === "Thông Báo") {
+      navigate("/Notifications");
+    } else if (e === "Hỗ Trợ") {
+      navigate("/Portal");
+    } else if (e === "Giỏ Hàng") {
+      navigate("/cart");
     }
   };
+  
 
   const items = [
     {
       key: '1',
       label: (
-        <a  href="/profile" style={{ textDecoration: 'none' }}>
+        <a  href="/customers/customer-info" style={{ textDecoration: 'none' }}>
           Thông tin tài khoản
         </a>
       ),
@@ -138,6 +148,7 @@ function Header() {
             <DarkModeButton />
           </div>
         </div>
+        <LanguageSwitcher/>
       </div>
     </header>
   );
