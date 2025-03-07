@@ -41,9 +41,6 @@ function AppContent() {
       className={`min-h-screen transition-all duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
         }`}
     >
-      <header className="p-4 flex justify-between items-center">
-        <DarkModeButton />
-      </header>
 
       <Routes>
         <Route path="/OrderCheckOut" element={<Order />} />
