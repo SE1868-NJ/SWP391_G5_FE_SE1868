@@ -23,9 +23,9 @@ function Address({setInfor}) {
         await setSelectAddress(response.data.find(item => item.isDefault === 1));
         const hehe = response.data.find(item => item.isDefault === 1)
         await setInfor({
-            addressID :hehe.AddressID,
-            houseAddress:hehe.HouseAddress,
-            area: hehe.Area
+            addressID :hehe?.AddressID,
+            houseAddress:hehe?.HouseAddress,
+            area: hehe?.Area
         })
     }
     async function changeSelectAddress(value){

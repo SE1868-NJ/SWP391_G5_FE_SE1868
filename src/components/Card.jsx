@@ -4,9 +4,11 @@ import styles from './card/styles.module.css'
 import { ProductDetailModal } from './products/ProductDetailModal';
 import { iconFavorite, iconFavoriteDefault } from './icon/Icon';
 import { deleteProductFavorite, setProductFavorite } from '../service/product';
+import { useNavigate } from 'react-router-dom';
 const Card = ({item, isFavoriteProduct}) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
+  const navigate = useNavigate();
 
 
   const handleSetFavorite = async() =>{
@@ -33,18 +35,22 @@ const Card = ({item, isFavoriteProduct}) => {
     }
   }
 
+  const handleGotoDetail = (id) =>{
+    navigate("/product/"+id)
+  }
+
   useEffect(()=>{
     setIsFavorite(isFavoriteProduct)
   },[isFavoriteProduct])
   return (
     <div className={styles.card_container}>
       <div className={styles.card_imageContainer} >
-        <img className={styles.card_image} src={item.ProductImg} onClick={()=> setIsOpen(true)}/>
+        <img className={styles.card_image} src={item.ProductImg} onClick={()=> handleGotoDetail(item.ProductID)}/>
       </div>
       <div className={styles.card_info}>
         <div className={styles.card_infoContainer}>
           <div className={styles.card_infoTitle}>
-            <span className={styles.card_infoTitleName} onClick={()=> setIsOpen(true)} style={{margin: 0}}>{item.ProductName}</span>
+            <span className={styles.card_infoTitleName} onClick={()=> handleGotoDetail(item.ProductID)} style={{margin: 0}}>{item.ProductName}</span>
             <p className={styles.card_infoQuantity}>SL: {item.StockQuantity}</p>
           </div>
           <div className={styles.card_infoRight}>
