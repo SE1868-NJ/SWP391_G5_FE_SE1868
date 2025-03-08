@@ -15,8 +15,8 @@ function Cart() {
   const [selectedAll, setSelectedAll] = useState(false);
   const [newTotal, setNewTotal] = useState(0);
   const [address, setAddress] = useState({
-    AddressID: null, 
-    HouseAddress: "", 
+    AddressID: null,
+    HouseAddress: "",
     Area: ""
   });
   const navigate = useNavigate();
@@ -29,45 +29,60 @@ function Cart() {
     }
   }, [inforFullUser]);
 
+
+  const fetchCart = async () => {
+    try {
+      const response = await axios.post('http://localhost:3001/api/Cart/cusID', { cusID: cusID });
+
+      const updatedCartItems = response.data.map(item => ({
+        ...item,
+        originalQuantity: item.productQuantity || 0,
+      }));
+
+      setCartItems(updatedCartItems);
+    } catch (error) {
+      console.error("Lỗi khi lấy giỏ hàng:", error);
+    }
+  };
+
   useEffect(() => {
     if (cusID) {
-      const fetchCart = async () => {
-        try {
-          const response = await axios.post('http://localhost:3001/api/Cart/cusID', { cusID: cusID });
-          console.log("Fetched Cart Data:", response.data);
-          await setCartItems(response.data);
-        } catch (error) {
-          console.error("Lỗi khi lấy giỏ hàng:", error);
-        }
-      };
       fetchCart();
     }
-  }, [cusID])
+  }, [cusID]);
+
 
   useEffect(() => {
     console.log("Update address:", address);
   }, [address]);
 
-  const updateQuantity = async (cartID, amount) => {
-    setCartItems(prevItems =>
-      prevItems.map(item => {
-        if (item.cartID === cartID) {
-          const newQuantity = Math.max(1, Math.min(item.Quantity + amount, item.productQuantity));
-          const updatedProductQuantity = { ...item, Quantity: newQuantity };
-          return {
-            ...item,
-            Quantity: newQuantity,
-            newQuantity: updatedProductQuantity
-          };
-        }
-        return item;
-      })
-    );
+  const updateQuantity = async (cartID, cusID, productID, amount) => {
+    if (!cartID || !cusID || !productID) {
+      console.error("Lỗi: ID bị undefined!");
+      return;
+    }
+
+    const updatedCartItems = cartItems.map(item => {
+      if (item.cartID === cartID) {
+        return {
+          ...item,
+          Quantity: Math.max(0, item.Quantity + amount),
+        };
+      }
+      return item;
+    });
+
+    setCartItems(updatedCartItems);
+    const newQuantity = updatedCartItems.find(item => item.cartID === cartID)?.Quantity;
+
+    console.log("Gửi request cập nhật số lượng:", { cartID, cusID, productID, newQuantity });
 
     try {
-      await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, amount });
+      const response = await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, cusID, productID, newQuantity });
+      console.log("Update success:", response.data);
+      fetchCart();
     } catch (error) {
-      console.error(error);
+      console.error("Lỗi khi cập nhật số lượng:", error.response?.status, error.response?.data);
     }
   };
 
@@ -94,7 +109,7 @@ function Cart() {
       return;
     }
 
-    setSelectedItems(prevSelected => 
+    setSelectedItems(prevSelected =>
       prevSelected.includes(cartID)
         ? prevSelected.filter(id => id !== cartID)
         : [...prevSelected, cartID]
@@ -168,7 +183,7 @@ function Cart() {
                       <span className={`${styles.item_name} ${theme === "dark" ? styles.darkText : ""}`}>
                         {item.productName}
                         <br />
-                        Số lượng trong kho: {item.productQuantity}
+                        Số lượng trong kho: {item.originalQuantity ? Math.max(item.originalQuantity - item.Quantity, 0) : 'Không xác định'}
                       </span>
                     </td>
                     <td className={styles.c2}>{item.ShopName}</td>
@@ -177,9 +192,15 @@ function Cart() {
                     </td>
                     <td className={styles.c4}>
                       <div className={styles.quantity_control}>
-                        <button className={`${styles.quantity_button} ${theme === "dark" ? styles.darkButton : ""}`} onClick={() => updateQuantity(item.cartID, -1)}>-</button>
-                        <span className={styles.quantity_value}>{item.Quantity}</span>
-                        <button className={`${styles.quantity_button} ${theme === "dark" ? styles.darkButton : ""}`} onClick={() => updateQuantity(item.cartID, 1)}>+</button>
+                        <button className={`${styles.quantity_button} ${theme === "dark" ? styles.darkButton : ""}`}
+                          onClick={() => updateQuantity(item.cartID, cusID, item.productID, -1)}>
+                          -
+                        </button>
+                        <span className={styles.quantity_value}>{item.Quantity ?? 1}</span>
+                        <button className={`${styles.quantity_button} ${theme === "dark" ? styles.darkButton : ""}`}
+                          onClick={() => updateQuantity(item.cartID, cusID, item.productID, 1)}>
+                          +
+                        </button>
                       </div>
                     </td>
                     <td className={styles.c5}>
