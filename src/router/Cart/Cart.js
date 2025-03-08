@@ -78,9 +78,13 @@ function Cart() {
     console.log("Gửi request cập nhật số lượng:", { cartID, cusID, productID, newQuantity });
 
     try {
-      const response = await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, cusID, productID, newQuantity });
-      console.log("Update success:", response.data);
-      fetchCart();
+      if (newQuantity <= 0) {
+        console.log("Remove item:", cartID);
+        await removeItem(cartID);
+      } else {
+        const response = await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, cusID, productID, newQuantity });
+        console.log("Update success:", response.data);
+      }
     } catch (error) {
       console.error("Lỗi khi cập nhật số lượng:", error.response?.status, error.response?.data);
     }
