@@ -30,12 +30,13 @@ import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRe
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
+import LoyaltyStatus from "./router/LoyaltyStatus/LoyaltyStatus.js";
 
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
 
-  
+
   return (
     <div
       className={`min-h-screen transition-all duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
@@ -67,6 +68,7 @@ function AppContent() {
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
         <Route path="/support/history/:id" element={<SupportRequestDetails />} />
+        <Route path="/loyalty/:customerId" element={<LoyaltyStatus />} />
 
       </Routes>
     </div>
