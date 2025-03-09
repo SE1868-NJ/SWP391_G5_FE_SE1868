@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import styles from "./Main.module.css";
 import { GlobalContext } from "../../globalContext/GlobalContext";
+import { CustomerBehaviorContext } from "../../globalContext/CustomerBehaviorContext";
 import axios from "axios";
 import { useAuth } from "../../globalContext/AuthContext";
 import { useNavigate } from "react-router";
@@ -15,6 +16,8 @@ function Main() {
     loading,
     productFavoriteList = [],
   } = useContext(GlobalContext);
+
+  const {fetchAddCustomerBehavior} = useContext(CustomerBehaviorContext);
 
   const { customerID } = useAuth() || {};
 
@@ -276,7 +279,7 @@ function Main() {
             <p>Đang tải sản phẩm...</p>
           ) : currentProducts.length > 0 ? (
             currentProducts.map((item, index) => (
-              <div key={index} className={styles.items_showProducts}>
+              <div onClick={() => fetchAddCustomerBehavior(customerID, item.ProductID, item.Category, "view", item.ShopID)} key={index} className={styles.items_showProducts}>
                 <img
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate(`/product/${item.ProductID}`)}

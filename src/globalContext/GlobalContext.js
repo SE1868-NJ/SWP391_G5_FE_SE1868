@@ -22,7 +22,14 @@ export function GlobalProvider({ children }) {
   const [voucher_ID, setVoucher_ID] = useState("");
   const [menuDataLoadedMain, setMenuDataLoadedMain] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [shopID, setShopID] = useState(null);
+  const [shopID, setShopID] = useState(() => {
+    return localStorage.getItem("shopID") || "1"; 
+  });
+  
+  // Cập nhật localStorage khi shopID thay đổi
+  useEffect(() => {
+    localStorage.setItem("shopID", shopID);
+  }, [shopID]);
   const [productFavoriteList, setProductFavoriteList] = useState([]);
 
   const { customerID } = useAuth() || {}; // ✅ Nhận customerID từ AuthContext

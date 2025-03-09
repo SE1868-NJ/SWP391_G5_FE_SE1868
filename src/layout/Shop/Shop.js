@@ -19,7 +19,7 @@ function Shop() {
     listCustomerShopFollow = [],
   } = useContext(GlobalContext);
 
-  const { productShopList, setTypeCategory, setOptionProductShop } =
+  const { productShopList, setTypeCategory, setOptionProductShop} =
     useContext(ShopContext);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -71,16 +71,23 @@ function Shop() {
 
   // Xử lý chuyển trang
   const nextVouchers = () => {
-    if (currentIndex + visibleItems < voucherShopList.length) {
-      setCurrentIndex(currentIndex + visibleItems);
-    }
+    setCurrentIndex((prevIndex) =>
+      prevIndex + visibleItems < voucherShopList.length
+        ? prevIndex + visibleItems
+        : 0 // Nếu hết danh sách thì quay về đầu
+    );
   };
+  
 
   const prevVouchers = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - visibleItems);
-    }
+    setCurrentIndex((prevIndex) =>
+      prevIndex - visibleItems >= 0
+        ? prevIndex - visibleItems
+        : voucherShopList.length - (voucherShopList.length % visibleItems || visibleItems) 
+        // Nếu đã ở đầu, quay về cuối danh sách
+    );
   };
+  
 
   const prevSuggest = () => {
     setCurrentIndexSuggest((prevIndex) =>
@@ -352,6 +359,7 @@ function Shop() {
                 justifyContent: "center",
               }}
               onClick={() => {
+                setStatusFollow(!statusFollow);
                 setStatusDeleteFollow(!statusDeleteFollow);
                 setChangeStatusFollow(!changeStatusFollow);
               }}
@@ -408,9 +416,7 @@ function Shop() {
           <div className={styles.item}>
             Đang Theo:{" "}
             <span style={{ color: "red", marginLeft: "1vw" }}>
-              {statusFollow
-                ? inforShopList.following + 1
-                : inforShopList.following}
+              {inforShopList.following} 
             </span>
           </div>
           <div className={styles.item}>
@@ -423,7 +429,7 @@ function Shop() {
           <div className={styles.item}>
             Người theo dõi:{" "}
             <span style={{ color: "red", marginLeft: "1vw" }}>
-              {inforShopList.total_products}
+              {changeStatusFollow ? inforShopList.total_products +1 : inforShopList.total_products}
             </span>
           </div>
           <div className={styles.item}>

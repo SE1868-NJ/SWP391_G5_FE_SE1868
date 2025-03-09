@@ -3,20 +3,13 @@ import { useNavigate } from "react-router-dom";
 import MenuHeader from "../MenuHeader/MenuHeader";
 import Search from "../Search/Search";
 import DarkModeButton from "../../components/DarkModeButton";
-import {
-  iconCart,
-  iconHeart,
-  iconHelp,
-  iconLogin,
-  iconNotify,
-  iconProfile,
-} from "../../components/icon/Icon";
 import { Dropdown, Space } from "antd";
 import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n.js";
 import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
+import { iconCart, iconHeart, iconHelp, iconLogin, iconNotify, iconProfile } from "../../components/icon/Icon.jsx";
 
 function Header() {
   const navigate = useNavigate();
@@ -173,12 +166,28 @@ function Header() {
             )}
             <div className={user ? styles.name : styles.fhs_top_menu_labe}>
               <Dropdown menu={{ items }}>
-                <Space>{user ? user.name : "Tài Khoản"}</Space>
+                <Space>
+                  {user ? user.name : t("account")}
+
+                </Space>
               </Dropdown>
             </div>
           </div>
+          {/* <div className={styles.fhs_language_header_second_bar}>
+            <div className={styles.fhs_top_language}>
+              <img
+                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/default.svg"
+                alt=""
+                style={{ width: "80%" }} // Giữ nguyên style inline
+              />
+            </div>
+          </div> */}
+        <LanguageSwitcher/>
+
+          <div className="p-4 flex justify-between items-center">
+            <DarkModeButton />
+          </div>
         </div>
-        <LanguageSwitcher />
       </div>
     </header>
   );
