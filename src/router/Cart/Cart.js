@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../layout/Header/Header";
@@ -21,6 +21,7 @@ function Cart() {
   });
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
+  const isDeletingRef = useRef(false);
 
   useEffect(() => {
     if (inforFullUser) {
@@ -62,15 +63,26 @@ function Cart() {
       return;
     }
 
+    let isExceedingStock = false;
+
     const updatedCartItems = cartItems.map(item => {
       if (item.cartID === cartID) {
-        return {
-          ...item,
-          Quantity: Math.max(0, item.Quantity + amount),
-        };
+        const maxQuantity = item.productQuantity;
+        const newQuantity = item.Quantity + amount;
+
+        if (newQuantity > maxQuantity) {
+          isExceedingStock = true;
+          return item;
+        }
+        return { ...item, Quantity: Math.max(0, newQuantity) };
       }
       return item;
     });
+
+    if (isExceedingStock) {
+        alert("Bạn đã đạt giới hạn số lượng sản phẩm trong kho!");
+        return;
+    }
 
     setCartItems(updatedCartItems);
     const newQuantity = updatedCartItems.find(item => item.cartID === cartID)?.Quantity;
@@ -78,12 +90,10 @@ function Cart() {
     console.log("Gửi request cập nhật số lượng:", { cartID, cusID, productID, newQuantity });
 
     try {
-      if (newQuantity <= 0) {
-        console.log("Remove item:", cartID);
+      if (newQuantity === 0) {
         await removeItem(cartID);
       } else {
-        const response = await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, cusID, productID, newQuantity });
-        console.log("Update success:", response.data);
+        await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, cusID, productID, newQuantity });
       }
     } catch (error) {
       console.error("Lỗi khi cập nhật số lượng:", error.response?.status, error.response?.data);
@@ -91,13 +101,25 @@ function Cart() {
   };
 
   const removeItem = async (cartID) => {
+    if (isDeletingRef.current) return;
+    isDeletingRef.current = true;
+
+    const confirmDelete = window.confirm("Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?");
+    if (!confirmDelete) {
+      isDeletingRef.current = false;
+      return;
+    }
+
     try {
-      await axios.delete(`http://localhost:3001/api/Cart/deleteItem`, { data: { cartID } });
       setCartItems(prevItems => prevItems.filter(item => item.cartID !== cartID));
+      await axios.delete(`http://localhost:3001/api/Cart/deleteItem`, { data: { cartID } });
     } catch (error) {
       console.error(error);
+    } finally {
+      isDeletingRef.current = false;
     }
   };
+
   const handleSelectAll = () => {
     if (selectedAll) {
       setSelectedItems([]);
