@@ -64,6 +64,7 @@ function Cart() {
     }
 
     let isExceedingStock = false;
+    let prevQuantity = cartItems.find(item => item.cartID === cartID)?.Quantity || 1;
 
     const updatedCartItems = cartItems.map(item => {
       if (item.cartID === cartID) {
@@ -80,34 +81,44 @@ function Cart() {
     });
 
     if (isExceedingStock) {
-        alert("Bạn đã đạt giới hạn số lượng sản phẩm trong kho!");
-        return;
+      alert("Bạn đã đạt giới hạn số lượng sản phẩm trong kho!");
+      return;
     }
 
-    setCartItems(updatedCartItems);
     const newQuantity = updatedCartItems.find(item => item.cartID === cartID)?.Quantity;
 
-    console.log("Gửi request cập nhật số lượng:", { cartID, cusID, productID, newQuantity });
+    if (newQuantity === 0) {
+      const confirmDelete = window.confirm("Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?");
+      if (confirmDelete) {
+        await removeItem(cartID, false);
+        return;
+      } else {
+        const restoredCartItems = cartItems.map(item =>
+          item.cartID === cartID ? { ...item, Quantity: prevQuantity } : item
+        );
+        setCartItems(restoredCartItems);
+        return;
+      }
+    }
+    setCartItems(updatedCartItems);
 
     try {
-      if (newQuantity === 0) {
-        await removeItem(cartID);
-      } else {
-        await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, cusID, productID, newQuantity });
-      }
+      await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, cusID, productID, newQuantity });
     } catch (error) {
       console.error("Lỗi khi cập nhật số lượng:", error.response?.status, error.response?.data);
     }
   };
 
-  const removeItem = async (cartID) => {
+  const removeItem = async (cartID, showPopup = true) => {
     if (isDeletingRef.current) return;
     isDeletingRef.current = true;
 
-    const confirmDelete = window.confirm("Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?");
-    if (!confirmDelete) {
-      isDeletingRef.current = false;
-      return;
+    if (showPopup) {
+      const confirmDelete = window.confirm("Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?");
+      if (!confirmDelete) {
+        isDeletingRef.current = false;
+        return;
+      }
     }
 
     try {
