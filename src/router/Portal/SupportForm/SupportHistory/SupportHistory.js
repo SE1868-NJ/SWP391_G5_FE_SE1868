@@ -7,13 +7,26 @@ import { useNavigate } from "react-router-dom";
 
 const SupportHistory = () => {
     const [requests, setRequests] = useState([]);
+    const [categories, setCategories] = useState({});
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Lấy danh sách yêu cầu
         axios.get("http://localhost:3001/api/support/requests/1")
             .then(response => setRequests(response.data))
             .catch(error => console.error("Lỗi khi tải lịch sử yêu cầu!", error));
+
+        // Lấy danh sách category từ database
+        axios.get("http://localhost:3001/api/support/categories")
+            .then(response => {
+                const categoryMap = {};
+                response.data.forEach(cat => {
+                    categoryMap[cat.id] = cat.name;
+                });
+                setCategories(categoryMap);
+            })
+            .catch(error => console.error("Lỗi khi tải danh sách category!", error));
     }, []);
 
     const filteredRequests = requests.filter(req =>
@@ -47,7 +60,7 @@ const SupportHistory = () => {
                                 className={styles.requestItem}
                                 onClick={() => navigate(`/support/history/${req.id}`)}
                             >
-                                <p><strong>Loại Yêu Cầu:</strong> {req.category_name}</p>
+                                <p><strong>Loại Yêu Cầu:</strong> {categories[req.category] || "Không xác định"}</p>
                                 <p><strong>Tiêu đề:</strong> {req.subject}</p>
                                 <p className={styles.requestStatus}>
                                     {req.status === "pending" ? "Đang chờ xử lý" :
@@ -57,12 +70,13 @@ const SupportHistory = () => {
                             </li>
                         ))
                     ) : (
-                        <p className="text-gray-500 text-center">Không có yêu cầu nào.</p>
+                        <p >Không có yêu cầu nào.</p>
                     )}
                 </ul>
             </div>
         </>
     );
 };
+
 
 export default SupportHistory;
