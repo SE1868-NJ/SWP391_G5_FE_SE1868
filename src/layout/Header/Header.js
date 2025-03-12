@@ -32,6 +32,8 @@ function Header() {
         navigate("/Portal"); // Nếu có user, vào trang thông báo
       } else if (e === "Giỏ Hàng") {
         navigate("/cart"); // Nếu có user, vào trang thông báo
+      } else if (e === "Blog") {
+        navigate("/blog");
       }
     } else {
       navigate("/login"); // Nếu chưa đăng nhập, vào trang login
@@ -80,6 +82,11 @@ function Header() {
               className={styles.fhs_noti_icon_header}
             />
             <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Giỏ Hàng</div>
+          </div>
+          <div 
+            onClick={() => handleNavigate("/blog")} 
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Blog</div>
           </div>
           <div
             onClick={() => handleNavigate("/login")}
