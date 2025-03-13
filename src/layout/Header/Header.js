@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import MenuHeader from "../MenuHeader/MenuHeader";
 import Search from "../Search/Search";
 import DarkModeButton from "../../components/DarkModeButton";
+import { iconCart, iconHeart, iconHelp, iconLogin, iconNotify, iconProfile } from "../../components/icon/Icon";
 import { Dropdown, Space } from "antd";
 import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n.js";
 import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
-import { iconCart, iconHeart, iconHelp, iconLogin, iconNotify, iconProfile } from "../../components/icon/Icon.jsx";
 
 function Header() {
   const navigate = useNavigate();
@@ -47,26 +47,36 @@ function Header() {
     }
   };
 
+
   const items = [
     {
-      key: "1",
+      key: '1',
       label: (
-        <a href="/customers/customer-info" style={{ textDecoration: "none" }}>
+        <a  href="/customers/customer-info" style={{ textDecoration: 'none' }}>
           Thông tin tài khoản
         </a>
       ),
-      icon: iconProfile,
+      icon: iconProfile
+
+    }, {
+      key: '2',
+      label: (
+        <a href="/my-favorite">
+          Sản phẩm yêu thích
+        </a>
+      ),
+      icon: iconHeart
     },
     {
-      key: "2",
-      label: <a href="/my-favorite">Sản phẩm yêu thích</a>,
-      icon: iconHeart,
+      key: '3',
+      label: (
+        <a href="/login">
+          {user ? 'Đăng xuất' : 'Đăng nhập'}
+        </a>
+      ),
+      icon: iconLogin
     },
-    {
-      key: "3",
-      label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
-      icon: iconLogin,
-    },
+
   ];
 
   return (

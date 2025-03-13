@@ -180,7 +180,7 @@ function Cart() {
         </div>
         <h2 className={`${styles.cart_header} ${theme === "dark" ? styles.darkText : ""}`}>Giỏ hàng</h2>
         <div className={`${styles.address} ${theme === "dark" ? styles.darkText : ""}`}>
-          <Address setInfor={setAddress} />
+          {/* <Address setInfor={setAddress} /> */}
         </div>
         <div className={`${styles.cart_content} ${theme === "dark" ? styles.dark : ""}`}>
           <table style={{ backgroundColor: theme === "dark" ? '#333' : 'white' }}>
