@@ -30,7 +30,6 @@ export const AuthProvider = ({ children }) => {
         if (storedUser) {
             const parsedUser = JSON.parse(storedUser);
             setUser(parsedUser);
-            setInforFullUser(parsedUser)
             setInforFullUser(parsedUser);
             setCustomerID(parsedUser.id); 
         }
