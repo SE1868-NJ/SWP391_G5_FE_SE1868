@@ -30,7 +30,8 @@ import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRe
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
-import LoyaltyStatus from "./router/LoyaltyStatus/LoyaltyStatus.js";
+
+import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
 
 
 function AppContent() {
@@ -68,7 +69,7 @@ function AppContent() {
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
         <Route path="/support/history/:id" element={<SupportRequestDetails />} />
-        <Route path="/loyalty/:customerId" element={<LoyaltyStatus />} />
+        <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
 
       </Routes>
     </div>

@@ -17,6 +17,7 @@ const Categories = [
   { title: "Thông Tin Chung", link: "/category/info", img: "./inforIcon.png" },
 ];
 
+
 function Portal() {
   const { theme } = useContext(ThemeContext); // Lấy theme từ ThemeContext
   const navigate = useNavigate();
@@ -55,9 +56,11 @@ function Portal() {
       <div className={styles.headerWrapper}>
         <Footer />
       </div>
-      <button onClick={() => navigate(`/loyalty/${customerId}`)}>
-        Xem Khách Hàng Thân Thiết
-      </button>
+
+
+
+
+
 
     </div>
   );
