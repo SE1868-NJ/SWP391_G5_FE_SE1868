@@ -30,6 +30,8 @@ import OrderDetail from "./router/OrderDetail/OrderDetail";
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
+import Gift from "./router/GiftShop/Gift.js"
+import Game from "./router/Game/Game.jsx";
 import "./i18n.js";
 
 function AppContent() {
@@ -65,6 +67,9 @@ function AppContent() {
         <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
+        <Route path="/gift" element={<Gift/>} />
+        <Route path="/game" element={<Game/>} />
+
         <Route
           path="/support/history/:id"
           element={<SupportRequestDetails />}

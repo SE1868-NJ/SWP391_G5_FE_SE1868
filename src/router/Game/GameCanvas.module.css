@@ -1,0 +1,56 @@
+.gameContainer {
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+  
+  .score {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: limegreen;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .startButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-size: 15px;
+    background: rgb(233, 15, 3);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .gameOver {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: red;
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .restartButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .canvas {
+    display: block;
+    margin: auto;
+  }
+  
+  

@@ -20,6 +20,7 @@ const CustomerProfile = ({ customer, onUpdate }) => {
         PhoneNumber: "",
         Gender: "",
         Avatar: null,
+        Xu: "",
     });
     
 
@@ -48,6 +49,7 @@ const CustomerProfile = ({ customer, onUpdate }) => {
                 PhoneNumber: customer.PhoneNumber || "",
                 Gender: customer.Gender || "",
                 Avatar: null,
+                Xu: customer.xu || "",
             });
 
             setPreviewAvatar(customer.Avatar || "");
@@ -125,15 +127,20 @@ const CustomerProfile = ({ customer, onUpdate }) => {
             Object.entries(formData).forEach(([key, value]) => {
                 if (value) formDataToSend.append(key, value);
             });
-
+        
             await updateCustomerById(customer.CustomerID, formDataToSend);
-            onUpdate({ ...formData, Avatar: previewAvatar });
+        
+            // Cập nhật dữ liệu mới ngay sau khi API thành công
+            const updatedCustomer = { ...customer, ...formData, Avatar: previewAvatar };
+            
+            onUpdate(updatedCustomer);
             setIsEditing(false);
             setError("");
         } catch (err) {
             setError("Có lỗi xảy ra khi cập nhật: " + err?.response?.data?.message);
             console.error(err);
         }
+        
     };
 
     const maskEmail = (email) => {
@@ -230,6 +237,7 @@ const CustomerProfile = ({ customer, onUpdate }) => {
                             <p><strong>{t("Phone")}</strong> <span className={styles.infoText}>{maskPhoneNumber(customer.PhoneNumber)}</span></p>
                             <p><strong>{t("Gender")}</strong> <span className={styles.infoText}>{customer.Gender === "1" ? t("Male") : t("Female")}</span></p>
                             <p><strong>Email:</strong> <span className={styles.infoText}>{maskEmail(customer.Email)}</span></p>
+                            <p><strong>Xu:</strong> <span className={styles.infoText}>{customer.xu}</span></p>
                             <button onClick={() => setIsEditing(true)} className={theme === "dark" ? styles.darkButton : ""}>{t("Edit")}</button>
                         </div>
                     )}

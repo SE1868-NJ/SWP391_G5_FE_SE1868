@@ -242,11 +242,8 @@
 
 /* Dark Mode Styles */
 .dark {
-<<<<<<< HEAD
-=======
 background-color: #121212; 
 color: white; 
->>>>>>> 72abf3637aa29e4cb78766fdfeab8d0398cf5623
   background-color: #121212;
   /* Nền tối cho phần chính */
   color: white;
@@ -254,12 +251,9 @@ color: white;
 }
 
 .darkInput {
-<<<<<<< HEAD
-=======
 background-color: #333;
 color: white; 
 border: 1px solid #555;
->>>>>>> 72abf3637aa29e4cb78766fdfeab8d0398cf5623
   background-color: #333;
   /* Nền input tối */
   color: white;
@@ -270,14 +264,11 @@ border: 1px solid #555;
 
 /* Dark Mode Button */
 .darkButton {
-<<<<<<< HEAD
-=======
 background-color: #f04e30;
 color: white;
 border: none;
 padding: 10px 15px;
 border-radius: 5px;
->>>>>>> 72abf3637aa29e4cb78766fdfeab8d0398cf5623
   background-color: #f04e30;
   /* Nền nút sáng khi hover */
   color: white;
@@ -289,15 +280,12 @@ border-radius: 5px;
 
 
 .darkSuggestions {
-<<<<<<< HEAD
-=======
 background-color: #444;
 color: white; 
 }
 
 .darkText {
 color: white;
->>>>>>> 72abf3637aa29e4cb78766fdfeab8d0398cf5623
   background-color: #444;
   /* Nền gợi ý tối */
   color: white;
@@ -311,8 +299,6 @@ color: white;
 
 
 .dark .suggestions {
-<<<<<<< HEAD
-=======
 background-color: #333;
 }
 
@@ -322,7 +308,6 @@ color: white;
 
 .dark .suggestions li:hover {
 background-color: #555;
->>>>>>> 72abf3637aa29e4cb78766fdfeab8d0398cf5623
   background-color: #333;
   /* Nền gợi ý tối */
 }
@@ -339,14 +324,11 @@ background-color: #555;
 
 
 .dark .searchContainer {
-<<<<<<< HEAD
-=======
 background-color: #222;
 }
 
 .dark .searchContainer button:hover {
 background-color: #d43e1d;
->>>>>>> 72abf3637aa29e4cb78766fdfeab8d0398cf5623
   background-color: #222;
   /* Nền tối cho container tìm kiếm */
 }
@@ -358,12 +340,9 @@ background-color: #d43e1d;
 
 
 .dark .searchContainer input {
-<<<<<<< HEAD
-=======
 background-color: #444; 
 color: white;
 border: 1px solid #555;
->>>>>>> 72abf3637aa29e4cb78766fdfeab8d0398cf5623
   background-color: #444;
   /* Nền tối cho input */
   color: white;

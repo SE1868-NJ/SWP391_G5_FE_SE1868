@@ -11,6 +11,7 @@ import Setting from './Setting';
 import Privacy from './Privacy';
 import Email from './Email';
 import { ThemeContext } from "../../contexts/ThemeContext";
+import { useAuth } from "../../globalContext/AuthContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
 
@@ -19,11 +20,15 @@ function CustomerRoutes() {
     const [error, setError] = useState(null);
     const { theme } = useContext(ThemeContext);
     const { t } = useTranslation();
+    const { user } = useAuth();
+    const customerId = user?.id;
 
     useEffect(() => {
+        if (!customerId) return; // Nếu chưa có ID, không gọi API
+        
         const fetchCustomer = async () => {
             try {
-                const customerData = await getCurrentCustomerById(2);
+                const customerData = await getCurrentCustomerById(customerId);
                 setCustomer(customerData);
             } catch (err) {
                 setError('Không thể tải dữ liệu khách hàng. ' + err?.response?.data?.message);
@@ -32,7 +37,7 @@ function CustomerRoutes() {
         };
 
         fetchCustomer();
-    }, []);
+    }, [customerId]);
 
     return (
         <div className={` ${theme === "dark" ? "dark" : ""}`}>
