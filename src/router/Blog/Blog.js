@@ -21,7 +21,7 @@ const BlogList = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/api/Blog/categories');
+            const response = await axios.get('http://localhost:3001/api/blogcategory/');
     
             console.log("Dữ liệu categories từ API:", response.data); 
     
@@ -69,7 +69,7 @@ const BlogList = () => {
                 {filteredBlogs.length > 0 ? (
                     <div className={styles.blogList}>
                         {filteredBlogs.map(blog => {
-                            const categoryName = categories.find(c => c.ID === blog.CategoryID)?.name || 'Chưa xác định';
+                            const categoryName = categories.find(c => Number(c.id) === Number(blog.CategoryID))?.name || 'Chưa xác định';
                             return (
                                 <Link to={`/blog/${blog.BlogID}`} key={blog.BlogID} className={styles.blogLink}>
                                     <img src={blog.Image} alt={blog.Title} className={styles.blogImage} />

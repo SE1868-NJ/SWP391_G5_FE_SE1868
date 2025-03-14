@@ -5,6 +5,7 @@ import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import Address from "../../components/address/Address";
 import styles from "./Cart.module.css";
+import Swal from "sweetalert2";
 import { ThemeContext } from "../../contexts/ThemeContext";
 
 function Cart() {
@@ -81,25 +82,40 @@ function Cart() {
     });
 
     if (isExceedingStock) {
-      alert("Bạn đã đạt giới hạn số lượng sản phẩm trong kho!");
+      Swal.fire({
+        icon: "warning",
+        title: "Vượt quá số lượng",
+        text: "Bạn đã đạt giới hạn số lượng sản phẩm trong kho!",
+        confirmButtonText: "OK"
+      });
       return;
     }
 
     const newQuantity = updatedCartItems.find(item => item.cartID === cartID)?.Quantity;
 
     if (newQuantity === 0) {
-      const confirmDelete = window.confirm("Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?");
-      if (confirmDelete) {
-        await removeItem(cartID, false);
-        return;
-      } else {
-        const restoredCartItems = cartItems.map(item =>
-          item.cartID === cartID ? { ...item, Quantity: prevQuantity } : item
-        );
-        setCartItems(restoredCartItems);
-        return;
-      }
+      Swal.fire({
+        icon: "question",
+        title: "Xóa sản phẩm",
+        text: "Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?",
+        showCancelButton: true,
+        confirmButtonText: "Xóa",
+        cancelButtonText: "Hủy",
+        reverseButtons: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await removeItem(cartID, false);
+          return;
+        } else {
+          const restoredCartItems = cartItems.map(item =>
+            item.cartID === cartID ? { ...item, Quantity: prevQuantity } : item
+          );
+          setCartItems(restoredCartItems);
+        }
+      });
+      return;
     }
+
     setCartItems(updatedCartItems);
 
     try {
@@ -114,8 +130,16 @@ function Cart() {
     isDeletingRef.current = true;
 
     if (showPopup) {
-      const confirmDelete = window.confirm("Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?");
-      if (!confirmDelete) {
+      const result = await Swal.fire({
+        icon: "question",
+        title: "Xóa sản phẩm",
+        text: "Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?",
+        showCancelButton: true,
+        confirmButtonText: "Xóa",
+        cancelButtonText: "Hủy",
+        reverseButtons: true
+      });
+      if (!result.isConfirmed) {
         isDeletingRef.current = false;
         return;
       }

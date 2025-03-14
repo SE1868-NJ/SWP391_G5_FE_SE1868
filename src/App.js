@@ -30,6 +30,7 @@ import OrderDetail from './router/OrderDetail/OrderDetail'
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import BlogList from "./router/Blog/Blog.js";
+import BlogDetail from "./router/Blog/BlogDetail.js";
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
@@ -51,6 +52,7 @@ function AppContent() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/blog" element={<BlogList/>} />
+        <Route path="/blog/:id" element={<BlogDetail/>} />
         <Route path="/search" element={<SearchProduct />} />
         <Route path="/my-favorite" element={<FavoriteProduct />} />
         <Route path="/product/:id" element={<PageProductDetail />} />
