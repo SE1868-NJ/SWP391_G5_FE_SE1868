@@ -84,7 +84,6 @@
     display: block;
 }
 
-/* ============================ */
 /* Chế độ tối */
 .dark {
     background-color: #1e1e1e;
@@ -119,12 +118,10 @@
     color: #bbb;
 }
 
-/* Khi mở câu trả lời trong chế độ tối */
 .dark .faqItem.active .faqAnswer {
     display: block;
 }
 
-/* Đổi màu hover và active cho các mục */
 .dark .faqItem:hover {
     background-color: #333;
 }

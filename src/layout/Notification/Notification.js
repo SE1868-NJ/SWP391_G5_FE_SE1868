@@ -1,9 +1,8 @@
 import styles from "./Notification.module.css";
 import { GlobalContext } from "../../globalContext/GlobalContext";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../../globalContext/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 function Notification() {
   const { notificationsList = [] } = useContext(GlobalContext);
@@ -17,20 +16,102 @@ function Notification() {
     statusNotification,
     order_ID,
     setOrder_ID,
-    customer_ID,
-    setCustomer_ID,
     voucher_ID,
     setVoucher_ID,
   } = useContext(GlobalContext);
   const items = ["Thông Báo", "Đơn Mua", "Kho Voucher"];
   const itemNoti = ["Tất Cả Thông Báo", "Cập Nhật Đơn Hàng", "Khuyến Mãi"];
-  console.log("Status khi click: ",statusNotification);
+
+  // Hiển thị thông báo Voucher
+  const renderVoucherNotification = (item) => (
+    <div
+
+      onClick={() => {
+        setOrder_ID(null);
+        setStatusNotification("read");
+        setVoucher_ID(item.VoucherID);
+        window.location.reload();
+      }}
+      className={`${styles.focus} ${
+        !item.status_voucherDetail || item.status_voucherDetail === "unread"
+          ? styles.unread
+          : ""
+      }`}
+    >
+      <img className={styles.img_noti} src={item.VoucherImg} alt="Khuyến Mãi" />
+      <div
+        style={{ display: "flex", flexDirection: "column", marginLeft: "3vw" }}
+      >
+        <div className={styles.show_noti_item}>{item.VoucherTitle}</div>
+        <div className={styles.show_noti_item}>{item.VoucherName}</div>
+        <div className={styles.show_noti_item}>
+          End:{" "}
+          {new Date(item.EndDate).toLocaleString("vi-VN", {
+            timeZone: "Asia/Ho_Chi_Minh",
+          })}
+        </div>
+      </div>
+      <button disabled className={styles.button_detail}>Xem Chi Tiết</button>
+    </div>
+  );
+
+  // Hiển thị thông báo Order
+  const renderOrderNotification = (item) => (
+    (item.ProductImg && (<div
+      onClick={() => {
+        setOrder_ID(item.OrderID);
+        setStatusNotification("read");
+        setVoucher_ID(null);
+        window.location.reload();
+      }}
+      className={`${styles.focus} ${
+        !item.status_Orders || item.status_Orders === "unread"
+          ? styles.unread
+          : ""
+      }`}
+    >
+      <img className={styles.img_noti} src={item.ProductImg} alt="Đơn Hàng" />
+      <div
+        style={{ display: "flex", flexDirection: "column", marginLeft: "3vw" }}
+      >
+        <div className={styles.show_noti_item}>{item.Status}</div>
+        <div className={styles.show_noti_item}>
+          Đơn Hàng
+          <span style={{ marginLeft: "0.5vw" }} className={styles.highlight}>
+            {item.OrderID}
+          </span>
+          {"  "} Đã {"  "}{" "}
+          <span className={styles.highlight}>{item.Status}</span>
+        </div>
+        <div className={styles.show_noti_item}>
+          {new Date(item.DeliveryTime).toLocaleString("vi-VN", {
+            timeZone: "Asia/Ho_Chi_Minh",
+          })}
+        </div>
+      </div>
+      <button disabled className={styles.button_detail}>Xem Chi Tiết</button>
+    </div>))
+  );
+
+  // Hàm xử lý hiển thị các thông báo theo `typeNotification`
+  const renderNotifications = (notifications) => {
+    return notifications.map((item, index) => {
+      return (
+        <div key={ index}>
+          {item.VoucherImg
+            ? renderVoucherNotification(item)
+            : renderOrderNotification(item)}
+        </div>
+      );
+    });
+  };
+  
 
   const handleClick = (item) => {
     if (item === "Đơn Mua") {
-      navigate("/OrderCheckOut");
+      navigate("/OrderandVoucher");
     } else if (item === "Kho Voucher") {
-      navigate("/");
+      navigate("/OrderandVoucher");
     }
   };
 
@@ -42,7 +123,6 @@ function Notification() {
     notificationsList,
     statusNotification,
     order_ID,
-    customer_ID,
     voucher_ID,
   ]);
 
@@ -62,7 +142,12 @@ function Notification() {
               <img src={user.avatar} alt="Avatar" className={styles.avatar} />
               <div style={{ flexDirection: "column" }}>
                 <div className={styles.profile}>{user.name}</div>
-                <span className={styles.edit_profile}>Sửa Hồ Sơ</span>
+                <span
+                  onClick={() => navigate("/customers/customer-info")}
+                  className={styles.edit_profile}
+                >
+                  Sửa Hồ Sơ
+                </span>
               </div>
             </>
           ) : (
@@ -72,10 +157,7 @@ function Notification() {
         <div className={styles.block_items}>
           {items.map((item, itemIndex) => (
             <div key={itemIndex}>
-              <div
-                onClick={() => handleClick(item)}
-                className={styles.items}
-              >
+              <div onClick={() => handleClick(item)} className={styles.items}>
                 {item}
               </div>
               {item === "Thông Báo" && (
@@ -102,139 +184,12 @@ function Notification() {
       </div>
       <div className={styles.block_show_noti}>
         <div className={styles.check_status_noti}>Đánh Dấu Đã Đọc Tất Cả</div>
-        {notificationsList.map((item, index) => {
-          return (
-            <div
-              key={index} // Key đặt ở thẻ cha để React tối ưu render
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                paddingBottom: "1.5vh",
-                paddingTop: "1.5vh",
-                marginLeft: "3vh",
-                width: "57vw",
-                cursor: "pointer",
-              }}
-            >
-              {typeNotification === "Tất Cả Thông Báo" && (
-                <div
-                  onClick={() => {
-                    setCustomer_ID(item.CustomerID);
-                    setOrder_ID(item.OrderID);
-                    setStatusNotification("read");
-                    setVoucher_ID(item.VoucherID);
-                  }}
-                  className={`${styles.focus} ${!item.notification_status || item.notification_status === "unread" ? styles.unread : ""}`}
-                  >
-                  <img
-                    className={styles.img_noti}
-                    src={item.VoucherImg}
-                    alt="Thông Báo"
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      marginLeft: "3vw",
-                    }}
-                  >
-                    <div className={styles.show_noti_item}>
-                      {item.VoucherTitle}
-                    </div>
-                    <div className={styles.show_noti_item}>
-                      {item.VoucherName}
-                    </div>
-                    <div className={styles.show_noti_item}>
-                      {new Date(item.DeliveryTime).toLocaleString("vi-VN", {
-                        timeZone: "Asia/Ho_Chi_Minh",
-                      })}
-                    </div>
-                  </div>
-                  <button className={styles.button_detail}>Xem Chi Tiết</button>
-                </div>
-              )}
-
-              {typeNotification === "Cập Nhật Đơn Hàng" && (
-                <div
-                  onClick={() => {
-                    setCustomer_ID(item.CustomerID);
-                    setOrder_ID(item.OrderID);
-                    setStatusNotification("read");
-                    setVoucher_ID("");
-                  }}
-                  className={`${styles.focus} ${!item.notification_status || item.notification_status === "unread" ? styles.unread : ""}`}
-                  >
-                  <img
-                    className={styles.img_noti}
-                    src={item.ProductImgs}
-                    alt="Đơn Hàng"
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      marginLeft: "3vw",
-                    }}
-                  >
-                    <div className={styles.show_noti_item}>{item.Status}</div>
-                    <div className={styles.show_noti_item}>
-                      Đơn Hàng
-                      {"  "}
-                      <span className={styles.highlight}>{item.OrderID}</span>
-                      {"  "}
-                      Đã {"  "}{" "}
-                      <span className={styles.highlight}>{item.Status}</span>
-                    </div>
-                    <div className={styles.show_noti_item}>
-                      {new Date(item.DeliveryTime).toLocaleString("vi-VN", {
-                        timeZone: "Asia/Ho_Chi_Minh",
-                      })}
-                    </div>
-                  </div>
-                  <button className={styles.button_detail}>Xem Chi Tiết</button>
-                </div>
-              )}
-
-              {typeNotification === "Khuyến Mãi" && (
-                <div
-                  onClick={() => {
-                    setCustomer_ID(item.CustomerID);
-                    setOrder_ID("");
-                    setStatusNotification("read");
-                    setVoucher_ID(item.VoucherID);
-                  }}
-                  className={`${styles.focus} ${!item.notification_status || item.notification_status === "unread" ? styles.unread : ""}`}
-                  >
-                  <img
-                    className={styles.img_noti}
-                    src={item.VoucherImg}
-                    alt="Khuyến Mãi"
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      marginLeft: "3vw",
-                    }}
-                  >
-                    <div className={styles.show_noti_item}>
-                      {item.VoucherTitle}
-                    </div>
-                    <div className={styles.show_noti_item}>
-                      {item.VoucherName}
-                    </div>
-                    <div className={styles.show_noti_item}>
-                      {new Date(item.DeliveryTime).toLocaleString("vi-VN", {
-                        timeZone: "Asia/Ho_Chi_Minh",
-                      })}
-                    </div>
-                  </div>
-                  <button className={styles.button_detail}>Xem Chi Tiết</button>
-                </div>
-              )}
-            </div>
-          );
-        })}
+        {typeNotification === "Tất Cả Thông Báo" &&
+          renderNotifications(notificationsList)}
+        {typeNotification === "Cập Nhật Đơn Hàng" &&
+          renderNotifications(notificationsList)}
+        {typeNotification === "Khuyến Mãi" &&
+          renderNotifications(notificationsList)}
       </div>
     </div>
   );

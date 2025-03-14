@@ -76,8 +76,8 @@ export const Comments = ({ isPage, product, isOpen }) => {
     }, [product, isReset, isOpen])
 
     useEffect(() => {
-        handleCheckUserCanComment()
-    }, [product])
+            handleCheckUserCanComment()
+    }, [product,isOpen])
 
     return (
         <div className={isPage ? styles.comment_container_page : styles.comment_container}>

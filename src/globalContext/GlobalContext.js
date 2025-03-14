@@ -22,7 +22,14 @@ export function GlobalProvider({ children }) {
   const [voucher_ID, setVoucher_ID] = useState("");
   const [menuDataLoadedMain, setMenuDataLoadedMain] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [shopID, setShopID] = useState("1");
+  const [shopID, setShopID] = useState(() => {
+    return localStorage.getItem("shopID") || "1"; 
+  });
+  
+  // Cập nhật localStorage khi shopID thay đổi
+  useEffect(() => {
+    localStorage.setItem("shopID", shopID);
+  }, [shopID]);
   const [productFavoriteList, setProductFavoriteList] = useState([]);
 
   const { customerID } = useAuth() || {}; // ✅ Nhận customerID từ AuthContext
@@ -152,14 +159,14 @@ export function GlobalProvider({ children }) {
         }
       );
       if (response.data && response.data.length > 0) {
-        setProductShopSuggestList(response.data); // ✅ Chỉ cập nhật state nếu có dữ liệu
+        setProductShopSuggestList(response.data);
       } else {
-        setProductShopSuggestList([]); // ✅ Đặt rỗng nếu không có dữ liệu
+        setProductShopSuggestList([]);
         console.warn("Không có dữ liệu cửa hàng.");
       }
     } catch (error) {
       console.error("Lỗi khi tải danh mục:", error);
-    } // ✅ ĐÃ THÊM DẤU ĐÓNG NGOẶC
+    }
   };
 
   //Lấy Product của shop phần gợi ý
@@ -172,15 +179,16 @@ export function GlobalProvider({ children }) {
         }
       );
       if (response.data && response.data.length > 0) {
-        setVoucherShopList(response.data); // ✅ Chỉ cập nhật state nếu có dữ liệu
+        setVoucherShopList(response.data);
       } else {
-        setVoucherShopList([]); // ✅ Đặt rỗng nếu không có dữ liệu
+        setVoucherShopList([]);
         console.warn("Không có dữ liệu cửa hàng.");
       }
     } catch (error) {
       console.error("Lỗi khi tải danh mục:", error);
-    } // ✅ ĐÃ THÊM DẤU ĐÓNG NGOẶC
+    }
   };
+
   // ✅ Hàm gọi API sản phẩm theo `option`
   const fetchProductsMain = async (optionMain) => {
     setLoading(true);
@@ -210,9 +218,15 @@ export function GlobalProvider({ children }) {
       const response = await axios.get(
         "http://localhost:3001/api/notifications/status",
         {
-          params: { order_ID, customerID, voucher_ID, statusNotification },
+          params: {
+            order_ID: order_ID,
+            customerID: customerID,
+            voucher_ID: voucher_ID,
+            statusNotification: statusNotification,
+          },
         }
       );
+      console.log("Status Notifi: ", response.data);
       setNotificationsList(response.data[0]);
     } catch (error) {
       console.error("Lỗi khi tải status sản phẩm:", error);
@@ -227,14 +241,60 @@ export function GlobalProvider({ children }) {
       return;
     }
     setLoading(true);
+
     try {
-      const response = await axios.get(
-        "http://localhost:3001/api/notifications",
-        {
-          params: { customerID, typeNotification },
-        }
-      );
-      setNotificationsList(response.data.length > 0 ? response.data : []);
+      if (typeNotification === "Tất Cả Thông Báo") {
+        const response1 = await axios.get(
+          "http://localhost:3001/api/notifications",
+          {
+            params: {
+              customerID: customerID,
+              typeNotification: "Cập Nhật Đơn Hàng",
+            },
+          }
+        );
+        const response2 = await axios.get(
+          "http://localhost:3001/api/notifications",
+          {
+            params: { customerID: customerID, typeNotification: "Khuyến Mãi" },
+          }
+        );
+        // Kết hợp và sắp xếp các thông báo
+        const mergedList = [...response1.data, ...response2.data];
+        
+        const sortedList = mergedList.sort((a, b) => {
+          // Lấy thời gian hiện tại (hôm nay)
+          const today = new Date();
+          
+          // Chuyển đổi DeliveryTime và StartDate thành đối tượng Date, nếu có
+          const dateA = a.DeliveryTime
+            ? new Date(a.DeliveryTime)
+            : new Date(a.StartDate);
+          const dateB = b.DeliveryTime
+            ? new Date(b.DeliveryTime)
+            : new Date(b.StartDate);
+        
+          // Tính khoảng cách thời gian từ "hôm nay" tới từng thời gian
+          const diffA = Math.abs(today - dateA); // Chênh lệch giữa hôm nay và thời gian của a
+          const diffB = Math.abs(today - dateB); // Chênh lệch giữa hôm nay và thời gian của b
+        
+          // So sánh chênh lệch: mục nào có thời gian gần hôm nay hơn sẽ đứng trước
+          return diffA - diffB;
+        });
+
+        setNotificationsList(sortedList);
+      } else {
+        const response = await axios.get(
+          "http://localhost:3001/api/notifications",
+          {
+            params: {
+              customerID: customerID,
+              typeNotification: typeNotification,
+            },
+          }
+        );
+        setNotificationsList(response.data);
+      }
     } catch (error) {
       console.error("Lỗi khi tải thông báo:", error);
     }
@@ -258,23 +318,22 @@ export function GlobalProvider({ children }) {
   // ✅ Gọi API Notifications khi customerID thay đổi (tự động cập nhật khi đăng nhập)
   useEffect(() => {
     if (customerID && typeNotification) {
+      // ✅ Đảm bảo có customerID trước khi gọi API
       fetchNotifications(customerID, typeNotification);
     }
-    fetchStatusNotification(
-      order_ID,
-      customerID,
-      voucher_ID,
-      statusNotification
-    );
-    console.log("đã cập nhật lại Status Noti");
-  }, [
-    customerID,
-    typeNotification,
-    statusNotification,
-    order_ID,
-    customerID,
-    voucher_ID,
-  ]);
+  }, [customerID, typeNotification]);
+
+  useEffect(() => {
+    if (customerID && (order_ID || voucher_ID) && statusNotification) {
+      // ✅ Đảm bảo có customerID trước khi gọi API
+      fetchStatusNotification(
+        order_ID,
+        customerID,
+        voucher_ID,
+        statusNotification
+      );
+    }
+  }, [customerID, statusNotification, order_ID, voucher_ID]);
 
   // ✅ Gọi API sản phẩm khi `option` thay đổi
   useEffect(() => {
@@ -308,7 +367,7 @@ export function GlobalProvider({ children }) {
         categoryProductByShopID,
         productFavoriteList,
         listVoucherByCustomerID,
-        listCustomerShopFollow
+        listCustomerShopFollow,
       }}
     >
       {children}

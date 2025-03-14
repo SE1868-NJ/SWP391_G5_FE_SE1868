@@ -16,6 +16,7 @@ import React, { useContext } from "react";
 import { GlobalProvider } from "./globalContext/GlobalContext";
 import { AuthProvider } from "./globalContext/AuthContext.js";
 import { ThemeProvider, ThemeContext } from "./contexts/ThemeContext.js";
+import CustomerBehaviorProvider from "./globalContext/CustomerBehaviorContext.js";
 import MenuHeaderProvider from "./globalContext/MenuHeaderContext.js";
 import DarkModeButton from "./components/DarkModeButton";
 import ShopProvider from "./globalContext/ShopContext.js";
@@ -25,25 +26,23 @@ import SearchResults from "./router/Portal/SearchResults/SearchResults.js";
 import ActivityLog from "./router/Profile/ActivityLog.jsx";
 import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
 import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
-// import { GlobalProvider, GlobalContext } from "./globalContext/GlobalContext";
-import OrderDetail from './router/OrderDetail/OrderDetail'
+import OrderDetail from "./router/OrderDetail/OrderDetail";
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import BlogList from "./router/Blog/Blog.js";
 import BlogDetail from "./router/Blog/BlogDetail.js";
+import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
+import "./i18n.js";
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
 
   return (
     <div
-      className={`min-h-screen transition-all duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
-        }`}
+      className={`min-h-screen transition-all duration-300 ${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
+      }`}
     >
-      <header className="p-4 flex justify-between items-center">
-        <DarkModeButton />
-      </header>
-
       <Routes>
         <Route path="/OrderCheckOut" element={<Order />} />
         <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
@@ -70,6 +69,10 @@ function AppContent() {
         <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
+        <Route
+          path="/support/history/:id"
+          element={<SupportRequestDetails />}
+        />
       </Routes>
     </div>
   );
@@ -79,15 +82,15 @@ function App() {
   return (
     <GlobalProvider>
       <AuthProvider>
-        <MenuHeaderProvider>
-          <ShopProvider>
-            <ThemeProvider>
-              <Router>
-                <AppContent />
-              </Router>
-            </ThemeProvider>
-          </ShopProvider>
-        </MenuHeaderProvider>
+          <MenuHeaderProvider>
+            <ShopProvider>
+              <ThemeProvider>
+                  <Router>
+                    <CustomerBehaviorProvider><AppContent /></CustomerBehaviorProvider>
+                  </Router>
+              </ThemeProvider>
+            </ShopProvider>
+          </MenuHeaderProvider>
       </AuthProvider>
     </GlobalProvider>
   );

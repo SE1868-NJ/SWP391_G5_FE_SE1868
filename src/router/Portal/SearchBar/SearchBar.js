@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./SearchBar.module.css";
-import { ThemeContext } from "../../../contexts/ThemeContext"; // Import ThemeContext
+import { ThemeContext } from "../../../contexts/ThemeContext";
 
 const searchCache = {}; // Cache kết quả tìm kiếm
 

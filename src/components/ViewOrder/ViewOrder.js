@@ -1,11 +1,13 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import styles from './ViewOrder.module.css'
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import { useCustomer } from "../../Context";
+import { GlobalContext } from "../../globalContext/GlobalContext";  
 
 function ViewOrder() {
   const navigate = useNavigate();
+  const {setShopID} = useContext(GlobalContext);
   const { customer } = useCustomer();
   const [allOrder,setAllOrder] = useState([]);
   const [chooseStatus, setChooseStatus] = useState("Tất cả");
@@ -29,6 +31,7 @@ function ViewOrder() {
     "Chờ thanh toán": "Chưa thanh toán",
   };
   useEffect(()=>{
+    console.log(orderList)
     getAllOrder();
   },[])
   async function getAllOrder(){
@@ -71,25 +74,29 @@ function ViewOrder() {
     
   }
   useEffect(()=>{
-    console.log(chooseQuantity)
   },[chooseQuantity])
   const buyAgain = async()=>{
     const selectCart = [{...buyOrder, Quantity : chooseQuantity,totalAmount: chooseQuantity * buyOrder.productPrice + 32000,}]
     console.log(selectCart)
     navigate('/OrderCheckOut',{state:selectCart})
   }
-  const handleChange =async (e) => {
+  async function handleChange (e) {
+    console.log(orderList[indexList][reviewPopup])
     if(e.target.name === 'rating' && (e.target.value <0 || e.target.value >5)){
       alert('Số sao chỉ từ 0 đến 5');
       await setFormReview({ ...formReview, rating: 0});
     }
-    if(e.target.value === 'shipper' && orderList[reviewPopup].shipperID == null){
+    if(e.target.value === 'shipper' && orderList[indexList][reviewPopup].shipperID === null){
       alert('Sản phẩm này chưa có người giao hàng nên không thể đánh giá');
       await setFormReview({ ...formReview, category: ''});
     }
-    setFormReview({ ...formReview, [e.target.name]: e.target.value });
+    const newValue = { ...formReview, [e.target.name]: e.target.value }
+    await setFormReview(newValue);
+    
   };
-
+  useEffect(()=>{
+    console.log(formReview)
+  },[formReview])
   const closeReviewPopup = async()=>{
     await setReviewPopup(null)
     await setFormReview({
@@ -100,6 +107,7 @@ function ViewOrder() {
   }
 
   const handleSubmit=async()=>{
+    console.log(formReview)
     if(formReview.category === '' || formReview.reviewText === ""){
       alert('hãy nhập đủ thông tin')
       return;
@@ -107,11 +115,11 @@ function ViewOrder() {
     const cusID = customer.CustomerID 
     let categoryID;
     if(formReview.category === 'product'){
-      categoryID = orderList[reviewPopup].productID;
+      categoryID = orderList[indexList][reviewPopup].productID;
     }else if(formReview.category === 'shop'){
-      categoryID = orderList[reviewPopup].shopID;
+      categoryID = orderList[indexList][reviewPopup].shopID;
     }else{
-      categoryID = orderList[reviewPopup].shipperID;
+      categoryID = orderList[indexList][reviewPopup].shipperID;
     }
     const response = await axios.post('http://localhost:3001/api/Review/review',{formReview,cusID,categoryID})
     if(response.status === 200){
@@ -129,6 +137,10 @@ function ViewOrder() {
   const changeIndex = async (value) => {
     await setIndexList(value);
   };
+  const redirectshop = (shopID)=>{
+    setShopID(shopID);
+    navigate('/ ')
+  }
   return (
     <div className={styles.viewOrder} >
       <div className={styles.orderStatus}>
@@ -140,12 +152,12 @@ function ViewOrder() {
       </div>
       <div className={styles.listOrder}>
       <div style={{width:'64%'}}>
-      {orderList.length >0 && orderList[indexList].map((order,index)=>(
+      {orderList.length > 0 && orderList[indexList].map((order,index)=>(
         <div className={styles.orderDetail} key={index}>
           <div className={styles.orderDetailTop}>
             <div>
               {order.productCategory}
-              <button onClick={()=> navigate('/')} >Xem shop</button>
+              <button onClick={()=> redirectshop(order.ShopID)} >Xem shop</button>
             </div>
              {statusFunction(order.status)}
           </div>
@@ -223,19 +235,19 @@ function ViewOrder() {
           <div className={styles.innerPopup}>
             <h2>Đánh giá sản phẩm {orderList[reviewPopup].productName}</h2>
             <label>Chọn danh mục:</label>
-            <select name="category" value={formReview.category} onChange={handleChange}>
+            <select name="category" value={formReview.category} onChange={(e)=>handleChange(e)}>
               <option value="">-- Chọn --</option>
               <option value="product">Sản phẩm</option>
               <option value="shipper">Người giao hàng</option>
               <option value="shop">Cửa hàng</option>
             </select>
-            <label>Chọn số sao (1 đến 5):</label>
+            <label>Chọn số sao (0 đến 5):</label>
             <input
               type="number"
               name="rating"
               value={formReview.rating}
               onChange={handleChange}
-              min="1"
+              min="0"
               max="5"
             />
             <label>Nhập đánh giá:</label>
@@ -245,7 +257,7 @@ function ViewOrder() {
               onChange={handleChange}
               rows="5"
             ></textarea>
-            <button className='' onClick={handleSubmit}>Gửi Đánh Giá</button>
+            <button className='' onClick={()=>handleSubmit()}>Gửi Đánh Giá</button>
           </div>
         </div>
       ):''}
