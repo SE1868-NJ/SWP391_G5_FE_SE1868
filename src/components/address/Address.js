@@ -1,36 +1,42 @@
 import React,{useState,useEffect} from 'react'
-import {useCustomer} from '../../Context'
 import axios from 'axios'
 import styles from './Address.module.css'
 
 
-function Address({setInfor}) {
+function Address({setInfor,infor}) {
     const [address,setAddress] = useState([]);
     const [ selectAddress,setSelectAddress] = useState();
     const [showPopup,setShowPopup] = useState(false);
-    const {customer} = useCustomer();
+    const inforFullUser = localStorage.getItem("user");
     const[otherAddress,setOtherAddress] = useState(false)
     const [area,setArea] = useState('');
     const [houseAddress,setHouseAddress] = useState('');
     const [isChecked, setIsChecked] = useState(false);
-    const customerID=customer.CustomerID;
+    const customerID=JSON.parse(inforFullUser).id;
     useEffect(()=>{
         fetchAddress();
     },[])
     async function fetchAddress(){
         const response = await axios.get(`http://localhost:3001/address/${customerID}`)
         await setAddress(response.data);
-        await setSelectAddress(response.data.find(item => item.isDefault === 1));
-        const hehe = response.data.find(item => item.isDefault === 1)
-        await setInfor({
-            addressID :hehe.AddressID,
-            houseAddress:hehe.HouseAddress,
-            area: hehe.Area
-        })
+        if(!infor){
+            await setSelectAddress(response.data.find(item => item.isDefault === 1));
+            const hehe = response.data.find(item => item.isDefault === 1)
+            await setInfor({
+                addressID :hehe.AddressID,
+                houseAddress:hehe.HouseAddress,
+                area: hehe.Area
+            })
+        }else{
+            await setSelectAddress(infor);
+            await setArea(infor.area);
+            await setHouseAddress(infor.houseAddress);
+        }
     }
     async function changeSelectAddress(value){
         await setSelectAddress(address.find(item => item.AddressID == value))
-        
+        await setArea('');
+        await setHouseAddress('')
     }
     useEffect(()=>{
         check();
@@ -97,7 +103,7 @@ async function closePopup(){
     <>
       <img alt="" src="./addressIcon.png" />
         Tên - Số điện thoại - Địa chỉ:
-        <span>{customer.FirstName} {customer.LastName}</span><span>{customer.PhoneNumber}</span>
+        <span>{inforFullUser.FirstName} {inforFullUser.LastName}</span><span>{inforFullUser.PhoneNumber}</span>
         {selectAddress ?(<span >{area == '' && houseAddress == '' ? `${selectAddress.HouseAddress} ${selectAddress.Area}` : `${houseAddress} ${area}` }</span>):''}
         <button className={styles.changebutton} onClick={()=>setShowPopup(true)}>Thay đổi địa chỉ</button>
         {showPopup ?(

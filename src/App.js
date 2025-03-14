@@ -6,7 +6,6 @@ import Home from "./router/Home/Home";
 import Cart from "./router/Cart/Cart.js";
 import Shop from "./router/Shop/Shop.js";
 import SearchProduct from "./router/products/SearchProducts";
-
 import OrderandVoucher from "./router/OrderandVoucher/OrderandVoucher.js";
 import Notification from "./router/Notification/Notification.js";
 import Login from "./layout/Login/Login.js";
@@ -30,6 +29,7 @@ import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRe
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
+import Video from "./router/Video/Video.js";
 
 
 function AppContent() {
@@ -41,7 +41,7 @@ function AppContent() {
       className={`min-h-screen transition-all duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
         }`}
     >
-      <header className="p-4 flex justify-between items-center">
+      <header style={{position: 'absolute'}} className="p-4 flex justify-between items-center">
         <DarkModeButton />
       </header>
 
@@ -70,7 +70,7 @@ function AppContent() {
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
         <Route path="/support/history/:id" element={<SupportRequestDetails />} />
-
+        <Route path="/video" element={<Video />} />
       </Routes>
     </div>
   );
