@@ -113,8 +113,9 @@ function Cart() {
       alert("Please select an address before checking out.");
       return;
     }
+    const selectAddress = address;
     const selectCart = await cartItems.filter((item) => selectedItems.includes(item.cartID));
-    navigate("/OrderCheckOut", { state: selectCart, address });
+    navigate("/OrderCheckOut", { state:{ selectCart, selectAddress }});
   };
 
   return (
@@ -128,7 +129,7 @@ function Cart() {
         </div>
         <h2 className={`${styles.cart_header} ${theme === "dark" ? styles.darkText : ""}`}>Giỏ hàng</h2>
         <div className={`${styles.address} ${theme === "dark" ? styles.darkText : ""}`}>
-          {/* <Address setInfor={setAddress} /> */}
+          <Address setInfor={setAddress} />
         </div>
         <div className={`${styles.cart_content} ${theme === "dark" ? styles.dark : ""}`}>
           <table style={{ backgroundColor: theme === "dark" ? '#333' : 'white' }}>
