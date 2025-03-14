@@ -22,43 +22,51 @@ const BlogList = () => {
     const fetchCategories = async () => {
         try {
             const response = await axios.get('http://localhost:3001/api/blogcategory/');
-    
-            console.log("Dữ liệu categories từ API:", response.data); 
-    
+
+            console.log("Dữ liệu categories từ API:", response.data);
+
             if (!response.data || !Array.isArray(response.data) || response.data.length === 0) {
                 console.log("Không có danh mục nào, hiển thị mặc định.");
                 setCategories([{ id: 'All', name: 'Tất cả' }]);
                 return;
             }
-    
+
             setCategories([{ id: 'All', name: 'Tất cả' }, ...response.data.map(category => ({ id: category.ID, name: category.Name }))]);
         } catch (error) {
             console.error('Lỗi khi lấy categories:', error);
             setCategories([{ id: 'All', name: 'Tất cả' }]);
         }
-    };    
+    };
 
     useEffect(() => {
         fetchBlogs();
         fetchCategories();
+        setSelectedCategory("All");
     }, []);
+
+    useEffect(() => {
+        console.log("Danh mục được chọn:", selectedCategory);
+    }, [selectedCategory]);
 
     const filteredBlogs =
         selectedCategory === 'All' ?
             blogs :
-            blogs.filter(blog => blog.CategoryID === selectedCategory);
+            blogs.filter(blog => Number(blog.CategoryID) === Number(selectedCategory));
 
     return (
         <div className={styles.blogWrapper}>
             <Header />
             <div className={styles.container}>
-                <h2 className={styles.title}>Blog Đồ Ăn</h2>
+                <h2 className={styles.title}>FoodBlog</h2>
 
                 <div className={styles.categoryContainer}>
                     {categories.map(category => (
                         <button
                             key={category.id}
-                            onClick={() => setSelectedCategory(category.id)}
+                            onClick={() => {
+                                console.log("Đang chọn danh mục:", category.id);
+                                setSelectedCategory(category.id)
+                            }}
                             className={`${styles.categoryButton} ${selectedCategory === category.id ? styles.active : ''}`}
                         >
                             {category.name}
@@ -67,18 +75,20 @@ const BlogList = () => {
                 </div>
 
                 {filteredBlogs.length > 0 ? (
-                    <div className={styles.blogList}>
+                    <div className={styles.blogGrid}>
                         {filteredBlogs.map(blog => {
                             const categoryName = categories.find(c => Number(c.id) === Number(blog.CategoryID))?.name || 'Chưa xác định';
                             return (
-                                <Link to={`/blog/${blog.BlogID}`} key={blog.BlogID} className={styles.blogLink}>
-                                    <img src={blog.Image} alt={blog.Title} className={styles.blogImage} />
-                                    <div className={styles.blogContent}>
-                                        <p className={styles.blogCategory}>{categoryName}</p>
-                                        <h3 className={styles.blogTitle}>{blog.Title}</h3>
-                                        <p className={styles.blogDescription}>{blog.ShortDescription}</p>
-                                    </div>
-                                </Link>
+                                <div className={styles.blogCard} key={blog.BlogID}>
+                                    <Link to={`/blog/${blog.BlogID}`} key={blog.BlogID} className={styles.blogLink}>
+                                        <img src={blog.Image} alt={blog.Title} className={styles.blogImage} />
+                                        <div className={styles.blogContent}>
+                                            <p className={styles.blogCategory}>{categoryName}</p>
+                                            <h3 className={styles.blogTitle}>{blog.Title}</h3>
+                                            <p className={styles.blogDescription}>{blog.ShortDescription}</p>
+                                        </div>
+                                    </Link>
+                                </div>
                             );
                         })}
                     </div>

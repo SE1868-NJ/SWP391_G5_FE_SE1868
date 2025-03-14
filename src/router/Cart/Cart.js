@@ -83,7 +83,6 @@ function Cart() {
 
     if (isExceedingStock) {
       Swal.fire({
-        icon: "warning",
         title: "Vượt quá số lượng",
         text: "Bạn đã đạt giới hạn số lượng sản phẩm trong kho!",
         confirmButtonText: "OK"
