@@ -32,160 +32,161 @@ function Header() {
   }, []);
 
   const handleClick = (e) => {
-    if (user) {
-      if (e === "Thông Báo") {
-        navigate("/Notifications"); // Nếu có user, vào trang thông báo
-      } else if (e === "Hỗ Trợ") {
-        navigate("/Portal"); // Nếu có user, vào trang thông báo
-      } else if (e === "Giỏ Hàng") {
-        navigate("/cart"); // Nếu có user, vào trang thông báo
-      } else if (e === "Blog") {
-        navigate("/blog");
-        if (e === "Tài Khoản") {
-          if (user) {
-            navigate(""); // Nếu đã đăng nhập, chuyển đến trang tài khoản
-          } else {
-            navigate("/login"); // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
-          }
-        } else if (e === "Thông Báo") {
-          navigate("/Notifications");
-        } else if (e === "Hỗ Trợ") {
-          navigate("/Portal");
-        } else if (e === "Giỏ Hàng") {
-          navigate("/cart");
-        }
-      };
+    if (e === "Tài Khoản") {
+      if (user) {
+        navigate(""); // Nếu đã đăng nhập, chuyển đến trang tài khoản
+      } else {
+        navigate("/login"); // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
+      }
+    } else if (e === "Thông Báo") {
+      navigate("/Notifications");
+    } else if (e === "Hỗ Trợ") {
+      navigate("/Portal");
+    } else if (e === "Giỏ Hàng") {
+      navigate("/cart");
+    } else if (e === "Blog") {
+      navigate("/blog");
+    }
+  };
 
-      const items = [
-        {
-          key: "1",
-          label: (
-            <a href="/customers/customer-info" style={{ textDecoration: "none" }}>
-              Thông tin tài khoản
-            </a>
-          ),
-          icon: iconProfile,
-        },
-        {
-          key: "2",
-          label: <a href="/my-favorite">Sản phẩm yêu thích</a>,
-          icon: iconHeart,
-        },
-        {
-          key: "3",
-          label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
-          icon: iconLogin,
-        },
-      ];
+  const items = [
+    {
+      key: "1",
+      label: (
+        <a href="/customers/customer-info" style={{ textDecoration: "none" }}>
+          Thông tin tài khoản
+        </a>
+      ),
+      icon: iconProfile,
+    },
+    {
+      key: "2",
+      label: <a href="/my-favorite">Sản phẩm yêu thích</a>,
+      icon: iconHeart,
+    },
+    {
+      key: "3",
+      label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
+      icon: iconLogin,
+    },
+  ];
 
-      return (
-        <header className={styles.wrapper}>
-          <div className={styles.header}>
+  return (
+    <header className={styles.wrapper}>
+      <div className={styles.header}>
+        <img
+          src="/logo.png"
+          alt="logo-header"
+          style={{
+            height: 50,
+            width: 120,
+            cursor: "pointer",
+          }}
+          onClick={() => handleNavigate("/")}
+        />
+
+        <MenuHeader />
+        <Search />
+
+        <div
+          className={`${styles.fhs_center_space_header} ${
+            theme === "dark" ? styles.dark : ""
+          }`}
+        >
+          <div
+            onClick={() => handleClick("Thông Báo")}
+            className={`${styles.fhs_noti_header} ${
+              theme === "dark" ? styles.darkItem : ""
+            }`}
+          >
             <img
-              src="/logo.png"
-              alt="logo-header"
-              style={{
-                height: 50,
-                width: 120,
-                cursor: "pointer",
-              }}
-              onClick={() => handleNavigate("/")}
+              src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_noti_gray.svg"
+              alt=""
+              className={styles.fhs_noti_icon_header}
             />
-
-            <MenuHeader />
-            <Search />
-
             <div
-              className={`${styles.fhs_center_space_header} ${theme === "dark" ? styles.dark : ""
-                }`}
+              className={`${styles.fhs_top_menu_labe} ${
+                theme === "dark" ? styles.darkText : ""
+              }`}
             >
-              <div
-                onClick={() => handleClick("Thông Báo")}
-                className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
-                  }`}
-              >
-                <img
-                  src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_noti_gray.svg"
-                  alt=""
-                  className={styles.fhs_noti_icon_header}
-                />
-                <div
-                  className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
-                    }`}
-                >
-                  {t("Notifications")}
-                </div>
-              </div>
-              <div
-                onClick={() => handleNavigate("/Portal")}
-                className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
-                  }`}
-              >
-                <img
-                  style={{ width: "2.5vw" }}
-                  src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-question-mark-vector-icon-png-image_5152512.jpg"
-                  alt=""
-                  className={styles.fhs_noti_icon_header}
-                />
-                <div
-                  className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
-                    }`}
-                >
-                  {t("Portal")}
-                </div>
-              </div>
-              <div
-                onClick={() => handleNavigate("/cart")}
-                className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
-                  }`}
-              >
-                <img
-                  src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
-                  alt=""
-                  className={styles.fhs_noti_icon_header}
-                />
-                <div
-                  className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
-                    }`}
-                >
-                  {t("cart")}
-                </div>
-              </div>
-              <div
-                onClick={() => handleNavigate("/blog")}
-                className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
-                <img
-                  style={{ width: "1.1vw", height: "1.1vw" }}
-                  src="../../Blog.png"
-                  alt=""
-                  className={styles.fhs_noti_icon_header}
-                />
-                <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Blog</div>
-              </div>
-              <div
-                onClick={() => handleClick("Tài Khoản")}
-                className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
-                  }`}
-              >
-                {user && user.avatar ? (
-                  <img src={user.avatar} alt="Avatar" className={styles.avatar} />
-                ) : (
-                  <img
-                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_account_gray.svg"
-                    alt="Tài Khoản"
-                    className={styles.fhs_noti_icon_header}
-                  />
-                )}
-                <div className={user ? styles.name : styles.fhs_top_menu_labe}>
-                  <Dropdown menu={{ items }}>
-                    <Space>
-                      {user ? user.name : t("account")}
+              {t("Notifications")}
+            </div>
+          </div>
+          <div
+            onClick={() => handleNavigate("/Portal")}
+            className={`${styles.fhs_noti_header} ${
+              theme === "dark" ? styles.darkItem : ""
+            }`}
+          >
+            <img
+              style={{ width: "2.5vw" }}
+              src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-question-mark-vector-icon-png-image_5152512.jpg"
+              alt=""
+              className={styles.fhs_noti_icon_header}
+            />
+            <div
+              className={`${styles.fhs_top_menu_labe} ${
+                theme === "dark" ? styles.darkText : ""
+              }`}
+            >
+              {t("Portal")}
+            </div>
+          </div>
+          <div
+            onClick={() => handleNavigate("/cart")}
+            className={`${styles.fhs_noti_header} ${
+              theme === "dark" ? styles.darkItem : ""
+            }`}
+          >
+            <img
+              src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
+              alt=""
+              className={styles.fhs_noti_icon_header}
+            />
+            <div
+              className={`${styles.fhs_top_menu_labe} ${
+                theme === "dark" ? styles.darkText : ""
+              }`}
+            >
+              {t("cart")}
+            </div>
+          </div>
+          <div 
+            onClick={() => handleNavigate("/blog")} 
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
+            <img
+              style={{ width: "1.1vw", height: "1.1vw" }}
+              src="../../Blog.png"
+              alt=""
+              className={styles.fhs_noti_icon_header}
+            />
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Blog</div>
+          </div>
+          <div
+            onClick={() => handleClick("Tài Khoản")}
+            className={`${styles.fhs_noti_header} ${
+              theme === "dark" ? styles.darkItem : ""
+            }`}
+          >
+            {user && user.avatar ? (
+              <img src={user.avatar} alt="Avatar" className={styles.avatar} />
+            ) : (
+              <img
+                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_account_gray.svg"
+                alt="Tài Khoản"
+                className={styles.fhs_noti_icon_header}
+              />
+            )}
+            <div className={user ? styles.name : styles.fhs_top_menu_labe}>
+              <Dropdown menu={{ items }}>
+                <Space>
+                  {user ? user.name : t("account")}
 
-                    </Space>
-                  </Dropdown>
-                </div>
-              </div>
-              {/* <div className={styles.fhs_language_header_second_bar}>
+                </Space>
+              </Dropdown>
+            </div>
+          </div>
+          {/* <div className={styles.fhs_language_header_second_bar}>
             <div className={styles.fhs_top_language}>
               <img
                 src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/default.svg"
@@ -194,17 +195,15 @@ function Header() {
               />
             </div>
           </div> */}
-              <LanguageSwitcher />
+        <LanguageSwitcher/>
 
-              <div className="p-4 flex justify-between items-center">
-                <DarkModeButton />
-              </div>
-            </div>
+          <div className="p-4 flex justify-between items-center">
+            <DarkModeButton />
           </div>
-        </header>
-      );
-    }
-  }
+        </div>
+      </div>
+    </header>
+  );
 }
 
 export default Header;
