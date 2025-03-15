@@ -3,9 +3,9 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
-import styles from "./Blog.module.css";
+import styles from "./BlogDetail.module.css";
 
-const BlogDetails = () => {
+const BlogDetail = () => {
     const { id } = useParams();
     const [blog, setBlog] = useState(null);
     const [categoryName, setCategoryName] = useState(null);
@@ -16,8 +16,11 @@ const BlogDetails = () => {
                 const response = await axios.get(`http://localhost:3001/api/Blog/${id}`);
                 setBlog(response.data);
 
-                const categoryResponse = await axios.get(`http://localhost:3001/api/blogcategory/${response.data.CategoryID}`);
-                setCategoryName(categoryResponse.data?.Name || "Unknown");
+                const categoryResponse = await axios.get(`http://localhost:3001/api/blogcategory`);
+                const categories = categoryResponse.data || [];
+
+                const category = categories.find(c => c.ID === response.data.CategoryID);
+                setCategoryName(category ? category.Name : "Không xác định");
             } catch (error) {
                 console.error("Error fetching blog:", error);
             }
@@ -31,12 +34,16 @@ const BlogDetails = () => {
     }
 
     return (
-        <div className={styles.detailwrapper}>
+        <div className={styles.blogDetailwrapper}>
             <Header />
             <div className={styles.container}>
                 <h2 className={styles.title}>{blog.Title}</h2>
-                <p className={styles.category}>Danh mục:{categoryName}</p>
-                <img src={blog.Image} alt={blog.Title} className={styles.image} />
+                <p className={styles.category}>
+                    <strong>Danh mục:</strong> {categoryName}
+                </p>
+                <div className={styles.imageWrapper}>
+                    <img src={blog.Image} alt={blog.Title} className={styles.blogImage} />
+                </div>
                 <p className={styles.content}>{blog.Content}</p>
             </div>
             <Footer />
@@ -44,4 +51,4 @@ const BlogDetails = () => {
     )
 }
 
-export default BlogDetails
+export default BlogDetail

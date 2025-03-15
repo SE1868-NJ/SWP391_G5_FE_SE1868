@@ -155,7 +155,7 @@ function Header() {
             onClick={() => handleNavigate("/blog")} 
             className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
             <img
-              style={{ width: "1.1vw", height: "1.1vw" }}
+              style={{ width: "1.8vw", height: "4.2vh" }}
               src="../../Blog.png"
               alt=""
               className={styles.fhs_noti_icon_header}
