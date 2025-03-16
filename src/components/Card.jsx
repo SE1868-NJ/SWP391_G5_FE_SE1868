@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { formatMoney } from '../utils';
 import styles from './card/styles.module.css'
 import { ProductDetailModal } from './products/ProductDetailModal';
-import { iconFavorite, iconFavoriteDefault, iconSuccess } from './icon/Icon';
+import { iconFail, iconFavorite, iconFavoriteDefault, iconSuccess } from './icon/Icon';
 import { deleteProductFavorite, setProductFavorite } from '../service/product';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../globalContext/AuthContext';
@@ -59,7 +59,7 @@ const Card = ({ item, isFavoriteProduct }) => {
         })
       
         setNotify({
-          icon: iconSuccess,
+          icon: rs.data?.status === 200 ? iconSuccess : iconFail,
           message: rs.data?.status === 200 ? rs.data?.message || 'Thêm thành công' :  rs?.data?.message || 'Thêm thất bại',
           isOpen: true
         })
@@ -67,7 +67,7 @@ const Card = ({ item, isFavoriteProduct }) => {
     } catch (error) {
       console.error("error handleSetFavorite: ", error);
       setNotify({
-        icon: iconSuccess,
+        icon: iconFail,
         message:  'Thêm thất bại',
         isOpen: true
       })
