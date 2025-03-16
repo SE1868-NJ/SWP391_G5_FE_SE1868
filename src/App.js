@@ -33,6 +33,7 @@ import BlogList from "./router/Blog/Blog.js";
 import BlogDetail from "./router/Blog/BlogDetail.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
+import { Policy } from "./router/Policy/Policy.jsx";
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
@@ -73,6 +74,8 @@ function AppContent() {
           path="/support/history/:id"
           element={<SupportRequestDetails />}
         />
+        <Route path="/policy" element={<Policy />} />
+
       </Routes>
     </div>
   );
