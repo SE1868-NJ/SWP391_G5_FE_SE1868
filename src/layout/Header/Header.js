@@ -54,6 +54,8 @@ function Header() {
       navigate("/Portal");
     } else if (e === "Giỏ Hàng") {
       navigate("/cart");
+    } else if (e === "Blog") {
+      navigate("/blog");
     }
   };
 
@@ -176,6 +178,17 @@ function Header() {
             >
               {t("cart")}
             </div>
+          </div>
+          <div 
+            onClick={() => handleNavigate("/blog")} 
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
+            <img
+              style={{ width: "1.1vw", height: "1.1vw" }}
+              src="../../Blog.png"
+              alt=""
+              className={styles.fhs_noti_icon_header}
+            />
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Blog</div>
           </div>
           <div
             onClick={() => handleClick("Tài Khoản")}

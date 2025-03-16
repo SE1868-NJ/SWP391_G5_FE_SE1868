@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import Address from "../../components/address/Address";
 import styles from "./Cart.module.css";
+import Swal from "sweetalert2";
 import { ThemeContext } from "../../contexts/ThemeContext";
 
 function Cart() {
@@ -21,6 +22,7 @@ function Cart() {
   });
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
+  const isDeletingRef = useRef(false);
 
   useEffect(() => {
     if (inforFullUser) {
@@ -62,42 +64,96 @@ function Cart() {
       return;
     }
 
+    let isExceedingStock = false;
+    let prevQuantity = cartItems.find(item => item.cartID === cartID)?.Quantity || 1;
+
     const updatedCartItems = cartItems.map(item => {
       if (item.cartID === cartID) {
-        return {
-          ...item,
-          Quantity: Math.max(0, item.Quantity + amount),
-        };
+        const maxQuantity = item.productQuantity;
+        const newQuantity = item.Quantity + amount;
+
+        if (newQuantity > maxQuantity) {
+          isExceedingStock = true;
+          return item;
+        }
+        return { ...item, Quantity: Math.max(0, newQuantity) };
       }
       return item;
     });
 
-    setCartItems(updatedCartItems);
+    if (isExceedingStock) {
+      Swal.fire({
+        title: "Vượt quá số lượng",
+        text: "Bạn đã đạt giới hạn số lượng sản phẩm trong kho!",
+        confirmButtonText: "OK"
+      });
+      return;
+    }
+
     const newQuantity = updatedCartItems.find(item => item.cartID === cartID)?.Quantity;
 
-    console.log("Gửi request cập nhật số lượng:", { cartID, cusID, productID, newQuantity });
+    if (newQuantity === 0) {
+      Swal.fire({
+        icon: "question",
+        title: "Xóa sản phẩm",
+        text: "Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?",
+        showCancelButton: true,
+        confirmButtonText: "Xóa",
+        cancelButtonText: "Hủy",
+        reverseButtons: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await removeItem(cartID, false);
+          return;
+        } else {
+          const restoredCartItems = cartItems.map(item =>
+            item.cartID === cartID ? { ...item, Quantity: prevQuantity } : item
+          );
+          setCartItems(restoredCartItems);
+        }
+      });
+      return;
+    }
+
+    setCartItems(updatedCartItems);
 
     try {
-      if (newQuantity <= 0) {
-        console.log("Remove item:", cartID);
-        await removeItem(cartID);
-      } else {
-        const response = await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, cusID, productID, newQuantity });
-        console.log("Update success:", response.data);
-      }
+      await axios.put('http://localhost:3001/api/Cart/updateQuantity', { cartID, cusID, productID, newQuantity });
     } catch (error) {
       console.error("Lỗi khi cập nhật số lượng:", error.response?.status, error.response?.data);
     }
   };
 
-  const removeItem = async (cartID) => {
+  const removeItem = async (cartID, showPopup = true) => {
+    if (isDeletingRef.current) return;
+    isDeletingRef.current = true;
+
+    if (showPopup) {
+      const result = await Swal.fire({
+        icon: "question",
+        title: "Xóa sản phẩm",
+        text: "Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?",
+        showCancelButton: true,
+        confirmButtonText: "Xóa",
+        cancelButtonText: "Hủy",
+        reverseButtons: true
+      });
+      if (!result.isConfirmed) {
+        isDeletingRef.current = false;
+        return;
+      }
+    }
+
     try {
-      await axios.delete(`http://localhost:3001/api/Cart/deleteItem`, { data: { cartID } });
       setCartItems(prevItems => prevItems.filter(item => item.cartID !== cartID));
+      await axios.delete(`http://localhost:3001/api/Cart/deleteItem`, { data: { cartID } });
     } catch (error) {
       console.error(error);
+    } finally {
+      isDeletingRef.current = false;
     }
   };
+
   const handleSelectAll = () => {
     if (selectedAll) {
       setSelectedItems([]);

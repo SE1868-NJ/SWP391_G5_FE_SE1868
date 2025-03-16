@@ -96,7 +96,7 @@ const Card = ({ item, isFavoriteProduct }) => {
         </div>
         <button className={styles.card_button} onClick={handleAddToCart}>Add to cart</button>
       </div>
-      <ProductDetailModal isOpen={isOpen} setIsOpen={setIsOpen} product={item} />
+      {/* <ProductDetailModal isOpen={isOpen} setIsOpen={setIsOpen} product={item} /> */}
       <ModalNotify notify={notify} setNotify={setNotify}/>
     </div>
   );
