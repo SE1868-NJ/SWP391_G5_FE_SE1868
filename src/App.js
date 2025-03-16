@@ -27,6 +27,9 @@ import ActivityLog from "./router/Profile/ActivityLog.jsx";
 import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
 import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
 import OrderDetail from "./router/OrderDetail/OrderDetail";
+import Bills from "./router/Bills/Bills.js";
+import PayBills from "./router/PayBills/PayBills.js"
+import TransactionHistory from "./router/TransactionHistory/TransactionHistory.js";
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
@@ -43,6 +46,9 @@ function AppContent() {
     >
       <Routes>
         <Route path="/OrderCheckOut" element={<Order />} />
+        <Route path="/TransactionHistory" element={<TransactionHistory />} />
+        <Route path="/Bills" element={<Bills />} />
+        <Route path="/PayBills" element={<PayBills />} />
         <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

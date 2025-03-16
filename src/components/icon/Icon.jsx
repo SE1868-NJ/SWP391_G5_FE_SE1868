@@ -176,6 +176,39 @@ export const iconLogin = (
   </svg>
 );
 
+export const iconHistory = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6zm5 4h-2v-6c0-1.1-.9-2-2-2h-1V7h1c2.21 0 4 1.79 4 4v6z"
+      fill="#000000"
+    />
+  </svg>
+);
+export const iconBill = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 19c0 1.1.89 2 1.99 2h10c1.1 0 1.99-.9 1.99-2V5c0-1.1-.89-2-1.99-2zm-1 2v12H8V5h8zM9 14h6v2H9zm0-4h6v2H9z"
+      fill="#000000"
+    />
+  </svg>
+);
+
 
 export const chatIcon =
   (

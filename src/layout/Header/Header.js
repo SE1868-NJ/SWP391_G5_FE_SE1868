@@ -9,7 +9,17 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n.js";
 import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
-import { iconCart, iconHeart, iconHelp, iconLogin, iconNotify, iconProfile } from "../../components/icon/Icon.jsx";
+import {
+  iconCart,
+  iconHeart,
+  iconHelp,
+  iconLogin,
+  iconProfile,
+  iconNotify,
+  iconProfileiconHistory,
+  iconBill,
+  iconHistory,
+} from "../../components/icon/Icon.jsx";
 
 function Header() {
   const navigate = useNavigate();
@@ -64,6 +74,24 @@ function Header() {
     },
     {
       key: "3",
+      label: (
+        <a href="/Bills" style={{ textDecoration: "none" }}>
+          Các loại hóa đơn
+        </a>
+      ),
+      icon: iconBill,
+    },
+    {
+      key: "4",
+      label: (
+        <a href="/TransactionHistory" style={{ textDecoration: "none" }}>
+          Lịch sử giao dịch
+        </a>
+      ),
+      icon: iconHistory,
+    },
+    {
+      key: "5",
       label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
       icon: iconLogin,
     },
@@ -118,7 +146,7 @@ function Header() {
           >
             <img
               style={{ width: "2.5vw" }}
-              src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-question-mark-vector-icon-png-image_5152512.jpg"
+              src="/Portal.png"
               alt=""
               className={styles.fhs_noti_icon_header}
             />
@@ -166,10 +194,7 @@ function Header() {
             )}
             <div className={user ? styles.name : styles.fhs_top_menu_labe}>
               <Dropdown menu={{ items }}>
-                <Space>
-                  {user ? user.name : t("account")}
-
-                </Space>
+                <Space>{user ? user.name : t("account")}</Space>
               </Dropdown>
             </div>
           </div>
@@ -182,7 +207,7 @@ function Header() {
               />
             </div>
           </div> */}
-        <LanguageSwitcher/>
+          <LanguageSwitcher />
 
           <div className="p-4 flex justify-between items-center">
             <DarkModeButton />
