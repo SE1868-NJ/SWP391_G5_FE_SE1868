@@ -34,36 +34,37 @@ const BlogDetail = () => {
         return <div>Đang tải...</div>;
     }
 
+    const sortedImages = (blog.Images || []).sort((a, b) => a.SortOrder - b.SortOrder);
+    const sortedSections = (blog.Sections || []).sort((a, b) => a.SortOrder - b.SortOrder);
+
     return (
-        <div className={styles.blogDetailwrapper}>
+        <div className={styles.blogDetailWrapper}>
             <Header />
             <div className={styles.container}>
                 <div className={styles.topPage}>
+                    <button className={styles.backButton} onClick={() => navigate(`/blog`)}>Quay lại</button>
                     <h2 className={styles.title}>{blog.Title}</h2>
-                    <button className={styles.backButton} onClick={() => navigate(-1)}>Quay lại</button>
                     <button className={styles.editButton} onClick={() => navigate(`/blog/update/${id}`)}>Sửa</button>
                 </div>
                 <p className={styles.category}>
                     <strong>Danh mục:</strong> {categoryName}
                 </p>
+
                 <div className={styles.imageWrapper}>
                     <img src={blog.Image} alt={blog.Title} className={styles.blogImage} />
-                    <p />
-                    {blog.Images && blog.Images.length > 0 ? (
-                        blog.Images.map((img, index) => (
-                            <img key={index} src={img.ImageURL} alt={`Ảnh ${index + 1}`} className={styles.blogImage} />
-                        ))
-                    ) : (
-                        <p className={styles.noImage}>No image</p>
-                    )}
                 </div>
+
+                <p className={styles.shortDescription}>{blog.ShortDescription}</p>
+
                 <div className={styles.contentWrapper}>
-                    <p className={styles.content}>{blog.ShortDescription}</p>
-                    {blog.Sections && blog.Sections.length > 0 ? (
-                        blog.Sections.map((section, index) => (
-                            <p key={index} className={styles.contentSection}>
-                                {section.Content}
-                            </p>
+                    {sortedImages.length > 0 && sortedSections.length > 0 ? (
+                        sortedImages.map((img, index) => (
+                            <div key={index} className={styles.contentBlock}>
+                                <img src={img.ImageURL} alt={`Ảnh ${index + 1}`} className={styles.blogImage} />
+                                {sortedSections[index] && (
+                                    <p className={styles.contentSection}>{sortedSections[index].Content}</p>
+                                )}
+                            </div>
                         ))
                     ) : (
                         <p className={styles.noContent}>No content</p>
