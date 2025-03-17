@@ -10,13 +10,30 @@
     border-radius: 10px;
 }
 
-.title {
+.top_page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: relative;
+}
+
+.top_page .title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 24px;
     font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-    padding-bottom: 5px;
-    text-align: center;
+}
+
+.top_page .button_add {
+    padding: 10px 15px;
+    border: 2px solid red;
+    color: red;
+    background: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .blogGrid {

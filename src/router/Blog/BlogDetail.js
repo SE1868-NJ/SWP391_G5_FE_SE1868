@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
@@ -9,6 +9,7 @@ const BlogDetail = () => {
     const { id } = useParams();
     const [blog, setBlog] = useState(null);
     const [categoryName, setCategoryName] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchBlog = async () => {
@@ -37,14 +38,37 @@ const BlogDetail = () => {
         <div className={styles.blogDetailwrapper}>
             <Header />
             <div className={styles.container}>
-                <h2 className={styles.title}>{blog.Title}</h2>
+                <div className={styles.topPage}>
+                    <h2 className={styles.title}>{blog.Title}</h2>
+                    <button className={styles.backButton} onClick={() => navigate(-1)}>Quay lại</button>
+                    <button className={styles.editButton} onClick={() => navigate(`/blog/update/${id}`)}>Sửa</button>
+                </div>
                 <p className={styles.category}>
                     <strong>Danh mục:</strong> {categoryName}
                 </p>
                 <div className={styles.imageWrapper}>
                     <img src={blog.Image} alt={blog.Title} className={styles.blogImage} />
+                    <p />
+                    {blog.Images && blog.Images.length > 0 ? (
+                        blog.Images.map((img, index) => (
+                            <img key={index} src={img.ImageURL} alt={`Ảnh ${index + 1}`} className={styles.blogImage} />
+                        ))
+                    ) : (
+                        <p className={styles.noImage}>No image</p>
+                    )}
                 </div>
-                <p className={styles.content}>{blog.Content}</p>
+                <div className={styles.contentWrapper}>
+                    <p className={styles.content}>{blog.ShortDescription}</p>
+                    {blog.Sections && blog.Sections.length > 0 ? (
+                        blog.Sections.map((section, index) => (
+                            <p key={index} className={styles.contentSection}>
+                                {section.Content}
+                            </p>
+                        ))
+                    ) : (
+                        <p className={styles.noContent}>No content</p>
+                    )}
+                </div>
             </div>
             <Footer />
         </div>
