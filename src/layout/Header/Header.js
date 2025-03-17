@@ -52,7 +52,7 @@ function Header() {
     {
       key: '1',
       label: (
-        <a  href="/profile" style={{ textDecoration: 'none' }}>
+        <a href="/profile" style={{ textDecoration: 'none' }}>
           Thông tin tài khoản
         </a>
       ),
@@ -70,7 +70,7 @@ function Header() {
     {
       key: '3',
       label: (
-        <a href="/my-favorite">
+        <a href="/login">
           {user ? 'Đăng xuất' : 'Đăng nhập'}
         </a>
       ),
@@ -96,7 +96,7 @@ function Header() {
         <Search />
 
         <div className={`${styles.fhs_center_space_header} ${theme === "dark" ? styles.dark : ""}`}>
-          <div onClick={() => handleClick("Thông Báo")}className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
+          <div onClick={() => handleClick("Thông Báo")} className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
             {iconNotify}
             <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>{t("Notifications")}</div>
           </div>
@@ -143,7 +143,7 @@ function Header() {
               />
             </div>
           </div> */}
-        <LanguageSwitcher/>
+          <LanguageSwitcher />
 
           <div className="p-4 flex justify-between items-center">
             <DarkModeButton />
