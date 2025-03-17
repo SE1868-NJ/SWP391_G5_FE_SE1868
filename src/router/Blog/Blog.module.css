@@ -1,0 +1,121 @@
+.blogWrapper {
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+.blogGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.blogCard {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.blogCard :hover {
+    transform: translateY(-5px);
+}
+
+.blogImage {
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    height: 200px;
+    object-fit: cover;
+}
+
+.blogContent {
+    padding: 20px;
+    width: 50%;
+}
+
+.blogCategory {
+    color: gray;
+    font-size: 0.9rem;
+}
+
+.blogTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.blogDescription {
+    margin-top: 10px;
+    color: #666;
+}
+
+.categoryContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.categoryButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: normal;
+    color: #000;
+    transition: background 0.3s, color 0.3s, font-weight 0.3s;
+    background: transparent;
+}
+
+.categoryButton:hover {
+    background: #ddd;
+}
+
+.categoryButton.active {
+    background: red;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.blogLink {
+    text-decoration: none;
+    color: #000dff;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button button {
+    padding: 10px 20px;
+    background: #e60012;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.button button:hover {
+    background: #bf000f;
+}

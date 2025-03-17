@@ -1,13 +1,15 @@
 import styles from "./Shop.module.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { GlobalContext } from "../../globalContext/GlobalContext";
 import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
+import { CustomerBehaviorContext } from "../../globalContext/CustomerBehaviorContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
 function Shop() {
   let navigate = useNavigate();
+  const { fetchAddCustomerBehavior } = useContext(CustomerBehaviorContext);
   const {
     shopID,
     inforShopList,
@@ -19,8 +21,12 @@ function Shop() {
     listCustomerShopFollow = [],
   } = useContext(GlobalContext);
 
-  const { productShopList, setTypeCategory, setOptionProductShop } =
-    useContext(ShopContext);
+  const {
+    productShopList,
+    setTypeCategory,
+    setOptionProductShop,
+    productBehaviorShop,
+  } = useContext(ShopContext);
 
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Giá");
@@ -66,20 +72,31 @@ function Shop() {
   const [deleteVoucherID, setDeleteVoucherID] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentIndexSuggest, setCurrentIndexSuggest] = useState(0);
+  const [currentIndexBestSeller, setCurrentIndexBestSeller] = useState(0);
   const visibleItems = 3;
   const visibleItemsSuggest = 5;
 
+  const prevProductFavoriteListRef = useRef(productFavoriteList);
+
   // Xử lý chuyển trang
   const nextVouchers = () => {
-    if (currentIndex + visibleItems < voucherShopList.length) {
-      setCurrentIndex(currentIndex + visibleItems);
-    }
+    setCurrentIndex(
+      (prevIndex) =>
+        prevIndex + visibleItems < voucherShopList.length
+          ? prevIndex + visibleItems
+          : 0 // Nếu hết danh sách thì quay về đầu
+    );
   };
 
   const prevVouchers = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - visibleItems);
-    }
+    setCurrentIndex(
+      (prevIndex) =>
+        prevIndex - visibleItems >= 0
+          ? prevIndex - visibleItems
+          : voucherShopList.length -
+            (voucherShopList.length % visibleItems || visibleItems)
+      // Nếu đã ở đầu, quay về cuối danh sách
+    );
   };
 
   const prevSuggest = () => {
@@ -94,6 +111,25 @@ function Shop() {
 
   const nextSuggest = () => {
     setCurrentIndexSuggest((prevIndex) =>
+      prevIndex + visibleItemsSuggest < productShopSuggestList.length
+        ? prevIndex + visibleItemsSuggest
+        : 0
+    );
+  };
+
+  // For Sản Phẩm Bán Chạy Nhất section
+  const prevBestSeller = () => {
+    setCurrentIndexBestSeller((prevIndex) =>
+      prevIndex - visibleItemsSuggest >= 0
+        ? prevIndex - visibleItemsSuggest
+        : productShopSuggestList.length -
+          (productShopSuggestList.length % visibleItemsSuggest ||
+            visibleItemsSuggest)
+    );
+  };
+
+  const nextBestSeller = () => {
+    setCurrentIndexBestSeller((prevIndex) =>
       prevIndex + visibleItemsSuggest < productShopSuggestList.length
         ? prevIndex + visibleItemsSuggest
         : 0
@@ -176,14 +212,19 @@ function Shop() {
   };
 
   useEffect(() => {
-    // Khi productFavoriteList thay đổi, đồng bộ lại trạng thái yêu thích
-    const favoriteMap = {};
-    productFavoriteList.forEach((fav) => {
-      favoriteMap[fav.ProductID] = true; // Đánh dấu sản phẩm là yêu thích
-    });
-    setFavouriteProducts(favoriteMap);
+    // Kiểm tra nếu productFavoriteList thay đổi mới cập nhật
+    if (
+      JSON.stringify(prevProductFavoriteListRef.current) !==
+      JSON.stringify(productFavoriteList)
+    ) {
+      const favoriteMap = {};
+      productFavoriteList.forEach((fav) => {
+        favoriteMap[fav.ProductID] = true;
+      });
+      setFavouriteProducts(favoriteMap);
+      prevProductFavoriteListRef.current = productFavoriteList; // Cập nhật giá trị cũ
+    }
   }, [productFavoriteList]);
-
   const fetchDeleteProductFavorite = async (
     deleteProductIDTym,
     deleteCategoryLove,
@@ -352,6 +393,7 @@ function Shop() {
                 justifyContent: "center",
               }}
               onClick={() => {
+                setStatusFollow(!statusFollow);
                 setStatusDeleteFollow(!statusDeleteFollow);
                 setChangeStatusFollow(!changeStatusFollow);
               }}
@@ -408,9 +450,7 @@ function Shop() {
           <div className={styles.item}>
             Đang Theo:{" "}
             <span style={{ color: "red", marginLeft: "1vw" }}>
-              {statusFollow
-                ? inforShopList.following + 1
-                : inforShopList.following}
+              {inforShopList.following}
             </span>
           </div>
           <div className={styles.item}>
@@ -423,7 +463,9 @@ function Shop() {
           <div className={styles.item}>
             Người theo dõi:{" "}
             <span style={{ color: "red", marginLeft: "1vw" }}>
-              {inforShopList.total_products}
+              {changeStatusFollow
+                ? inforShopList.total_products + 1
+                : inforShopList.total_products}
             </span>
           </div>
           <div className={styles.item}>
@@ -544,7 +586,7 @@ function Shop() {
           }}
         >
           {" "}
-          Gợi Ý Cho Bạn <span style={{ color: "red" }}>(10 Sản Phẩm)</span>
+          Gợi Ý Cho Bạn <span style={{ color: "red" }}></span>
         </div>
         {/* Hiển thị sản phẩm */}
         <div
@@ -570,14 +612,26 @@ function Shop() {
           >
             &lt;
           </button>
-          {productShopSuggestList.length > 0 ? (
-            productShopSuggestList
+          {productBehaviorShop.length > 0 ? (
+            productBehaviorShop
               .slice(
                 currentIndexSuggest,
                 currentIndexSuggest + visibleItemsSuggest
               )
               .map((item, index) => (
-                <div key={index} className={styles.items_showProducts}>
+                <div
+                  onClick={() =>
+                    fetchAddCustomerBehavior(
+                      customerID,
+                      item.ProductID,
+                      item.Category,
+                      "view",
+                      shopID
+                    )
+                  }
+                  key={index}
+                  className={styles.items_showProducts}
+                >
                   <img
                     style={{ cursor: "pointer" }}
                     onClick={() => navigate(`/product/${item.ProductID}`)}
@@ -612,17 +666,13 @@ function Shop() {
                     <span
                       onClick={() => {
                         if (favouriteProducts[item.ProductID]) {
-                          // Nếu đã yêu thích, xóa khỏi danh sách
                           setDeleteCategoryLove(item.Category);
                           setDeleteProductIDTym(item.ProductID);
                           setActiveDeleteTym(!activeDeleteTym);
-
                         } else {
-                          // Nếu chưa yêu thích, thêm vào danh sách
                           setProductIDTym(item.ProductID);
                           setCategoryLove(item.Category);
                           setActiveAddTym(!activeAddTym);
-
                         }
                       }}
                     >
@@ -657,6 +707,20 @@ function Shop() {
                       )}
                     </span>
                   </div>
+                  {item.Category === "Đồ Tươi Sống" && (
+                    <div style={{ paddingBottom: "0.5vh" }}>
+                      Khối Lượng:
+                      <span
+                        style={{
+                          marginLeft: "0.5vw",
+                          color: "Green",
+                          fontWeight: "500",
+                        }}
+                      >
+                        {item.Weight} g
+                      </span>{" "}
+                    </div>
+                  )}
                   <div>
                     =&gt; Đã bán:{" "}
                     <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
@@ -693,11 +757,9 @@ function Shop() {
             color: "red",
           }}
         >
-          {" "}
           Sản Phẩm Bán Chạy Nhất{" "}
           <span style={{ color: "red" }}>(10 Sản Phẩm)</span>
         </div>
-        {/* Hiển thị sản phẩm */}
         <div
           className={styles.showProducts}
           style={{
@@ -717,18 +779,31 @@ function Shop() {
               cursor: "pointer",
               borderRadius: "50%",
             }}
-            onClick={prevSuggest}
+            onClick={prevBestSeller}
           >
             &lt;
           </button>
+
           {productShopSuggestList.length > 0 ? (
             productShopSuggestList
               .slice(
-                currentIndexSuggest,
-                currentIndexSuggest + visibleItemsSuggest
+                currentIndexBestSeller,
+                currentIndexBestSeller + visibleItemsSuggest
               )
               .map((item, index) => (
-                <div key={index} className={styles.items_showProducts}>
+                <div
+                  onClick={() =>
+                    fetchAddCustomerBehavior(
+                      customerID,
+                      item.ProductID,
+                      item.Category,
+                      "view",
+                      shopID
+                    )
+                  }
+                  key={index}
+                  className={styles.items_showProducts}
+                >
                   <img
                     style={{ cursor: "pointer" }}
                     onClick={() => navigate(`/product/${item.ProductID}`)}
@@ -759,16 +834,14 @@ function Shop() {
                     {Number(item.Price).toLocaleString("vi-VI", {
                       style: "currency",
                       currency: "VND",
-                    })}{" "}
+                    })}
                     <span
                       onClick={() => {
                         if (favouriteProducts[item.ProductID]) {
-                          // Nếu đã yêu thích, xóa khỏi danh sách
                           setDeleteCategoryLove(item.Category);
                           setDeleteProductIDTym(item.ProductID);
                           setActiveDeleteTym(!activeDeleteTym);
                         } else {
-                          // Nếu chưa yêu thích, thêm vào danh sách
                           setProductIDTym(item.ProductID);
                           setCategoryLove(item.Category);
                           setActiveAddTym(!activeAddTym);
@@ -806,6 +879,20 @@ function Shop() {
                       )}
                     </span>
                   </div>
+                  {item.Category === "Đồ Tươi Sống" && (
+                    <div style={{ paddingBottom: "0.5vh" }}>
+                      Khối Lượng:{" "}
+                      <span
+                        style={{
+                          marginLeft: "0.5vw",
+                          color: "Green",
+                          fontWeight: "500",
+                        }}
+                      >
+                        {item.Weight} g
+                      </span>{" "}
+                    </div>
+                  )}
                   <div>
                     =&gt; Đã bán:{" "}
                     <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
@@ -815,6 +902,7 @@ function Shop() {
           ) : (
             <p>Không có dữ liệu</p>
           )}
+
           <button
             style={{
               position: "absolute",
@@ -827,7 +915,7 @@ function Shop() {
               cursor: "pointer",
               borderRadius: "50%",
             }}
-            onClick={nextSuggest}
+            onClick={nextBestSeller}
           >
             &gt;
           </button>
@@ -1007,7 +1095,19 @@ function Shop() {
           <div className={styles.showProducts_Shop}>
             {currentProducts.length > 0 ? (
               currentProducts.map((item, index) => (
-                <div key={index} className={styles.items_showProducts}>
+                <div
+                  onClick={() =>
+                    fetchAddCustomerBehavior(
+                      customerID,
+                      item.ProductID,
+                      item.Category,
+                      "view",
+                      shopID
+                    )
+                  }
+                  key={index}
+                  className={styles.items_showProducts}
+                >
                   <img
                     style={{ cursor: "pointer" }}
                     onClick={() => navigate(`/product/${item.ProductID}`)}
@@ -1049,13 +1149,11 @@ function Shop() {
                           setDeleteCategoryLove(item.Category);
                           setDeleteProductIDTym(item.ProductID);
                           setActiveDeleteTym(!activeDeleteTym);
-
                         } else {
                           // Nếu chưa yêu thích, thêm vào danh sách
                           setProductIDTym(item.ProductID);
                           setCategoryLove(item.Category);
                           setActiveAddTym(!activeAddTym);
-
                         }
                       }}
                     >

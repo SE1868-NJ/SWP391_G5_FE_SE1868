@@ -1,16 +1,16 @@
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import Background from "../../layout/Background/Background";
-import Shop from "../../layout/Shop/Shop";
+import PayBills from "../../layout/PayBills/PayBills";
 import { GlobalProvider } from "../../globalContext/GlobalContext";
 
-function Home() {
+function PayBillss (){
   return (
     <div>
       <GlobalProvider>
         <Header />
         <Background>
-          <Shop></Shop>
+            <PayBills></PayBills>
           <Footer></Footer>
         </Background>
       </GlobalProvider>
@@ -18,4 +18,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default PayBillss;

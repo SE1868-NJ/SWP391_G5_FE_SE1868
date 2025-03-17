@@ -52,11 +52,36 @@
     flex-direction: column;
 }
 .showProducts{
-    display: flex;
+    display: grid;
     width: 85vw;
-    justify-content: space-between;
+    grid-template-columns: repeat(5,1fr);
     flex-direction: row;
+    gap: 5vh;
 }
+
+.items_showProducts{
+    display: flex;
+    flex-direction: column;
+    width: 18vw;
+    height: 30vh;
+    background: white;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 1vw;
+    padding-bottom: 0.5vw;
+    font-size: 1vw;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.img{
+    display: flex;
+    width: 15vw;
+    height: 16vh;
+    border-radius: 10px;
+    margin-bottom: 0.5vw;
+}
+
 
 .items_showProducts{
     display: flex;
