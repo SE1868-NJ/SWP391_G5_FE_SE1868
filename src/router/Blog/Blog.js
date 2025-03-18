@@ -57,8 +57,10 @@ const BlogList = () => {
         <div className={styles.blogWrapper}>
             <Header />
             <div className={styles.container}>
-                <h2 className={styles.title}>FoodBlog</h2>
-
+                <div className={styles.top_page}>
+                    <h2 className={styles.title}>FoodBlog</h2>
+                    <button className={styles.button_add} onClick={() => window.location.href = '/blog/add'}>Tạo Blog</button>
+                </div>
                 <div className={styles.categoryContainer}>
                     {categories.map(category => (
                         <button

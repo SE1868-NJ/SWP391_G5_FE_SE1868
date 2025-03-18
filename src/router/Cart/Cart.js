@@ -278,7 +278,7 @@ function Cart() {
           </table>
           {cartItems.length > 0 && (
             <div className={`${styles.total} ${theme === "dark" ? styles.darkText : ""}`}>
-              <h3>Tổng: {newTotal.toLocaleString()} VNĐ</h3>
+              <h3>Tổng tiền thanh toán: {newTotal.toLocaleString()} VNĐ</h3>
               <button className={`${styles.checkout_button} ${theme === "dark" ? styles.darkButton : ""}`} onClick={handleCheckout}>Mua hàng</button>
             </div>
           )}

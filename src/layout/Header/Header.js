@@ -117,15 +117,13 @@ function Header() {
         <Search />
 
         <div
-          className={`${styles.fhs_center_space_header} ${
-            theme === "dark" ? styles.dark : ""
-          }`}
+          className={`${styles.fhs_center_space_header} ${theme === "dark" ? styles.dark : ""
+            }`}
         >
           <div
             onClick={() => handleClick("Thông Báo")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_noti_gray.svg"
@@ -133,18 +131,16 @@ function Header() {
               className={styles.fhs_noti_icon_header}
             />
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               {t("Notifications")}
             </div>
           </div>
           <div
             onClick={() => handleNavigate("/Portal")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             <img
               style={{ width: "2.5vw" }}
@@ -153,18 +149,16 @@ function Header() {
               className={styles.fhs_noti_icon_header}
             />
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               {t("Portal")}
             </div>
           </div>
           <div
             onClick={() => handleNavigate("/cart")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
@@ -172,18 +166,17 @@ function Header() {
               className={styles.fhs_noti_icon_header}
             />
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               {t("cart")}
             </div>
           </div>
-          <div 
-            onClick={() => handleNavigate("/blog")} 
+          <div
+            onClick={() => handleNavigate("/blog")}
             className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
             <img
-              style={{ width: "1.1vw", height: "1.1vw" }}
+              style={{ width: "1.5vw", height: "3.8vh" }}
               src="../../Blog.png"
               alt=""
               className={styles.fhs_noti_icon_header}
@@ -192,9 +185,8 @@ function Header() {
           </div>
           <div
             onClick={() => handleClick("Tài Khoản")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             {user && user.avatar ? (
               <img src={user.avatar} alt="Avatar" className={styles.avatar} />
