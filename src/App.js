@@ -70,7 +70,7 @@ function AppContent() {
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
         <Route path="/support/history/:id" element={<SupportRequestDetails />} />
-        <Route path="/video" element={<Video />} />
+        <Route path="/video/*" element={<Video />} />
       </Routes>
     </div>
   );

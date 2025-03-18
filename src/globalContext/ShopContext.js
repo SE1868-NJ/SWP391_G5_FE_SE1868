@@ -21,7 +21,6 @@ function ShopProvider({ children }) {
           },
         }
       );
-      console.log("Danh scahs PRODUCT SHOP: ", response.data);
       setProductShopList(response.data[0]);
     } catch (error) {
       console.error("Lỗi khi tải sản phẩm:", error);
@@ -30,7 +29,6 @@ function ShopProvider({ children }) {
 
   // ✅ Gọi API sản phẩm khi `option` hoặc `type` thay đổi
   useEffect(() => {
-    console.log("⚡ ShopContext: Giá trị shopID thay đổi:", shopID);
     if (shopID) {
       fetchProductShop(typeCategory, optionProductShop, shopID);
     }
