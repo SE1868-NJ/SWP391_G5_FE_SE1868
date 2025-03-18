@@ -31,6 +31,8 @@ import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRe
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import BlogList from "./router/Blog/Blog.js";
 import BlogDetail from "./router/Blog/BlogDetail.js";
+import CreateBlog from "./router/Blog/CreateBlog.js";
+import UpdateBlog from "./router/Blog/UpdateBlog.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
 
@@ -52,6 +54,8 @@ function AppContent() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/blog" element={<BlogList/>} />
         <Route path="/blog/:id" element={<BlogDetail/>} />
+        <Route path="/blog/add" element={<CreateBlog/>} />
+        <Route path="/blog/update/:id" element={<UpdateBlog/>} />
         <Route path="/search" element={<SearchProduct />} />
         <Route path="/my-favorite" element={<FavoriteProduct />} />
         <Route path="/product/:id" element={<PageProductDetail />} />
