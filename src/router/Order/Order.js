@@ -1,16 +1,18 @@
-import React, { use, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import styles from "./Order.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
-import Address from '../../components/address/Address'
+import Address from '../../components/address/Address' 
+import { useAuth } from "../../globalContext/AuthContext";
 
 function Order() {
+  const { customerID } = useAuth();
   const location = useLocation();
   const inforFullUser = localStorage.getItem("user");
   const[cusID,setCusID] = useState();
-  const selectCart = location.state || null;
+  const {selectCart,selectAddress} = location.state || null;
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0);
   const [voucher, setVoucher] = useState(false);
@@ -31,11 +33,47 @@ function Order() {
   const [indexList, setIndexList] = useState(0);
   const [listProducts, setListProducts] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  const [address,setAddress] = useState();
-  const [url,setUrl] = useState('/');
+  const [address,setAddress] = useState(selectAddress);
+  const [customerCoin, setCustomerCoin] = useState(0);
+  const refundCoin = Math.floor(totalPrice / 1000);
+
+  const fetchCustomerCoin = async () => {
+    if (!customerID) return; 
+  
+    try {
+      const response = await axios.get(`http://localhost:3001/customers/${customerID}`);
+      setCustomerCoin(response.data.xu);
+    } catch (error) {
+      console.error("❌ Lỗi khi lấy số xu:", error);
+    }
+  };
+  
+  // 🔹 Gọi API khi `customerID` thay đổi
+  useEffect(() => {
+    if (customerID) {
+      fetchCustomerCoin();
+    }
+  }, [customerID]);
+  
+  const setCoin = async (totalPrice) => {
+    if (!customerID) {
+      alert("❌ Không xác định được khách hàng!");
+      return;
+    }
+    try {
+      await axios.put(`http://localhost:3001/customers/${customerID}`, {
+        xu: customerCoin + refundCoin,
+      });
+      setCustomerCoin((prev) => prev + refundCoin);
+    } catch (error) {
+      console.error("❌ Lỗi khi cập nhật xu:", error);
+      alert("❌ Lỗi khi cập nhật xu!");
+    }
+  };
+  
 
   useEffect(() => {
-    console.log(selectCart)
+    console.log(selectAddress);
     if(!selectCart || selectCart === null || selectCart.length === 0 ){
       navigate('/');
     }else{
@@ -224,13 +262,13 @@ function Order() {
           feeShip: item.feeShip,
           productID: item.productID,
           Quantity: item.Quantity,
-          CartDetailID: item.cartID,
+          CartDetailID: item.cartID || null,
           distance: Math.random() * 6,
         })
       );
       const voucherChoose = [...bestVoucherShop, chooseVoucher];
     if (paymentMethod === "Trả trước") {
-      const response = await axios.post('http://localhost:3001/api/Order/prepay',{  address, OrderInfor, voucherChoose, totalPayment, cusID ,url});
+      const response = await axios.post('http://localhost:3001/api/Order/prepay',{  address, OrderInfor, voucherChoose, totalPayment, cusID });
       window.location.href = response.data.payUrl;
     } else {
       const response = await axios.post(
@@ -239,18 +277,9 @@ function Order() {
       );
       if (response.status === 200) {
         await setStatus(true);
+        setCoin(totalPrice);
       } else await setStatus(false);
       await setMess(true);
-    }
-  }
-  function checkOutSuccess() {
-    setMess(false);
-    navigate(url);
-  }
-  async function changeUrl(item){
-    const result = window.confirm(`Hãy thực hiện xong việc checkout! Bạn có muốn chuyển sang trang sản phầm ${item.ProductName} sau khi xong không ?`)
-    if(result){
-      await setUrl(`/product/${item.ProductID}`)
     }
   }
   return (
@@ -263,7 +292,7 @@ function Order() {
         <a>Order Check Out</a>
       </div>
       <div className={styles.address}>
-        <Address setInfor={setAddress}></Address>
+        <Address setInfor={setAddress} infor = {address}></Address>
       </div>
       
       <div style={{display:'flex',width:'82%',justifyContent:'space-between',marginBottom:'10px'}}>
@@ -423,7 +452,7 @@ function Order() {
           <h2>Các sản phẩm bạn thích </h2>
           {favorites.length !== 0 ? (
             favorites.map((item) => (
-              <div className={styles.favoriteItem} onClick={()=>changeUrl(item)}>
+              <div className={styles.favoriteItem} onClick={()=>navigate(`/product/${item.ProductID}`)}>
                 <img alt="" src={item.ProductImg} />
                 <div>
                   <p>{item.ProductName}</p>
@@ -486,7 +515,7 @@ function Order() {
       )}
       {mess ? (
         <div
-          onClick={() => checkOutSuccess()}
+          onClick={() => navigate('/')}
           style={{
             width: "100vw",
             height: "100vh",
@@ -506,17 +535,24 @@ function Order() {
               width: "40vw",
               height: "30vh",
               display: "flex",
+              flexDirection: "column", // 🔹 Căn theo chiều dọc
               justifyContent: "center",
               alignItems: "center",
+              textAlign: "center", // 🔹 Căn giữa nội dung
             }}
           >
             <div>{status ? "CHECKOUT THÀNH CÔNG" : "CHECKOUT THẤT BẠI"}</div>
+
+            {status && refundCoin > 0 && (
+              <div style={{ marginTop: "10px", fontSize: "24px", fontWeight: "bold" }}>
+                🎉 Bạn nhận được <span style={{ color: "#FFD700" }}>{refundCoin}</span> xu!
+              </div>
+            )}
           </div>
         </div>
       ) : (
         ""
       )}
-
       <Footer></Footer>
     </div>
   );

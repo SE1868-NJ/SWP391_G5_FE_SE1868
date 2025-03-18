@@ -6,7 +6,6 @@ import Home from "./router/Home/Home";
 import Cart from "./router/Cart/Cart.js";
 import Shop from "./router/Shop/Shop.js";
 import SearchProduct from "./router/products/SearchProducts";
-
 import OrderandVoucher from "./router/OrderandVoucher/OrderandVoucher.js";
 import Notification from "./router/Notification/Notification.js";
 import Login from "./layout/Login/Login.js";
@@ -33,6 +32,7 @@ import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDet
 import Gift from "./router/GiftShop/Gift.js"
 import Game from "./router/Game/Game.jsx";
 import "./i18n.js";
+import Video from "./router/Video/Video.js";
 
 function AppContent() {
   const { theme } = useContext(ThemeContext);
@@ -43,6 +43,9 @@ function AppContent() {
         theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
       }`}
     >
+      <header style={{position: 'absolute'}} className="p-4 flex justify-between items-center">
+      </header>
+
       <Routes>
         <Route path="/OrderCheckOut" element={<Order />} />
         <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
@@ -74,6 +77,8 @@ function AppContent() {
           path="/support/history/:id"
           element={<SupportRequestDetails />}
         />
+        <Route path="/support/history/:id" element={<SupportRequestDetails />} />
+        <Route path="/video" element={<Video />} />
       </Routes>
     </div>
   );

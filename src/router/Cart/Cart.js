@@ -165,8 +165,9 @@ function Cart() {
       alert("Please select an address before checking out.");
       return;
     }
+    const selectAddress = address;
     const selectCart = await cartItems.filter((item) => selectedItems.includes(item.cartID));
-    navigate("/OrderCheckOut", { state: selectCart, address });
+    navigate("/OrderCheckOut", { state:{ selectCart, selectAddress }});
   };
 
   return (
