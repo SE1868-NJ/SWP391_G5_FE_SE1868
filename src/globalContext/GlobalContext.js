@@ -163,7 +163,6 @@ export function GlobalProvider({ children }) {
         }
       );
       setListCustomerShopFollow(response.data.data);
-      console.log("Lấy List follow thành công:", response.data.data);
     } catch (error) {
       console.error("Lỗi khi Lấy List follow:", error);
     }
@@ -185,7 +184,6 @@ export function GlobalProvider({ children }) {
         }
       );
       setListVoucherByCustomerID(response.data.data);
-      console.log("Danh sách Voucher của user: ", response.data.data);
     } catch (error) {
       console.error("Lỗi khi tải danh mục:", error);
     }
@@ -207,7 +205,6 @@ export function GlobalProvider({ children }) {
         }
       );
       setProductFavoriteList(response.data.data);
-      console.log("Danh sách sản phẩm yêu thích: ", response.data.data);
     } catch (error) {
       console.error("Lỗi khi tải danh mục:", error);
     }
@@ -329,14 +326,12 @@ export function GlobalProvider({ children }) {
           },
         }
       );
-      console.log("Status Notifi: ", response.data);
       setNotificationsList(response.data[0]);
     } catch (error) {
       console.error("Lỗi khi tải status sản phẩm:", error);
     }
     setLoading(false);
   };
-
   // ✅ Hàm gọi API Notifications theo customerID
   const fetchNotifications = async (customerID, typeNotification) => {
     if (!customerID) {

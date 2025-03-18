@@ -35,6 +35,7 @@ import CreateBlog from "./router/Blog/CreateBlog.js";
 import UpdateBlog from "./router/Blog/UpdateBlog.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
+import Video from "./router/Video/Video.js";
 import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
 import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/LoyaltyHistoryPage.js";
 import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
@@ -49,6 +50,10 @@ function AppContent() {
       className={`min-h-screen transition-all duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
         }`}
     >
+      <header style={{position: 'absolute'}} className="p-4 flex justify-between items-center">
+        
+      </header>
+
       <Routes>
         <Route path="/OrderCheckOut" element={<Order />} />
         <Route path="/TransactionHistory" element={<TransactionHistory />} />
@@ -80,6 +85,7 @@ function AppContent() {
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
         <Route path="/support/history/:id" element={<SupportRequestDetails />} />
+        <Route path="/video/*" element={<Video />} />
         <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
         <Route path="/loyalty-history/:customerId" element={<LoyaltyHistoryPage />} />
         <Route path="/affiliate/:customerId" element={<AffiliatePage />} />

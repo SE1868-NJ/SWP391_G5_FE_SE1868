@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import styles from "./Order.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -10,7 +10,7 @@ function Order() {
   const location = useLocation();
   const inforFullUser = localStorage.getItem("user");
   const[cusID,setCusID] = useState();
-  const selectCart = location.state || null;
+  const {selectCart,selectAddress} = location.state || null;
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0);
   const [voucher, setVoucher] = useState(false);
@@ -31,11 +31,10 @@ function Order() {
   const [indexList, setIndexList] = useState(0);
   const [listProducts, setListProducts] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  const [address,setAddress] = useState();
-  const [url,setUrl] = useState('/');
+  const [address,setAddress] = useState(selectAddress);
 
   useEffect(() => {
-    console.log(selectCart)
+    console.log(selectAddress);
     if(!selectCart || selectCart === null || selectCart.length === 0 ){
       navigate('/');
     }else{
@@ -225,13 +224,13 @@ function Order() {
           productID: item.productID,
           productImg: item.ProductImg,
           Quantity: item.Quantity,
-          CartDetailID: item.cartID,
+          CartDetailID: item.cartID || null,
           distance: Math.random() * 6,
         })
       );
       const voucherChoose = [...bestVoucherShop, chooseVoucher];
     if (paymentMethod === "Trả trước") {
-      const response = await axios.post('http://localhost:3001/api/Order/prepay',{  address, OrderInfor, voucherChoose, totalPayment, cusID ,url});
+      const response = await axios.post('http://localhost:3001/api/Order/prepay',{  address, OrderInfor, voucherChoose, totalPayment, cusID });
       window.location.href = response.data.payUrl;
     } else {
       const response = await axios.post(
@@ -244,16 +243,6 @@ function Order() {
       await setMess(true);
     }
   }
-  function checkOutSuccess() {
-    setMess(false);
-    navigate(url);
-  }
-  async function changeUrl(item){
-    const result = window.confirm(`Hãy thực hiện xong việc checkout! Bạn có muốn chuyển sang trang sản phầm ${item.ProductName} sau khi xong không ?`)
-    if(result){
-      await setUrl(`/product/${item.ProductID}`)
-    }
-  }
   return (
     <div className={styles.Order}>
       <Header></Header>
@@ -264,7 +253,7 @@ function Order() {
         <a>Order Check Out</a>
       </div>
       <div className={styles.address}>
-        <Address setInfor={setAddress}></Address>
+        <Address setInfor={setAddress} infor = {address}></Address>
       </div>
       
       <div style={{display:'flex',width:'82%',justifyContent:'space-between',marginBottom:'10px'}}>
@@ -424,7 +413,7 @@ function Order() {
           <h2>Các sản phẩm bạn thích </h2>
           {favorites.length !== 0 ? (
             favorites.map((item) => (
-              <div className={styles.favoriteItem} onClick={()=>changeUrl(item)}>
+              <div className={styles.favoriteItem} onClick={()=>navigate(`/product/${item.ProductID}`)}>
                 <img alt="" src={item.ProductImg} />
                 <div>
                   <p>{item.ProductName}</p>
@@ -487,7 +476,7 @@ function Order() {
       )}
       {mess ? (
         <div
-          onClick={() => checkOutSuccess()}
+          onClick={() => navigate('/')}
           style={{
             width: "100vw",
             height: "100vh",

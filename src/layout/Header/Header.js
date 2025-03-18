@@ -59,44 +59,36 @@ function Header() {
     }
   };
 
+
   const items = [
     {
-      key: "1",
+      key: '1',
       label: (
-        <a href="/customers/customer-info" style={{ textDecoration: "none" }}>
+        <a  href="/customers/customer-info" style={{ textDecoration: 'none' }}>
           Thông tin tài khoản
         </a>
       ),
-      icon: iconProfile,
-    },
-    {
-      key: "2",
-      label: <a href="/my-favorite">Sản phẩm yêu thích</a>,
-      icon: iconHeart,
-    },
-    {
-      key: "3",
+      icon: iconProfile
+
+    }, {
+      key: '2',
       label: (
-        <a href="/Bills" style={{ textDecoration: "none" }}>
-          Các loại hóa đơn
+        <a href="/my-favorite">
+          Sản phẩm yêu thích
         </a>
       ),
-      icon: iconBill,
+      icon: iconHeart
     },
     {
-      key: "4",
+      key: '3',
       label: (
-        <a href="/TransactionHistory" style={{ textDecoration: "none" }}>
-          Lịch sử giao dịch
+        <a href="/login">
+          {user ? 'Đăng xuất' : 'Đăng nhập'}
         </a>
       ),
-      icon: iconHistory,
+      icon: iconLogin
     },
-    {
-      key: "5",
-      label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
-      icon: iconLogin,
-    },
+
   ];
 
   return (
@@ -199,11 +191,14 @@ function Header() {
             )}
             <div className={user ? styles.name : styles.fhs_top_menu_labe}>
               <Dropdown menu={{ items }}>
-                <Space>{user ? user.name : t("account")}</Space>
+                <Space>
+                  {user ? user.name : "Tài Khoản"}
+
+                </Space>
               </Dropdown>
             </div>
           </div>
-          {/* <div className={styles.fhs_language_header_second_bar}>
+          <div className={styles.fhs_language_header_second_bar}>
             <div className={styles.fhs_top_language}>
               <img
                 src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/default.svg"
@@ -211,7 +206,7 @@ function Header() {
                 style={{ width: "80%" }} // Giữ nguyên style inline
               />
             </div>
-          </div> */}
+          </div>
           <LanguageSwitcher />
 
           <div className="p-4 flex justify-between items-center">
