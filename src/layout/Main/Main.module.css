@@ -13,6 +13,7 @@
     padding-left: 1vw;
     padding-bottom: 1vh;
     border-bottom: 2px solid #eee;    
+    position: relative;
 }
 
 .wrapper{

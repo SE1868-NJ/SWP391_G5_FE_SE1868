@@ -10,10 +10,11 @@ export function GlobalProvider({ children }) {
   const [notificationsList, setNotificationsList] = useState([]);
   const [inforShopList, setInforShopList] = useState([]);
   const [voucherShopList, setVoucherShopList] = useState([]);
+  const [billsList, setBillsList] = useState([]);
+  const [transactionHistoryList, setTransactionHistoryList] = useState([]);
   const [listVoucherByCustomerID, setListVoucherByCustomerID] = useState([]);
   const [productShopSuggestList, setProductShopSuggestList] = useState([]);
   const [listCustomerShopFollow, setListCustomerShopFollow] = useState([]);
-  const [optionMain, setOptionMain] = useState("Tất Cả");
   const [categoryProductByShopID, setCategoryProductByShopID] = useState([]);
   const [productListMain, setProductListMain] = useState([]);
   const [typeNotification, setTypeNotification] = useState("Tất Cả Thông Báo");
@@ -22,17 +23,67 @@ export function GlobalProvider({ children }) {
   const [voucher_ID, setVoucher_ID] = useState("");
   const [menuDataLoadedMain, setMenuDataLoadedMain] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [optionMain, setOptionMain]  = useState(() => {
+    return localStorage.getItem("optionMain") || "Tất Cả"; 
+  });
+
   const [shopID, setShopID] = useState(() => {
     return localStorage.getItem("shopID") || "1"; 
   });
+
+  const [typeBill, setTypeBill] = useState(() => {
+    return localStorage.getItem("typeBill") || "Order"; 
+  });
+
+  const [typeTransactionHistory, setTypeTransactionHistory] = useState(() => {
+    return localStorage.getItem("typeTransactionHistory") || ""; 
+  });
+
+  useEffect(() => {
+    localStorage.setItem("optionMain", optionMain);
+  }, [optionMain]);
+
   
   // Cập nhật localStorage khi shopID thay đổi
   useEffect(() => {
     localStorage.setItem("shopID", shopID);
   }, [shopID]);
+
+  // Cập nhật localStorage khi shopID thay đổi
+  useEffect(() => {
+    localStorage.setItem("typeBill", typeBill);
+  }, [typeBill]);
+
+  useEffect(() => {
+    localStorage.setItem("typeTransactionHistory", typeTransactionHistory);
+  }, [typeTransactionHistory]);
+
   const [productFavoriteList, setProductFavoriteList] = useState([]);
 
   const { customerID } = useAuth() || {}; // ✅ Nhận customerID từ AuthContext
+
+    const fetchNewCategoryCustomerBehavior = async (customerID) => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/api/CustomerBehavior/NewCategory",
+          {
+            params: {
+              customerID: customerID,
+            },
+          }
+        );
+          const category = response.data[0].category;
+          setOptionMain(category);
+  
+      } catch (error) {
+        console.error("Lỗi khi tải sản phẩm:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchNewCategoryCustomerBehavior(customerID);
+    }, [customerID]);
 
   // ✅ Hàm gọi API danh mục sản phẩm
   const fetchCategories = async () => {
@@ -48,6 +99,58 @@ export function GlobalProvider({ children }) {
     }
   };
 
+   // List TransactionHistory
+   const fetchTransactionHistoryList = async (customerID, typeTransactionHistory) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/api/Payments/All",
+        {
+          params: {
+            customerID: customerID,
+            typeTransactionHistory: typeTransactionHistory,
+          },
+        }
+      );
+      setTransactionHistoryList(response.data[0]);
+      console.log("Lấy List TransactionHistory:", response.data[0]);
+    } catch (error) {
+      console.error("Lỗi khi Lấy List bills:", error);
+    }
+  };
+
+  useEffect(() => {
+    if(customerID && typeTransactionHistory){
+      fetchTransactionHistoryList(customerID, typeTransactionHistory);
+    }
+  },[customerID, typeTransactionHistory])
+
+  
+  // List Bills
+  const fetchBillsList = async (customerID, typeBill) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/api/Bills/All",
+        {
+          params: {
+            customerID: customerID,
+            typeBill: typeBill,
+          },
+        }
+      );
+      setBillsList(response.data);
+      console.log("Lấy type bills:", typeBill);
+      console.log("Lấy List bills:", response.data);
+    } catch (error) {
+      console.error("Lỗi khi Lấy List bills:", error);
+    }
+  };
+
+  useEffect(() => {
+    if(customerID && typeBill){
+      fetchBillsList(customerID, typeBill);
+    }
+  },[customerID, typeBill]);
+
   //List Customer follow shop
   const fetchListCustomerShopFollow = async (customerID) => {
     try {
@@ -60,7 +163,6 @@ export function GlobalProvider({ children }) {
         }
       );
       setListCustomerShopFollow(response.data.data);
-      console.log("Lấy List follow thành công:", response.data.data);
     } catch (error) {
       console.error("Lỗi khi Lấy List follow:", error);
     }
@@ -82,7 +184,6 @@ export function GlobalProvider({ children }) {
         }
       );
       setListVoucherByCustomerID(response.data.data);
-      console.log("Danh sách Voucher của user: ", response.data.data);
     } catch (error) {
       console.error("Lỗi khi tải danh mục:", error);
     }
@@ -104,7 +205,6 @@ export function GlobalProvider({ children }) {
         }
       );
       setProductFavoriteList(response.data.data);
-      console.log("Danh sách sản phẩm yêu thích: ", response.data.data);
     } catch (error) {
       console.error("Lỗi khi tải danh mục:", error);
     }
@@ -226,14 +326,12 @@ export function GlobalProvider({ children }) {
           },
         }
       );
-      console.log("Status Notifi: ", response.data);
       setNotificationsList(response.data[0]);
     } catch (error) {
       console.error("Lỗi khi tải status sản phẩm:", error);
     }
     setLoading(false);
   };
-
   // ✅ Hàm gọi API Notifications theo customerID
   const fetchNotifications = async (customerID, typeNotification) => {
     if (!customerID) {
@@ -368,6 +466,11 @@ export function GlobalProvider({ children }) {
         productFavoriteList,
         listVoucherByCustomerID,
         listCustomerShopFollow,
+        billsList,
+        setTypeBill,
+        transactionHistoryList,
+        setTypeTransactionHistory,
+        setNotificationsList
       }}
     >
       {children}

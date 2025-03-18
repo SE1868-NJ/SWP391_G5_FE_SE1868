@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Portal.module.css";
 import Header from "../../layout/Header/Header";
 import SearchBar from "./SearchBar/SearchBar";
@@ -17,8 +17,11 @@ const Categories = [
   { title: "Thông Tin Chung", link: "/category/info", img: "./inforIcon.png" },
 ];
 
+
 function Portal() {
   const { theme } = useContext(ThemeContext); // Lấy theme từ ThemeContext
+  const navigate = useNavigate();
+  const customerId = localStorage.getItem("customerId");
 
   return (
     <div className={`${styles.container} ${theme === "dark" ? styles.dark : ""}`}>
@@ -53,6 +56,11 @@ function Portal() {
       <div className={styles.headerWrapper}>
         <Footer />
       </div>
+
+
+
+
+
 
     </div>
   );

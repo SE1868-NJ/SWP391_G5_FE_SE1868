@@ -114,7 +114,6 @@ function OrderDetail() {
               <p>Loại sản phẩm : {orderDetail.productCategory}</p>
               <p>Cửa hàng: {shop ? shop.ShopName :''}</p>
               <p> {shipper ?`Người giao hàng: ${shipper.FirstName} ${shipper.LastName}`: ''}</p>
-              <p> {shipper ?`Người giao hàng: ${shipper.FirstName} ${shipper.LastName}`: ''}</p>
               <button onClick={()=>setReviewPopup(orderDetail)} >Đánh Giá</button>
                 <button className= {`${orderDetail.status === 'Chờ thanh toán' ? styles.hidden: ''}`} onClick={()=> chooseQuantityPopup(orderDetail)}>Mua Lại</button>
               

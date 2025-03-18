@@ -1,43 +1,62 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import styles from "./SupportRequestDetails.module.css";
+import styles from "../SupportRequest/SupportRequest.module.css"; // Dùng chung CSS với trang gửi yêu cầu
 import Header from "../../../../layout/Header/Header";
 import Breadcrumb from "../../Breadcrumb/Breadcrumb";
 
 const SupportRequestDetails = () => {
-    const { id } = useParams(); // Lấy ID từ URL
+    const { id } = useParams();
     const navigate = useNavigate();
-    const [request, setRequest] = useState(null);
-    const [categories, setCategories] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState([]); // Lưu danh sách categories
+    const [categoryId, setCategoryId] = useState(""); // Lưu ID thay vì name
+    const [subject, setSubject] = useState("");
+    const [details, setDetails] = useState("");
+    const [status, setStatus] = useState("");
+    const [requestStatus, setRequestStatus] = useState(""); // Trạng thái yêu cầu
 
     useEffect(() => {
-        // Gọi API lấy chi tiết yêu cầu theo ID từ URL
+        // Lấy danh sách danh mục hỗ trợ
+        axios.get("http://localhost:3001/api/support/categories")
+            .then(response => setCategories(response.data))
+            .catch(error => console.error("Lỗi khi tải danh mục hỗ trợ!", error));
+
+        // Lấy thông tin yêu cầu hỗ trợ
         axios.get(`http://localhost:3001/api/support/request/${id}`)
             .then(response => {
-                setRequest(response.data);
-                setLoading(false);
+                const requestData = response.data;
+                setCategoryId(requestData.category);
+                setSubject(requestData.subject);
+                setDetails(requestData.details);
+                setRequestStatus(requestData.status); // Lưu trạng thái yêu cầu
             })
-            .catch(error => {
-                console.error("Lỗi khi tải yêu cầu!", error);
-                setLoading(false);
-            });
-
-        // Lấy danh sách category từ database
-        axios.get("http://localhost:3001/api/support/categories")
-            .then(response => {
-                const categoryMap = {};
-                response.data.forEach(cat => {
-                    categoryMap[cat.id] = cat.name; // Chuyển từ {id: name} => {1: "Khôi phục tài khoản", 2: "Lỗi kỹ thuật"}
-                });
-                setCategories(categoryMap);
-            })
-            .catch(error => console.error("Lỗi khi tải danh sách category!", error));
+            .catch(error => console.error("Lỗi khi tải chi tiết yêu cầu!", error));
     }, [id]);
 
-    if (loading) return <p>Đang tải dữ liệu...</p>;
-    if (!request) return <p>Không tìm thấy yêu cầu!</p>;
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(`http://localhost:3001/api/support/request/${id}`, {
+                subject,
+                details,
+                category: categoryId
+            });
+            setStatus("Cập nhật yêu cầu thành công!");
+        } catch (error) {
+            setStatus("Lỗi khi cập nhật yêu cầu!");
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!window.confirm("Bạn có chắc chắn muốn xóa yêu cầu này?")) return;
+        try {
+            await axios.delete(`http://localhost:3001/api/support/request/${id}`);
+            alert("Xóa yêu cầu thành công!");
+            navigate("/support/history");
+        } catch (error) {
+            console.error("Lỗi khi xóa yêu cầu!", error);
+        }
+    };
 
     return (
         <div>
@@ -45,29 +64,48 @@ const SupportRequestDetails = () => {
                 <Header />
             </div>
             <Breadcrumb />
-            <div className={styles.detailsContainer}>
-                <h2 className={styles.detailsTitle}>Chi Tiết Yêu Cầu Hỗ Trợ</h2>
 
-                <div className={styles.requestDetails}>
+            <div className={styles.supportContainer}>
+                <h2 className={styles.supportTitle}>Chi Tiết Yêu Cầu Hỗ Trợ</h2>
+                {status && <p className={`${styles.supportMessage} ${status.includes("Lỗi") ? styles.errorMessage : styles.successMessage}`}>{status}</p>}
+
+                <form onSubmit={handleUpdate} className={styles.supportForm}>
                     <label>Loại Yêu Cầu:</label>
-                    <input type="text"
-                        value={categories[request.category] || "Không xác định"}
-                        disabled
-                    />
+                    <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} required disabled={requestStatus !== "pending"}>
+                        <option value="">Chọn loại yêu cầu</option>
+                        {categories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                        ))}
+                    </select>
 
                     <label>Tiêu đề:</label>
-                    <input type="text" value={request.subject} disabled />
+                    <input
+                        type="text"
+                        placeholder="Chủ đề"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                        required
+                        disabled={requestStatus !== "pending"}
+                    />
 
                     <label>Mô tả:</label>
-                    <textarea rows="4" value={request.details} disabled></textarea>
+                    <textarea
+                        rows="4"
+                        placeholder="Mô tả chi tiết vấn đề của bạn"
+                        value={details}
+                        onChange={(e) => setDetails(e.target.value)}
+                        required
+                        disabled={requestStatus !== "pending"}
+                    ></textarea>
 
-                    <label>Trạng thái:</label>
-                    <input type="text" value={
-                        request.status === "pending" ? "Đang chờ xử lý"
-                            : request.status === "in_progress" ? "Đang xử lý"
-                                : "Đã giải quyết"
-                    } disabled />
-                </div>
+                    {requestStatus === "pending" && (
+                        <button type="submit">Lưu Cập Nhật</button>
+                    )}
+                </form>
+
+                {requestStatus === "pending" && (
+                    <button className={styles.deleteButton} onClick={handleDelete}>Xóa Yêu Cầu</button>
+                )}
 
                 <button className={styles.backButton} onClick={() => navigate("/support/history")}>Quay lại</button>
             </div>

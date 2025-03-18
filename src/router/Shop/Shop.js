@@ -10,7 +10,7 @@ function Home() {
       <GlobalProvider>
         <Header />
         <Background>
-            <Shop></Shop>
+          <Shop></Shop>
           <Footer></Footer>
         </Background>
       </GlobalProvider>
