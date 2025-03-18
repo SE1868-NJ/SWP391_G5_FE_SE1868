@@ -223,6 +223,7 @@ function Order() {
         OrderInfor.push({
           feeShip: item.feeShip,
           productID: item.productID,
+          productImg: item.ProductImg,
           Quantity: item.Quantity,
           CartDetailID: item.cartID,
           distance: Math.random() * 6,

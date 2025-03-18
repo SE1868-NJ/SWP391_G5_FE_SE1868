@@ -15,7 +15,6 @@ export function GlobalProvider({ children }) {
   const [listVoucherByCustomerID, setListVoucherByCustomerID] = useState([]);
   const [productShopSuggestList, setProductShopSuggestList] = useState([]);
   const [listCustomerShopFollow, setListCustomerShopFollow] = useState([]);
-  const [optionMain, setOptionMain] = useState("Tất Cả");
   const [categoryProductByShopID, setCategoryProductByShopID] = useState([]);
   const [productListMain, setProductListMain] = useState([]);
   const [typeNotification, setTypeNotification] = useState("Tất Cả Thông Báo");
@@ -24,6 +23,11 @@ export function GlobalProvider({ children }) {
   const [voucher_ID, setVoucher_ID] = useState("");
   const [menuDataLoadedMain, setMenuDataLoadedMain] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [optionMain, setOptionMain]  = useState(() => {
+    return localStorage.getItem("optionMain") || "Tất Cả"; 
+  });
+
   const [shopID, setShopID] = useState(() => {
     return localStorage.getItem("shopID") || "1"; 
   });
@@ -35,6 +39,11 @@ export function GlobalProvider({ children }) {
   const [typeTransactionHistory, setTypeTransactionHistory] = useState(() => {
     return localStorage.getItem("typeTransactionHistory") || ""; 
   });
+
+  useEffect(() => {
+    localStorage.setItem("optionMain", optionMain);
+  }, [optionMain]);
+
   
   // Cập nhật localStorage khi shopID thay đổi
   useEffect(() => {
@@ -53,6 +62,28 @@ export function GlobalProvider({ children }) {
   const [productFavoriteList, setProductFavoriteList] = useState([]);
 
   const { customerID } = useAuth() || {}; // ✅ Nhận customerID từ AuthContext
+
+    const fetchNewCategoryCustomerBehavior = async (customerID) => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/api/CustomerBehavior/NewCategory",
+          {
+            params: {
+              customerID: customerID,
+            },
+          }
+        );
+          const category = response.data[0].category;
+          setOptionMain(category);
+  
+      } catch (error) {
+        console.error("Lỗi khi tải sản phẩm:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchNewCategoryCustomerBehavior(customerID);
+    }, [customerID]);
 
   // ✅ Hàm gọi API danh mục sản phẩm
   const fetchCategories = async () => {
@@ -443,7 +474,8 @@ export function GlobalProvider({ children }) {
         billsList,
         setTypeBill,
         transactionHistoryList,
-        setTypeTransactionHistory
+        setTypeTransactionHistory,
+        setNotificationsList
       }}
     >
       {children}

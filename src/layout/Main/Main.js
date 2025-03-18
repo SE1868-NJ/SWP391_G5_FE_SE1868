@@ -237,6 +237,31 @@ function Main() {
         style={{ background: "white", display: "flex" }}
         className={styles.showProducts}
       >
+        <button
+          style={{
+            position: "absolute",
+            top: "61%",
+            right: "5vw",
+            padding: "0.5vw",
+            borderRadius: "30%",
+          }}
+          onClick={nextPageSuggestShopFollowed}
+        >
+          &gt;&gt;
+        </button>
+        <button
+          style={{
+            position: "absolute",
+            top: "61%",
+            left: "5vw",
+            padding: "0.5vw",
+            borderRadius: "30%",
+          }}
+          onClick={prevPageSuggestShopFollowed}
+        >
+          &lt;&lt;
+        </button>
+
         {currentProductsSuggestShopFollowed.map((item, index) => (
           <div
             onClick={() =>
@@ -327,11 +352,11 @@ function Main() {
                     style={{
                       cursor: "pointer",
                       position: "absolute",
-                      right: "-4vw",
+                      right: "-5.5vw",
                       top: "50%",
                       transform: "translateY(-50%)",
-                      width: "2.5vw",
-                      height: "2vw",
+                      width: "2vw",
+                      height: "1.5vw",
                     }}
                     src="/tym_do.png"
                     alt="Yêu thích"
@@ -341,7 +366,7 @@ function Main() {
                     style={{
                       cursor: "pointer",
                       position: "absolute",
-                      right: "-4vw",
+                      right: "-5vw",
                       top: "50%",
                       transform: "translateY(-50%)",
                       width: "1vw",
@@ -525,11 +550,11 @@ function Main() {
                     style={{
                       cursor: "pointer",
                       position: "absolute",
-                      right: "-4vw",
+                      right: "-5.5vw",
                       top: "50%",
                       transform: "translateY(-50%)",
-                      width: "2.5vw",
-                      height: "2vw",
+                      width: "2vw",
+                      height: "1.5vw",
                     }}
                     src="/tym_do.png"
                     alt="Yêu thích"
@@ -539,7 +564,7 @@ function Main() {
                     style={{
                       cursor: "pointer",
                       position: "absolute",
-                      right: "-4vw",
+                      right: "-5vw",
                       top: "50%",
                       transform: "translateY(-50%)",
                       width: "1vw",
@@ -607,6 +632,7 @@ function Main() {
         </div>
 
         {/* Product List */}
+
         <div className={styles.showProducts}>
           {loading ? (
             <p>Đang tải sản phẩm...</p>
@@ -623,6 +649,7 @@ function Main() {
                   )
                 }
                 key={index}
+                style={{width:"19vw"}}
                 className={styles.items_showProducts}
               >
                 <img
@@ -694,11 +721,11 @@ function Main() {
                         style={{
                           cursor: "pointer",
                           position: "absolute",
-                          right: "-4vw",
+                          right: "-5.5vw",
                           top: "50%",
                           transform: "translateY(-50%)",
-                          width: "2.5vw",
-                          height: "2vw",
+                          width: "2vw",
+                          height: "1.5vw",
                         }}
                         src="/tym_do.png"
                         alt="Yêu thích"
@@ -708,7 +735,7 @@ function Main() {
                         style={{
                           cursor: "pointer",
                           position: "absolute",
-                          right: "-4vw",
+                          right: "-5vw",
                           top: "50%",
                           transform: "translateY(-50%)",
                           width: "1vw",
