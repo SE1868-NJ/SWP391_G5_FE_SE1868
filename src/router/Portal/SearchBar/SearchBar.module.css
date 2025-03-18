@@ -200,7 +200,7 @@
   cursor: pointer;
   border-radius: 3px;
   white-space: nowrap;
-  transition: background 0.3s;
+  transition: background-color 0.3s;
   height: 100%;
   /* Giữ cùng chiều cao với input */
 }
