@@ -78,7 +78,7 @@ function ViewOrder() {
   const buyAgain = async()=>{
     const selectCart = [{...buyOrder, Quantity : chooseQuantity,totalAmount: chooseQuantity * buyOrder.productPrice + 32000,}]
     console.log(selectCart)
-    navigate('/OrderCheckOut',{state:selectCart})
+    navigate('/OrderCheckOut',{state:{selectCart}})
   }
   async function handleChange (e) {
     console.log(orderList[indexList][reviewPopup])
@@ -141,6 +141,9 @@ function ViewOrder() {
     setShopID(shopID);
     navigate('/ ')
   }
+  useEffect(()=>{
+    setIndexList(0);
+  },[chooseStatus])
   return (
     <div className={styles.viewOrder} >
       <div className={styles.orderStatus}>
@@ -167,7 +170,7 @@ function ViewOrder() {
               <div>
                 <p style={{cursor:'pointer'}} onClick={()=>navigate(`/product/${order.productID}`)}>{order.productName}</p>
                 <p style={{color:'#bbbaba'}}>{order.description}</p>
-                <button onClick={()=>setReviewPopup(index)} >Đánh Giá</button>
+                <button className= {`${order.status === 'Chờ thanh toán' ? styles.hidden: ''}`} onClick={()=>setReviewPopup(index)} >Đánh Giá</button>
                 <button onClick={()=>navigate(`/OrderDetail/${order.orderDetailID}`,{state:order})} >Chi tiết</button>
                 <button className= {`${order.status === 'Chờ thanh toán' ? styles.hidden: ''}`} onClick={()=> chooseQuantityPopup(order)}>Mua Lại</button>
               

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { formatMoney } from '../utils';
 import styles from './card/styles.module.css'
 import { ProductDetailModal } from './products/ProductDetailModal';
 import { iconFail, iconFavorite, iconFavoriteDefault, iconSuccess } from './icon/Icon';
 import { deleteProductFavorite, setProductFavorite } from '../service/product';
+import { CustomerBehaviorContext } from "../globalContext/CustomerBehaviorContext";
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../globalContext/AuthContext';
+import { useAuth } from '../globalContext/AuthContext';
 import { updateCart } from '../service/cart';
 import { ModalCustom, ModalNotify } from './modal/ModalCustom';
 const Card = ({ item, isFavoriteProduct }) => {
@@ -77,10 +78,22 @@ const Card = ({ item, isFavoriteProduct }) => {
     setIsFavorite(isFavoriteProduct)
   }, [isFavoriteProduct])
 
+  const { fetchAddCustomerBehavior } = useContext(CustomerBehaviorContext);
+  const {customerID} = useAuth();
+
   return (
-    <div className={styles.card_container}>
+    <div 
+    onClick={() =>
+      fetchAddCustomerBehavior(
+        customerID,
+        item.ProductID,
+        item.Category,
+        "view",
+        item.ShopID
+      )
+    } className={styles.card_container}>
       <div className={styles.card_imageContainer} >
-        <img className={styles.card_image} src={item.ProductImg} onClick={() => handleGotoDetail(item.ProductID)} />
+        <img className={styles.card_image} src={item.ProductImg} alt="" onClick={() => handleGotoDetail(item.ProductID)} />
       </div>
       <div className={styles.card_info}>
         <div className={styles.card_infoContainer}>

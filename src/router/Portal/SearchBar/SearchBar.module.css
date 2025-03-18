@@ -200,7 +200,7 @@
   cursor: pointer;
   border-radius: 3px;
   white-space: nowrap;
-  transition: background 0.3s;
+  transition: background-color 0.3s;
   height: 100%;
   /* Giữ cùng chiều cao với input */
 }
@@ -242,6 +242,8 @@
 
 /* Dark Mode Styles */
 .dark {
+background-color: #121212; 
+color: white; 
   background-color: #121212;
   /* Nền tối cho phần chính */
   color: white;
@@ -249,6 +251,9 @@
 }
 
 .darkInput {
+background-color: #333;
+color: white; 
+border: 1px solid #555;
   background-color: #333;
   /* Nền input tối */
   color: white;
@@ -259,6 +264,11 @@
 
 /* Dark Mode Button */
 .darkButton {
+background-color: #f04e30;
+color: white;
+border: none;
+padding: 10px 15px;
+border-radius: 5px;
   background-color: #f04e30;
   /* Nền nút sáng khi hover */
   color: white;
@@ -270,6 +280,12 @@
 
 
 .darkSuggestions {
+background-color: #444;
+color: white; 
+}
+
+.darkText {
+color: white;
   background-color: #444;
   /* Nền gợi ý tối */
   color: white;
@@ -283,6 +299,15 @@
 
 
 .dark .suggestions {
+background-color: #333;
+}
+
+.dark .suggestions li {
+color: white; 
+}
+
+.dark .suggestions li:hover {
+background-color: #555;
   background-color: #333;
   /* Nền gợi ý tối */
 }
@@ -299,6 +324,11 @@
 
 
 .dark .searchContainer {
+background-color: #222;
+}
+
+.dark .searchContainer button:hover {
+background-color: #d43e1d;
   background-color: #222;
   /* Nền tối cho container tìm kiếm */
 }
@@ -310,6 +340,9 @@
 
 
 .dark .searchContainer input {
+background-color: #444; 
+color: white;
+border: 1px solid #555;
   background-color: #444;
   /* Nền tối cho input */
   color: white;

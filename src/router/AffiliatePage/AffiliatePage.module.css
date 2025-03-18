@@ -1,0 +1,168 @@
+/* ============================ */
+/* Global container */
+.container {
+    max-width: 1300px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Tiêu đề */
+.title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #f04e30;
+    margin-bottom: 20px;
+
+}
+
+/* ============================ */
+/* Thống kê tiếp thị */
+.statsBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.statsItem {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    /* Tăng khoảng cách giữa các nhóm */
+    padding: 12px;
+    justify-content: flex-start;
+
+}
+
+/* Icon chuẩn kích thước */
+.iconGroup {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* Giữ icon và text gần nhau */
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Đồng bộ văn bản */
+.label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* ============================ */
+/* Form nhập mã */
+.form {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.input {
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+.input:focus {
+    border-color: #007bff;
+}
+
+/* Nút gửi */
+.button {
+    padding: 10px 15px;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.button:hover {
+    background: #0056b3;
+}
+
+/* ============================ */
+/* Lịch sử tiếp thị */
+.historyBox {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.historyItem {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.date {
+    color: #555;
+    font-style: italic;
+}
+
+
+
+
+/* ============================ */
+/* Thống kê tiếp thị */
+.statsBox {
+    display: flex;
+    justify-content: space-between;
+    /* Dàn đều 3 phần tử */
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Từng nhóm thông tin */
+.statsItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    /* Khoảng cách giữa icon và text */
+
+}
+
+/* Icon chuẩn kích thước */
+.icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Đồng bộ văn bản */
+.label {
+    font-weight: bold;
+    color: #333;
+}
+
+.subtitle {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 20px;
+}
