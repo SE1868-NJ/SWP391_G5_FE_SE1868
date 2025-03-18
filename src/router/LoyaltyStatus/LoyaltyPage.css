@@ -1,103 +1,203 @@
-/* LoyaltyPage.css */
 .loyalty-container {
     font-family: Arial, sans-serif;
-    padding: 15px;
+    padding: 20px;
     background-color: #f6f6f6;
 }
 
 .loyalty-card {
     background-color: #fff;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.loyalty-card h2 {
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.loyalty-card p {
-    color: #555;
-    margin: 5px 0;
-}
-
-.loyalty-status-card {
-    background-color: #fff;
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .loyalty-status-header {
-    background: linear-gradient(to right, #ff7337, #ff4d00);
+    background: linear-gradient(to right, #ff7e00, #ff4d00);
     color: #fff;
-    border-radius: 8px 8px 0 0;
+    border-radius: 12px 12px 0 0;
     padding: 20px;
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.condition-upgrade {
-    padding: 15px;
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.condition-upgrade .condition {
     text-align: center;
-    flex: 1;
 }
 
-.condition-upgrade .condition p {
-    margin: 5px 0;
+.loyalty-status-header .icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
 }
 
-.condition-upgrade .condition strong {
-    color: #ff4d00;
-    font-size: 18px;
+/* ✅ Điều chỉnh icon của phần thưởng */
+.reward-list {
+    list-style: none;
+    padding: 0;
 }
 
-.tier-benefits {
-    margin-top: 20px;
-    background-color: #fff;
+.reward-item {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 12px;
     border-radius: 8px;
-    padding: 15px;
+    margin-bottom: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
 }
 
-.tier-tabs {
+.reward-item:hover {
+    transform: scale(1.02);
+}
+
+/* ✅ Fix kích thước của icon phần thưởng */
+.reward-icon {
+    width: 40px;
+    /* Đảm bảo icon có kích thước chuẩn */
+    height: 40px;
+    margin-right: 12px;
+    object-fit: contain;
+    /* Tránh bị méo hình */
+}
+
+/* ✅ Văn bản của phần thưởng */
+.reward-details {
+    font-size: 14px;
+    color: #333;
+}
+
+.reward-details strong {
+    font-size: 15px;
+    color: #ff4d00;
+    /* Màu cam nổi bật */
+}
+
+/* Tiến trình nâng cấp hạng */
+.condition-upgrade {
     display: flex;
     justify-content: space-around;
-    border-bottom: 2px solid #f0f0f0;
-    margin-bottom: 15px;
+    padding: 15px;
 }
 
-.tier-tabs div {
-    padding: 10px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.tier-tabs .active {
-    color: #ff4d00;
-    border-bottom: 2px solid #ff4d00;
-}
-
-.benefit-list p {
-    margin: 8px 0;
-    padding: 5px;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.loading {
+.condition {
     text-align: center;
-    margin-top: 30px;
-    font-size: 18px;
-    color: #888;
+}
+
+.condition .icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.history-item .icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+}
+
+/* Icon tier */
+.tier-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.loyalty-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f6f6f6;
+}
+
+.loyalty-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.loyalty-status-header {
+    text-align: center;
+}
+
+.tier-icon {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: 0 auto;
+}
+
+.next-tier {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    margin-top: 10px;
+}
+
+.bar {
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    border-radius: 4px;
+    position: relative;
+}
+
+.fill {
+    height: 8px;
+    background: #4CAF50;
+    border-radius: 4px;
+}
+
+.history-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.history-button:hover {
+    background-color: #0056b3;
+}
+
+/* Phần thưởng */
+.reward-list {
+    list-style: none;
+    padding: 0;
+}
+
+.reward-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reward-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
 }

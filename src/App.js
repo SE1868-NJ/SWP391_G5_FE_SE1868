@@ -6,7 +6,6 @@ import Home from "./router/Home/Home";
 import Cart from "./router/Cart/Cart.js";
 import Shop from "./router/Shop/Shop.js";
 import SearchProduct from "./router/products/SearchProducts";
-
 import OrderandVoucher from "./router/OrderandVoucher/OrderandVoucher.js";
 import Notification from "./router/Notification/Notification.js";
 import Login from "./layout/Login/Login.js";
@@ -18,7 +17,6 @@ import { AuthProvider } from "./globalContext/AuthContext.js";
 import { ThemeProvider, ThemeContext } from "./contexts/ThemeContext.js";
 import CustomerBehaviorProvider from "./globalContext/CustomerBehaviorContext.js";
 import MenuHeaderProvider from "./globalContext/MenuHeaderContext.js";
-import DarkModeButton from "./components/DarkModeButton";
 import ShopProvider from "./globalContext/ShopContext.js";
 import FavoriteProduct from "./router/products/FavoriteProducts.jsx";
 import { PageProductDetail } from "./components/products/ProductDetail.jsx";
@@ -27,8 +25,8 @@ import ActivityLog from "./router/Profile/ActivityLog.jsx";
 import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
 import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
 import OrderDetail from "./router/OrderDetail/OrderDetail";
-import Bills from "./router/Bills/Bills.js";
-import PayBills from "./router/PayBills/PayBills.js"
+import Bills from "./router/Blog/Bills/Bills.js";
+import PayBills from "./router/PayBills/PayBills.js";
 import TransactionHistory from "./router/TransactionHistory/TransactionHistory.js";
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
@@ -36,79 +34,79 @@ import BlogList from "./router/Blog/Blog.js";
 import BlogDetail from "./router/Blog/BlogDetail.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
-
 import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
+import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/LoyaltyHistoryPage.js";
+import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
 
 
+// 🛠️ HÀM AppContent() - Định nghĩa nội dung ứng dụng
 function AppContent() {
   const { theme } = useContext(ThemeContext);
 
+  return (
+    <div
+      className={`min-h-screen transition-all duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
+        }`}
+    >
+      <Routes>
+        <Route path="/OrderCheckOut" element={<Order />} />
+        <Route path="/TransactionHistory" element={<TransactionHistory />} />
+        <Route path="/Bills" element={<Bills />} />
+        <Route path="/PayBills" element={<PayBills />} />
+        <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/blog" element={<BlogList />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
+        <Route path="/search" element={<SearchProduct />} />
+        <Route path="/my-favorite" element={<FavoriteProduct />} />
+        <Route path="/product/:id" element={<PageProductDetail />} />
+        <Route path="/Order" element={<Order />} />
+        <Route path="/Notifications" element={<Notification />} />
+        <Route path="customers/*" element={<CustomerRoutes />} />
+        <Route path="/customers/activity-log" element={<ActivityLog />} />
+        <Route path="/Category" element={<Category />} />
+        <Route path="/Portal" element={<Portal />} />
+        <Route path="/category/:category" element={<Category />} />
+        <Route path="/searchPortal" element={<SearchResults />} />
+        <Route path="/category/:category/:itemId" element={<Category />} />
+        <Route path="/new-combo" element={<NewComboProduct />} />
+        <Route path="/list-combo" element={<ListComboProduct />} />
+        <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
+        <Route path="/support/request" element={<SupportRequest />} />
+        <Route path="/support/history" element={<SupportHistory />} />
+        <Route path="/support/history/:id" element={<SupportRequestDetails />} />
+        <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
+        <Route path="/loyalty-history/:customerId" element={<LoyaltyHistoryPage />} />
+        <Route path="/affiliate/:customerId" element={<AffiliatePage />} />
 
-  function AppContent() {
-    const { theme } = useContext(ThemeContext);
+      </Routes>
+    </div>
+  );
+}
 
-    return (
-      <div
-        className={`min-h-screen transition-all duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
-          }`}
-      >
-        <Routes>
-          <Route path="/OrderCheckOut" element={<Order />} />
-          <Route path="/TransactionHistory" element={<TransactionHistory />} />
-          <Route path="/Bills" element={<Bills />} />
-          <Route path="/PayBills" element={<PayBills />} />
-          <Route path="/OrderandVoucher" element={<OrderandVoucher />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/blog" element={<BlogList />} />
-          <Route path="/blog/:id" element={<BlogDetail />} />
-          <Route path="/search" element={<SearchProduct />} />
-          <Route path="/my-favorite" element={<FavoriteProduct />} />
-          <Route path="/product/:id" element={<PageProductDetail />} />
-          <Route path="/Order" element={<Order />} />
-          <Route path="/Notifications" element={<Notification />} />
-          <Route path="customers/*" element={<CustomerRoutes />} />
-          <Route path="/customers/activity-log" element={<ActivityLog />} />
-          <Route path="/Category" element={<Category />} />
-          <Route path="/Portal" element={<Portal />} />
-          <Route path="/category/:category" element={<Category />} />
-          <Route path="/searchPortal" element={<SearchResults />} />
-          <Route path="/category/:category/:itemId" element={<Category />} />
-          <Route path="/new-combo" element={<NewComboProduct />} />
-          <Route path="/list-combo" element={<ListComboProduct />} />
-          <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
-          <Route path="/support/request" element={<SupportRequest />} />
-          <Route path="/support/history" element={<SupportHistory />} />
-          <Route path="/support/history/:id" element={<SupportRequestDetails />} />
-          <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
+// 🛠️ HÀM App() - Bọc ứng dụng với các Context Providers
+function App() {
+  return (
+    <GlobalProvider>
+      <AuthProvider>
+        <MenuHeaderProvider>
+          <ShopProvider>
+            <ThemeProvider>
+              <Router>
+                <CustomerBehaviorProvider>
+                  <AppContent />
+                </CustomerBehaviorProvider>
+              </Router>
+            </ThemeProvider>
+          </ShopProvider>
+        </MenuHeaderProvider>
+      </AuthProvider>
+    </GlobalProvider>
+  );
+}
 
-          <Route
-            path="/support/history/:id"
-            element={<SupportRequestDetails />}
-          />
-        </Routes>
-      </div>
-    );
-  }
 
-  function App() {
-    return (
-      <GlobalProvider>
-        <AuthProvider>
-          <MenuHeaderProvider>
-            <ShopProvider>
-              <ThemeProvider>
-                <Router>
-                  <CustomerBehaviorProvider><AppContent /></CustomerBehaviorProvider>
-                </Router>
-              </ThemeProvider>
-            </ShopProvider>
-          </MenuHeaderProvider>
-        </AuthProvider>
-      </GlobalProvider>
-    );
-  }
-
-  export default App;
+export default App;
