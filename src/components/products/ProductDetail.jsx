@@ -12,9 +12,9 @@ export const ProductDetail = ({ product, setIsOpen, isPage,isOpen }) => {
       const {setShopID, shopID: id, fetchInforShopList } = useContext(GlobalContext);
   const navigate = useNavigate();
 
-    const handleGoToShop = () =>{
-        const shopID = product?.ShopID
-        if(!shopID) return
+    const handleGoToShop = (shopID) =>{
+        // const shopID = product?.ShopID
+        // if(!shopID) return
         setShopID(shopID)
         navigate('/shop')
     }
@@ -27,7 +27,8 @@ export const ProductDetail = ({ product, setIsOpen, isPage,isOpen }) => {
                 </div>
                 <div className={styles.product_info}>
                     <div className={styles.product_infoShop}>
-                       <span>Cửa hàng:</span> <p onClick={() => {navigate("/shop"); setShopID(2)}}>{product.ShopName}</p>
+                       <span>Cửa hàng:</span> <p onClick={() => handleGoToShop(product.ShopID)}>{product.ShopName}</p>
+
                     </div>
                     <div className={styles.product_infoContainer}>
                         <div className={styles.product_infoTitle}>

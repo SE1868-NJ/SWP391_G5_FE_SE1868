@@ -10,6 +10,8 @@ export function GlobalProvider({ children }) {
   const [notificationsList, setNotificationsList] = useState([]);
   const [inforShopList, setInforShopList] = useState([]);
   const [voucherShopList, setVoucherShopList] = useState([]);
+  const [billsList, setBillsList] = useState([]);
+  const [transactionHistoryList, setTransactionHistoryList] = useState([]);
   const [listVoucherByCustomerID, setListVoucherByCustomerID] = useState([]);
   const [productShopSuggestList, setProductShopSuggestList] = useState([]);
   const [listCustomerShopFollow, setListCustomerShopFollow] = useState([]);
@@ -25,11 +27,29 @@ export function GlobalProvider({ children }) {
   const [shopID, setShopID] = useState(() => {
     return localStorage.getItem("shopID") || "1"; 
   });
+
+  const [typeBill, setTypeBill] = useState(() => {
+    return localStorage.getItem("typeBill") || "Order"; 
+  });
+
+  const [typeTransactionHistory, setTypeTransactionHistory] = useState(() => {
+    return localStorage.getItem("typeTransactionHistory") || ""; 
+  });
   
   // Cập nhật localStorage khi shopID thay đổi
   useEffect(() => {
     localStorage.setItem("shopID", shopID);
   }, [shopID]);
+
+  // Cập nhật localStorage khi shopID thay đổi
+  useEffect(() => {
+    localStorage.setItem("typeBill", typeBill);
+  }, [typeBill]);
+
+  useEffect(() => {
+    localStorage.setItem("typeTransactionHistory", typeTransactionHistory);
+  }, [typeTransactionHistory]);
+
   const [productFavoriteList, setProductFavoriteList] = useState([]);
 
   const { customerID } = useAuth() || {}; // ✅ Nhận customerID từ AuthContext
@@ -47,6 +67,58 @@ export function GlobalProvider({ children }) {
       console.error("Lỗi khi tải danh mục:", error);
     }
   };
+
+   // List TransactionHistory
+   const fetchTransactionHistoryList = async (customerID, typeTransactionHistory) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/api/Payments/All",
+        {
+          params: {
+            customerID: customerID,
+            typeTransactionHistory: typeTransactionHistory,
+          },
+        }
+      );
+      setTransactionHistoryList(response.data[0]);
+      console.log("Lấy List TransactionHistory:", response.data[0]);
+    } catch (error) {
+      console.error("Lỗi khi Lấy List bills:", error);
+    }
+  };
+
+  useEffect(() => {
+    if(customerID && typeTransactionHistory){
+      fetchTransactionHistoryList(customerID, typeTransactionHistory);
+    }
+  },[customerID, typeTransactionHistory])
+
+  
+  // List Bills
+  const fetchBillsList = async (customerID, typeBill) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/api/Bills/All",
+        {
+          params: {
+            customerID: customerID,
+            typeBill: typeBill,
+          },
+        }
+      );
+      setBillsList(response.data);
+      console.log("Lấy type bills:", typeBill);
+      console.log("Lấy List bills:", response.data);
+    } catch (error) {
+      console.error("Lỗi khi Lấy List bills:", error);
+    }
+  };
+
+  useEffect(() => {
+    if(customerID && typeBill){
+      fetchBillsList(customerID, typeBill);
+    }
+  },[customerID, typeBill]);
 
   //List Customer follow shop
   const fetchListCustomerShopFollow = async (customerID) => {
@@ -368,6 +440,10 @@ export function GlobalProvider({ children }) {
         productFavoriteList,
         listVoucherByCustomerID,
         listCustomerShopFollow,
+        billsList,
+        setTypeBill,
+        transactionHistoryList,
+        setTypeTransactionHistory
       }}
     >
       {children}

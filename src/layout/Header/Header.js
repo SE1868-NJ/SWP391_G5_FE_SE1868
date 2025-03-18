@@ -3,13 +3,23 @@ import { useNavigate } from "react-router-dom";
 import MenuHeader from "../MenuHeader/MenuHeader";
 import Search from "../Search/Search";
 import DarkModeButton from "../../components/DarkModeButton";
-import { iconCart, iconHeart, iconHelp, iconLogin, iconNotify, iconProfile } from "../../components/icon/Icon";
 import { Dropdown, Space } from "antd";
 import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n.js";
 import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
+import {
+  iconCart,
+  iconHeart,
+  iconHelp,
+  iconLogin,
+  iconProfile,
+  iconNotify,
+  iconProfileiconHistory,
+  iconBill,
+  iconHistory,
+} from "../../components/icon/Icon.jsx";
 
 function Header() {
   const navigate = useNavigate();
@@ -44,6 +54,8 @@ function Header() {
       navigate("/Portal");
     } else if (e === "Giỏ Hàng") {
       navigate("/cart");
+    } else if (e === "Blog") {
+      navigate("/blog");
     }
   };
 
@@ -67,13 +79,32 @@ function Header() {
       icon: iconHeart
     },
     {
-      key: '3',
+      key: "2",
+      label: <a href="/my-favorite">Sản phẩm yêu thích</a>,
+      icon: iconHeart,
+    },
+    {
+      key: "3",
       label: (
-        <a href="/login">
-          {user ? 'Đăng xuất' : 'Đăng nhập'}
+        <a href="/Bills" style={{ textDecoration: "none" }}>
+          Các loại hóa đơn
         </a>
       ),
-      icon: iconLogin
+      icon: iconBill,
+    },
+    {
+      key: "4",
+      label: (
+        <a href="/TransactionHistory" style={{ textDecoration: "none" }}>
+          Lịch sử giao dịch
+        </a>
+      ),
+      icon: iconHistory,
+    },
+    {
+      key: "5",
+      label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
+      icon: iconLogin,
     },
 
   ];
@@ -96,15 +127,13 @@ function Header() {
         <Search />
 
         <div
-          className={`${styles.fhs_center_space_header} ${
-            theme === "dark" ? styles.dark : ""
-          }`}
+          className={`${styles.fhs_center_space_header} ${theme === "dark" ? styles.dark : ""
+            }`}
         >
           <div
             onClick={() => handleClick("Thông Báo")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_noti_gray.svg"
@@ -112,38 +141,34 @@ function Header() {
               className={styles.fhs_noti_icon_header}
             />
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               {t("Notifications")}
             </div>
           </div>
           <div
             onClick={() => handleNavigate("/Portal")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             <img
               style={{ width: "2.5vw" }}
-              src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-question-mark-vector-icon-png-image_5152512.jpg"
+              src="/Portal.png"
               alt=""
               className={styles.fhs_noti_icon_header}
             />
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               {t("Portal")}
             </div>
           </div>
           <div
             onClick={() => handleNavigate("/cart")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
@@ -151,18 +176,27 @@ function Header() {
               className={styles.fhs_noti_icon_header}
             />
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               {t("cart")}
             </div>
           </div>
           <div
+            onClick={() => handleNavigate("/blog")}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
+            <img
+              style={{ width: "1.5vw", height: "3.8vh" }}
+              src="../../Blog.png"
+              alt=""
+              className={styles.fhs_noti_icon_header}
+            />
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Blog</div>
+          </div>
+          <div
             onClick={() => handleClick("Tài Khoản")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             {user && user.avatar ? (
               <img src={user.avatar} alt="Avatar" className={styles.avatar} />
@@ -175,10 +209,7 @@ function Header() {
             )}
             <div className={user ? styles.name : styles.fhs_top_menu_labe}>
               <Dropdown menu={{ items }}>
-                <Space>
-                  {user ? user.name : t("account")}
-
-                </Space>
+                <Space>{user ? user.name : t("account")}</Space>
               </Dropdown>
             </div>
           </div>
@@ -191,7 +222,7 @@ function Header() {
               />
             </div>
           </div> */}
-        <LanguageSwitcher/>
+          <LanguageSwitcher />
 
           <div className="p-4 flex justify-between items-center">
             <DarkModeButton />

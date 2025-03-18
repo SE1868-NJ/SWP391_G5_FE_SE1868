@@ -89,7 +89,7 @@ function Notification() {
           })}
         </div>
       </div>
-      <button disabled className={styles.button_detail}>Xem Chi Tiết</button>
+      <button onClick={() => window.location.reload()} className={styles.button_detail}>Xem Chi Tiết</button>
     </div>))
   );
 
