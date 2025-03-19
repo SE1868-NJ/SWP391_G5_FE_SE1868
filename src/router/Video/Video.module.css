@@ -25,6 +25,9 @@
     }
   }
 }
+.choose{
+  background-color: #ff0000;
+}
 .changeVideo{
   width: 7vh;
   display: flex;
