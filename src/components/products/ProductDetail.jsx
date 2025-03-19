@@ -64,7 +64,9 @@ export const PageProductDetail = () => {
     const navigate = useNavigate();
     useEffect(() => {
         navigate(`/product/${id}`, { replace: true });
-    }, [navigate]);
+        window.scrollTo(0, 0); // Cuộn lên đầu trang khi id thay đổi
+
+    }, [navigate,id]);
     const [product, setProduct] = useState()
     const getData = async () => {
 
