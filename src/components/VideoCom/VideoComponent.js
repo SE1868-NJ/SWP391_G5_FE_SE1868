@@ -191,6 +191,7 @@ async function handleReply(parentCom,content){
   console.log(commentMa)
   setCommentMap(commentMa)
   setCmt([...cmt])
+  setTotalComment(totalComment + 1);
 }
   return (
     <>

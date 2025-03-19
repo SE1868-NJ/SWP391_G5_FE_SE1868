@@ -98,7 +98,7 @@ const Comment = ({ comment,setLikeDis ,handleReply}) => {
         ):''}
         {showReplies &&
           comment.children.map((child) => (
-            <Comment key={child.comment.CommentID} comment={child}  />
+            <Comment key={child.comment.CommentID} comment={child} handleReply={handleReply} setLikeDis={setLikeDis}/>
           ))}
       </div>
     </div>
