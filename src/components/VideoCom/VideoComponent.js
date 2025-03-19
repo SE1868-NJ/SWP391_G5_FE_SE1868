@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import ReactPlayer from "react-player";
 import styles from "./VideoComponent.module.css";
 import { useParams } from "react-router-dom";
@@ -143,38 +143,35 @@ const handleUpload = async () => {
       console.error("Lỗi khi tải file:", error);
   }
 };
+
 async function fetchComment(){
   const response = await axios.post('http://localhost:3001/api/video/getCommentByVideoID',{videoID,cusID});
   const commentList = response.data;
   const commentMa = {};
   const commentTree = [];
   setTotalComment(response.data.length)
-  commentList.map((comment) => {
+  commentList.forEach((comment) => {
     commentMa[comment.comment.CommentID] = { ...comment, children: [] };
   });
   setCommentMap(commentMa)
-  commentList.map((comment) => {
+  commentList.forEach((comment) => {
     if (comment.comment.ParentCmt) {
       commentMa[comment.comment.ParentCmt].children.push(commentMa[comment.comment.CommentID]);
     } else {
       commentTree.push(commentMa[comment.comment.CommentID]);
     }
   });
-  console.log(commentTree)
   setCmt(commentTree)
-  
 }
 function setLikeDisComment(commentID,like,dislike){
   const commentMa = commentMap;
-  console.log(commentID)
   commentMa[commentID].comment.TotalDislike = commentMa[commentID].comment.TotalDislike + dislike
   commentMa[commentID].comment.TotalLike = commentMa[commentID].comment.TotalLike + like
   setCommentMap(commentMa)
 }
-async function handleReply(parentCom,content){
+const handleReply = async(parentCom,content)=>{
+  const commentsaisai  = commentMap;
   const response =  await axios.post('http://localhost:3001/api/video/addComment',{videoID,content,parentCom,cusID});
-  const commentMa = commentMap;
-  console.log(commentMa)
   const comment = {
     LikeDis:'',
     avatar: JSON.parse(localStorage.getItem("user")).avatar,
@@ -182,14 +179,14 @@ async function handleReply(parentCom,content){
     children : [],
     comment :response.data
   }
-  commentMa[comment.comment.CommentID] = comment
+  
+  commentsaisai[comment.comment.CommentID] = comment;
   if(parentCom){
-    commentMa[parentCom].children.push(comment);
+    commentsaisai[parentCom].children.push(comment);
   }else{
     cmt.push(comment)
   }
-  console.log(commentMa)
-  setCommentMap(commentMa)
+  setCommentMap(commentsaisai)
   setCmt([...cmt])
   setTotalComment(totalComment + 1);
 }
