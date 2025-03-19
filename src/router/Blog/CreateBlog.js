@@ -9,9 +9,11 @@ const CreateBlog = () => {
     const [title, setTitle] = useState("");
     const [shortDescription, setShortDescription] = useState("");
     const [categoryID, setCategoryID] = useState("");
+    const customerID = localStorage.getItem("customerID") || "2";
     const [categories, setCategories] = useState([]);
     const [sections, setSections] = useState([""]);
     const [images, setImages] = useState([]);
+    const [existingImages, setExistingImages] = useState([]);
     const [coverImage, setCoverImage] = useState("");
     const navigate = useNavigate();
 
@@ -60,17 +62,42 @@ const CreateBlog = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!title.trim() || !shortDescription.trim() || !categoryID || sections.some(s => !s.trim())) {
+            alert("Vui lòng nhập đầy đủ các trường!");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("title", title);
         formData.append("shortDescription", shortDescription);
         formData.append("categoryID", categoryID);
-        sections.forEach((content, index) => formData.append(`sections[${index}]`, content));
-        images.forEach((image) => formData.append("images", image));
+        formData.append("customerID", customerID);
+
+        if (coverImage instanceof File) {
+            formData.append("coverImage", coverImage);
+        }
+
+        sections.forEach((content, index) => 
+            formData.append(`sections[${index}]`, content));
+
+        if (existingImages.length > 0) {
+            formData.append("existingImages", JSON.stringify(existingImages));
+        }
+
+        images.forEach((image) => 
+            formData.append("images", image));
+
+        console.log("Dữ liệu gửi đi:", Object.fromEntries(formData));
 
         try {
-            await axios.post("http://localhost:3001/api/blog", formData);
+            await axios.post("http://localhost:3001/api/blog", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
             alert("Blog đã được tạo thành công!");
+            navigate("/blog");
         } catch (error) {
+            alert("Có lỗi xảy ra khi tạo blog!");
             console.error("Lỗi khi tạo blog:", error);
         }
     };
