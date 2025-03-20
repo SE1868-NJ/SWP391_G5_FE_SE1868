@@ -86,7 +86,7 @@ const UpdateBlog = () => {
     const removeExistingImage = (index) => {
         setExistingImages(existingImages.filter((_, i) => i !== index));
     };
-    
+
 
     const removeImage = (index) => {
         setImages(images.filter((_, i) => i !== index));
@@ -112,7 +112,7 @@ const UpdateBlog = () => {
             formData.append("existingCoverImage", coverImage);
         }
 
-        formData.append("existingImages", 
+        formData.append("existingImages",
             JSON.stringify(existingImages.filter(img => img !== null)));
 
         images.forEach((image) => {
@@ -174,8 +174,11 @@ const UpdateBlog = () => {
                         <input type="file" onChange={handleCoverImageUpload} />
                         {coverImage && (
                             <div className={styles.coverImageContainer}>
-                                <img src={coverImage instanceof File ? URL.createObjectURL(coverImage) : coverImage}
-                                    alt="Ảnh bìa" className={styles.coverImage} />
+                                <img
+                                    src={coverImage instanceof File ? URL.createObjectURL(coverImage) : coverImage}
+                                    alt="Ảnh bìa"
+                                    className={styles.coverImage}
+                                />
                                 <button type="button" onClick={removeCoverImage} className={styles.removeImage}>X</button>
                             </div>
                         )}
