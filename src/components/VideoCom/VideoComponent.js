@@ -188,6 +188,7 @@ const handleReply = async(parentCom,content)=>{
   }
   setCommentMap(commentsaisai)
   setCmt([...cmt])
+  setTotalComment(totalComment + 1);
 }
   return (
     <>

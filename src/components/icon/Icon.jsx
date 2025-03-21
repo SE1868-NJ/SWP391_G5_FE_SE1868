@@ -660,9 +660,3 @@ export const sendIcon =
     />
   </svg>
 );
-
-
-
-
-
-
