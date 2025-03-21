@@ -16,7 +16,7 @@ const BlogDetail = () => {
             try {
                 const response = await axios.get(`http://localhost:3001/api/Blog/${id}`);
                 setBlog(response.data);
-
+                console.log("Dữ liệu nhận được từ API:", response.data);
                 const categoryResponse = await axios.get(`http://localhost:3001/api/blogcategory`);
                 const categories = categoryResponse.data || [];
 
@@ -67,7 +67,11 @@ const BlogDetail = () => {
                             </div>
                         ))
                     ) : (
-                        <p className={styles.noContent}>No content</p>
+                        sortedSections.map((section, index) => (
+                            <div key={index} className={styles.contentBlock}>
+                                <p className={styles.contentSection}>{section.Content}</p>
+                            </div>
+                        ))
                     )}
                 </div>
             </div>

@@ -112,7 +112,8 @@ const UpdateBlog = () => {
             formData.append("existingCoverImage", coverImage);
         }
 
-        formData.append("existingImages", JSON.stringify(existingImages));
+        formData.append("existingImages", 
+            JSON.stringify(existingImages.filter(img => img !== null)));
 
         images.forEach((image) => {
             formData.append("images", image);

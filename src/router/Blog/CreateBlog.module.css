@@ -134,13 +134,15 @@
 }
 
 .removeImage {
-    background: #FF4D4D;
-    color: white;
+    padding: 5px 10px;
     border: none;
     border-radius: 5px;
-    padding: 3px 6px;
-    font-size: 12px;
+    font-size: 16px;
     cursor: pointer;
+    transition: 0.3s;
+    background-color: #FF4D4D;
+    color: white;
+    margin-left: 10px;
 }
 
 .removeImage:hover {

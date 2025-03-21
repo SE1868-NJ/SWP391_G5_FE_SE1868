@@ -148,6 +148,7 @@ function Header() {
             </div>
           </div>
           <div
+          id="cart-icon"
             onClick={() => handleNavigate("/cart")}
             className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
               }`}
