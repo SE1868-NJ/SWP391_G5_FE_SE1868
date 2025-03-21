@@ -10,6 +10,9 @@ function Address({setInfor,infor}) {
     const inforFullUser = localStorage.getItem("user");
     const[otherAddress,setOtherAddress] = useState(false)
     const [area,setArea] = useState('');
+    const [confirmPopup,setConfirmPopup] = useState(false);
+    const [confirmAddress,setConfirmAddress] = useState(false);
+    const [alert,setAlert] = useState(false);
     const [houseAddress,setHouseAddress] = useState('');
     const [isChecked, setIsChecked] = useState(false);
     const customerID=JSON.parse(inforFullUser).id;
@@ -47,35 +50,31 @@ function Address({setInfor,infor}) {
         else await setIsChecked(false); 
     }
     async function setDefaultAddress(){
-        if (!isChecked) {
-            const confirm  = window.confirm(`Bạn muốn để địa chỉ ${selectAddress.HouseAddress} ${selectAddress.Area} làm địa chỉ mặc định ? `)
-            if(confirm){
-                const addressDefault = address.find(item => item.isDefault == 1)
-                const AddressID = [selectAddress.AddressID,addressDefault.AddressID]
-                const response = await axios.post('http://localhost:3001/address/setDefault',{AddressID,customerID});
-                setAddress(response.data)
-                setShowPopup(false)
-                setIsChecked((prev) => !prev); 
-            }
-        }
+        const addressDefault = address.find(item => item.isDefault == 1)
+        const AddressID = [selectAddress.AddressID,addressDefault.AddressID]
+        const response = await axios.post('http://localhost:3001/address/setDefault',{AddressID,customerID});
+        setAddress(response.data)
+        setShowPopup(false)
+        setIsChecked((prev) => !prev); 
+        setConfirmPopup(false)
         
     }
-    async function addAddress(){
+    async function addAddress1(){
         if(!houseAddress || !area) {
-            window.alert('Hãy nhập đủ dữ liệu!');
+            setAlert(true);
             return;
         }
-        const confirm  = window.confirm(`Bạn muốn thêm địa chỉ ${houseAddress} ${area}  ? `)
-            if(confirm){
-                await axios.post('http://localhost:3001/address/',{customerID,houseAddress,area});
-                const response = await axios.get(`http://localhost:3001/address/${customerID}`)
-                setAddress(response.data)
-            }
+        setConfirmAddress(true)
+    }
+    async function addAddress(){
+        await axios.post('http://localhost:3001/address/',{customerID,houseAddress,area});
+        const response = await axios.get(`http://localhost:3001/address/${customerID}`)
+        setAddress(response.data)
     }
     async function chooseAddress(){
         if(otherAddress){
             if(!houseAddress || !area) {
-                window.alert('Hãy nhập đủ dữ liệu!');
+                setAlert(true);
                 return;
             }
             await setInfor({
@@ -122,7 +121,7 @@ async function closePopup(){
                             </select><br/>
                             <p>Địa chỉ cụ thể : </p>
                             <input type='text' onChange={(event) => setHouseAddress(event.target.value)} placeholder='Nhập địa chỉ cụ thể của bạn ' /><br/><br/>
-                            <button onClick={()=>addAddress()}>Thêm địa chỉ này</button>
+                            <button onClick={()=>addAddress1()}>Thêm địa chỉ này</button>
                             <button onClick={()=>setOtherAddress(false)}>Chọn địa chỉ sẵn có</button>
                             <button onClick={()=>chooseAddress()}>Chọn địa chỉ này</button>
                         </>
@@ -135,7 +134,7 @@ async function closePopup(){
                                 ))}
                             </select>
                             <br/><br/>
-                            <input type='radio'  checked={isChecked} onChange={()=>setDefaultAddress()} />Đặt làm địa chỉ mặc định<br/><br/>
+                            <input type='radio'  checked={isChecked} onChange={()=>setConfirmPopup(true)} />Đặt làm địa chỉ mặc định<br/><br/>
                             <button onClick={()=>setOtherAddress(true)}>Thêm địa chỉ khác</button>
                             <button  onClick={()=>chooseAddress()}>Chọn địa chỉ này</button>
                         </>
@@ -145,6 +144,32 @@ async function closePopup(){
                 </div>
             </div>
         ) :''}
+        {confirmPopup ?(
+            <div className={styles.popup} onClick = {e=> e.target === e.currentTarget ? setConfirmPopup(false):''}>
+                <div className={styles.innerPopup}>
+                    <h2>Thông báo</h2>
+                    <p>Bạn muốn đặt địa chỉ này làm địa chỉ mặc định ?</p>
+                    <button onClick={()=>setDefaultAddress()}>Đồng ý</button>
+                    <button onClick={()=>setConfirmPopup(false)}>Hủy</button>
+                </div>
+            </div>
+        ):''}
+        {alert ?(<div className={styles.popup} onClick = {e=> e.target === e.currentTarget ? setAlert(false):''}>
+                <div className={styles.innerPopup}>
+                    <p>Hãy nhập đủ thông tin</p>
+                    
+                </div>
+            </div>):''}
+        {confirmAddress ?(
+            <div className={styles.popup} onClick = {e=> e.target === e.currentTarget ? setConfirmAddress(false):''}>
+                <div className={styles.innerPopup}>
+                    <h2>Thông báo</h2>
+                    <p>Bạn muốn thêm địa chỉ {houseAddress} {area}  ? </p>
+                    <button onClick={()=>addAddress()}>Đồng ý</button>
+                    <button onClick={()=>setConfirmAddress(false)}>Hủy</button>
+                </div>
+            </div>
+        ):''}
     </>
   )
 }

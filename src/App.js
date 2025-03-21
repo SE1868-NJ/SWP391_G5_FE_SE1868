@@ -37,6 +37,7 @@ import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDet
 import Gift from "./router/GiftShop/Gift.js"
 import Game from "./router/Game/Game.jsx";
 import "./i18n.js";
+import { Policy } from "./router/Policy/Policy.jsx";
 import Video from "./router/Video/Video.js";
 import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
 import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/LoyaltyHistoryPage.js";
@@ -53,6 +54,7 @@ function AppContent() {
         }`}
     >
       <header style={{position: 'absolute'}} className="p-4 flex justify-between items-center">
+        
       </header>
 
       <Routes>
@@ -92,9 +94,9 @@ function AppContent() {
           path="/support/history/:id"
           element={<SupportRequestDetails />}
         />
+        <Route path="/policy" element={<Policy />} />
         <Route path="/support/history/:id" element={<SupportRequestDetails />} />
-        <Route path="/video" element={<Video />} />
-        <Route path="/support/history/:id" element={<SupportRequestDetails />} />
+        <Route path="/video/*" element={<Video />} />
         <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
         <Route path="/loyalty-history/:customerId" element={<LoyaltyHistoryPage />} />
         <Route path="/affiliate/:customerId" element={<AffiliatePage />} />

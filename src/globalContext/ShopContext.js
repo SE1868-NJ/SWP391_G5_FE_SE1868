@@ -26,7 +26,6 @@ function ShopProvider({ children }) {
           },
         }
       );
-      console.log("Danh scahs PRODUCT SHOP: ", response.data);
       setProductShopList(response.data[0]);
     } catch (error) {
       console.error("Lỗi khi tải sản phẩm:", error);
@@ -35,7 +34,6 @@ function ShopProvider({ children }) {
 
   // ✅ Gọi API sản phẩm khi `option` hoặc `type` thay đổi
   useEffect(() => {
-    console.log("⚡ ShopContext: Giá trị shopID thay đổi:", shopID);
     if (shopID) {
       fetchProductShop(typeCategory, optionProductShop, shopID);
     }
@@ -56,8 +54,6 @@ function ShopProvider({ children }) {
       );
           // Trộn mảng ngẫu nhiên bằng cách sử dụng .sort() và Math.random()
     const randomData = response.data.sort(() => Math.random() - 0.5);
-      console.log("List Gợi ý Behavior sp theo shop ", randomData);
-        setProductBehaviorShop(randomData);
     } catch (error) {
       console.error("Lỗi khi tải sản phẩm:", error);
     }
@@ -98,7 +94,6 @@ function ShopProvider({ children }) {
         }
       );
     const randomData = response.data.sort(() => Math.random() - 0.5);
-    console.log("Sp mà customer theo hành vi ", randomData);
     setBehaviorCustomerProducts(randomData);
     } catch (error) {
       console.error("Lỗi khi tải sản phẩm:", error);

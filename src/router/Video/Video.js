@@ -1,111 +1,64 @@
 import React, { useState, useRef, useEffect } from "react";
-import ReactPlayer from "react-player";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styles from "./Video.module.css";
 import Header from "../../layout/Header/Header";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import VideoComponent from "../../components/VideoCom/VideoComponent";
 
 function Video() {
-  const playerRef = useRef(null);
-  const [currentVideo, setCurrentVideo] = useState(0);
+  const cusID = JSON.parse(localStorage.getItem("user")).id;
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [videoList, setVideoList] = useState([]);
+  const [videoID, setVideoID] = useState(cusID);
+  function setLikeDis(like, dislike){
+    setVideoList((prevList) => {
+      const newList = prevList.map((video, index) =>{
+        if(index === currentVideoIndex ){
+          if(like ==1)return {...video, TotalLike: video.TotalLike + like, TotalDislike: video.TotalDislike + dislike,LikeDis : "like"};
+          else if(dislike ==1)return {...video, TotalLike: video.TotalLike + like, TotalDislike: video.TotalDislike + dislike,LikeDis : "dislike"};
+          else return {...video, TotalLike: video.TotalLike + like, TotalDislike: video.TotalDislike + dislike,LikeDis : ""};
+          
+        }
+        return video}
+      );
+      return [...newList];
+    });
+  };
   const handleNextVideo = (value) => {
-    setCurrentVideo(
+    setCurrentVideoIndex(
       (prev) => (prev + value + videoList.length) % videoList.length
     );
   };
-  const videoList = [
-    {
-      id: 1,
-      url: "https://res.cloudinary.com/div6eqrog/video/upload/v1741752754/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_1_yqxxt6.mp4",
-      title: "Video 1",
-    },
-    {
-      id: 2,
-      url: "https://res.cloudinary.com/div6eqrog/video/upload/v1741752528/Thi%E1%BA%BFt_k%E1%BA%BF_ch%C6%B0a_c%C3%B3_t%C3%AAn_lhfgvz.mp4",
-      title: "Video 2",
-    },
-    {
-      id: 3,
-      url: "https://res.cloudinary.com/div6eqrog/video/upload/v1741752239/video1_elqek5.mp4",
-      title: "Video 3",
-    },
-  ];
-
   useEffect(() => {
-    const handleKeyDown = (e) => handleVideo(e);
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-  async function handleVideo(e) {
-    switch (e.key) {
-      case "ArrowUp":
-        handleNextVideo(1);
-        break;
-      case "ArrowDown":
-        handleNextVideo(-1);
-        break;
-      case "ArrowRight":
-        playerRef.current.seekTo(
-          playerRef.current.getCurrentTime() + 5,
-          "seconds"
-        );
-        break;
-      case "ArrowLeft":
-        playerRef.current.seekTo(
-          playerRef.current.getCurrentTime() - 5,
-          "seconds"
-        );
-        break;
-      default:
-        break;
+    fetchVideo();
+  }, [videoID]);
+  const fetchVideo = async () => {
+    if (videoList.length === 0) {
+      const res = await axios.post(
+        "http://localhost:3001/api/video/getVideoByID",
+        { videoID ,cusID}
+      );
+      setVideoList([...res.data[0], ...res.data[1]]);
     }
-  }
+  };
   return (
     <>
       <Header></Header>
-      <div className={styles.videoContainer}>
-        <div className={styles.videoInner}>
-          <div className={styles.changeVideo}>
-          <button className={`${currentVideo === 0 ? styles.hidden : ''} ${styles.arowTop}`} onClick={()=>handleNextVideo(-1)} ><img alt="" src="/arowbottom.png" /></button>
-            <button  onClick={()=>handleNextVideo(1)} ><img alt="" src="/arowbottom.png" /></button>
-          </div>
-          <div className={styles.video}>
-            <ReactPlayer
-              ref={playerRef}
-              url={videoList[currentVideo].url}
-              loop
-              playing
-              muted
-              controls
-              height="85vh"
-              width="47,81vh"
+      <Routes>
+        <Route
+          path="/:videoID"
+          element={
+            <VideoComponent
+              setVideoID={setVideoID}
+              currentVideo={videoList[currentVideoIndex]}
+              currentVideoIndex={currentVideoIndex}
+              handleNextVideo={handleNextVideo}
+              setLikeDis={setLikeDis}
             />
-          </div>
-          <div className={styles.functionVideo}>
-            <div>
-              <button ><img alt="" src="/likeIcon.png" /></button>
-              0
-            </div>
-            <div>
-              <button ><img alt="" src="/dislikeIcon.png" /></button>
-              0
-            </div>
-            <div>
-              <button ><img alt="" src="/cmtIcon.png" /></button>
-              0
-            </div>
-            <div>
-              <button ><img alt="" src="/shareIcon.png" /></button>
-              Share
-            </div>
-            <div>
-              <button ><img alt="" src="/reportIcon1.png" /></button>
-              Report
-            </div>
-            
-          </div>
-        </div>
-      </div>
+          }
+        />
+      </Routes>
     </>
   );
 }
