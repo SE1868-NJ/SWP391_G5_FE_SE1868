@@ -59,9 +59,14 @@ const Comment = ({ comment,setLikeDis ,handleReply}) => {
     
   };
   async function handle(){
+    if (handleReply) {
+      console.log('jcjcjc')
+      handleReply(comment.comment.CommentID, replyText);
+    } else {
+      console.error("handleReply is not defined");
+    }
     setReply(false);
     setReplyText('');
-    handleReply(comment.comment.CommentID,replyText)
   }
   return (
     <div className={styles.comment}>
@@ -93,7 +98,7 @@ const Comment = ({ comment,setLikeDis ,handleReply}) => {
         {reply ? (
             <div className={styles.aply}>
             <textarea value={replyText} onChange={(e)=> setReplyText(e.target.value)} placeholder="Cảm nghĩ của bạn..."   />
-            <button onClick = {()=>handle()}>Gửi</button>
+            <button onClick = {()=>{handle()}}>Gửi</button>
             </div>
         ):''}
         {showReplies &&

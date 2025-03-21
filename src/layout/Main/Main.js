@@ -7,6 +7,8 @@ import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
 import { useNavigate } from "react-router";
 import { updateCart } from "../../service/cart";
+import { iconFail, iconSuccess } from '../../components/icon/Icon';
+
 
 function Main() {
   let navigate = useNavigate();
@@ -25,6 +27,12 @@ function Main() {
   const { fetchAddCustomerBehavior } = useContext(CustomerBehaviorContext);
 
   const { customerID } = useAuth() || {};
+
+    const [notify, setNotify] = useState({
+      isOpen: false,
+      message: '',
+      icon: null
+    })
 
   const [deleteCategoryLove, setDeleteCategoryLove] = useState("");
   const [deleteProductIDTym, setDeleteProductIDTym] = useState("");
@@ -197,6 +205,33 @@ function Main() {
       currentPage * productsPerPage
     ) || [];
 
+    const handleAddToCart = async (item) => {
+    
+        try {
+          const storedUser = localStorage.getItem("user");
+          const userData = JSON.parse(storedUser);
+       
+            const rs = await updateCart({
+              customerID: userData.id,
+              productID: item.ProductID,
+              quantity: 1
+            })
+          
+            setNotify({
+              icon: rs.data?.status === 200 ? iconSuccess : iconFail,
+              message: rs.data?.status === 200 ? rs.data?.message || 'Thêm thành công' :  rs?.data?.message || 'Thêm thất bại',
+              isOpen: true
+            })
+    
+        } catch (error) {
+          console.error("error handleSetFavorite: ", error);
+          setNotify({
+            icon: iconFail,
+            message:  'Thêm thất bại',
+            isOpen: true
+          })
+        }
+      }
   return (
     <div className={styles.block_main}>
       <div className={styles.bar_one}>
@@ -312,13 +347,7 @@ function Main() {
               }}
             >
               <button
-                onClick={() =>
-                  updateCart({
-                    customerID: customerID,
-                    productID: item.ProductID,
-                    quantity: 1,
-                  })
-                }
+                onClick={() => handleAddToCart(item)}
                 style={{
                   position: "absolute",
                   left: "-6vw",
@@ -510,12 +539,7 @@ function Main() {
               }}
             >
               <button
-                onClick={() =>
-                  updateCart({
-                    customerID: customerID,
-                    productID: item.ProductID,
-                    quantity: 1,
-                  })
+                onClick={() =>handleAddToCart
                 }
                 style={{
                   position: "absolute",
