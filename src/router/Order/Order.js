@@ -54,6 +54,7 @@ function Order() {
     await setFavorites(response.data.slice(0,5));
   }
   async function getProduct() {
+    console.log(selectCart)
     if(selectCart !== null){
       let pages = []; 
     for (let i = 0; i < selectCart.length; i += 3) {

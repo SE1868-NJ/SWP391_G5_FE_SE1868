@@ -2,13 +2,12 @@ import React,{useState,useEffect,useContext} from 'react'
 import styles from './ViewOrder.module.css'
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
-import { useCustomer } from "../../Context";
 import { GlobalContext } from "../../globalContext/GlobalContext";  
 
 function ViewOrder() {
   const navigate = useNavigate();
   const {setShopID} = useContext(GlobalContext);
-  const { customer } = useCustomer();
+  const  customer = JSON.parse(localStorage.getItem("user"));
   const [allOrder,setAllOrder] = useState([]);
   const [chooseStatus, setChooseStatus] = useState("Tất cả");
   const [orderList, setOrderList] = useState([]);
@@ -18,6 +17,7 @@ function ViewOrder() {
   const [buyOrder,setBuyOrder] = useState(null);
   const [favorites,setFavorites] = useState([]);
   const [indexList, setIndexList] = useState(0);
+  const Rating = [1,2,3,4,5];
   const [formReview, setFormReview] = useState({
     category: "",
     reviewText: "",
@@ -35,11 +35,10 @@ function ViewOrder() {
     getAllOrder();
   },[])
   async function getAllOrder(){
-    const response = await axios.post('http://localhost:3001/api/Order/OrderDetailCusID',{cusID: customer.CustomerID});
+    const response = await axios.post('http://localhost:3001/api/Order/OrderDetailCusID',{cusID: customer.id});
     await setAllOrder(response.data)
     await sliceOrder(response.data);
-    console.log(response.data)
-    const response1 = await axios.post('http://localhost:3001/api/Products/getFavorite',{cusID: customer.CustomerID});
+    const response1 = await axios.post('http://localhost:3001/api/Products/getFavorite',{cusID: customer.id});
     await setFavorites(response1.data);
   }
   async function sliceOrder(OrderSample){
@@ -76,20 +75,12 @@ function ViewOrder() {
   useEffect(()=>{
   },[chooseQuantity])
   const buyAgain = async()=>{
-    const selectCart = [{...buyOrder, Quantity : chooseQuantity,totalAmount: chooseQuantity * buyOrder.productPrice + 32000,}]
+    const selectCart = [{...buyOrder, Quantity : chooseQuantity,totalAmount: chooseQuantity * buyOrder.productPrice + 32000}]
     console.log(selectCart)
     navigate('/OrderCheckOut',{state:{selectCart}})
   }
   async function handleChange (e) {
-    console.log(orderList[indexList][reviewPopup])
-    if(e.target.name === 'rating' && (e.target.value <0 || e.target.value >5)){
-      alert('Số sao chỉ từ 0 đến 5');
-      await setFormReview({ ...formReview, rating: 0});
-    }
-    if(e.target.value === 'shipper' && orderList[indexList][reviewPopup].shipperID === null){
-      alert('Sản phẩm này chưa có người giao hàng nên không thể đánh giá');
-      await setFormReview({ ...formReview, category: ''});
-    }
+    console.log(e.target.name)
     const newValue = { ...formReview, [e.target.name]: e.target.value }
     await setFormReview(newValue);
     
@@ -112,7 +103,7 @@ function ViewOrder() {
       alert('hãy nhập đủ thông tin')
       return;
     }
-    const cusID = customer.CustomerID 
+    const cusID = customer.id 
     let categoryID;
     if(formReview.category === 'product'){
       categoryID = orderList[indexList][reviewPopup].productID;
@@ -244,15 +235,10 @@ function ViewOrder() {
               <option value="shipper">Người giao hàng</option>
               <option value="shop">Cửa hàng</option>
             </select>
-            <label>Chọn số sao (0 đến 5):</label>
-            <input
-              type="number"
-              name="rating"
-              value={formReview.rating}
-              onChange={handleChange}
-              min="0"
-              max="5"
-            />
+            <label>Chọn số sao (1 đến 5):</label>
+            {Rating.map((item,index)=>(
+              <span onClick={()=>handleChange({target:{name :"rating" ,value: item}})}>{formReview.rating > index ? '⭐' : '★'}</span>
+            ))}
             <label>Nhập đánh giá:</label>
             <textarea
               name="reviewText"

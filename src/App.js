@@ -95,7 +95,7 @@ function AppContent() {
         <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
         <Route path="/loyalty-history/:customerId" element={<LoyaltyHistoryPage />} />
         <Route path="/affiliate/:customerId" element={<AffiliatePage />} />
-
+        
       </Routes>
     </div>
   );
