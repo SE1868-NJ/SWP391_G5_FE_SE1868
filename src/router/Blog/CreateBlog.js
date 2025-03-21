@@ -9,11 +9,39 @@ const CreateBlog = () => {
     const [title, setTitle] = useState("");
     const [shortDescription, setShortDescription] = useState("");
     const [categoryID, setCategoryID] = useState("");
+    const [customerName, setCustomerName] = useState("");
+    const [customerID, setCustomerID] = useState("");
     const [categories, setCategories] = useState([]);
     const [sections, setSections] = useState([""]);
     const [images, setImages] = useState([]);
+    const [existingImages, setExistingImages] = useState([]);
     const [coverImage, setCoverImage] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const inforFullUser = localStorage.getItem("user");
+        if (inforFullUser) {
+            const user = JSON.parse(inforFullUser);
+            setCustomerID(user.id);
+            console.log("Customer ID:", user.id);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (customerID) {
+            const fetchCustomerName = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:3001/customers/${customerID}`);
+                    const fullName = `${response.data.FirstName} ${response.data.LastName}`;
+                    setCustomerName(fullName);
+                } catch (error) {
+                    console.error("Lỗi khi lấy thông tin khách hàng:", error);
+                }
+            };
+
+            fetchCustomerName();
+        }
+    }, [customerID]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -55,22 +83,41 @@ const CreateBlog = () => {
     };
 
     const removeCoverImage = () => {
-        setCoverImage(""); 
+        setCoverImage("");
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!title.trim() || !shortDescription.trim() || !categoryID || !customerID || sections.some(s => !s.trim())) {
+            alert("Vui lòng nhập đầy đủ các trường!");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("title", title);
         formData.append("shortDescription", shortDescription);
         formData.append("categoryID", categoryID);
-        sections.forEach((content, index) => formData.append(`sections[${index}]`, content));
-        images.forEach((image) => formData.append("images", image));
+        formData.append("customerID", customerID);
+        formData.append("sections", JSON.stringify(sections));
+
+        if (coverImage instanceof File) {
+            formData.append("coverImage", coverImage);
+        }
+
+        images.forEach((image) => 
+            formData.append("images", image));
+
+        console.log("Dữ liệu gửi đi:", Object.fromEntries(formData));
 
         try {
-            await axios.post("http://localhost:3001/api/blog", formData);
+            await axios.post("http://localhost:3001/api/blog", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
             alert("Blog đã được tạo thành công!");
+            navigate("/blog");
         } catch (error) {
+            alert("Có lỗi xảy ra khi tạo blog!");
             console.error("Lỗi khi tạo blog:", error);
         }
     };
@@ -85,11 +132,17 @@ const CreateBlog = () => {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.formGroup}>
+                        <label>Người viết Blog</label>
+                        <input type="text" value={customerName || 'Đang tải...'}
+                            readOnly className={styles.input} />
+                    </div>
+
+                    <div className={styles.formGroup}>
                         <label>Tiêu đề</label>
                         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
                             className={styles.input} required />
                     </div>
-                    
+
                     <div className={styles.formGroup}>
                         <label>Danh mục</label>
                         <select value={categoryID} onChange={(e) => setCategoryID(e.target.value)}

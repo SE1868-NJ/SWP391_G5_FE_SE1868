@@ -35,6 +35,7 @@ import CreateBlog from "./router/Blog/CreateBlog.js";
 import UpdateBlog from "./router/Blog/UpdateBlog.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
+import { Policy } from "./router/Policy/Policy.jsx";
 import Video from "./router/Video/Video.js";
 import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
 import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/LoyaltyHistoryPage.js";
@@ -84,6 +85,11 @@ function AppContent() {
         <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
+        <Route
+          path="/support/history/:id"
+          element={<SupportRequestDetails />}
+        />
+        <Route path="/policy" element={<Policy />} />
         <Route path="/support/history/:id" element={<SupportRequestDetails />} />
         <Route path="/video/*" element={<Video />} />
         <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
