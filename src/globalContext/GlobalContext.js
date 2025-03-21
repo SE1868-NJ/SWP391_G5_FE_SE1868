@@ -111,8 +111,9 @@ export function GlobalProvider({ children }) {
           },
         }
       );
-      setTransactionHistoryList(response.data[0]);
-      console.log("Lấy List TransactionHistory:", response.data[0]);
+      const flattenedData = response.data.flat(Infinity);
+      setTransactionHistoryList(flattenedData);      
+      console.log("Lấy List TransactionHistory:", flattenedData);
     } catch (error) {
       console.error("Lỗi khi Lấy List bills:", error);
     }

@@ -17,8 +17,7 @@ import {
   iconProfile,
   iconNotify,
   iconProfileiconHistory,
-  iconBill,
-  iconHistory,
+  iconBills, iconTransactionHistory
 } from "../../components/icon/Icon.jsx";
 
 function Header() {
@@ -78,6 +77,24 @@ function Header() {
         </a>
       ),
       icon: iconHeart
+    },
+    {
+      key: '4',
+      label: (
+        <a href="/TransactionHistory">
+          {user ? 'Lịch Sử Giao Dịch' : 'Đăng nhập'}
+        </a>
+      ),
+      icon: iconTransactionHistory
+    },
+    {
+      key: '5',
+      label: (
+        <a href="/Bills">
+          {user ? 'Các Loại Hóa Đơn' : 'Đăng nhập'}
+        </a>
+      ),
+      icon: iconBills
     },
     {
       key: '3',

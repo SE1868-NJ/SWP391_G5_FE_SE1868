@@ -611,6 +611,41 @@ export const iconLogin = (
 </svg>
 );
 
+export const iconTransactionHistory = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v4h3l-4 4-4-4h3z"
+      fill="#000000"
+    />
+  </svg>
+);
+
+export const iconBills = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M6 2C5.45 2 5 2.45 5 3V21C5 21.55 5.45 22 6 22H18C18.55 22 19 21.55 19 21V3C19 2.45 18.55 2 18 2H6ZM6 3H18V21H6V3ZM8 6H16V8H8V6ZM8 10H16V12H8V10ZM8 14H16V16H8V14ZM8 18H16V20H8V18Z"
+      fill="#000000"
+    />
+  </svg>
+);
+
+
 
 export const chatIcon =
 (
