@@ -99,19 +99,13 @@ const CreateBlog = () => {
         formData.append("shortDescription", shortDescription);
         formData.append("categoryID", categoryID);
         formData.append("customerID", customerID);
+        formData.append("sections", JSON.stringify(sections));
 
         if (coverImage instanceof File) {
             formData.append("coverImage", coverImage);
         }
 
-        sections.forEach((content, index) =>
-            formData.append(`sections[${index}]`, content));
-
-        if (existingImages.length > 0) {
-            formData.append("existingImages", JSON.stringify(existingImages));
-        }
-
-        images.forEach((image) =>
+        images.forEach((image) => 
             formData.append("images", image));
 
         console.log("Dữ liệu gửi đi:", Object.fromEntries(formData));
