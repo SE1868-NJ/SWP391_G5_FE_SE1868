@@ -97,8 +97,9 @@ function TransactionHistory() {
   const [sortType, setSortType] = useState("Ngày thanh toán mới nhất");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(2);
-  const { inforFullUser } = useAuth();
   const navigate = useNavigate();
+
+  console.log(transactionHistoryList);
 
   const handleOpenModal = (item) => {
     setSelectedItem(item);
@@ -337,70 +338,60 @@ function TransactionHistory() {
             />
           </div>
         </div>
-
         <div className={styles.transaction_list}>
           {currentItems.length > 0 ? (
             currentItems.map((item, index) => (
-              <div className={styles.transaction_list}>
-                {currentItems.length > 0 ? (
-                  currentItems.map((item, index) => (
-                    <div
-                      key={index}
-                      className={`${styles.transaction_item} ${styles.pending}`}
-                    >
-                      <img
-                        src={item.img || "/default-logo.png"}
-                        alt="provider"
-                        className={styles.provider_img}
-                      />
-                      <div className={styles.transaction_details}>
-                        <p className={styles.transaction_name}>
-                          Giao Dịch {item.bill_type || "Đơn Hàng"}
-                        </p>
-                        <p className={styles.transaction_amount}>
-                          Tổng Tiền:{" "}
-                          <span style={{ color: "#1e62f6" }}>
-                            {(
-                              (Number(
-                                item.payment_amount || item.TotalAmount
-                              ) || 0) - (Number(item.discount) || 0)
-                            ).toLocaleString()}{" "}
-                            VNĐ
-                          </span>
-                        </p>
-                        <p className={styles.transaction_date}>
-                          Ngày:{" "}
-                          <span style={{ color: "#1e62f6" }}>
-                            {new Date(
-                              item.payment_date || item.end_date
-                            ).toLocaleString("vi-VN", {
-                              timeZone: "Asia/Ho_Chi_Minh",
-                            })}
-                          </span>
-                        </p>
-                      </div>
-                      <button
-                        className={styles.pay_btn}
-                        onClick={() => handleOpenModal(item)}
-                      >
-                        Xem Chi Tiết
-                      </button>
-                    </div>
-                  ))
-                ) : (
-                  <p>Không có giao dịch nào</p>
-                )}
-
-                {modalOpen && (
-                  <TransactionDetailsModal
-                    item={selectedItem}
-                    closeModal={handleCloseModal}
-                  />
-                )}
+              <div
+                key={index}
+                className={`${styles.transaction_item} ${styles.pending}`}
+              >
+                <img
+                  src={item.img || "/default-logo.png"}
+                  alt="provider"
+                  className={styles.provider_img}
+                />
+                <div className={styles.transaction_details}>
+                  <p className={styles.transaction_name}>
+                    Giao Dịch {item.bill_type || "Đơn Hàng"}
+                  </p>
+                  <p className={styles.transaction_amount}>
+                    Tổng Tiền:{" "}
+                    <span style={{ color: "#1e62f6" }}>
+                      {(
+                        (Number(item.payment_amount || item.TotalAmount) || 0) -
+                        (Number(item.discount) || 0)
+                      ).toLocaleString()}{" "}
+                      VNĐ
+                    </span>
+                  </p>
+                  <p className={styles.transaction_date}>
+                    Ngày:{" "}
+                    <span style={{ color: "#1e62f6" }}>
+                      {new Date(
+                        item.payment_date || item.end_date
+                      ).toLocaleString("vi-VN", {
+                        timeZone: "Asia/Ho_Chi_Minh",
+                      })}
+                    </span>
+                  </p>
+                </div>
+                <button
+                  className={styles.pay_btn}
+                  onClick={() => handleOpenModal(item)}
+                >
+                  Xem Chi Tiết
+                </button>
               </div>
             ))
           ) : (
             <p>Không có giao dịch nào</p>
+          )}
+
+          {modalOpen && (
+            <TransactionDetailsModal
+              item={selectedItem}
+              closeModal={handleCloseModal}
+            />
           )}
         </div>
 

@@ -8,14 +8,14 @@ function GiftShop() {
   const [chooseType, setChooseType] = useState("Tất cả");
   const [allVouchers, setAllVouchers] = useState([]);
   const [chooseVouchers, setChooseVouchers] = useState([]);
-  const [savedVouchers, setSavedVouchers] = useState([]); // 🔹 Danh sách voucher đã lưu
-  const [searchText, setSearchText] = useState(""); // 🔹 Thêm state cho ô tìm kiếm
-  const [customerCoin, setCustomerCoin] = useState(0); // 🔹 Số xu của khách hàng
+  const [savedVouchers, setSavedVouchers] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [customerCoin, setCustomerCoin] = useState(0); 
   const [FirstName, setFirstName] = useState(""); 
   const [Lastname, setLastName] = useState("");
   const [popup, setPopup] = useState({ show: false, message: "", action: null, voucherID: null });
 
-  // 🔹 Lấy danh sách voucher đã lưu
+  //  Lấy danh sách voucher đã lưu
   const fetchSavedVouchers = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/VoucherDetail/ListSavedVouchers`, {
@@ -28,7 +28,7 @@ function GiftShop() {
     }
   };
 
-  // 🔹 Lấy số xu của khách hàng
+  // Lấy số xu của khách hàng
   const fetchCustomerCoin = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/customers/${customerID}`);
@@ -40,7 +40,7 @@ function GiftShop() {
     }
   };
 
-  // 🔹 Lấy danh sách tất cả voucher
+  //  Lấy danh sách tất cả voucher
   const fetchVoucher = async () => {
     try {
       const response = await axios.get("http://localhost:3001/api/Voucher/fetchAllVouchers");
@@ -51,7 +51,7 @@ function GiftShop() {
     }
   };
 
-  // 🔹 Gọi API khi `customerID` thay đổi
+  //  Gọi API khi `customerID` thay đổi
   useEffect(() => {
     if (customerID) {
       fetchSavedVouchers();
@@ -59,22 +59,20 @@ function GiftShop() {
     }
   }, [customerID]);
 
-  // 🔹 Gọi API để lấy danh sách voucher khi trang load
+  //  Gọi API để lấy danh sách voucher khi trang load
   useEffect(() => {
     fetchVoucher();
   }, []);
 
-    // 🔹 Hàm mở popup
     const openPopup = (message, action, voucherID) => {
       setPopup({ show: true, message, action, voucherID });
     };
   
-    // 🔹 Hàm đóng popup
     const closePopup = () => {
       setPopup({ show: false, message: "", action: null, voucherID: null });
     };
 
-  // 🔹 Hàm tìm kiếm voucher theo từ khóa
+  //  Hàm tìm kiếm voucher theo từ khóa
   const searchVoucher = () => {
     const filteredVouchers = allVouchers.filter((v) =>
       v.VoucherName.toLowerCase().includes(searchText.toLowerCase())
@@ -82,7 +80,6 @@ function GiftShop() {
     setChooseVouchers(filteredVouchers);
   };
 
-  // 🔹 Hàm thay đổi loại voucher
   const changeType = (type) => {
     setChooseType(type);
     if (type === "Sàn") {
@@ -98,7 +95,7 @@ function GiftShop() {
     }
   };
 
-  // 🔹 Hàm lưu voucher
+  //  Hàm lưu voucher
   const saveVoucher = async (voucherID) => {
     if (!customerID) {
       openPopup("Bạn cần đăng nhập để lưu voucher!", null, null);
@@ -128,7 +125,7 @@ function GiftShop() {
     }
   };
 
-  // 🔹 Hàm hủy lưu voucher
+  //  Hàm hủy lưu voucher
   const unsaveVoucher = async (voucherID) => {
     if (!customerID) {
       openPopup("Bạn cần đăng nhập để thực hiện thao tác này!", null, null);

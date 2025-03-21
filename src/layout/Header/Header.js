@@ -79,11 +79,6 @@ function Header() {
       icon: iconHeart
     },
     {
-      key: "2",
-      label: <a href="/my-favorite">Sản phẩm yêu thích</a>,
-      icon: iconHeart,
-    },
-    {
       key: "3",
       label: (
         <a href="/Bills" style={{ textDecoration: "none" }}>
@@ -94,6 +89,11 @@ function Header() {
     },
     {
       key: "4",
+      label: <a href="/game">Game</a>,
+      icon: iconHeart,
+    },
+    {
+      key: "5",
       label: (
         <a href="/TransactionHistory" style={{ textDecoration: "none" }}>
           Lịch sử giao dịch
@@ -102,10 +102,11 @@ function Header() {
       icon: iconHistory,
     },
     {
-      key: "5",
+      key: "6",
       label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
       icon: iconLogin,
     },
+
 
   ];
 

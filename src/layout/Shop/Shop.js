@@ -4,6 +4,7 @@ import { GlobalContext } from "../../globalContext/GlobalContext";
 import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
 import { CustomerBehaviorContext } from "../../globalContext/CustomerBehaviorContext";
+import { updateCart } from "../../service/cart";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
@@ -546,8 +547,8 @@ function Shop() {
                     position: "absolute",
                     right: "1vw",
                     top: "0.01vh",
-                    fontSize: "1vw",
-                    padding: "0.4vw",
+                    fontSize: "0.8vw",
+                    padding: "0.15vw",
                   }}
                 >
                   {savedVouchers[item.VoucherID] ? "✅ Đã Lưu" : "Lưu"}
@@ -659,6 +660,23 @@ function Shop() {
                       position: "relative",
                     }}
                   >
+                                        <button
+                      onClick={() =>
+                        updateCart({
+                          customerID: customerID,
+                          productID: item.ProductID,
+                          quantity: 1,
+                        })
+                      }
+                      style={{
+                        position: "absolute",
+                        left: "-4.7vw",
+                        padding: "0.1vw",
+                        fontSize: "0.5vw",
+                      }}
+                    >
+                      Add To Cart
+                    </button>
                     {Number(item.Price).toLocaleString("vi-VI", {
                       style: "currency",
                       currency: "VND",
@@ -681,11 +699,11 @@ function Shop() {
                           style={{
                             cursor: "pointer",
                             position: "absolute",
-                            right: "-4vw",
+                            right: "-4.5vw",
                             top: "50%",
                             transform: "translateY(-50%)",
-                            width: "2.5vw",
-                            height: "2vw",
+                            width: "2vw",
+                            height: "1.5vw",
                           }}
                           src="/tym_do.png"
                           alt="Yêu thích"
@@ -831,6 +849,23 @@ function Shop() {
                       position: "relative",
                     }}
                   >
+                                        <button
+                      onClick={() =>
+                        updateCart({
+                          customerID: customerID,
+                          productID: item.ProductID,
+                          quantity: 1,
+                        })
+                      }
+                      style={{
+                        position: "absolute",
+                        left: "-4.7vw",
+                        padding: "0.1vw",
+                        fontSize: "0.5vw",
+                      }}
+                    >
+                      Add To Cart
+                    </button>
                     {Number(item.Price).toLocaleString("vi-VI", {
                       style: "currency",
                       currency: "VND",
@@ -853,11 +888,11 @@ function Shop() {
                           style={{
                             cursor: "pointer",
                             position: "absolute",
-                            right: "-4vw",
+                            right: "-4.5vw",
                             top: "50%",
                             transform: "translateY(-50%)",
-                            width: "2.5vw",
-                            height: "2vw",
+                            width: "2vw",
+                            height: "1.5vw",
                           }}
                           src="/tym_do.png"
                           alt="Yêu thích"
@@ -1136,13 +1171,32 @@ function Shop() {
                       fontWeight: "bold",
                       alignItems: "center",
                       position: "relative",
+                      justifyContent: "space-around"
                     }}
                   >
+                    <button
+                      onClick={() =>
+                        updateCart({
+                          customerID: customerID,
+                          productID: item.ProductID,
+                          quantity: 1,
+                        })
+                      }
+                      style={{
+                        position: "absolute",
+                        left: "-4.7vw",
+                        padding: "0.1vw",
+                        fontSize: "0.5vw",
+                      }}
+                    >
+                      Add To Cart
+                    </button>
                     {Number(item.Price).toLocaleString("vi-VI", {
                       style: "currency",
                       currency: "VND",
                     })}
                     <span
+                      style={{padding: "0vw"}}
                       onClick={() => {
                         if (favouriteProducts[item.ProductID]) {
                           // Nếu đã yêu thích, xóa khỏi danh sách
@@ -1162,11 +1216,11 @@ function Shop() {
                           style={{
                             cursor: "pointer",
                             position: "absolute",
-                            right: "-4vw",
+                            right: "-4.5vw",
                             top: "50%",
                             transform: "translateY(-50%)",
-                            width: "2.5vw",
-                            height: "2vw",
+                            width: "2vw",
+                            height: "1.5vw",
                           }}
                           src="/tym_do.png"
                           alt="Yêu thích"
