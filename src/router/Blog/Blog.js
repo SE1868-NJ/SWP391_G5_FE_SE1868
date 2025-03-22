@@ -9,6 +9,8 @@ const BlogList = () => {
     const [blogs, setBlogs] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
 
     const fetchBlogs = async () => {
         try {
@@ -53,6 +55,14 @@ const BlogList = () => {
             blogs :
             blogs.filter(blog => Number(blog.CategoryID) === Number(selectedCategory));
 
+            
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredBlogs.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(filteredBlogs.length / itemsPerPage);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <div className={styles.blogWrapper}>
             <Header />
@@ -66,8 +76,8 @@ const BlogList = () => {
                         <button
                             key={category.id}
                             onClick={() => {
-                                console.log("Đang chọn danh mục:", category.id);
-                                setSelectedCategory(category.id)
+                                setSelectedCategory(category.id);
+                                setCurrentPage(1);
                             }}
                             className={`${styles.categoryButton} ${selectedCategory === category.id ? styles.active : ''}`}
                         >
@@ -76,9 +86,9 @@ const BlogList = () => {
                     ))}
                 </div>
 
-                {filteredBlogs.length > 0 ? (
+                {currentItems.length > 0 ? (
                     <div className={styles.blogGrid}>
-                        {filteredBlogs.map(blog => {
+                        {currentItems.map(blog => {
                             const categoryName = categories.find(c => Number(c.id) === Number(blog.CategoryID))?.name || 'Chưa xác định';
                             return (
                                 <div className={styles.blogCard} key={blog.BlogID}>
@@ -98,9 +108,17 @@ const BlogList = () => {
                     <p>Không tìm thấy blog nào!</p>
                 )}
 
-                {filteredBlogs.length > 0 && (
-                    <div className={styles.button}>
-                        <button className={styles.button}>Xem thêm</button>
+                {totalPages > 1 && (
+                    <div className={styles.pagination}>
+                        {Array.from({ length: totalPages }, (_, i)=> (
+                            <button
+                                key={i + 1}
+                                className={`${styles.paginationButton} ${currentPage === i + 1 ? styles.active : ''}`}
+                                onClick={() => paginate(i + 1)}
+                            >
+                                {i + 1}
+                            </button>
+                        ))}
                     </div>
                 )}
             </div>

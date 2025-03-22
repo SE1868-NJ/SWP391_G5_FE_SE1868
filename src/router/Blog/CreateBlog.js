@@ -72,8 +72,7 @@ const CreateBlog = () => {
     const handleCoverImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-            const image = URL.createObjectURL(file);
-            setCoverImage(image);
+            setCoverImage(file);
         }
     };
 
@@ -105,7 +104,7 @@ const CreateBlog = () => {
             formData.append("coverImage", coverImage);
         }
 
-        images.forEach((image) => 
+        images.forEach((image) =>
             formData.append("images", image));
 
         console.log("Dữ liệu gửi đi:", Object.fromEntries(formData));
@@ -163,10 +162,18 @@ const CreateBlog = () => {
                     <div className={styles.formGroup}>
                         <label>Ảnh bìa</label>
                         <input type="file" onChange={handleCoverImageUpload} />
-                        {coverImage && <img src={coverImage} alt="Cover preview" className={styles.coverImage} />}
-                        <button onClick={() => removeCoverImage} className={styles.removeImage}>
-                            X
-                        </button>
+                        {coverImage && (
+                            <div className={styles.coverImageContainer}>
+                                <img
+                                    src={coverImage instanceof File ? URL.createObjectURL(coverImage) : coverImage}
+                                    alt="Cover preview"
+                                    className={styles.coverImage}
+                                />
+                                <button type="button" onClick={removeCoverImage} className={styles.removeImage}>
+                                    X
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     <div className={styles.sectionContainer}>

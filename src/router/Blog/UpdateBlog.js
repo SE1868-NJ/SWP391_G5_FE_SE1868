@@ -33,8 +33,8 @@ const UpdateBlog = () => {
                 setShortDescription(blogData.ShortDescription || "");
                 setCategoryID(blogData.CategoryID || "");
                 setSections(blogData.Sections?.map(s => s.Content) || [""]);
-                setExistingImages(blogData.Images?.map(img => img.url) || []);
-                setCoverImage(blogData.Image ? `http://localhost:3001${blogData.Image}` : "");
+                setExistingImages(blogData.Images?.map(img => img.ImageURL) || []);
+                setCoverImage(blogData.Image || "");
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
@@ -112,8 +112,7 @@ const UpdateBlog = () => {
             formData.append("existingCoverImage", coverImage);
         }
 
-        formData.append("existingImages",
-            JSON.stringify(existingImages.filter(img => img !== null)));
+        formData.append("existingImages",JSON.stringify(existingImages));
 
         images.forEach((image) => {
             formData.append("images", image);
