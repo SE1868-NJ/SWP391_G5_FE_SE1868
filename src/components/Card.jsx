@@ -8,6 +8,7 @@ import { CustomerBehaviorContext } from "../globalContext/CustomerBehaviorContex
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../globalContext/AuthContext';
 import { updateCart } from '../service/cart';
+import { useCart } from "../contexts/CartContext";
 import { ModalCustom, ModalNotify } from './modal/ModalCustom';
 const Card = ({ item, isFavoriteProduct }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -18,6 +19,7 @@ const Card = ({ item, isFavoriteProduct }) => {
     message: '',
     icon: null
   })
+  const { fetchCartCount } = useCart();
 
   const handleSetFavorite = async () => {
     setIsFavorite(!isFavorite)
@@ -58,6 +60,8 @@ const Card = ({ item, isFavoriteProduct }) => {
           productID: item.ProductID,
           quantity: 1
         })
+
+        fetchCartCount();
       
         setNotify({
           icon: iconSuccess,

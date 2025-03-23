@@ -5,6 +5,7 @@ import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
 import { CustomerBehaviorContext } from "../../globalContext/CustomerBehaviorContext";
 import { updateCart } from "../../service/cart";
+import { useCart } from "../../contexts/CartContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
@@ -40,6 +41,7 @@ function Shop() {
   const [activeAddTym, setActiveAddTym] = useState(false);
   const [activeDeleteTym, setActiveDeleteTym] = useState(false);
   const { customerID } = useAuth() || {};
+  const { fetchCartCount } = useCart();
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8; // Hiển thị 8 sản phẩm mỗi trang
@@ -661,13 +663,14 @@ function Shop() {
                     }}
                   >
                                         <button
-                      onClick={() =>
-                        updateCart({
+                      onClick={async () => {
+                        await updateCart({
                           customerID: customerID,
                           productID: item.ProductID,
                           quantity: 1,
-                        })
-                      }
+                        });
+                        fetchCartCount();
+                      }}
                       style={{
                         position: "absolute",
                         left: "-4.7vw",
@@ -850,13 +853,14 @@ function Shop() {
                     }}
                   >
                                         <button
-                      onClick={() =>
-                        updateCart({
+                      onClick={async () => {
+                        await updateCart({
                           customerID: customerID,
                           productID: item.ProductID,
                           quantity: 1,
-                        })
-                      }
+                        });
+                        fetchCartCount();
+                      }}
                       style={{
                         position: "absolute",
                         left: "-4.7vw",
@@ -1175,13 +1179,14 @@ function Shop() {
                     }}
                   >
                     <button
-                      onClick={() =>
-                        updateCart({
+                      onClick={async () => {
+                        await updateCart({
                           customerID: customerID,
                           productID: item.ProductID,
                           quantity: 1,
-                        })
-                      }
+                        });
+                          fetchCartCount();
+                      }}
                       style={{
                         position: "absolute",
                         left: "-4.7vw",

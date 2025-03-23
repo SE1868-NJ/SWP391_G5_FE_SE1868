@@ -39,7 +39,7 @@ import Video from "./router/Video/Video.js";
 import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
 import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/LoyaltyHistoryPage.js";
 import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
-
+import { CartProvider } from "./contexts/CartContext.js";
 
 // 🛠️ HÀM AppContent() - Định nghĩa nội dung ứng dụng
 function AppContent() {
@@ -51,7 +51,7 @@ function AppContent() {
         }`}
     >
       <header style={{position: 'absolute'}} className="p-4 flex justify-between items-center">
-        
+
       </header>
 
       <Routes>
@@ -105,7 +105,9 @@ function App() {
             <ThemeProvider>
               <Router>
                 <CustomerBehaviorProvider>
-                  <AppContent />
+                  <CartProvider>
+                    <AppContent />
+                  </CartProvider>
                 </CustomerBehaviorProvider>
               </Router>
             </ThemeProvider>

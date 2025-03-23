@@ -7,6 +7,7 @@ import Address from "../../components/address/Address";
 import styles from "./Cart.module.css";
 import Swal from "sweetalert2";
 import { ThemeContext } from "../../contexts/ThemeContext";
+import { useCart } from "../../contexts/CartContext";
 
 function Cart() {
   const inforFullUser = localStorage.getItem("user");
@@ -23,6 +24,7 @@ function Cart() {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
   const isDeletingRef = useRef(false);
+  const { fetchCartCount } = useCart();
 
   useEffect(() => {
     if (inforFullUser) {
@@ -50,6 +52,7 @@ function Cart() {
   useEffect(() => {
     if (cusID) {
       fetchCart();
+      fetchCartCount();
     }
   }, [cusID]);
 
@@ -147,6 +150,7 @@ function Cart() {
     try {
       setCartItems(prevItems => prevItems.filter(item => item.cartID !== cartID));
       await axios.delete(`http://localhost:3001/api/Cart/deleteItem`, { data: { cartID } });
+      await fetchCartCount();
     } catch (error) {
       console.error(error);
     } finally {

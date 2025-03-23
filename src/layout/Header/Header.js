@@ -8,6 +8,7 @@ import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n.js";
+import { useCart } from "../../contexts/CartContext.js";
 import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
 import {
   iconCart,
@@ -26,7 +27,7 @@ function Header() {
   const [user, setUser] = useState(null);
   const { theme } = useContext(ThemeContext);
   const { t } = useTranslation();
-
+  const { cartCount, fetchCartCount } = useCart();
   // Hàm điều hướng
   const handleNavigate = (path) => {
     navigate(path);
@@ -40,6 +41,12 @@ function Header() {
       setUser(userData);
     }
   }, []);
+
+  useEffect(() => {
+    if (user?.id) {
+      fetchCartCount();
+    }
+  }, [user]);
 
   const handleClick = (e) => {
     if (e === "Tài Khoản") {
@@ -149,14 +156,34 @@ function Header() {
           </div>
           <div
             onClick={() => handleNavigate("/cart")}
-            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
-              }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}
+            style={{ position: "relative" }}
           >
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
               alt=""
               className={styles.fhs_noti_icon_header}
+              style={{ width: "24px", height: "24px" }}
             />
+            {cartCount > 0 && (
+              <span style={{
+                position: "absolute",
+                top: "-3px",
+                right: "-3px",
+                background: "red",
+                color: "white",
+                borderRadius: "20%",
+                padding: "5px 5px",
+                fontSize: "12px",
+                fontWeight: "bold",
+                lineHeight: "1",
+                minWidth: "10px",
+                textAlign: "center",
+              }}>
+                {cartCount}
+              </span>
+            )
+            }
             <div
               className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
                 }`}

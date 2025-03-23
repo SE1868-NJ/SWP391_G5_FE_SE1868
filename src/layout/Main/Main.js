@@ -7,6 +7,7 @@ import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
 import { useNavigate } from "react-router";
 import { updateCart } from "../../service/cart";
+import { useCart } from "../../contexts/CartContext";
 
 function Main() {
   let navigate = useNavigate();
@@ -25,6 +26,7 @@ function Main() {
   const { fetchAddCustomerBehavior } = useContext(CustomerBehaviorContext);
 
   const { customerID } = useAuth() || {};
+  const { fetchCartCount } = useCart();
 
   const [deleteCategoryLove, setDeleteCategoryLove] = useState("");
   const [deleteProductIDTym, setDeleteProductIDTym] = useState("");
@@ -317,6 +319,8 @@ function Main() {
                     customerID: customerID,
                     productID: item.ProductID,
                     quantity: 1,
+                  }).then(() => {
+                    fetchCartCount();
                   })
                 }
                 style={{
@@ -515,6 +519,8 @@ function Main() {
                     customerID: customerID,
                     productID: item.ProductID,
                     quantity: 1,
+                  }).then(() => {
+                    fetchCartCount();
                   })
                 }
                 style={{
@@ -688,6 +694,8 @@ function Main() {
                         customerID: customerID,
                         productID: item.ProductID,
                         quantity: 1,
+                      }).then(() => {
+                        fetchCartCount();
                       })
                     }
                     style={{
