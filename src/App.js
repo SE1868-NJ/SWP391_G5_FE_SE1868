@@ -33,6 +33,7 @@ import BlogList from "./router/Blog/Blog.js";
 import BlogDetail from "./router/Blog/BlogDetail.js";
 import CreateBlog from "./router/Blog/CreateBlog.js";
 import UpdateBlog from "./router/Blog/UpdateBlog.js";
+import MyBlog from "./router/Blog/MyBlog.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
 import Video from "./router/Video/Video.js";
@@ -67,6 +68,7 @@ function AppContent() {
         <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/blog/add" element={<CreateBlog />} />
         <Route path="/blog/update/:id" element={<UpdateBlog />} />
+        <Route path="/blog/myblog" element={<MyBlog />} />
         <Route path="/search" element={<SearchProduct />} />
         <Route path="/my-favorite" element={<FavoriteProduct />} />
         <Route path="/product/:id" element={<PageProductDetail />} />

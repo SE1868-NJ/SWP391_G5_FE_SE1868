@@ -14,7 +14,7 @@ const BlogDetail = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/Blog/${id}`);
+                const response = await axios.get(`http://localhost:3001/api/blog/${id}`);
                 setBlog(response.data);
                 console.log("Dữ liệu nhận được từ API:", response.data);
                 const categoryResponse = await axios.get(`http://localhost:3001/api/blogcategory`);

@@ -14,7 +14,7 @@ const BlogList = () => {
 
     const fetchBlogs = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/api/Blog/');
+            const response = await axios.get('http://localhost:3001/api/blog/');
             setBlogs(response.data);
         } catch (error) {
             console.error('Error fetching orders:', error);
@@ -70,6 +70,7 @@ const BlogList = () => {
                 <div className={styles.top_page}>
                     <h2 className={styles.title}>FoodBlog</h2>
                     <button className={styles.button_add} onClick={() => window.location.href = '/blog/add'}>Tạo Blog</button>
+                    <button className={styles.button_myblog} onClick={() => window.location.href = '/blog/myblog'}>Blog của tôi</button>
                 </div>
                 <div className={styles.categoryContainer}>
                     {categories.map(category => (

@@ -21,7 +21,7 @@ const UpdateBlog = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/Blog/${id}`);
+                const response = await axios.get(`http://localhost:3001/api/blog/${id}`);
                 const blogData = response.data;
 
                 if (!blogData) {
@@ -123,7 +123,7 @@ const UpdateBlog = () => {
         });
 
         try {
-            await axios.put(`http://localhost:3001/api/Blog/${id}`, formData, {
+            await axios.put(`http://localhost:3001/api/blog/${id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
