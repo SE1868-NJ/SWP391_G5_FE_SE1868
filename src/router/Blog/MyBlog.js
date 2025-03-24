@@ -31,7 +31,6 @@ const MyBlog = () => {
 
     const handleDelete = async (blogID) => {
         const result = await Swal.fire({
-            icon: "question",
             title: "Bạn muốn xóa blog này?",
             text: "Blog này sẽ bị xóa vĩnh viễn",
             showCancelButton: true,
@@ -43,11 +42,11 @@ const MyBlog = () => {
         if (result.isConfirmed) {
             try {
                 await axios.delete(`http://localhost:3001/api/blog/${blogID}`);
-                Swal.fire("Đã xóa", "Blog đã được xóa thành công", "success");
+                Swal.fire("Đã xóa", "Blog đã được xóa thành công");
                 fetchMyBlogs();
             } catch (error) {
                 console.error(error);
-                Swal.fire("Lỗi", "Có lỗi khi xóa blog", "error");
+                Swal.fire("Lỗi", "Có lỗi khi xóa blog");
             }
         }
     };

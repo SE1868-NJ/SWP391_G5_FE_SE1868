@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import styles from "./UpdateBlog.module.css";
+import Swal from "sweetalert2";
 
 const UpdateBlog = () => {
     const { id } = useParams();
@@ -128,11 +129,11 @@ const UpdateBlog = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            alert("Cập nhật thành công!");
+            Swal.fire("Cập nhật blog thành công!");
             navigate(`/blog/${id}`);
         } catch (error) {
             console.error("Lỗi khi cập nhật blog:", error);
-            alert("Có lỗi khi cập nhật blog!");
+            Swal.fire("Có lỗi khi cập nhật blog!");
         }
     };
 

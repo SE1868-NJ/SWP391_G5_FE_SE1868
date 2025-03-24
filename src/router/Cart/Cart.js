@@ -97,7 +97,6 @@ function Cart() {
 
     if (newQuantity === 0) {
       Swal.fire({
-        icon: "question",
         title: "Xóa sản phẩm",
         text: "Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?",
         showCancelButton: true,
@@ -133,7 +132,6 @@ function Cart() {
 
     if (showPopup) {
       const result = await Swal.fire({
-        icon: "question",
         title: "Xóa sản phẩm",
         text: "Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?",
         showCancelButton: true,

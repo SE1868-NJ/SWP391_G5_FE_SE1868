@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import styles from "./CreateBlog.module.css";
+import Swal from "sweetalert2";
 
 const CreateBlog = () => {
     const [title, setTitle] = useState("");
@@ -113,10 +114,10 @@ const CreateBlog = () => {
             await axios.post("http://localhost:3001/api/blog", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            alert("Blog đã được tạo thành công!");
+            Swal.fire("Blog đã được tạo thành công!");
             navigate("/blog");
         } catch (error) {
-            alert("Có lỗi xảy ra khi tạo blog!");
+            Swal.fire("Có lỗi xảy ra khi tạo blog!");
             console.error("Lỗi khi tạo blog:", error);
         }
     };
