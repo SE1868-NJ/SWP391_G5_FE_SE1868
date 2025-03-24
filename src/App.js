@@ -40,6 +40,8 @@ import Video from "./router/Video/Video.js";
 import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
 import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/LoyaltyHistoryPage.js";
 import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
+import Gift from "./router/GiftShop/Gift.js"
+import Game from "./router/Game/Game.jsx";
 
 
 // 🛠️ HÀM AppContent() - Định nghĩa nội dung ứng dụng
@@ -95,6 +97,8 @@ function AppContent() {
         <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
         <Route path="/loyalty-history/:customerId" element={<LoyaltyHistoryPage />} />
         <Route path="/affiliate/:customerId" element={<AffiliatePage />} />
+        <Route path="/gift" element={<Gift/>} />
+        <Route path="/game" element={<Game/>} />
 
       </Routes>
     </div>
