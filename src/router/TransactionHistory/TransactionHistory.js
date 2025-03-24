@@ -3,6 +3,7 @@ import Footer from "../../layout/Footer/Footer";
 import Background from "../../layout/Background/Background";
 import  TransactionHistory from "../../layout/TransactionHistory/TransactionHistory"
 import { GlobalProvider } from "../../globalContext/GlobalContext";
+import Chatbot from "../../components/chatbox/ChatBox";
 
 function PayBillss (){
   return (
@@ -11,6 +12,7 @@ function PayBillss (){
         <Header />
         <Background>
             <TransactionHistory></TransactionHistory>
+            <Chatbot></Chatbot>
           <Footer></Footer>
         </Background>
       </GlobalProvider>

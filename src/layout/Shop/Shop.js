@@ -39,6 +39,7 @@ function Shop() {
   const [deleteCategoryLove, setDeleteCategoryLove] = useState("");
   const [activeAddTym, setActiveAddTym] = useState(false);
   const [activeDeleteTym, setActiveDeleteTym] = useState(false);
+  const [statusAddCart, setStatusAddCart] = useState(false);
   const { customerID } = useAuth() || {};
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -358,8 +359,36 @@ function Shop() {
     }
   }, [isFollowing]);
 
+  const handleAddToCart = async (item) => {
+    try {
+      setStatusAddCart(!statusAddCart);
+      await updateCart({
+        customerID: customerID,
+        productID: item.ProductID,
+        quantity: 1,
+      });
+
+      console.log("item: ", item);
+    } catch (error) {
+      console.error("error handleSetFavorite: ", error);
+    }
+  };
+
   return (
     <>
+      {statusAddCart && customerID && (
+        <div className={styles.popup_overlay}>
+          <div className={styles.popup}>
+            Thêm vào giỏ hàng thành công!
+            <button
+              className={styles.close_btn}
+              onClick={() => setStatusAddCart(!statusAddCart)}
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
       <div className={styles.block_one}>
         <div style={{ width: "25vw", height: "15vh", position: "relative" }}>
           <img
@@ -577,195 +606,191 @@ function Shop() {
           </button>
         )}
       </div>
-      <div className={styles.block_three}>
-        <div
-          style={{
-            padding: "1vw",
-            fontSize: "1.5vw",
-            fontWeight: "500",
-            color: "red",
-          }}
-        >
-          {" "}
-          Gợi Ý Cho Bạn <span style={{ color: "red" }}></span>
-        </div>
-        {/* Hiển thị sản phẩm */}
-        <div
-          className={styles.showProducts}
-          style={{
-            position: "relative",
-            display: "flex",
-          }}
-        >
-          <button
+      {customerID && (
+        <div className={styles.block_three}>
+          <div
             style={{
-              position: "absolute",
-              left: "-2.3vw",
-              top: "50%",
-              transform: "translateY(-50%)",
-              zIndex: "10",
-              backgroundColor: "white",
-              border: "1px solid black",
-              cursor: "pointer",
-              borderRadius: "50%",
+              padding: "1vw",
+              fontSize: "1.5vw",
+              fontWeight: "500",
+              color: "red",
             }}
-            onClick={prevSuggest}
           >
-            &lt;
-          </button>
-          {productBehaviorShop.length > 0 ? (
-            productBehaviorShop
-              .slice(
-                currentIndexSuggest,
-                currentIndexSuggest + visibleItemsSuggest
-              )
-              .map((item, index) => (
-                <div
-                  onClick={() =>
-                    fetchAddCustomerBehavior(
-                      customerID,
-                      item.ProductID,
-                      item.Category,
-                      "view",
-                      shopID
-                    )
-                  }
-                  key={index}
-                  className={styles.items_showProducts}
-                >
-                  <img
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/product/${item.ProductID}`)}
-                    className={styles.img}
-                    src={item.ProductImg}
-                    alt=""
-                  />
-                  <p
-                    onClick={() => navigate(`/product/${item.ProductID}`)}
-                    style={{
-                      cursor: "pointer",
-                      marginBottom: "2vh",
-                      marginTop: "0",
-                    }}
-                  >
-                    {item.ProductName}
-                  </p>
+            {" "}
+            Gợi Ý Cho Bạn
+          </div>
+          {/* Hiển thị sản phẩm */}
+          <div
+            className={styles.showProducts}
+            style={{
+              position: "relative",
+              display: "flex",
+            }}
+          >
+            <button
+              style={{
+                position: "absolute",
+                left: "-2.3vw",
+                top: "50%",
+                transform: "translateY(-50%)",
+                zIndex: "10",
+                backgroundColor: "white",
+                border: "1px solid black",
+                cursor: "pointer",
+                borderRadius: "50%",
+              }}
+              onClick={prevSuggest}
+            >
+              &lt;
+            </button>
+            {productBehaviorShop.length > 0 ? (
+              productBehaviorShop
+                .slice(
+                  currentIndexSuggest,
+                  currentIndexSuggest + visibleItemsSuggest
+                )
+                .map((item, index) => (
                   <div
-                    style={{
-                      color: "red",
-                      marginBottom: "1.5vh",
-                      height: "1.7vw",
-                      display: "flex",
-                      flexDirection: "row",
-                      position: "relative",
-                    }}
+                    onClick={() =>
+                      fetchAddCustomerBehavior(
+                        customerID,
+                        item.ProductID,
+                        item.Category,
+                        "view",
+                        shopID
+                      )
+                    }
+                    key={index}
+                    className={styles.items_showProducts}
                   >
-                                        <button
-                      onClick={() =>
-                        updateCart({
-                          customerID: customerID,
-                          productID: item.ProductID,
-                          quantity: 1,
-                        })
-                      }
+                    <img
+                      style={{ cursor: "pointer" }}
+                      onClick={() => navigate(`/product/${item.ProductID}`)}
+                      className={styles.img}
+                      src={item.ProductImg}
+                      alt=""
+                    />
+                    <p
+                      onClick={() => navigate(`/product/${item.ProductID}`)}
                       style={{
-                        position: "absolute",
-                        left: "-4.7vw",
-                        padding: "0.1vw",
-                        fontSize: "0.5vw",
+                        cursor: "pointer",
+                        marginBottom: "2vh",
+                        marginTop: "0",
                       }}
                     >
-                      Add To Cart
-                    </button>
-                    {Number(item.Price).toLocaleString("vi-VI", {
-                      style: "currency",
-                      currency: "VND",
-                    })}{" "}
-                    <span
-                      onClick={() => {
-                        if (favouriteProducts[item.ProductID]) {
-                          setDeleteCategoryLove(item.Category);
-                          setDeleteProductIDTym(item.ProductID);
-                          setActiveDeleteTym(!activeDeleteTym);
-                        } else {
-                          setProductIDTym(item.ProductID);
-                          setCategoryLove(item.Category);
-                          setActiveAddTym(!activeAddTym);
-                        }
+                      {item.ProductName}
+                    </p>
+                    <div
+                      style={{
+                        color: "red",
+                        marginBottom: "1.5vh",
+                        height: "1.7vw",
+                        display: "flex",
+                        flexDirection: "row",
+                        position: "relative",
                       }}
                     >
-                      {favouriteProducts[item.ProductID] ? (
-                        <img
-                          style={{
-                            cursor: "pointer",
-                            position: "absolute",
-                            right: "-4.5vw",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            width: "2vw",
-                            height: "1.5vw",
-                          }}
-                          src="/tym_do.png"
-                          alt="Yêu thích"
-                        />
-                      ) : (
-                        <img
-                          style={{
-                            cursor: "pointer",
-                            position: "absolute",
-                            right: "-4vw",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            width: "1vw",
-                            height: "1vw",
-                          }}
-                          src="/tym.png"
-                          alt="Chưa yêu thích"
-                        />
-                      )}
-                    </span>
-                  </div>
-                  {item.Category === "Đồ Tươi Sống" && (
-                    <div style={{ paddingBottom: "0.5vh" }}>
-                      Khối Lượng:
-                      <span
+                      <button
+                        onClick={() => handleAddToCart(item)}
                         style={{
-                          marginLeft: "0.5vw",
-                          color: "Green",
-                          fontWeight: "500",
+                          position: "absolute",
+                          left: "-4.7vw",
+                          padding: "0.1vw",
+                          fontSize: "0.5vw",
                         }}
                       >
-                        {item.Weight} g
-                      </span>{" "}
+                        Add To Cart
+                      </button>
+                      {Number(item.Price).toLocaleString("vi-VI", {
+                        style: "currency",
+                        currency: "VND",
+                      })}{" "}
+                      <span
+                        onClick={() => {
+                          if (favouriteProducts[item.ProductID]) {
+                            setDeleteCategoryLove(item.Category);
+                            setDeleteProductIDTym(item.ProductID);
+                            setActiveDeleteTym(!activeDeleteTym);
+                          } else {
+                            setProductIDTym(item.ProductID);
+                            setCategoryLove(item.Category);
+                            setActiveAddTym(!activeAddTym);
+                          }
+                        }}
+                      >
+                        {favouriteProducts[item.ProductID] ? (
+                          <img
+                            style={{
+                              cursor: "pointer",
+                              position: "absolute",
+                              right: "-4.5vw",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              width: "2vw",
+                              height: "1.5vw",
+                            }}
+                            src="/tym_do.png"
+                            alt="Yêu thích"
+                          />
+                        ) : (
+                          <img
+                            style={{
+                              cursor: "pointer",
+                              position: "absolute",
+                              right: "-4vw",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              width: "1vw",
+                              height: "1vw",
+                            }}
+                            src="/tym.png"
+                            alt="Chưa yêu thích"
+                          />
+                        )}
+                      </span>
                     </div>
-                  )}
-                  <div>
-                    =&gt; Đã bán:{" "}
-                    <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
+                    {item.Category === "Đồ Tươi Sống" && (
+                      <div style={{ paddingBottom: "0.5vh" }}>
+                        Khối Lượng:
+                        <span
+                          style={{
+                            marginLeft: "0.5vw",
+                            color: "Green",
+                            fontWeight: "500",
+                          }}
+                        >
+                          {item.Weight} g
+                        </span>{" "}
+                      </div>
+                    )}
+                    <div>
+                      Đã bán:{" "}
+                      <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
+                    </div>
                   </div>
-                </div>
-              ))
-          ) : (
-            <p>Không có dữ liệu</p>
-          )}
-          <button
-            style={{
-              position: "absolute",
-              right: "-2.3vw",
-              top: "50%",
-              transform: "translateY(-50%)",
-              zIndex: "10",
-              backgroundColor: "white",
-              border: "1px solid black",
-              cursor: "pointer",
-              borderRadius: "50%",
-            }}
-            onClick={nextSuggest}
-          >
-            &gt;
-          </button>
+                ))
+            ) : (
+              <p>Không có dữ liệu</p>
+            )}
+            <button
+              style={{
+                position: "absolute",
+                right: "-2.3vw",
+                top: "50%",
+                transform: "translateY(-50%)",
+                zIndex: "10",
+                backgroundColor: "white",
+                border: "1px solid black",
+                cursor: "pointer",
+                borderRadius: "50%",
+              }}
+              onClick={nextSuggest}
+            >
+              &gt;
+            </button>
+          </div>
         </div>
-      </div>
+      )}
       <div className={styles.block_three}>
         <div
           style={{
@@ -776,7 +801,6 @@ function Shop() {
           }}
         >
           Sản Phẩm Bán Chạy Nhất{" "}
-          <span style={{ color: "red" }}>(10 Sản Phẩm)</span>
         </div>
         <div
           className={styles.showProducts}
@@ -849,14 +873,8 @@ function Shop() {
                       position: "relative",
                     }}
                   >
-                                        <button
-                      onClick={() =>
-                        updateCart({
-                          customerID: customerID,
-                          productID: item.ProductID,
-                          quantity: 1,
-                        })
-                      }
+                    <button
+                      onClick={() => handleAddToCart(item)}
                       style={{
                         position: "absolute",
                         left: "-4.7vw",
@@ -929,7 +947,7 @@ function Shop() {
                     </div>
                   )}
                   <div>
-                    =&gt; Đã bán:{" "}
+                    Đã bán:{" "}
                     <span style={{ color: "blue" }}>{item.SoldQuantity}</span>
                   </div>
                 </div>
@@ -1171,17 +1189,11 @@ function Shop() {
                       fontWeight: "bold",
                       alignItems: "center",
                       position: "relative",
-                      justifyContent: "space-around"
+                      justifyContent: "space-around",
                     }}
                   >
                     <button
-                      onClick={() =>
-                        updateCart({
-                          customerID: customerID,
-                          productID: item.ProductID,
-                          quantity: 1,
-                        })
-                      }
+                      onClick={() => handleAddToCart(item)}
                       style={{
                         position: "absolute",
                         left: "-4.7vw",
@@ -1196,7 +1208,7 @@ function Shop() {
                       currency: "VND",
                     })}
                     <span
-                      style={{padding: "0vw"}}
+                      style={{ padding: "0vw" }}
                       onClick={() => {
                         if (favouriteProducts[item.ProductID]) {
                           // Nếu đã yêu thích, xóa khỏi danh sách
@@ -1257,7 +1269,7 @@ function Shop() {
                     </div>
                   )}
                   <div>
-                    =&gt; Đã bán:{" "}
+                    Đã bán:{" "}
                     <span style={{ marginLeft: "0.5vw", color: "blue" }}>
                       {item.SoldQuantity}
                     </span>
