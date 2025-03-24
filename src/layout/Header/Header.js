@@ -203,6 +203,17 @@ function Header() {
             <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Blog</div>
           </div>
           <div
+            onClick={() => handleNavigate("/contact")}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}>
+            <img
+              style={{ width: "1.5vw", height: "3.8vh" }}
+              src="../../ContactInfo.png"
+              alt=""
+              className={styles.fhs_noti_icon_header}
+            />
+            <div className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""}`}>Liên hệ</div>
+          </div>
+          <div
             onClick={() => handleClick("Tài Khoản")}
             className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
               }`}
