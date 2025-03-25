@@ -59,37 +59,48 @@ function Header() {
     }
   };
 
-
   const items = [
     {
       key: '1',
       label: (
-        <a  href="/customers/customer-info" style={{ textDecoration: 'none' }}>
+        <a href="/customers/customer-info" style={{ textDecoration: 'none' }}>
           Thông tin tài khoản
         </a>
       ),
-      icon: iconProfile
-
-    }, {
+      icon: iconProfile,
+    },
+    {
       key: '2',
-      label: (
-        <a href="/my-favorite">
-          Sản phẩm yêu thích
-        </a>
-      ),
-      icon: iconHeart
+      label: <a href="/my-favorite">Sản phẩm yêu thích</a>,
+      icon: iconHeart,
     },
     {
       key: '3',
-      label: (
-        <a href="/login">
-          {user ? 'Đăng xuất' : 'Đăng nhập'}
-        </a>
-      ),
-      icon: iconLogin
+      label: <a href="/game">Game</a>,
+      icon: iconHistory, // Hoặc thay bằng icon phù hợp
     },
-
+    {
+      key: '4',
+      label: <a href="/gift">Quà tặng</a>,
+      icon: iconBill, // Hoặc thay bằng icon phù hợp
+    },
+    {
+      key: '5',
+      label: <a href="/recent-products">Sản phẩm đã xem gần đây</a>,
+    },
+    {
+      key: '6',
+      label: <a href="/OrderandVoucher">Order & Voucher</a>,
+      // icon: iconVoucher, 
+    },
+    {
+      key: '7',
+      label: <a href="/login">{user ? 'Đăng xuất' : 'Đăng nhập'}</a>,
+      icon: iconLogin,
+    },
   ];
+  
+  
 
   return (
     <header className={styles.wrapper}>

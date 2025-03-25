@@ -42,7 +42,7 @@ import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/Loyalt
 import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
 import Gift from "./router/GiftShop/Gift.js"
 import Game from "./router/Game/Game.jsx";
-
+import { RecentProducts } from "./components/products/RecentProduct.jsx";
 
 // 🛠️ HÀM AppContent() - Định nghĩa nội dung ứng dụng
 function AppContent() {
@@ -99,6 +99,8 @@ function AppContent() {
         <Route path="/affiliate/:customerId" element={<AffiliatePage />} />
         <Route path="/gift" element={<Gift/>} />
         <Route path="/game" element={<Game/>} />
+        <Route path="/recent-products" element={<RecentProducts />} />
+
 
       </Routes>
     </div>
