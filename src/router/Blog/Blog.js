@@ -55,7 +55,7 @@ const BlogList = () => {
             blogs :
             blogs.filter(blog => Number(blog.CategoryID) === Number(selectedCategory));
 
-            
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredBlogs.slice(indexOfFirstItem, indexOfLastItem);
@@ -69,7 +69,6 @@ const BlogList = () => {
             <div className={styles.container}>
                 <div className={styles.top_page}>
                     <h2 className={styles.title}>FoodBlog</h2>
-                    <button className={styles.button_add} onClick={() => window.location.href = '/blog/add'}>Tạo Blog</button>
                     <button className={styles.button_myblog} onClick={() => window.location.href = '/blog/myblog'}>Blog của tôi</button>
                 </div>
                 <div className={styles.categoryContainer}>
@@ -111,7 +110,7 @@ const BlogList = () => {
 
                 {totalPages > 1 && (
                     <div className={styles.pagination}>
-                        {Array.from({ length: totalPages }, (_, i)=> (
+                        {Array.from({ length: totalPages }, (_, i) => (
                             <button
                                 key={i + 1}
                                 className={`${styles.paginationButton} ${currentPage === i + 1 ? styles.active : ''}`}
