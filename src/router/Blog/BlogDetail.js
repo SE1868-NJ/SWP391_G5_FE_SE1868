@@ -71,6 +71,14 @@ const BlogDetail = () => {
     const sortedImages = (blog.Images || []).sort((a, b) => a.SortOrder - b.SortOrder);
     const sortedSections = (blog.Sections || []).sort((a, b) => a.SortOrder - b.SortOrder);
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     const toggleLike = async () => {
         try {
             const action = isLiked ? "unlike" : "like";
@@ -147,8 +155,18 @@ const BlogDetail = () => {
                     <h2 className={styles.title}>{blog.Title}</h2>
                     <button className={styles.editButton} onClick={() => navigate(`/blog/update/${id}`)}>Sửa</button>
                 </div>
-                <p className={styles.category}>
-                    <strong>Danh mục:</strong> {categoryName}
+                <div className={styles.infoWrapper}>
+                    <p className={styles.category}>
+                        <strong>Danh mục:</strong> {categoryName}
+                    </p>
+
+                    <p className={styles.date}>
+                        <strong>Ngày tạo:</strong> {formatDate(blog.CreatedAt)}
+                    </p>
+                </div>
+
+                <p className={styles.author}>
+                    <strong>Người viết:</strong> {blog.FirstName} {blog.LastName}
                 </p>
 
                 <div className={styles.imageWrapper}>

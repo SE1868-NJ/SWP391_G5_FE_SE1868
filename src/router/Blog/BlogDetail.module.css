@@ -7,7 +7,7 @@
 }
 
 .container {
-    max-width: 1500px;
+    max-width: 1200px;
     margin: 0 auto;
     background: #fff;
     padding: 20px;
@@ -31,11 +31,30 @@
     flex-grow: 1; /* Giúp giữ vị trí trung tâm */
 }
 
+.infoWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
 .category {
     font-size: 16px;
     color: #666;
-    margin-bottom: 20px;
-    text-align: center; /* Căn giữa danh mục */
+    margin: 0;
+}
+
+.author {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 12px;
+    text-align: left; 
+}
+
+.date {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
 }
 
 .imageWrapper {
