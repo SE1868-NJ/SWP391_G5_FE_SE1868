@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import ReactPlayer from "react-player";
 import styles from "./VideoComponent.module.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from '../CommentVideo/Comment'
 import axios from "axios";
 
@@ -12,6 +12,7 @@ function VideoComponent({
   handleNextVideo,
   setLikeDis
 }) {
+  const navigate = useNavigate();
   const cusID = JSON.parse(localStorage.getItem("user")).id;
   const playerRef = useRef(null);
   const [like, setLike] = useState(false);
@@ -26,6 +27,7 @@ function VideoComponent({
   const [selectedValue, setSelectedValue] = useState("");
   const [file, setFile] = useState(null);
   const [error,setError] = useState(false)
+  const [mess,setMess] = useState(false);
   const [commentMap ,setCommentMap] = useState({})
     const [replyText, setReplyText] = useState("");
     const nullValue = null;
@@ -119,31 +121,27 @@ const handleUpload = async () => {
     setError(true)
     setTimeout(() => {
       setError(false);
-  }, 2000);
-      return;
+    }, 2000);
+    return;
   }
 
-  const formData = new FormData();
-  formData.append("file", file.file); 
-
   try {
-
     const formData = new FormData();
-        formData.append("file", file.file); 
-        formData.append("selectedValue", selectedValue); 
-        formData.append("videoID", videoID); 
-        formData.append("textReport", textReport); 
-    const response = await axios.post("http://localhost:3001/api/video/report",formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-    });
-
-      const result = response.data
-      alert(result.message);
+      formData.append("file", file.file); 
+      formData.append("selectedValue", selectedValue); 
+      formData.append("videoID", videoID); 
+      formData.append("textReport", textReport); 
+       setMess(true);
+       setTimeout(() => {
+        setMess(false);
+      }, 2000);
+      const response = await axios.post("http://localhost:3001/api/video/report",formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+      });
   } catch (error) {
       console.error("Lỗi khi tải file:", error);
   }
 };
-
 async function fetchComment(){
   const response = await axios.post('http://localhost:3001/api/video/getCommentByVideoID',{videoID,cusID});
   const commentList = response.data;
@@ -189,6 +187,10 @@ const handleReply = async(parentCom,content)=>{
   setCommentMap(commentsaisai)
   setCmt([...cmt])
   setTotalComment(totalComment + 1);
+}
+async function handleShop(){
+  await localStorage.setItem('shopID',currentVideo.ShopID);
+  navigate('/Shop');
 }
   return (
     <>
@@ -257,6 +259,14 @@ const handleReply = async(parentCom,content)=>{
               </button>
               Phản hồi
             </div>
+            <div>
+            <button
+                onClick={() => handleShop()}
+              >
+                <img alt="" src={currentVideo ? currentVideo.ShopAvatar:''} />
+              </button>
+              {currentVideo ? currentVideo.ShopName :''}
+            </div>
           </div>
         </div>
         {reportPopup ? (
@@ -322,6 +332,7 @@ const handleReply = async(parentCom,content)=>{
         ):""}   
       </div>
       {error  ? <div className={styles.share}>Hãy nhập đủ các thông tin</div> : ''}
+      {mess  ? <div className={styles.share}>Báo cáo thành công</div> : ''}
     </>
   );
 }
