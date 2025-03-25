@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import styles from "./UpdateBlog.module.css";
+import Swal from "sweetalert2";
 
 const UpdateBlog = () => {
     const { id } = useParams();
@@ -13,6 +14,7 @@ const UpdateBlog = () => {
     const [shortDescription, setShortDescription] = useState("");
     const [categoryID, setCategoryID] = useState("");
     const [categories, setCategories] = useState([]);
+    const [customerName, setCustomerName] = useState("");
     const [sections, setSections] = useState([""]);
     const [images, setImages] = useState([]);
     const [coverImage, setCoverImage] = useState("");
@@ -21,7 +23,7 @@ const UpdateBlog = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/Blog/${id}`);
+                const response = await axios.get(`http://localhost:3001/api/blog/${id}`);
                 const blogData = response.data;
 
                 if (!blogData) {
@@ -29,12 +31,13 @@ const UpdateBlog = () => {
                     return;
                 }
 
+                setCustomerName(`${blogData.FirstName} ${blogData.LastName}`);
                 setTitle(blogData.Title || "");
                 setShortDescription(blogData.ShortDescription || "");
                 setCategoryID(blogData.CategoryID || "");
                 setSections(blogData.Sections?.map(s => s.Content) || [""]);
-                setExistingImages(blogData.Images?.map(img => img.url) || []);
-                setCoverImage(blogData.Image ? `http://localhost:3001${blogData.Image}` : "");
+                setExistingImages(blogData.Images?.map(img => img.ImageURL) || []);
+                setCoverImage(blogData.Image || "");
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
@@ -112,8 +115,7 @@ const UpdateBlog = () => {
             formData.append("existingCoverImage", coverImage);
         }
 
-        formData.append("existingImages",
-            JSON.stringify(existingImages.filter(img => img !== null)));
+        formData.append("existingImages", JSON.stringify(existingImages));
 
         images.forEach((image) => {
             formData.append("images", image);
@@ -124,16 +126,16 @@ const UpdateBlog = () => {
         });
 
         try {
-            await axios.put(`http://localhost:3001/api/Blog/${id}`, formData, {
+            await axios.put(`http://localhost:3001/api/blog/${id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            alert("Cập nhật thành công!");
+            Swal.fire("Cập nhật blog thành công!");
             navigate(`/blog/${id}`);
         } catch (error) {
             console.error("Lỗi khi cập nhật blog:", error);
-            alert("Có lỗi khi cập nhật blog!");
+            Swal.fire("Có lỗi khi cập nhật blog!");
         }
     };
 
@@ -146,6 +148,12 @@ const UpdateBlog = () => {
                     <button className={styles.backButton} onClick={() => navigate(-1)}>Quay lại</button>
                 </div>
                 <form onSubmit={handleSubmit}>
+                    <div className={styles.formGroup}>
+                        <label>Người viết Blog</label>
+                        <input type="text" value={customerName || 'Đang tải...'}
+                            readOnly className={styles.input} />
+                    </div>
+                    
                     <div className={styles.formGroup}>
                         <label>Tiêu đề</label>
                         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}

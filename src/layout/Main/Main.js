@@ -7,6 +7,7 @@ import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
 import { useNavigate } from "react-router";
 import { updateCart } from "../../service/cart";
+import { useCart } from "../../contexts/CartContext";
 
 
 function Main() {
@@ -26,6 +27,7 @@ function Main() {
   const { fetchAddCustomerBehavior } = useContext(CustomerBehaviorContext);
 
   const { customerID } = useAuth() || {};
+  const { fetchCartCount } = useCart();
   const [deleteCategoryLove, setDeleteCategoryLove] = useState("");
   const [deleteProductIDTym, setDeleteProductIDTym] = useState("");
   const [activeDeleteTym, setActiveDeleteTym] = useState(false);
@@ -203,6 +205,9 @@ function Main() {
         productID: item.ProductID,
         quantity: 1,
       });
+
+      await fetchCartCount();
+      setStatusAddCart(true);
 
       console.log("item: ", item);
     } catch (error) {

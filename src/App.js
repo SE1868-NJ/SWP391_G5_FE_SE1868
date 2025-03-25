@@ -33,6 +33,8 @@ import BlogList from "./router/Blog/Blog.js";
 import BlogDetail from "./router/Blog/BlogDetail.js";
 import CreateBlog from "./router/Blog/CreateBlog.js";
 import UpdateBlog from "./router/Blog/UpdateBlog.js";
+import MyBlog from "./router/Blog/MyBlog.js";
+import ContactInfo from "./layout/ContactInfo/ContactInfo.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
 import { Policy } from "./router/Policy/Policy.jsx";
@@ -42,6 +44,8 @@ import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/Loyalt
 import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
 import Gift from "./router/GiftShop/Gift.js";
 import Game from "./router/Game/Game.jsx";
+import { CartProvider } from "./contexts/CartContext.js";
+import { RecentProducts } from "./components/products/RecentProduct.jsx";
 
 // 🛠️ HÀM AppContent() - Định nghĩa nội dung ứng dụng
 function AppContent() {
@@ -71,6 +75,8 @@ function AppContent() {
         <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/blog/add" element={<CreateBlog />} />
         <Route path="/blog/update/:id" element={<UpdateBlog />} />
+        <Route path="/blog/myblog" element={<MyBlog />} />
+        <Route path="/contact" element={<ContactInfo />} />
         <Route path="/search" element={<SearchProduct />} />
         <Route path="/my-favorite" element={<FavoriteProduct />} />
         <Route path="/product/:id" element={<PageProductDetail />} />
@@ -106,6 +112,7 @@ function AppContent() {
         <Route path="/affiliate/:customerId" element={<AffiliatePage />} />
         <Route path="/gift" element={<Gift />} />
         <Route path="/game" element={<Game />} />
+        <Route path="/recent-products" element={<RecentProducts />} />
       </Routes>
     </div>
   );
@@ -121,7 +128,9 @@ function App() {
             <ThemeProvider>
               <Router>
                 <CustomerBehaviorProvider>
-                  <AppContent />
+                  <CartProvider>
+                    <AppContent />
+                  </CartProvider>
                 </CustomerBehaviorProvider>
               </Router>
             </ThemeProvider>

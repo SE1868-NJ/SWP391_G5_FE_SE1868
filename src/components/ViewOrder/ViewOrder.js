@@ -17,6 +17,7 @@ function ViewOrder() {
   const [buyOrder, setBuyOrder] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [indexList, setIndexList] = useState(0);
+  const [orderBuyAgain, setOrderBuyAgain] = useState();
   const Rating = [1, 2, 3, 4, 5];
   const [formReview, setFormReview] = useState({
     category: "",
@@ -69,12 +70,13 @@ function ViewOrder() {
       await sliceOrder(allOrder);
     }
   }
-  const chooseQuantityPopup = async (order) => {
+  const chooseQuantityPopup = async (order, index) => {
+    console.log(orderList[indexList][index]);
+    setOrderBuyAgain(orderList[indexList][index]);
     await setBuyOrder(order);
     await setChooseQuantity(1);
   };
   const changeQuantity = async (e) => {
-    console.log(e.target.value);
     await setChooseQuantity(e.target.value);
   };
   async function handleChange(e) {
@@ -247,7 +249,7 @@ function ViewOrder() {
                         className={`${
                           order.status === "Chờ thanh toán" ? styles.hidden : ""
                         }`}
-                        onClick={() => chooseQuantityPopup(order)}
+                        onClick={() => chooseQuantityPopup(order, index)}
                       >
                         Mua Lại
                       </button>
@@ -419,6 +421,10 @@ function ViewOrder() {
           }
         >
           <div className={styles.poupQuantity}>
+            <p>
+              Số lượng còn lại:
+              {orderBuyAgain ? orderBuyAgain.stockQuantity : ""}{" "}
+            </p>
             <label>Chọn số lượng:</label>
             <br />
             <br />

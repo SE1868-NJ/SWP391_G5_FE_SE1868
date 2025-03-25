@@ -5,6 +5,7 @@ import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
 import { CustomerBehaviorContext } from "../../globalContext/CustomerBehaviorContext";
 import { updateCart } from "../../service/cart";
+import { useCart } from "../../contexts/CartContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
@@ -41,6 +42,7 @@ function Shop() {
   const [activeDeleteTym, setActiveDeleteTym] = useState(false);
   const [statusAddCart, setStatusAddCart] = useState(false);
   const { customerID } = useAuth() || {};
+  const { fetchCartCount } = useCart();
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8; // Hiển thị 8 sản phẩm mỗi trang
@@ -367,6 +369,9 @@ function Shop() {
         productID: item.ProductID,
         quantity: 1,
       });
+
+      await fetchCartCount();
+      setStatusAddCart(true);
 
       console.log("item: ", item);
     } catch (error) {

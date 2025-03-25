@@ -8,6 +8,7 @@ import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n.js";
+import { useCart } from "../../contexts/CartContext.js";
 import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
 import {
   iconCart,
@@ -19,6 +20,8 @@ import {
   iconProfileiconHistory,
   iconBills,
   iconTransactionHistory,
+  iconBill,
+  iconHistory,
 } from "../../components/icon/Icon.jsx";
 
 function Header() {
@@ -26,7 +29,7 @@ function Header() {
   const [user, setUser] = useState(null);
   const { theme } = useContext(ThemeContext);
   const { t } = useTranslation();
-
+  const { cartCount, fetchCartCount } = useCart();
   // Hàm điều hướng
   const handleNavigate = (path) => {
     navigate(path);
@@ -40,6 +43,12 @@ function Header() {
       setUser(userData);
     }
   }, []);
+
+  useEffect(() => {
+    if (user?.id) {
+      fetchCartCount();
+    }
+  }, [user]);
 
   const handleClick = (e) => {
     if (e === "Tài Khoản") {
@@ -71,47 +80,53 @@ function Header() {
     }
   };
 
-  const items = [];
-
-  if (user) {
-    items.push(
-      {
-        key: "1",
-        label: (
-          <a href="/customers/customer-info" style={{ textDecoration: "none" }}>
-            Thông tin tài khoản
-          </a>
-        ),
-        icon: iconProfile,
-      },
-      {
-        key: "2",
-        label: <a href="/my-favorite">Sản phẩm yêu thích</a>,
-        icon: iconHeart,
-      },
-      {
-        key: "4",
-        label: <a href="/TransactionHistory">Lịch Sử Giao Dịch</a>,
-        icon: iconTransactionHistory,
-      },
-      {
-        key: "5",
-        label: <a href="/Bills">Các Loại Hóa Đơn</a>,
-        icon: iconBills,
-      }
-    );
-  }
-
   // Đăng nhập / Đăng xuất luôn có
-  items.push({
-    key: "3",
-    label: (
-      <a href={user ? "/login" : "/login"}>
-        {user ? "Đăng xuất" : "Đăng nhập"}
-      </a>
-    ),
-    icon: iconLogin,
-  });
+
+  const items = [
+    {
+      key: "1",
+      label: (
+        <a href="/customers/customer-info" style={{ textDecoration: "none" }}>
+          Thông tin tài khoản
+        </a>
+      ),
+      icon: iconProfile,
+    },
+    {
+      key: "2",
+      label: <a href="/my-favorite">Sản phẩm yêu thích</a>,
+      icon: iconHeart,
+    },
+    {
+      key: "3",
+      label: <a href="/game">Game</a>,
+      icon: iconHistory, // Hoặc thay bằng icon phù hợp
+    },
+    {
+      key: "4",
+      label: <a href="/gift">Quà tặng</a>,
+      icon: iconBill, // Hoặc thay bằng icon phù hợp
+    },
+    {
+      key: "5",
+      label: <a href="/recent-products">Sản phẩm đã xem gần đây</a>,
+      icon: iconBills,
+    },
+    {
+      key: "6",
+      label: <a href="/OrderandVoucher">Order & Voucher</a>,
+      // icon: iconVoucher,
+    },
+    {
+      key: "7",
+      label: <a href="/Bills">Các Loại Hóa Đơn</a>,
+    },
+    {
+      key: "8",
+      label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
+      icon: iconLogin,
+    },
+  ];
 
   return (
     <header className={styles.wrapper}>
@@ -180,12 +195,34 @@ function Header() {
             className={`${styles.fhs_noti_header} ${
               theme === "dark" ? styles.darkItem : ""
             }`}
+            style={{ position: "relative" }}
           >
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_cart_gray.svg"
               alt=""
               className={styles.fhs_noti_icon_header}
+              style={{ width: "24px", height: "24px" }}
             />
+            {cartCount > 0 && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-3px",
+                  right: "-3px",
+                  background: "red",
+                  color: "white",
+                  borderRadius: "20%",
+                  padding: "5px 5px",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  lineHeight: "1",
+                  minWidth: "10px",
+                  textAlign: "center",
+                }}
+              >
+                {cartCount}
+              </span>
+            )}
             <div
               className={`${styles.fhs_top_menu_labe} ${
                 theme === "dark" ? styles.darkText : ""
@@ -212,6 +249,26 @@ function Header() {
               }`}
             >
               Blog
+            </div>
+          </div>
+          <div
+            onClick={() => handleNavigate("/contact")}
+            className={`${styles.fhs_noti_header} ${
+              theme === "dark" ? styles.darkItem : ""
+            }`}
+          >
+            <img
+              style={{ width: "1.5vw", height: "3.8vh" }}
+              src="../../ContactInfo.png"
+              alt=""
+              className={styles.fhs_noti_icon_header}
+            />
+            <div
+              className={`${styles.fhs_top_menu_labe} ${
+                theme === "dark" ? styles.darkText : ""
+              }`}
+            >
+              Liên hệ
             </div>
           </div>
           <div

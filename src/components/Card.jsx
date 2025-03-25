@@ -7,6 +7,7 @@ import { CustomerBehaviorContext } from "../globalContext/CustomerBehaviorContex
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../globalContext/AuthContext";
 import { updateCart } from "../service/cart";
+import { useCart } from "../contexts/CartContext";
 import { ModalNotify } from "./modal/ModalCustom";
 
 const Card = ({ item, isFavoriteProduct }) => {
@@ -15,6 +16,7 @@ const Card = ({ item, isFavoriteProduct }) => {
   const navigate = useNavigate();
   const { fetchAddCustomerBehavior } = useContext(CustomerBehaviorContext);
   const { customerID } = useAuth();
+  const { fetchCartCount } = useCart();
 
   useEffect(() => {
     setIsFavorite(isFavoriteProduct);
@@ -40,27 +42,52 @@ const Card = ({ item, isFavoriteProduct }) => {
   };
 
   const handleAddToCart = async (e) => {
-    e.stopPropagation(); // Ngăn chặn event click lan rộng
-  
     try {
       const storedUser = localStorage.getItem("user");
       const userData = JSON.parse(storedUser);
-  
+
       const rs = await updateCart({
         customerID: userData.id,
         productID: item.ProductID,
         quantity: 1,
       });
-  
-      // Hiệu ứng bay vào giỏ hàng
-      animateFlyToCart(e.target, item.ProductImg);
-  
+
+      fetchCartCount();
+
       setNotify({
         icon: rs.data?.status === 200 ? iconSuccess : iconFail,
         message: rs.data?.status === 200 ? rs.data?.message || "Thêm thành công" : "Thêm thất bại",
         isOpen: true,
       });
-  
+
+      // Hiệu ứng bay vào giỏ hàng
+      const productImage = e.target.closest("." + styles.card_container).querySelector("img");
+      const cartIcon = document.getElementById("cart-icon");
+
+      if (!productImage || !cartIcon) return;
+
+      const { left, top, width, height } = productImage.getBoundingClientRect();
+      const { left: cartLeft, top: cartTop } = cartIcon.getBoundingClientRect();
+
+      const flyContainer = document.createElement("div");
+      flyContainer.classList.add(styles.fly_to_cart);
+      flyContainer.style.left = `${left + width / 2 - 25}px`;
+      flyContainer.style.top = `${top + height / 2 - 25}px`;
+      
+      const flyImage = productImage.cloneNode(true);
+      flyImage.classList.add(styles.fly_image);
+      
+      flyContainer.appendChild(flyImage);
+      document.body.appendChild(flyContainer);
+
+      setTimeout(() => {
+        flyContainer.style.transform = `translate(${cartLeft - left}px, ${cartTop - top}px) scale(0.3)`;
+        flyContainer.style.opacity = 0;
+      }, 50);
+
+      setTimeout(() => {
+        document.body.removeChild(flyContainer);
+      }, 1000);
     } catch (error) {
       console.error("Error handleAddToCart: ", error);
       setNotify({
@@ -70,37 +97,6 @@ const Card = ({ item, isFavoriteProduct }) => {
       });
     }
   };
-  
-  const animateFlyToCart = (button, imgSrc) => {
-    const cartIcon = document.getElementById("cart-icon");
-    if (!cartIcon) return;
-  
-    const img = document.createElement("img");
-    img.src = imgSrc;
-    img.style.position = "fixed";
-    img.style.width = "50px";
-    img.style.height = "50px";
-    img.style.borderRadius = "50%";
-    img.style.transition = "transform 1s ease-in-out, opacity 1s";
-    img.style.zIndex = 1000;
-  
-    const buttonRect = button.getBoundingClientRect();
-    img.style.left = `${buttonRect.left + buttonRect.width / 2}px`;
-    img.style.top = `${buttonRect.top}px`;
-  
-    document.body.appendChild(img);
-  
-    setTimeout(() => {
-      const cartRect = cartIcon.getBoundingClientRect();
-      img.style.transform = `translate(${cartRect.left - buttonRect.left}px, ${cartRect.top - buttonRect.top}px) scale(0)`;
-      img.style.opacity = "0";
-    }, 100);
-  
-    setTimeout(() => {
-      img.remove();
-    }, 1000);
-  };
-  
 
   return (
     <div 
@@ -128,37 +124,6 @@ const Card = ({ item, isFavoriteProduct }) => {
       <ModalNotify notify={notify} setNotify={setNotify} />
     </div>
   );
-};
-
-
-const animateFlyToCart = (button, imgSrc) => {
-  const cartIcon = document.getElementById("cart-icon");
-  if (!cartIcon) return;
-
-  const img = document.createElement("img");
-  img.src = imgSrc;
-  img.style.position = "fixed";
-  img.style.width = "50px";
-  img.style.height = "50px";
-  img.style.borderRadius = "50%";
-  img.style.transition = "transform 1s ease-in-out, opacity 1s";
-  img.style.zIndex = 1000;
-
-  const buttonRect = button.getBoundingClientRect();
-  img.style.left = `${buttonRect.left + buttonRect.width / 2}px`;
-  img.style.top = `${buttonRect.top}px`;
-
-  document.body.appendChild(img);
-
-  setTimeout(() => {
-    const cartRect = cartIcon.getBoundingClientRect();
-    img.style.transform = `translate(${cartRect.left - buttonRect.left}px, ${cartRect.top - buttonRect.top}px) scale(0)`;
-    img.style.opacity = "0";
-  }, 100);
-
-  setTimeout(() => {
-    img.remove();
-  }, 1000);
 };
 
 export default Card;
