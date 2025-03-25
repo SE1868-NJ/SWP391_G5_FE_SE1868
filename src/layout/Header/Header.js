@@ -84,12 +84,12 @@ function Header() {
     {
       key: '3',
       label: <a href="/game">Game</a>,
-      icon: iconHistory, // Hoặc thay bằng icon phù hợp
+
     },
     {
       key: '4',
       label: <a href="/gift">Quà tặng</a>,
-      icon: iconBill, // Hoặc thay bằng icon phù hợp
+
     },
     {
       key: '5',
@@ -106,8 +106,8 @@ function Header() {
       icon: iconLogin,
     },
   ];
-  
-  
+
+
 
   return (
     <header className={styles.wrapper}>
@@ -166,7 +166,7 @@ function Header() {
             </div>
           </div>
           <div
-          id="cart-icon"
+            id="cart-icon"
             onClick={() => handleNavigate("/cart")}
             className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}
             style={{ position: "relative" }}
