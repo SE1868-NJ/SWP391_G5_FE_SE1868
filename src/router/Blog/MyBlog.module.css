@@ -32,6 +32,16 @@
     color: white;
 }
 
+.myBlogHeader .button_add {
+    padding: 10px 15px;
+    border: none;
+    color: white;
+    background: red;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 .myBlogHeader .backButton:hover {
     background-color: #cc0000;
 }
@@ -40,7 +50,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    max-width: 1000px;
+    max-width: 70%;
     margin: 0 auto;
 }
 
