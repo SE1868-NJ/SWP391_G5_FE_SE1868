@@ -17,7 +17,6 @@ import {
   iconLogin,
   iconProfile,
   iconNotify,
-  iconProfileiconHistory,
   iconBill,
   iconHistory,
 } from "../../components/icon/Icon.jsx";

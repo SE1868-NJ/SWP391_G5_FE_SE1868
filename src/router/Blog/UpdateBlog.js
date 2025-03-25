@@ -14,6 +14,7 @@ const UpdateBlog = () => {
     const [shortDescription, setShortDescription] = useState("");
     const [categoryID, setCategoryID] = useState("");
     const [categories, setCategories] = useState([]);
+    const [customerName, setCustomerName] = useState("");
     const [sections, setSections] = useState([""]);
     const [images, setImages] = useState([]);
     const [coverImage, setCoverImage] = useState("");
@@ -30,6 +31,7 @@ const UpdateBlog = () => {
                     return;
                 }
 
+                setCustomerName(`${blogData.FirstName} ${blogData.LastName}`);
                 setTitle(blogData.Title || "");
                 setShortDescription(blogData.ShortDescription || "");
                 setCategoryID(blogData.CategoryID || "");
@@ -113,7 +115,7 @@ const UpdateBlog = () => {
             formData.append("existingCoverImage", coverImage);
         }
 
-        formData.append("existingImages",JSON.stringify(existingImages));
+        formData.append("existingImages", JSON.stringify(existingImages));
 
         images.forEach((image) => {
             formData.append("images", image);
@@ -146,6 +148,12 @@ const UpdateBlog = () => {
                     <button className={styles.backButton} onClick={() => navigate(-1)}>Quay lại</button>
                 </div>
                 <form onSubmit={handleSubmit}>
+                    <div className={styles.formGroup}>
+                        <label>Người viết Blog</label>
+                        <input type="text" value={customerName || 'Đang tải...'}
+                            readOnly className={styles.input} />
+                    </div>
+                    
                     <div className={styles.formGroup}>
                         <label>Tiêu đề</label>
                         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
