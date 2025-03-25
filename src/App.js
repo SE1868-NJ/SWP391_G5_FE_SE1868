@@ -45,7 +45,6 @@ import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
 import { CartProvider } from "./globalContext/CartContext.js";
 import Gift from "./router/GiftShop/Gift.js";
 import Game from "./router/Game/Game.jsx";
-import { CartProvider } from "./contexts/CartContext.js";
 import { RecentProducts } from "./components/products/RecentProduct.jsx";
 
 // 🛠️ HÀM AppContent() - Định nghĩa nội dung ứng dụng
