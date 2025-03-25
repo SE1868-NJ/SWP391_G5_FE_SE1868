@@ -25,7 +25,7 @@ export const CartProvider = ({ children }) => {
             });
             
             if (Array.isArray(response.data)) {
-                const cartItems = response.data.reduce((total, item) => total + (item.Quantity || 0), 0);
+                const cartItems = response.data.length;
                 setCartCount(cartItems);
             }
         } catch (error) {
