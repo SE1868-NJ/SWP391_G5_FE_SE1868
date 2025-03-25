@@ -27,6 +27,7 @@ function Main() {
   const { fetchAddCustomerBehavior } = useContext(CustomerBehaviorContext);
 
   const { customerID } = useAuth() || {};
+  const { fetchCartCount } = useCart();
   const [deleteCategoryLove, setDeleteCategoryLove] = useState("");
   const [deleteProductIDTym, setDeleteProductIDTym] = useState("");
   const [activeDeleteTym, setActiveDeleteTym] = useState(false);
@@ -207,6 +208,9 @@ function Main() {
         productID: item.ProductID,
         quantity: 1,
       });
+
+      await fetchCartCount();
+      setStatusAddCart(true);
 
       console.log("item: ", item);
     } catch (error) {
@@ -711,15 +715,7 @@ function Main() {
                   }}
                 >
                   <button
-                    onClick={() =>
-                      updateCart({
-                        customerID: customerID,
-                        productID: item.ProductID,
-                        quantity: 1,
-                      }).then(() => {
-                        fetchCartCount();
-                      })
-                    }
+                    onClick={() => handleAddToCart(item)}
                     style={{
                       position: "absolute",
                       left: "-6vw",

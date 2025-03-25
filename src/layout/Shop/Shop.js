@@ -370,6 +370,9 @@ function Shop() {
         quantity: 1,
       });
 
+      await fetchCartCount();
+      setStatusAddCart(true);
+
       console.log("item: ", item);
     } catch (error) {
       console.error("error handleSetFavorite: ", error);
