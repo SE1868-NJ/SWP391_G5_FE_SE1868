@@ -5,7 +5,7 @@ import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
 import { CustomerBehaviorContext } from "../../globalContext/CustomerBehaviorContext";
 import { updateCart } from "../../service/cart";
-import { useCart } from "../../contexts/CartContext";
+import { useCart } from "../../globalContext/CartContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 

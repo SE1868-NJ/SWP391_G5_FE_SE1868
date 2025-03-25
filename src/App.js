@@ -42,7 +42,7 @@ import Video from "./router/Video/Video.js";
 import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
 import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/LoyaltyHistoryPage.js";
 import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
-import { CartProvider } from "./contexts/CartContext.js";
+import { CartProvider } from "./globalContext/CartContext.js";
 import Gift from "./router/GiftShop/Gift.js"
 import Game from "./router/Game/Game.jsx";
 import { RecentProducts } from "./components/products/RecentProduct.jsx";
