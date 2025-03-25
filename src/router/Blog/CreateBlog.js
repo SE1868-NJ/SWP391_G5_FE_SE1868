@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import styles from "./CreateBlog.module.css";
+import Swal from "sweetalert2";
 
 const CreateBlog = () => {
     const [title, setTitle] = useState("");
@@ -72,8 +73,7 @@ const CreateBlog = () => {
     const handleCoverImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-            const image = URL.createObjectURL(file);
-            setCoverImage(image);
+            setCoverImage(file);
         }
     };
 
@@ -105,7 +105,7 @@ const CreateBlog = () => {
             formData.append("coverImage", coverImage);
         }
 
-        images.forEach((image) => 
+        images.forEach((image) =>
             formData.append("images", image));
 
         console.log("Dữ liệu gửi đi:", Object.fromEntries(formData));
@@ -114,10 +114,10 @@ const CreateBlog = () => {
             await axios.post("http://localhost:3001/api/blog", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            alert("Blog đã được tạo thành công!");
+            Swal.fire("Blog đã được tạo thành công!");
             navigate("/blog");
         } catch (error) {
-            alert("Có lỗi xảy ra khi tạo blog!");
+            Swal.fire("Có lỗi xảy ra khi tạo blog!");
             console.error("Lỗi khi tạo blog:", error);
         }
     };
@@ -163,10 +163,18 @@ const CreateBlog = () => {
                     <div className={styles.formGroup}>
                         <label>Ảnh bìa</label>
                         <input type="file" onChange={handleCoverImageUpload} />
-                        {coverImage && <img src={coverImage} alt="Cover preview" className={styles.coverImage} />}
-                        <button onClick={() => removeCoverImage} className={styles.removeImage}>
-                            X
-                        </button>
+                        {coverImage && (
+                            <div className={styles.coverImageContainer}>
+                                <img
+                                    src={coverImage instanceof File ? URL.createObjectURL(coverImage) : coverImage}
+                                    alt="Cover preview"
+                                    className={styles.coverImage}
+                                />
+                                <button type="button" onClick={removeCoverImage} className={styles.removeImage}>
+                                    X
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     <div className={styles.sectionContainer}>

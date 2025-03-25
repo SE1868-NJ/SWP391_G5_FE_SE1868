@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import styles from "./UpdateBlog.module.css";
+import Swal from "sweetalert2";
 
 const UpdateBlog = () => {
     const { id } = useParams();
@@ -21,7 +22,7 @@ const UpdateBlog = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/Blog/${id}`);
+                const response = await axios.get(`http://localhost:3001/api/blog/${id}`);
                 const blogData = response.data;
 
                 if (!blogData) {
@@ -33,8 +34,8 @@ const UpdateBlog = () => {
                 setShortDescription(blogData.ShortDescription || "");
                 setCategoryID(blogData.CategoryID || "");
                 setSections(blogData.Sections?.map(s => s.Content) || [""]);
-                setExistingImages(blogData.Images?.map(img => img.url) || []);
-                setCoverImage(blogData.Image ? `http://localhost:3001${blogData.Image}` : "");
+                setExistingImages(blogData.Images?.map(img => img.ImageURL) || []);
+                setCoverImage(blogData.Image || "");
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
@@ -112,8 +113,7 @@ const UpdateBlog = () => {
             formData.append("existingCoverImage", coverImage);
         }
 
-        formData.append("existingImages",
-            JSON.stringify(existingImages.filter(img => img !== null)));
+        formData.append("existingImages",JSON.stringify(existingImages));
 
         images.forEach((image) => {
             formData.append("images", image);
@@ -124,16 +124,16 @@ const UpdateBlog = () => {
         });
 
         try {
-            await axios.put(`http://localhost:3001/api/Blog/${id}`, formData, {
+            await axios.put(`http://localhost:3001/api/blog/${id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            alert("Cập nhật thành công!");
+            Swal.fire("Cập nhật blog thành công!");
             navigate(`/blog/${id}`);
         } catch (error) {
             console.error("Lỗi khi cập nhật blog:", error);
-            alert("Có lỗi khi cập nhật blog!");
+            Swal.fire("Có lỗi khi cập nhật blog!");
         }
     };
 

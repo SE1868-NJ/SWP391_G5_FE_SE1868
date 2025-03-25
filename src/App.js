@@ -33,6 +33,8 @@ import BlogList from "./router/Blog/Blog.js";
 import BlogDetail from "./router/Blog/BlogDetail.js";
 import CreateBlog from "./router/Blog/CreateBlog.js";
 import UpdateBlog from "./router/Blog/UpdateBlog.js";
+import MyBlog from "./router/Blog/MyBlog.js";
+import ContactInfo from "./layout/ContactInfo/ContactInfo.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
 import { Policy } from "./router/Policy/Policy.jsx";
@@ -40,6 +42,7 @@ import Video from "./router/Video/Video.js";
 import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
 import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/LoyaltyHistoryPage.js";
 import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
+import { CartProvider } from "./contexts/CartContext.js";
 import Gift from "./router/GiftShop/Gift.js"
 import Game from "./router/Game/Game.jsx";
 import { RecentProducts } from "./components/products/RecentProduct.jsx";
@@ -54,7 +57,7 @@ function AppContent() {
         }`}
     >
       <header style={{position: 'absolute'}} className="p-4 flex justify-between items-center">
-        
+
       </header>
 
       <Routes>
@@ -70,6 +73,8 @@ function AppContent() {
         <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/blog/add" element={<CreateBlog />} />
         <Route path="/blog/update/:id" element={<UpdateBlog />} />
+        <Route path="/blog/myblog" element={<MyBlog />} />
+        <Route path="/contact" element={<ContactInfo />} />
         <Route path="/search" element={<SearchProduct />} />
         <Route path="/my-favorite" element={<FavoriteProduct />} />
         <Route path="/product/:id" element={<PageProductDetail />} />
@@ -117,7 +122,9 @@ function App() {
             <ThemeProvider>
               <Router>
                 <CustomerBehaviorProvider>
-                  <AppContent />
+                  <CartProvider>
+                    <AppContent />
+                  </CartProvider>
                 </CustomerBehaviorProvider>
               </Router>
             </ThemeProvider>
