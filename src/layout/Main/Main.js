@@ -27,8 +27,6 @@ function Main() {
   const { fetchAddCustomerBehavior } = useContext(CustomerBehaviorContext);
 
   const { customerID } = useAuth() || {};
-  const { fetchCartCount } = useCart();
-
   const [deleteCategoryLove, setDeleteCategoryLove] = useState("");
   const [deleteProductIDTym, setDeleteProductIDTym] = useState("");
   const [activeDeleteTym, setActiveDeleteTym] = useState(false);
@@ -244,23 +242,8 @@ function Main() {
               }}
             >
               <button
-                onClick={() =>
-                  updateCart({
-                    customerID: customerID,
-                    productID: item.ProductID,
-                    quantity: 1,
-                  }).then(() => {
-                    fetchCartCount();
-                  })
-                }
-                style={{
-                  position: "absolute",
-                  left: "-6vw",
-                  padding: "0.2vw",
-                  fontSize: "0.7vw",
-                }}
-                // style={{ padding: "0.2vw", fontSize: "1vw" }}
-                // onClick={prevPageSuggestShopFollowed}
+                style={{ padding: "0.2vw", fontSize: "1vw" }}
+                onClick={prevPageSuggestShopFollowed}
               >
                 Trước
               </button>
@@ -456,23 +439,8 @@ function Main() {
               }}
             >
               <button
-                onClick={() =>
-                  updateCart({
-                    customerID: customerID,
-                    productID: item.ProductID,
-                    quantity: 1,
-                  }).then(() => {
-                    fetchCartCount();
-                  })
-                }
-                style={{
-                  position: "absolute",
-                  left: "-6vw",
-                  padding: "0.2vw",
-                  fontSize: "0.7vw",
-                }}
-                // style={{ padding: "0.2vw", fontSize: "1vw" }}
-                // onClick={prevPageSuggestBehavior}
+                style={{ padding: "0.2vw", fontSize: "1vw" }}
+                onClick={prevPageSuggestBehavior}
               >
                 Trước
               </button>
@@ -752,7 +720,6 @@ function Main() {
                         fetchCartCount();
                       })
                     }
-                    // onClick={() => handleAddToCart(item)}
                     style={{
                       position: "absolute",
                       left: "-6vw",
