@@ -25,7 +25,7 @@ import ActivityLog from "./router/Profile/ActivityLog.jsx";
 import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
 import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
 import OrderDetail from "./router/OrderDetail/OrderDetail";
-import Bills from "./router/Blog/Bills/Bills.js";
+import Bills from "./router/Bills/Bills.js";
 import TransactionHistory from "./router/TransactionHistory/TransactionHistory.js";
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";

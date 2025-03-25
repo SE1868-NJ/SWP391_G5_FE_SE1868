@@ -54,6 +54,7 @@ function ShopProvider({ children }) {
       );
           // Trộn mảng ngẫu nhiên bằng cách sử dụng .sort() và Math.random()
     const randomData = response.data.sort(() => Math.random() - 0.5);
+    setProductBehaviorShop(randomData);
     } catch (error) {
       console.error("Lỗi khi tải sản phẩm:", error);
     }
