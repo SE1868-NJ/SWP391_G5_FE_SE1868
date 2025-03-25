@@ -1,18 +1,18 @@
 import Header from "../../layout/Header/Header";
 import Footer from "../../layout/Footer/Footer";
 import Background from "../../layout/Background/Background";
-import Shop from "../../layout/Shop/Shop";
+import Bills from "../../layout/Bills/Bills";
 import { GlobalProvider } from "../../globalContext/GlobalContext";
 import Chatbot from "../../components/chatbox/ChatBox";
 
 
-function Home() {
+function Bill() {
   return (
     <div>
       <GlobalProvider>
         <Header />
         <Background>
-          <Shop></Shop>
+          <Bills></Bills>
           <Chatbot></Chatbot>
           <Footer></Footer>
         </Background>
@@ -21,4 +21,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Bill;

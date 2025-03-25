@@ -218,20 +218,24 @@ function Order() {
   async function checkout() {
     const totalPayment = totalPrice - chooseVoucher.Discount;
       const OrderInfor = [];
+      console.log("Cart: ", selectCart);
       selectCart.map((item) =>
         OrderInfor.push({
           feeShip: item.feeShip,
           productID: item.productID,
-          productImg: item.ProductImg,
+          category: item.productCategory,
+          shopID: item.ShopID,
+          productImg: item.productImg,
           Quantity: item.Quantity,
-          CartDetailID: item.cartID || null,
+          CartDetailID: item.CartID || null,
           distance: Math.random() * 6,
         })
       );
       const voucherChoose = [...bestVoucherShop, chooseVoucher];
     if (paymentMethod === "Trả trước") {
+      console.log("font end: ", address, OrderInfor, voucherChoose, totalPayment, cusID);
       const response = await axios.post('http://localhost:3001/api/Order/prepay',{  address, OrderInfor, voucherChoose, totalPayment, cusID });
-      window.location.href = response.data.payUrl;
+      window.open(response.data.payUrl, '_blank');
     } else {
       const response = await axios.post(
         "http://localhost:3001/api/Order/CheckOut",

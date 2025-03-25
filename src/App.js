@@ -25,7 +25,7 @@ import ActivityLog from "./router/Profile/ActivityLog.jsx";
 import { NewComboProduct } from "./router/Combo/NewComboProduct.jsx";
 import { ListComboProduct } from "./router/Combo/ListComboProduct.jsx";
 import OrderDetail from "./router/OrderDetail/OrderDetail";
-import Bills from "./router/Blog/Bills/Bills.js";
+import Bills from "./router/Bills/Bills.js";
 import TransactionHistory from "./router/TransactionHistory/TransactionHistory.js";
 import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRequest.js";
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
@@ -37,11 +37,15 @@ import MyBlog from "./router/Blog/MyBlog.js";
 import ContactInfo from "./layout/ContactInfo/ContactInfo.js";
 import SupportRequestDetails from "./router/Portal/SupportForm/SupportRequestDetails/SupportRequestDetails.js";
 import "./i18n.js";
+import { Policy } from "./router/Policy/Policy.jsx";
 import Video from "./router/Video/Video.js";
 import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
 import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/LoyaltyHistoryPage.js";
 import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
 import { CartProvider } from "./contexts/CartContext.js";
+import Gift from "./router/GiftShop/Gift.js"
+import Game from "./router/Game/Game.jsx";
+
 
 // 🛠️ HÀM AppContent() - Định nghĩa nội dung ứng dụng
 function AppContent() {
@@ -88,11 +92,18 @@ function AppContent() {
         <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
+        <Route
+          path="/support/history/:id"
+          element={<SupportRequestDetails />}
+        />
+        <Route path="/policy" element={<Policy />} />
         <Route path="/support/history/:id" element={<SupportRequestDetails />} />
         <Route path="/video/*" element={<Video />} />
         <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
         <Route path="/loyalty-history/:customerId" element={<LoyaltyHistoryPage />} />
         <Route path="/affiliate/:customerId" element={<AffiliatePage />} />
+        <Route path="/gift" element={<Gift/>} />
+        <Route path="/game" element={<Game/>} />
 
       </Routes>
     </div>

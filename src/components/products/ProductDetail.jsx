@@ -8,7 +8,7 @@ import { LayoutCommon } from '../../layout/layout-common/LayoutCommon';
 import { GlobalContext } from '../../globalContext/GlobalContext';
 
 
-export const ProductDetail = ({ product, setIsOpen, isPage,isOpen }) => {
+export const ProductDetail = ({ product, isPage }) => {
       const {setShopID, shopID: id, fetchInforShopList } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ export const ProductDetail = ({ product, setIsOpen, isPage,isOpen }) => {
         <div className={isPage ? styles.productModal_container_page : styles.productModal_container}>
             <div className={isPage ? styles.product_container_page : styles.product_container}>
                 <div className={styles.product_imageContainer} >
-                    <img className={styles.product_image} src={product?.ProductImg} alt="" onClick={() => { if (setIsOpen) setIsOpen(true) }} />
+                    <img className={styles.product_image} src={product?.ProductImg} alt="" />
                 </div>
                 <div className={styles.product_info}>
                     <div className={styles.product_infoShop}>
@@ -32,7 +32,7 @@ export const ProductDetail = ({ product, setIsOpen, isPage,isOpen }) => {
                     </div>
                     <div className={styles.product_infoContainer}>
                         <div className={styles.product_infoTitle}>
-                            <span className={isPage ? styles.product_infoTitleName_page : styles.product_infoTitleName} onClick={() => { if (setIsOpen) setIsOpen(true) }}>{product.Category} - {product.ProductName}</span>
+                            <span className={isPage ? styles.product_infoTitleName_page : styles.product_infoTitleName} >{product.Category} - {product.ProductName}</span>
                         </div>
                         <div style={{ display: "flex", alignItems: 'center' }}> <span className={styles.product_infoQuantity}>SL: {product.StockQuantity}</span>
                             <span className={styles.product_infoMoney}>{formatMoney(product.Price)} VND</span></div>
@@ -54,7 +54,7 @@ export const ProductDetail = ({ product, setIsOpen, isPage,isOpen }) => {
                 </div>
 
             </div>
-            <Comments isPage={isPage} product={product} isOpen={isOpen}/>
+            <Comments isPage={isPage} product={product}/>
         </div>
     )
 }
@@ -64,7 +64,9 @@ export const PageProductDetail = () => {
     const navigate = useNavigate();
     useEffect(() => {
         navigate(`/product/${id}`, { replace: true });
-    }, [navigate]);
+        window.scrollTo(0, 0); // Cuộn lên đầu trang khi id thay đổi
+
+    }, [navigate,id]);
     const [product, setProduct] = useState()
     const getData = async () => {
 

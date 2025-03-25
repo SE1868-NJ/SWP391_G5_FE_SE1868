@@ -18,8 +18,7 @@ import {
   iconProfile,
   iconNotify,
   iconProfileiconHistory,
-  iconBill,
-  iconHistory,
+  iconBills, iconTransactionHistory
 } from "../../components/icon/Icon.jsx";
 
 function Header() {
@@ -56,47 +55,86 @@ function Header() {
         navigate("/login"); // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
       }
     } else if (e === "Thông Báo") {
-      navigate("/Notifications");
+      if (user) {
+        navigate("/Notifications");// Nếu đã đăng nhập, chuyển đến trang tài khoản
+      } else {
+        navigate("/login"); // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
+      }
+      
     } else if (e === "Hỗ Trợ") {
-      navigate("/Portal");
+      if (user) {
+        navigate("/Portal");// Nếu đã đăng nhập, chuyển đến trang tài khoản
+      } else {
+        navigate("/Portal"); // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
+      }
+      
     } else if (e === "Giỏ Hàng") {
-      navigate("/cart");
+      if (user) {
+        navigate("/cart");// Nếu đã đăng nhập, chuyển đến trang tài khoản
+      } else {
+        navigate("/login"); // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
+      }
+      
     } else if (e === "Blog") {
       navigate("/blog");
     }
   };
 
 
-  const items = [
-    {
-      key: '1',
-      label: (
-        <a  href="/customers/customer-info" style={{ textDecoration: 'none' }}>
-          Thông tin tài khoản
-        </a>
-      ),
-      icon: iconProfile
+  const items = [];
 
-    }, {
-      key: '2',
-      label: (
-        <a href="/my-favorite">
-          Sản phẩm yêu thích
-        </a>
-      ),
-      icon: iconHeart
-    },
-    {
-      key: '3',
-      label: (
-        <a href="/login">
-          {user ? 'Đăng xuất' : 'Đăng nhập'}
-        </a>
-      ),
-      icon: iconLogin
-    },
-
-  ];
+  if (user) {
+    items.push(
+      {
+        key: '1',
+        label: (
+          <a href="/customers/customer-info" style={{ textDecoration: 'none' }}>
+            Thông tin tài khoản
+          </a>
+        ),
+        icon: iconProfile
+      },
+      {
+        key: '2',
+        label: (
+          <a href="/my-favorite">
+            Sản phẩm yêu thích
+          </a>
+        ),
+        icon: iconHeart
+      },
+      {
+        key: '4',
+        label: (
+          <a href="/TransactionHistory">
+            Lịch Sử Giao Dịch
+          </a>
+        ),
+        icon: iconTransactionHistory
+      },
+      {
+        key: '5',
+        label: (
+          <a href="/Bills">
+            Các Loại Hóa Đơn
+          </a>
+        ),
+        icon: iconBills
+      }
+    );
+  }
+  
+  // Đăng nhập / Đăng xuất luôn có
+  items.push({
+    key: '3',
+    label: (
+      <a href={user ? "/login" : "/login"}>
+        {user ? 'Đăng xuất' : 'Đăng nhập'}
+      </a>
+    ),
+    icon: iconLogin
+  });
+  
 
   return (
     <header className={styles.wrapper}>
@@ -133,7 +171,7 @@ function Header() {
               className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
                 }`}
             >
-              {t("Notifications")}
+              {t  ("Notifications")}
             </div>
           </div>
           <div
@@ -155,6 +193,7 @@ function Header() {
             </div>
           </div>
           <div
+          id="cart-icon"
             onClick={() => handleNavigate("/cart")}
             className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}
             style={{ position: "relative" }}
