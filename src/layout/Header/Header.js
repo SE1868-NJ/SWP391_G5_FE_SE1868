@@ -101,6 +101,24 @@ function Header() {
     },
     {
       key: '7',
+      label: (
+        <a href={user ? `/loyalty/${user.id}` : "/login"}>
+          Khách hàng thân thiết
+        </a>
+      ),
+    },
+
+    {
+      key: '8',
+      label: (
+        <a href={user ? `/affiliate/${user.id}` : "/login"}>
+          Tiếp thị khách hàng
+        </a>
+      ),
+    },
+
+    {
+      key: '9',
       label: <a href="/login">{user ? 'Đăng xuất' : 'Đăng nhập'}</a>,
       icon: iconLogin,
     },
