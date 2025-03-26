@@ -4,7 +4,7 @@
     padding: 0 20px;
 }
 
-button {
+/* button {
     margin-left: 20px;
     width: 120px;
     height: 45px; 
@@ -18,7 +18,7 @@ button {
     background-color: white;
     margin: 3px;
     transition: background 0.3s;
-}
+} */
 
 .saveButton {
     background-color: #ff0000;
