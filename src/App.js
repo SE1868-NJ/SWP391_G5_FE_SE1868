@@ -42,8 +42,8 @@ import Video from "./router/Video/Video.js";
 import LoyaltyPage from "./router/LoyaltyStatus/LoyaltyPage.js";
 import LoyaltyHistoryPage from "./router/LoyaltyStatus/LoyaltyHistoryPage/LoyaltyHistoryPage.js";
 import AffiliatePage from "./router/AffiliatePage/AffiliatePage.js";
-import { CartProvider } from "./contexts/CartContext.js";
-import Gift from "./router/GiftShop/Gift.js"
+import { CartProvider } from "./globalContext/CartContext.js";
+import Gift from "./router/GiftShop/Gift.js";
 import Game from "./router/Game/Game.jsx";
 import { RecentProducts } from "./components/products/RecentProduct.jsx";
 
@@ -53,12 +53,14 @@ function AppContent() {
 
   return (
     <div
-      className={`min-h-screen transition-all duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
-        }`}
+      className={`min-h-screen transition-all duration-300 ${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
+      }`}
     >
-      <header style={{position: 'absolute'}} className="p-4 flex justify-between items-center">
-
-      </header>
+      <header
+        style={{ position: "absolute" }}
+        className="p-4 flex justify-between items-center"
+      ></header>
 
       <Routes>
         <Route path="/OrderCheckOut" element={<Order />} />
@@ -97,16 +99,20 @@ function AppContent() {
           element={<SupportRequestDetails />}
         />
         <Route path="/policy" element={<Policy />} />
-        <Route path="/support/history/:id" element={<SupportRequestDetails />} />
+        <Route
+          path="/support/history/:id"
+          element={<SupportRequestDetails />}
+        />
         <Route path="/video/*" element={<Video />} />
         <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
-        <Route path="/loyalty-history/:customerId" element={<LoyaltyHistoryPage />} />
+        <Route
+          path="/loyalty-history/:customerId"
+          element={<LoyaltyHistoryPage />}
+        />
         <Route path="/affiliate/:customerId" element={<AffiliatePage />} />
-        <Route path="/gift" element={<Gift/>} />
-        <Route path="/game" element={<Game/>} />
+        <Route path="/gift" element={<Gift />} />
+        <Route path="/game" element={<Game />} />
         <Route path="/recent-products" element={<RecentProducts />} />
-
-
       </Routes>
     </div>
   );
@@ -134,6 +140,5 @@ function App() {
     </GlobalProvider>
   );
 }
-
 
 export default App;

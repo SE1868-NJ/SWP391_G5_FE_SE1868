@@ -30,11 +30,11 @@
     font-weight: bold;
 }
 
-.top_page .button_add {
+.top_page .button_myblog {
     padding: 10px 15px;
-    border: 2px solid red;
-    color: red;
-    background: transparent;
+    border: none;
+    color: white;
+    background: red;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;

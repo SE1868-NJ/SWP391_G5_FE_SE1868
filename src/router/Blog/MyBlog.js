@@ -63,6 +63,7 @@ const MyBlog = () => {
             <div className={styles.myBlogContainer}>
                 <div className={styles.myBlogHeader}>
                     <button className={styles.backButton} onClick={() => navigate(`/blog`)}>Quay lại</button>
+                    <button className={styles.button_add} onClick={() => window.location.href = '/blog/add'}>Tạo Blog</button>
                     <h2 className={styles.title}>Blog của tôi</h2>
                 </div>
                 {blogs.length === 0 ? (
