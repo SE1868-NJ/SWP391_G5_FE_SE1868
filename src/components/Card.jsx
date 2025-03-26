@@ -7,7 +7,7 @@ import { CustomerBehaviorContext } from "../globalContext/CustomerBehaviorContex
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../globalContext/AuthContext";
 import { updateCart } from "../service/cart";
-import { useCart } from "../contexts/CartContext";
+import { useCart } from "../globalContext/CartContext";
 import { ModalNotify } from "./modal/ModalCustom";
 
 const Card = ({ item, isFavoriteProduct }) => {
