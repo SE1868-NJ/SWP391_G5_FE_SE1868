@@ -83,7 +83,8 @@ const Card = ({ item, isFavoriteProduct }) => {
 
       setTimeout(() => {
         document.body.removeChild(flyContainer);
-      }, 1000);
+    }, 1200);
+    
     } catch (error) {
       console.error("Error handleAddToCart: ", error);
       setNotify({
