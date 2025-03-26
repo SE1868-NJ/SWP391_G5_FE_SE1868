@@ -42,14 +42,29 @@ const BlogDetail = () => {
     }, [id]);
 
     useEffect(() => {
+        if (!customerID) return;
+        const checkIsLiked = async () => {
+            try {
+                if (customerID) {
+                    const response = await axios.get(`http://localhost:3001/api/blog/${id}/isLiked`, {
+                        params: { customerID }
+                    });
+                    setIsLiked(response.data.isliked);
+                }
+            } catch (error) {
+                console.error("Error fetching likes:", error);
+            }
+        };
+
+        checkIsLiked();
+    }, [customerID, id]);
+
+    useEffect(() => {
         const fetchBlog = async () => {
             try {
                 const response = await axios.get(`http://localhost:3001/api/blog/${id}`);
                 setBlog(response.data);
-                setLikes(response.data.Likes || 0);
-
-                const isLiked = localStorage.getItem(`likedBlog${id}`) === "true";
-                setIsLiked(isLiked);
+                setLikes(response.data.Likes);
 
                 const categoryResponse = await axios.get(`http://localhost:3001/api/blogcategory`);
                 const categories = categoryResponse.data || [];
@@ -82,15 +97,13 @@ const BlogDetail = () => {
     const toggleLike = async () => {
         try {
             const action = isLiked ? "unlike" : "like";
-            await axios.post(`http://localhost:3001/api/blog/${id}/like`, { action });
-
-            setLikes(prev => {
-                const updated = action === "like" ? prev + 1 : (Math.max(prev - 1, 0));
-                return updated;
+            await axios.post(`http://localhost:3001/api/blog/${id}/like`, { 
+                action,
+                customerID,
             });
 
+            setLikes(prev => (action === "like" ? prev + 1 : Math.max(prev - 1, 0)));
             setIsLiked(!isLiked);
-            localStorage.setItem(`likedBlog${id}`, (!isLiked).toString());
         } catch (error) {
             console.error("Lỗi khi ấn like hoặc unlike!", error);
         }

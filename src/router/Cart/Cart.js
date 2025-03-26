@@ -7,7 +7,7 @@ import Address from "../../components/address/Address";
 import styles from "./Cart.module.css";
 import Swal from "sweetalert2";
 import { ThemeContext } from "../../contexts/ThemeContext";
-import { useCart } from "../../contexts/CartContext";
+import { useCart } from "../../globalContext/CartContext";
 
 function Cart() {
   const inforFullUser = localStorage.getItem("user");

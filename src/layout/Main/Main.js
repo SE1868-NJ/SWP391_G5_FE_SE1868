@@ -7,7 +7,7 @@ import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
 import { useNavigate } from "react-router";
 import { updateCart } from "../../service/cart";
-import { useCart } from "../../contexts/CartContext";
+import { useCart } from "../../globalContext/CartContext";
 
 
 function Main() {
@@ -27,6 +27,7 @@ function Main() {
   const { fetchAddCustomerBehavior } = useContext(CustomerBehaviorContext);
 
   const { customerID } = useAuth() || {};
+  const { fetchCartCount } = useCart();
   const [deleteCategoryLove, setDeleteCategoryLove] = useState("");
   const [deleteProductIDTym, setDeleteProductIDTym] = useState("");
   const [activeDeleteTym, setActiveDeleteTym] = useState(false);
@@ -65,7 +66,7 @@ function Main() {
     behaviorCustomerProducts?.length / itemsPerPage
   );
 
-  // Lấy danh sách sản phẩm cho trang hiện tại của "Gợi Ý Sản Phẩm Theo Sở Thích"
+  
   const currentProductsSuggestBehavior =
     behaviorCustomerProducts?.slice(
       (currentPageSuggestBehavior - 1) * itemsPerPage,
@@ -81,7 +82,6 @@ function Main() {
       (currentPageSuggestShopFollowed - 1) * itemsPerPage,
       currentPageSuggestShopFollowed * itemsPerPage
     ) || [];
-
   // Chỉnh sửa hàm prevPage và nextPage cho các shop đã theo dõi
   const prevPageSuggestShopFollowed = () => {
     if (currentPageSuggestShopFollowed > 1) {
@@ -152,9 +152,7 @@ function Main() {
         }
       );
 
-      console.log("✅ Xóa sản phẩm yêu thích thành công:", response.data);
 
-      // Cập nhật lại trạng thái UI ngay sau khi xóa
       setFavouriteProducts((prev) => {
         const updatedFavorites = { ...prev };
         delete updatedFavorites[deleteProductIDTym]; // Xóa sản phẩm khỏi danh sách yêu thích
@@ -207,6 +205,9 @@ function Main() {
         productID: item.ProductID,
         quantity: 1,
       });
+
+      await fetchCartCount();
+      setStatusAddCart(true);
 
       console.log("item: ", item);
     } catch (error) {
@@ -711,15 +712,7 @@ function Main() {
                   }}
                 >
                   <button
-                    onClick={() =>
-                      updateCart({
-                        customerID: customerID,
-                        productID: item.ProductID,
-                        quantity: 1,
-                      }).then(() => {
-                        fetchCartCount();
-                      })
-                    }
+                    onClick={() => handleAddToCart(item)}
                     style={{
                       position: "absolute",
                       left: "-6vw",
@@ -836,6 +829,10 @@ function Main() {
             </button>
           </div>
         )}
+      </div>
+      <div>
+        <h3>Các video phổ biến</h3>
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Wagy4pv7-Rg?si=cQyxht3LsoUQ5XYe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </div>
   );

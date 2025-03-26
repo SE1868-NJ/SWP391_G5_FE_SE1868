@@ -5,7 +5,7 @@ import { useAuth } from "../../globalContext/AuthContext";
 import { ShopContext } from "../../globalContext/ShopContext";
 import { CustomerBehaviorContext } from "../../globalContext/CustomerBehaviorContext";
 import { updateCart } from "../../service/cart";
-import { useCart } from "../../contexts/CartContext";
+import { useCart } from "../../globalContext/CartContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
@@ -369,6 +369,9 @@ function Shop() {
         productID: item.ProductID,
         quantity: 1,
       });
+
+      await fetchCartCount();
+      setStatusAddCart(true);
 
       console.log("item: ", item);
     } catch (error) {

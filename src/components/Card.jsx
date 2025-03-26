@@ -7,6 +7,7 @@ import { CustomerBehaviorContext } from "../globalContext/CustomerBehaviorContex
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../globalContext/AuthContext";
 import { updateCart } from "../service/cart";
+import { useCart } from "../globalContext/CartContext";
 import { ModalNotify } from "./modal/ModalCustom";
 
 const Card = ({ item, isFavoriteProduct }) => {
@@ -15,6 +16,7 @@ const Card = ({ item, isFavoriteProduct }) => {
   const navigate = useNavigate();
   const { fetchAddCustomerBehavior } = useContext(CustomerBehaviorContext);
   const { customerID } = useAuth();
+  const { fetchCartCount } = useCart();
 
   useEffect(() => {
     setIsFavorite(isFavoriteProduct);
@@ -49,6 +51,8 @@ const Card = ({ item, isFavoriteProduct }) => {
         productID: item.ProductID,
         quantity: 1,
       });
+
+      fetchCartCount();
 
       setNotify({
         icon: rs.data?.status === 200 ? iconSuccess : iconFail,

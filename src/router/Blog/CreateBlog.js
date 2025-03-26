@@ -108,8 +108,6 @@ const CreateBlog = () => {
         images.forEach((image) =>
             formData.append("images", image));
 
-        console.log("Dữ liệu gửi đi:", Object.fromEntries(formData));
-
         try {
             await axios.post("http://localhost:3001/api/blog", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
