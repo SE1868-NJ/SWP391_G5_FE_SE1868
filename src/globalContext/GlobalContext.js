@@ -128,8 +128,12 @@ export function GlobalProvider({ children }) {
       ));
     });
 
-      setTransactionHistoryList(uniqueData);
-      console.log("Lấy List TransactionHistory:", flattenedData);
+    const sortedBills = [...uniqueData].sort(
+      (a, b) =>
+        new Date(b.payment_date || b.end_date) -
+        new Date(a.payment_date || a.end_date)
+    );
+      setTransactionHistoryList(sortedBills);
     } catch (error) {
       console.error("Lỗi khi Lấy List bills:", error);
     }

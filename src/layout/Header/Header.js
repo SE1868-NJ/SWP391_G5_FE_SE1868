@@ -21,7 +21,10 @@ import {
   iconBills,
   iconTransactionHistory,
   iconBill,
+  iconGame,
   iconHistory,
+  iconViewProductNewHistory, iconVoucher
+
 } from "../../components/icon/Icon.jsx";
 
 function Header() {
@@ -100,7 +103,7 @@ function Header() {
     {
       key: "3",
       label: <a href="/game">Game</a>,
-      icon: iconHistory, // Hoặc thay bằng icon phù hợp
+      icon: iconGame, // Hoặc thay bằng icon phù hợp
     },
     {
       key: "4",
@@ -110,20 +113,26 @@ function Header() {
     {
       key: "5",
       label: <a href="/recent-products">Sản phẩm đã xem gần đây</a>,
-      icon: iconBills,
+      icon: iconViewProductNewHistory,
     },
     {
       key: "6",
       label: <a href="/OrderandVoucher">Order & Voucher</a>,
-      // icon: iconVoucher,
+      icon: iconVoucher ,
     },
     {
-      key: "7",
-      label: <a href="/Bills">Các Loại Hóa Đơn</a>,
+      key: '7',
+      label: <a href="/Bills">Các loại hóa đơn</a>,
+      icon: iconBill, 
     },
     {
-      key: "8",
-      label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
+      key: '8',
+      label: <a href="/TransactionHistory">Lịch sử giao dịch</a>,
+      icon: iconHistory, 
+    },
+    {
+      key: '9',
+      label: <a href="/login">{user ? 'Đăng xuất' : 'Đăng nhập'}</a>,
       icon: iconLogin,
     },
   ];
