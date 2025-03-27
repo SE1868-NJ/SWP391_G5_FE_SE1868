@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
 
     // Lấy danh sách Customers từ Backend khi ứng dụng khởi chạy
     useEffect(() => {
+
         const fetchCustomers = async () => {
             try {
                 const response = await axios.get(API_URL);
@@ -22,7 +23,7 @@ export const AuthProvider = ({ children }) => {
                 if (storedUser) {
                     const parsedUser = JSON.parse(storedUser);
                     // Tìm kiếm user trong danh sách customers
-                    const foundUser = response.data.find(user => 
+                    const foundUser = response.data.find(user =>
                         user.Email === parsedUser.email && user.password === parsedUser.password
                     );
                     setInforFullUser(foundUser)
@@ -34,27 +35,27 @@ export const AuthProvider = ({ children }) => {
         };
 
         fetchCustomers();
-        
+
 
         // Kiểm tra trạng thái đăng nhập từ localStorage
         const storedUser = localStorage.getItem("user");
-        
+
         if (storedUser) {
             const parsedUser = JSON.parse(storedUser);
             setUser(parsedUser);
-            setCustomerID(parsedUser.id); 
+            setCustomerID(parsedUser.id);
         }
     }, []);
 
     const login = (email, password) => {
-        
+
         const foundUser = customers.find(user => user.Email === email && user.password === password);
         console.log(foundUser);
-        
+
         if (foundUser) {
-            const userData = { 
-                id: foundUser.CustomerID, 
-                name: `${foundUser.FirstName} ${foundUser.LastName}`, 
+            const userData = {
+                id: foundUser.CustomerID,
+                name: `${foundUser.FirstName} ${foundUser.LastName}`,
                 password: foundUser.password,
                 email: foundUser.Email,
                 avatar: foundUser.Avatar
