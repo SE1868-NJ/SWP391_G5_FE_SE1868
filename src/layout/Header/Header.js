@@ -140,9 +140,6 @@ function Header() {
       label: <a href="/login">{user ? 'Đăng xuất' : 'Đăng nhập'}</a>,
       icon: iconLogin,
     },
-  ];
-
-  [
     {
 
       key: "7",
@@ -154,6 +151,10 @@ function Header() {
       icon: iconLogin,
     },
   ];
+
+
+
+
 
   return (
     <header className={styles.wrapper}>

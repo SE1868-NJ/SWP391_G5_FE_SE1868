@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom"; // Thêm useNavigate 
 import axios from "axios";
 import "./LoyaltyPage.css";
 import Header from "../../layout/Header/Header";
-import Breadcrumb from "../Portal/Breadcrumb/Breadcrumb";
+
 
 const tierThresholds = {
     Silver: { orders: 3, spent: 1000000 },
@@ -52,64 +52,60 @@ const LoyaltyPage = () => {
         <>
             <Header />
             <div className="loyalty-container">
-                <Breadcrumb />
-
-                {/* Thẻ Loyalty */}
-                <div className="loyalty-card loyalty-status">
-                    <div className="loyalty-status-header">
-                        <img src={tierIcons[currentTier]} alt={currentTier} className="tier-icon" />
-                        <h2>{currentTier.toUpperCase()} MEMBER</h2>
-                        <p>{name}</p>
-                    </div>
-
-                    {nextTier && (
-                        <div className="next-tier">
-                            <h3>Tiến trình nâng hạng lên {nextTier}</h3>
-                            <div className="progress-bar">
-                                <p>Đơn hàng ({totalOrders}/{nextTierGoal.orders})</p>
-                                <div className="bar">
-                                    <div className="fill" style={{ width: `${ordersProgress}%` }}></div>
-                                </div>
+                {/* Thẻ banner cam với info cơ bản */}
+                <div className="loyalty-card loyalty-banner">
+                    <div className="loyalty-banner-content">
+                        <div className="loyalty-tier-header">
+                            <div className="user-info-left">
+                                <h2 className="member-title">THÀNH VIÊN</h2>
+                                <p className="loyalty-name">
+                                    {name}
+                                    <img src={tierIcons[currentTier]} alt={currentTier} className="tier-icon-inline" />
+                                </p>
+                                <p className="loyalty-tier-name">Hạng hiện tại: <strong>{currentTier}</strong></p>
                             </div>
-                            <div className="progress-bar">
-                                <p>Chi tiêu ({totalSpent.toLocaleString()}₫ / {nextTierGoal.spent.toLocaleString()}₫)</p>
-                                <div className="bar">
-                                    <div className="fill" style={{ width: `${spentProgress}%` }}></div>
-                                </div>
-                            </div>
+                            <button className="loyalty-detail-btn" onClick={() => navigate(`/loyalty-history/${customerId}`)}>Chi tiết </button>
                         </div>
-                    )}
 
-                    {/* Nút bấm chuyển sang lịch sử Loyalty */}
-                    <button className="history-button" onClick={() => navigate(`/loyalty-history/${customerId}`)}>
-                        Xem Lịch Sử Loyalty
-                    </button>
+                        {nextTier && (
+                            <div className="loyalty-progress-card">
+                                <p className="upgrade-title">Để nâng thứ hạng tiếp theo ({nextTier})</p>
+                                <div className="progress-row">
+                                    <div className="progress-column">
+                                        <p>Đơn hàng</p>
+                                        <p className="highlight">{totalOrders}/{nextTierGoal.orders}</p>
+                                        <div className="bar"><div className="fill" style={{ width: `${ordersProgress}%` }}></div></div>
+                                    </div>
+                                    <div className="progress-column">
+                                        <p>Chi tiêu</p>
+                                        <p className="highlight">{totalSpent.toLocaleString()}₫ / {nextTierGoal.spent.toLocaleString()}₫</p>
+                                        <div className="bar"><div className="fill" style={{ width: `${spentProgress}%` }}></div></div>
+                                    </div>
+                                </div>
+                                <p className="update-note">Thứ hạng sẽ được cập nhật lại sau 30.06.2025</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
-                {/* Thông tin khách hàng - Chuyển xuống dưới lịch sử */}
-                <div className="loyalty-card loyalty-history">
-                    <h2>Thông tin Khách hàng</h2>
-                    <p><strong>Tên:</strong> {name}</p>
-                    <p><strong>Email:</strong> {email}</p>
-                    <p><strong>Đơn hàng đã mua:</strong> {totalOrders}</p>
-                    <p><strong>Tổng chi tiêu:</strong> {totalSpent.toLocaleString()}₫</p>
-                </div>
-
-                {/* Phần thưởng */}
+                {/* Ưu đãi */}
                 <div className="loyalty-card loyalty-rewards">
-                    <h2>Ưu đãi dành cho bạn</h2>
+                    <h3>Ưu đãi dành cho bạn</h3>
                     <ul className="reward-list">
                         {rewards.map((reward, index) => (
                             <li key={index} className="reward-item">
-                                <img src={`${reward.icon}`} alt={reward.reward_name} className="reward-icon" />
+                                <img src={reward.icon} className="reward-icon" alt={reward.reward_name} />
                                 <div className="reward-details">
-                                    <strong>{reward.reward_name}</strong>: {reward.description}
+                                    <strong>{reward.reward_name}</strong><br />
+                                    <span>{reward.description}</span>
                                 </div>
                             </li>
                         ))}
                     </ul>
                 </div>
             </div>
+
+
         </>
     );
 };
