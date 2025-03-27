@@ -113,16 +113,11 @@ function Header() {
     {
       key: "5",
       label: <a href="/recent-products">Sản phẩm đã xem gần đây</a>,
-<<<<<<< HEAD
       icon: iconViewProductNewHistory,
-=======
-      icon: iconBills,
->>>>>>> d5952268544720ae51ebd15f204b64f9421e5943
     },
     {
       key: "6",
       label: <a href="/OrderandVoucher">Order & Voucher</a>,
-<<<<<<< HEAD
       icon: iconVoucher ,
     },
     {
@@ -138,17 +133,6 @@ function Header() {
     {
       key: '9',
       label: <a href="/login">{user ? 'Đăng xuất' : 'Đăng nhập'}</a>,
-=======
-      // icon: iconVoucher,
-    },
-    {
-      key: "7",
-      label: <a href="/Bills">Các Loại Hóa Đơn</a>,
-    },
-    {
-      key: "8",
-      label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
->>>>>>> d5952268544720ae51ebd15f204b64f9421e5943
       icon: iconLogin,
     },
   ];

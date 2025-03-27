@@ -243,7 +243,7 @@ function Main() {
               }}
             >
               <button
-                style={{ padding: "0.2vw", fontSize: "1vw" }}
+                style={{ top:"-5vh", padding: "0.2vw", fontSize: "1vw" }}
                 onClick={prevPageSuggestShopFollowed}
               >
                 Trước
@@ -275,7 +275,7 @@ function Main() {
             <button
               style={{
                 position: "absolute",
-                top: "61%",
+                top: "55vh",
                 right: "5vw",
                 padding: "0.5vw",
                 borderRadius: "30%",
@@ -287,7 +287,7 @@ function Main() {
             <button
               style={{
                 position: "absolute",
-                top: "61%",
+                top: "55vh",
                 left: "5vw",
                 padding: "0.5vw",
                 borderRadius: "30%",
@@ -472,7 +472,7 @@ function Main() {
             <button
               style={{
                 position: "absolute",
-                top: "150%",
+                top: "145vh",
                 right: "5vw",
                 padding: "0.5vw",
                 borderRadius: "30%",
@@ -484,7 +484,7 @@ function Main() {
             <button
               style={{
                 position: "absolute",
-                top: "150%",
+                top: "145vh",
                 left: "5vw",
                 padding: "0.5vw",
                 borderRadius: "30%",

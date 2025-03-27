@@ -20,7 +20,7 @@ function Notification() {
     order_ID,
     setOrder_ID,
     voucher_ID,
-    setVoucher_ID,
+    setVoucher_ID, 
     notificationsList = [],
     setNotificationsList, 
     setImg
@@ -279,7 +279,7 @@ function Notification() {
             <span className={styles.highlight}>{item.Status}</span>
           </div>
           <div className={styles.show_noti_item}>
-            {new Date(item.DeliveryTime).toLocaleString("vi-VN", {
+            {new Date(item.CreateAt).toLocaleString("vi-VN", {
               timeZone: "Asia/Ho_Chi_Minh",
             })}
           </div>

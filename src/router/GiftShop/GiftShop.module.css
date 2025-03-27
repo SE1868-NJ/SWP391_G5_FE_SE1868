@@ -1,17 +1,8 @@
 .storeVoucher {
-<<<<<<< HEAD
-    flex-grow: 1;
-    background-color: white;
-    padding: 0 20px;
-}
-
-/* button {
-=======
   flex-grow: 1;
   background-color: white;
   padding: 0 20px;
   button {
->>>>>>> d5952268544720ae51ebd15f204b64f9421e5943
     margin-left: 20px;
     width: 120px;
     height: 45px;
@@ -25,12 +16,8 @@
     background-color: white;
     margin: 3px;
     transition: background 0.3s;
-<<<<<<< HEAD
-} */
-=======
   }
 }
->>>>>>> d5952268544720ae51ebd15f204b64f9421e5943
 
 .saveButton {
   background-color: #ff0000;
