@@ -261,11 +261,13 @@ function Order() {
   async function checkout() {
     const totalPayment = totalPrice - chooseVoucher.Discount;
     const OrderInfor = [];
+    console.log("selectCart: ", selectCart);
     selectCart.map((item) =>
       OrderInfor.push({
         feeShip: item.feeShip,
         productID: item.productID,
         productImg: item.ProductImg,
+        productCategory: item.productCategory,
         Quantity: item.Quantity,
         CartDetailID: item.cartID || null,
         distance: Math.random() * 6,

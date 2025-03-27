@@ -376,6 +376,61 @@ export const iconBill = (
   </svg>
 );
 
+export const iconViewProductNewHistory = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M19 3H5c-1.1 0-1.99.89-1.99 2L3 19c0 1.1.89 2 1.99 2H19c1.1 0 2-.89 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM12 7v4l3-3-3-3v4H9l3 3 3-3z"
+      fill="#000000"
+    />
+  </svg>
+);
+
+export const iconGame = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M18 9V3H6v6H3v12h18V9h-3zM8 4h8v4H8V4zM5 16h14v4H5v-4z"
+      fill="#000000"
+    />
+  </svg>
+);
+
+
+
+export const iconVoucher = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14h-2v-2h2v2zm0-4h-2V7h2v6z"
+      fill="#000000"
+    />
+  </svg>
+);
+
+
+
 
 // export const chatIcon =
 //   (
