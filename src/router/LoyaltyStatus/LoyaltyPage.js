@@ -1,26 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Thêm useNavigate để chuyển trang
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./LoyaltyPage.css";
 import Header from "../../layout/Header/Header";
 
-
-const tierThresholds = {
-    Silver: { orders: 3, spent: 1000000 },
-    Gold: { orders: 6, spent: 3000000 },
-    Diamond: { orders: 10, spent: 5000000 }
-};
-
-const tierIcons = {
-    Bronze: "/bronze.png",
-    Silver: "/silver.png",
-    Gold: "/gold.png",
-    Diamond: "/diamond.png"
-};
-
 const LoyaltyPage = () => {
     const { customerId } = useParams();
-    const navigate = useNavigate(); // Hook để chuyển trang
+    const navigate = useNavigate();
     const [loyaltyInfo, setLoyaltyInfo] = useState(null);
 
     useEffect(() => {
@@ -37,16 +23,36 @@ const LoyaltyPage = () => {
 
     if (!loyaltyInfo) return <div className="loading">Loading...</div>;
 
-    const { currentTier, totalOrders, totalSpent, name, email, rewards } = loyaltyInfo;
+    const {
+        currentTier,
+        totalOrders,
+        totalSpent,
+        name,
+        rewards,
+        tierThresholds // từ backend
+    } = loyaltyInfo;
 
-    // Xác định tier tiếp theo
-    const nextTier = currentTier === "Bronze" ? "Silver" :
-        currentTier === "Silver" ? "Gold" :
-            currentTier === "Gold" ? "Diamond" : null;
+    // Sắp xếp thứ hạng theo điều kiện tăng dần
+    const sortedTiers = [...tierThresholds].sort((a, b) => a.required_orders - b.required_orders);
+    const tierNames = sortedTiers.map(t => t.tier);
+    const currentIndex = tierNames.indexOf(currentTier);
+    const nextTier = tierNames[currentIndex + 1] || null;
 
-    const nextTierGoal = nextTier ? tierThresholds[nextTier] : null;
-    const ordersProgress = nextTierGoal ? (totalOrders / nextTierGoal.orders) * 100 : 100;
-    const spentProgress = nextTierGoal ? (totalSpent / nextTierGoal.spent) * 100 : 100;
+    const nextTierGoal = nextTier
+        ? sortedTiers.find(t => t.tier === nextTier)
+        : null;
+
+    const ordersProgress = nextTierGoal
+        ? (totalOrders / nextTierGoal.required_orders) * 100
+        : 100;
+
+    const spentProgress = nextTierGoal
+        ? (totalSpent / nextTierGoal.required_spent) * 100
+        : 100;
+
+    // Tìm icon của tier hiện tại
+    const currentTierInfo = sortedTiers.find(t => t.tier === currentTier);
+    const currentTierIcon = currentTierInfo?.icon || "";
 
     return (
         <>
@@ -60,26 +66,47 @@ const LoyaltyPage = () => {
                                 <h2 className="member-title">THÀNH VIÊN</h2>
                                 <p className="loyalty-name">
                                     {name}
-                                    <img src={tierIcons[currentTier]} alt={currentTier} className="tier-icon-inline" />
+                                    {currentTierIcon && (
+                                        <img
+                                            src={currentTierIcon}
+                                            alt={currentTier}
+                                            className="tier-icon-inline"
+                                        />
+                                    )}
                                 </p>
-                                <p className="loyalty-tier-name">Hạng hiện tại: <strong>{currentTier}</strong></p>
+                                <p className="loyalty-tier-name">
+                                    Hạng hiện tại: <strong>{currentTier}</strong>
+                                </p>
                             </div>
-                            <button className="loyalty-detail-btn" onClick={() => navigate(`/loyalty-history/${customerId}`)}>Chi tiết </button>
+                            <button
+                                className="loyalty-detail-btn"
+                                onClick={() => navigate(`/loyalty-history/${customerId}`)}
+                            >
+                                Chi tiết
+                            </button>
                         </div>
 
-                        {nextTier && (
+                        {nextTier && nextTierGoal && (
                             <div className="loyalty-progress-card">
                                 <p className="upgrade-title">Để nâng thứ hạng tiếp theo ({nextTier})</p>
                                 <div className="progress-row">
                                     <div className="progress-column">
                                         <p>Đơn hàng</p>
-                                        <p className="highlight">{totalOrders}/{nextTierGoal.orders}</p>
-                                        <div className="bar"><div className="fill" style={{ width: `${ordersProgress}%` }}></div></div>
+                                        <p className="highlight">
+                                            {totalOrders}/{nextTierGoal.required_orders}
+                                        </p>
+                                        <div className="bar">
+                                            <div className="fill" style={{ width: `${ordersProgress}%` }}></div>
+                                        </div>
                                     </div>
                                     <div className="progress-column">
                                         <p>Chi tiêu</p>
-                                        <p className="highlight">{totalSpent.toLocaleString()}₫ / {nextTierGoal.spent.toLocaleString()}₫</p>
-                                        <div className="bar"><div className="fill" style={{ width: `${spentProgress}%` }}></div></div>
+                                        <p className="highlight">
+                                            {totalSpent.toLocaleString()}₫ / {nextTierGoal.required_spent.toLocaleString()}₫
+                                        </p>
+                                        <div className="bar">
+                                            <div className="fill" style={{ width: `${spentProgress}%` }}></div>
+                                        </div>
                                     </div>
                                 </div>
                                 <p className="update-note">Thứ hạng sẽ được cập nhật lại sau 30.06.2025</p>
@@ -94,7 +121,11 @@ const LoyaltyPage = () => {
                     <ul className="reward-list">
                         {rewards.map((reward, index) => (
                             <li key={index} className="reward-item">
-                                <img src={reward.icon} className="reward-icon" alt={reward.reward_name} />
+                                <img
+                                    src={reward.icon}
+                                    className="reward-icon"
+                                    alt={reward.reward_name}
+                                />
                                 <div className="reward-details">
                                     <strong>{reward.reward_name}</strong><br />
                                     <span>{reward.description}</span>
@@ -104,8 +135,6 @@ const LoyaltyPage = () => {
                     </ul>
                 </div>
             </div>
-
-
         </>
     );
 };
