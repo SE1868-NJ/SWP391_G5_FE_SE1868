@@ -114,3 +114,18 @@
 .card_button:hover {
     background-color: rgb(3, 105, 161);
 }
+
+.fly_to_cart {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    transition: transform 0.7s ease-in-out, opacity 0.7s;
+    z-index: 1000;
+}
+
+.fly_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
