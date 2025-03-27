@@ -67,7 +67,7 @@ const MyBlog = () => {
                     <h2 className={styles.title}>Blog của tôi</h2>
                 </div>
                 {blogs.length === 0 ? (
-                    <p>Bạn chưa có blog nào</p>
+                    <p style={{ textAlign: "center" }}>Bạn chưa có blog nào</p>
                 ) : (
                     <div className={styles.content}>
                         {blogs.map((blog) => (
