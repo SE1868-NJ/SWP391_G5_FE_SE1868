@@ -276,7 +276,7 @@ function Order() {
     const voucherChoose = [...bestVoucherShop, chooseVoucher];
     if (paymentMethod === "Trả trước") {
       const response = await axios.post(
-        "http://localhost:3001/api/Order/create_payment_url",
+        "http://localhost:3001/api/Order/prepay",
         { address, OrderInfor, voucherChoose, totalPayment, cusID }
       );
       window.location.href = response.data.payUrl;

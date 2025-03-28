@@ -8,7 +8,7 @@ import { ShopContext } from "../../globalContext/ShopContext";
 import { useNavigate } from "react-router";
 import { updateCart } from "../../service/cart";
 import { useCart } from "../../globalContext/CartContext";
-
+import ReactPlayer from "react-player";
 
 function Main() {
   let navigate = useNavigate();
@@ -36,6 +36,7 @@ function Main() {
   const [productIDTym, setProductIDTym] = useState("");
   const [categoryLove, setCategoryLove] = useState("");
   const [activeAddTym, setActiveAddTym] = useState(false);
+  const [videoList, setVideoList] = useState([]);
   const itemsPerPage = 8;
 
   // Để điều khiển trang sản phẩm các shop theo dõi
@@ -66,7 +67,6 @@ function Main() {
     behaviorCustomerProducts?.length / itemsPerPage
   );
 
-  
   const currentProductsSuggestBehavior =
     behaviorCustomerProducts?.slice(
       (currentPageSuggestBehavior - 1) * itemsPerPage,
@@ -98,7 +98,17 @@ function Main() {
       setCurrentPageSuggestShopFollowed(1);
     }
   };
-
+  useEffect(() => {
+    fetchVideo();
+  }, []);
+  async function fetchVideo() {
+    const res = await axios.post("http://localhost:3001/api/Video/getVideo");
+    setVideoList(res.data);
+    console.log(res.data);
+  }
+  async function hanldeVideo(id){
+    navigate(`/video/${id}`)
+  }
   const fetchAddProductFavorite = async (
     productIDTym,
     categoryLove,
@@ -151,7 +161,6 @@ function Main() {
           },
         }
       );
-
 
       setFavouriteProducts((prev) => {
         const updatedFavorites = { ...prev };
@@ -243,7 +252,7 @@ function Main() {
               }}
             >
               <button
-                style={{ top:"-5vh", padding: "0.2vw", fontSize: "1vw" }}
+                style={{ top: "-5vh", padding: "0.2vw", fontSize: "1vw" }}
                 onClick={prevPageSuggestShopFollowed}
               >
                 Trước
@@ -832,7 +841,21 @@ function Main() {
       </div>
       <div>
         <h3>Các video phổ biến</h3>
-        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Wagy4pv7-Rg?si=cQyxht3LsoUQ5XYe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div className={styles.videoContainer}>
+          {videoList.length > 0 &&
+            videoList.map((item) => (
+              <div className={styles.video} onClick={() => hanldeVideo(item.VideoID)}>
+                <ReactPlayer
+                  url={item.VideoUrl}
+                  loop
+                  muted
+                  playing
+                  height="35.5vw"
+                  width="20vw"
+                />
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );

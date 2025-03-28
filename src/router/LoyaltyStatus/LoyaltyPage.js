@@ -29,7 +29,7 @@ const LoyaltyPage = () => {
         totalSpent,
         name,
         rewards,
-        tierThresholds // từ backend
+        tierThresholds
     } = loyaltyInfo;
 
     // Sắp xếp thứ hạng theo điều kiện tăng dần

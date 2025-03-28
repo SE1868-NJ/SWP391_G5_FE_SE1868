@@ -129,12 +129,12 @@ function ViewOrder() {
   const handleSubmit = async () => {
     console.log(formReview);
     if (formReview.category == "" || formReview.reviewText == "") {
+      console.log(123)
       setFillRating(true);
       setTimeout(() => {
         setFillRating(false);
       }, 2000);
-      return;
-    }
+    }else{
     const cusID = customer.id;
     let categoryID;
     if (formReview.category === "product") {
@@ -154,6 +154,7 @@ function ViewOrder() {
       await setMessPopup("thất bại");
     }
     closeReviewPopup();
+    }
   };
   async function payment(orders) {
     const response = await axios.post(
@@ -447,7 +448,7 @@ function ViewOrder() {
         ""
       )}
       {fillRatring ? (
-        <div className={styles.share}>Báo cáo thành công</div>
+        <div className={styles.share}>Hãy điền đầy đủ thông tin</div>
       ) : (
         ""
       )}
