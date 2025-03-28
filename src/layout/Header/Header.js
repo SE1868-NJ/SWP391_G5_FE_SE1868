@@ -9,6 +9,7 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n.js";
 import { useCart } from "../../globalContext/CartContext.js";
+import { useAuth } from "../../globalContext/AuthContext.js";
 import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
 import {
   iconCart,
@@ -29,6 +30,7 @@ import {
 
 function Header() {
   const navigate = useNavigate();
+  const {logout} = useAuth();
   const [user, setUser] = useState(null);
   const { theme } = useContext(ThemeContext);
   const { t } = useTranslation();

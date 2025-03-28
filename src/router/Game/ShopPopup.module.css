@@ -9,8 +9,6 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   width: 300px;
-}
-
   button {
     padding: 8px 12px;
     margin-top: 5px;
@@ -25,7 +23,7 @@
     background: gray;
     cursor: not-allowed;
   }
-
+}
 
 .shopContent {
   text-align: center;

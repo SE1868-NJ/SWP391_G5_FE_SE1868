@@ -19,6 +19,20 @@
     color: orange;
   }
 }
+
+.share {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20vw;
+  border: 2px solid black;
+  height: 10vh;
+  background-color: white;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .choose {
   color: orange;
   border-bottom: 2px solid orange !important;
