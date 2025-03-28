@@ -31,7 +31,7 @@ import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRe
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import BlogList from "./router/Blog/Blog.js";
 import BlogDetail from "./router/Blog/BlogDetail.js";
-import CreateBlog from "./router/Blog/CreateBlog.js";
+import CreateBlog from "./router/Blog/CreateBlog.js"; 
 import UpdateBlog from "./router/Blog/UpdateBlog.js";
 import MyBlog from "./router/Blog/MyBlog.js";
 import ContactInfo from "./layout/ContactInfo/ContactInfo.js";
@@ -46,6 +46,7 @@ import { CartProvider } from "./globalContext/CartContext.js";
 import Gift from "./router/GiftShop/Gift.js";
 import Game from "./router/Game/Game.jsx";
 import { RecentProducts } from "./components/products/RecentProduct.jsx";
+import Register from "./layout/Login/Register.jsx";
 
 // 🛠️ HÀM AppContent() - Định nghĩa nội dung ứng dụng
 function AppContent() {
@@ -94,6 +95,7 @@ function AppContent() {
         <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
         <Route path="/support/request" element={<SupportRequest />} />
         <Route path="/support/history" element={<SupportHistory />} />
+        <Route path="/register" element={<Register />}/>
         <Route
           path="/support/history/:id"
           element={<SupportRequestDetails />}
