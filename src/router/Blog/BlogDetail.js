@@ -95,9 +95,18 @@ const BlogDetail = () => {
     };
 
     const toggleLike = async () => {
+        if (!customerID) {
+            Swal.fire({
+                title: 'Chưa đăng nhập!',
+                text: 'Bạn cần đăng nhập để thích bài viết này',
+                confirmButtonText: 'OK',
+            });
+            return;
+        }
+
         try {
             const action = isLiked ? "unlike" : "like";
-            await axios.post(`http://localhost:3001/api/blog/${id}/like`, { 
+            await axios.post(`http://localhost:3001/api/blog/${id}/like`, {
                 action,
                 customerID,
             });
@@ -137,7 +146,14 @@ const BlogDetail = () => {
     };
 
     const handleSubmitComment = async () => {
-        if (!newComment.trim() || !customerID) return;
+        if (!newComment.trim() || !customerID) {
+            Swal.fire({
+                title: 'Chưa đăng nhập!',
+                text: 'Bạn cần đăng nhập để bình luận',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
 
         try {
             if (editComment) {
@@ -166,7 +182,9 @@ const BlogDetail = () => {
                 <div className={styles.topPage}>
                     <button className={styles.backButton} onClick={() => navigate(`/blog`)}>Quay lại</button>
                     <h2 className={styles.title}>{blog.Title}</h2>
-                    <button className={styles.editButton} onClick={() => navigate(`/blog/update/${id}`)}>Sửa</button>
+                    {blog.CustomerID === customerID && (
+                        <button className={styles.editButton} onClick={() => navigate(`/blog/update/${id}`)}>Sửa</button>
+                    )}
                 </div>
                 <div className={styles.infoWrapper}>
                     <p className={styles.category}>

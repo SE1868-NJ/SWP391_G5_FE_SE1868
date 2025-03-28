@@ -1,126 +1,201 @@
-/* ============================ */
-/* Global container */
 .container {
-    max-width: 1300px;
-    margin: 50px auto;
+    max-width: 1200px;
+    margin: 30px auto;
     padding: 20px;
-    background: white;
-    border-radius: 10px;
+    background-color: white;
+    border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
 }
 
-/* Tiêu đề */
+.banner {
+    background-color: #FF5E14;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    margin-bottom: 20px;
+}
+
 .title {
     font-size: 26px;
     font-weight: bold;
-    color: #f04e30;
-    margin-bottom: 20px;
-
 }
 
-/* ============================ */
-/* Thống kê tiếp thị */
-.statsBox {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+.userName {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.section {
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
     padding: 15px;
-    background: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.statsItem {
+.subtitle {
+    font-size: 20px;
+    color: #FF5E14;
+    margin-bottom: 10px;
+}
+
+.statsItem,
+.historyItem {
+    padding: 8px 0;
     display: flex;
-    align-items: center;
     gap: 20px;
-    /* Tăng khoảng cách giữa các nhóm */
-    padding: 12px;
-    justify-content: flex-start;
-
+    border-bottom: 1px solid #eaeaea;
 }
 
-/* Icon chuẩn kích thước */
-.iconGroup {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    /* Giữ icon và text gần nhau */
-}
-
-.icon {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-}
-
-/* Đồng bộ văn bản */
 .label {
     font-weight: bold;
-    color: #333;
+    color: #FF5E14;
 }
 
-/* ============================ */
-/* Form nhập mã */
 .form {
-    margin-top: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 10px;
+    margin-top: 10px;
 }
 
 .input {
-    width: 60%;
-    padding: 10px;
-    border: 1px solid #ddd;
+    flex: 1;
+    padding: 8px;
     border-radius: 5px;
-    font-size: 16px;
-    outline: none;
+    border: 1px solid #ddd;
+    outline-color: #FF5E14;
 }
 
-.input:focus {
-    border-color: #007bff;
-}
-
-/* Nút gửi */
 .button {
-    padding: 10px 15px;
-    border: none;
-    background: #007bff;
+    background-color: #FF5E14;
     color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 6px;
+    border-radius: 5px;
+    padding: 8px 15px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    border: none;
 }
 
-.button:hover {
-    background: #0056b3;
+.success {
+    color: green;
+    margin-top: 10px;
 }
 
-/* ============================ */
-/* Lịch sử tiếp thị */
-.historyBox {
-    margin-top: 15px;
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+.noData {
+    color: #999;
+    font-style: italic;
+}
+
+.date {
+    color: #777;
+    font-size: 14px;
+    margin-left: auto;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.banner {
+    background-color: #FF5E14;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.userName {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.section {
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
     padding: 15px;
-    background: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.subtitle {
+    font-size: 20px;
+    color: #FF5E14;
+    margin-bottom: 10px;
+}
+
+.statsItem,
 .historyItem {
-    font-size: 16px;
-    margin: 5px 0;
+    padding: 8px 0;
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.label {
+    font-weight: bold;
+    color: #FF5E14;
+}
+
+.form {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    outline-color: #FF5E14;
+}
+
+.button {
+    background-color: #FF5E14;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    border: none;
+}
+
+.success {
+    color: green;
+    margin-top: 10px;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+.noData {
+    color: #999;
+    font-style: italic;
 }
 
 .date {
-    color: #555;
-    font-style: italic;
+    color: #777;
+    font-size: 14px;
+    margin-left: auto;
 }
+
+
+
 
 
 
@@ -138,14 +213,22 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Từng nhóm thông tin */
 .statsItem {
     display: flex;
-    align-items: center;
-    gap: 6px;
-    /* Khoảng cách giữa icon và text */
-
+    gap: 20px;
+    border-bottom: 1px solid #eaeaea;
+    padding: 8px 0;
+    color: black !important;
+    /* thêm vào đây */
 }
+
+.statsItem .label {
+    font-weight: bold;
+    color: black !important;
+    /* thêm vào đây */
+}
+
+
 
 /* Icon chuẩn kích thước */
 .icon {
