@@ -1,62 +1,101 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import styles from "./Register.module.css";
+import { register } from "../../service/register";
 import Footer from "../Footer/Footer";
 
+
+
+
 const Register = () => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [dateOfBirth, setDateOfBirth] = useState("");
-    const [bankAccount, setBankAccount] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [formData, setFormData] = useState({
+        FirstName: "",
+        LastName: "",
+        Email: "",
+        password: "",
+        confirmPassword: "",
+        DateOfBirth: "",
+        BankAccountNumber: "",
+        PhoneNumber: "",
+        Gender: "0",
+        Avatar: ""
+    });
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    
 
-    const handleRegister = async (e) => {
-        e.preventDefault();
-        if (password !== confirmPassword) {
-            setError("Mật khẩu xác nhận không khớp!");
-            return;
-        }
-
-        try {
-            const response = await axios.post("http://localhost:3001/customers/register", {
-                FirstName: firstName,
-                LastName: lastName,
-                Email: email,
-                DateOfBirth: dateOfBirth,
-                BankAccount: bankAccount,
-                password: password
-            });
-
-            if (response.status === 201) {
-                navigate("/login"); // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
-            }
-        } catch (error) {
-            console.error("Lỗi khi đăng ký:", error);
-            setError("Đăng ký không thành công. Vui lòng thử lại!");
-        }
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
     };
 
+    const validateForm = () => {
+        if (!formData.FirstName || !formData.LastName || !formData.Email || !formData.password) {
+            return "Vui lòng nhập đầy đủ thông tin!";
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.Email)) {
+            return "Email không hợp lệ!";
+        }
+
+        if (formData.password !== formData.confirmPassword) {
+            return "Mật khẩu nhập lại không khớp!";
+        }
+        if (formData.PhoneNumber && !/^\d+$/.test(formData.PhoneNumber)) {
+            return "Số điện thoại không hợp lệ!";
+        }
+        return null;
+    };
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        setError("");
+        setSuccess("");
+        const validationError = validateForm();
+        if (validationError) {
+            setError(validationError);
+            return;
+        }
+        setLoading(true);
+        try {
+            const response = await register(formData);
+            console.log("Response từ server:", response);
+            if (response.data.success) {
+                setSuccess("Đăng ký thành công");
+                    navigate("/login");
+            } else {
+                setError(response.message);
+            }
+        } catch (error) {
+            console.error("Lỗi:", error);
+            setError("Lỗi kết nối đến server.");
+        }
+        setLoading(false);
+    };
     return (
         <div className={styles.container}>
             <div className={styles.registerBox}>
                 <h1>Đăng ký</h1>
                 {error && <p className={styles.error}>{error}</p>}
+                {success && <p className={styles.success}>{success}</p>}
                 <form onSubmit={handleRegister} className={styles.form}>
-                    <input type="text" placeholder="Họ" value={firstName} onChange={(e) => setFirstName(e.target.value)} required className={styles.input} />
-                    <input type="text" placeholder="Tên" value={lastName} onChange={(e) => setLastName(e.target.value)} required className={styles.input} />
-                    <input type="email" placeholder="Nhập email" value={email} onChange={(e) => setEmail(e.target.value)} required className={styles.input} />
-                    <input type="date" placeholder="Ngày sinh" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} required className={styles.input} />
-                    <input type="text" placeholder="Số tài khoản ngân hàng" value={bankAccount} onChange={(e) => setBankAccount(e.target.value)} required className={styles.input} />
-                    <input type="password" placeholder="Nhập mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)} required className={styles.input} />
-                    <input type="password" placeholder="Xác nhận mật khẩu" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className={styles.input} />
-                    <button type="submit" className={styles.button}>Đăng ký</button>
+                    <input type="text" name="FirstName" placeholder="Họ" value={formData.FirstName} onChange={handleChange} required className={styles.input} />
+                    <input type="text" name="LastName" placeholder="Tên" value={formData.LastName} onChange={handleChange} required className={styles.input} />
+                    <input type="email" name="Email" placeholder="Email" value={formData.Email} onChange={handleChange} required className={styles.input} />
+                    <input type="date" name="DateOfBirth" value={formData.DateOfBirth} onChange={handleChange} className={styles.input} />
+                    <input type="password" name="password" placeholder="Mật khẩu" value={formData.password} onChange={handleChange} required className={styles.input} />
+                    <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" value={formData.confirmPassword} onChange={handleChange} required className={styles.input} />
+                    <input type="text" name="BankAccountNumber" placeholder="Số tài khoản ngân hàng" value={formData.BankAccountNumber} onChange={handleChange} className={styles.input} />
+                    <input type="text" name="PhoneNumber" placeholder="Số điện thoại" value={formData.PhoneNumber} onChange={handleChange} className={styles.input} />
+                    <select name="Gender" value={formData.Gender} onChange={handleChange} className={styles.input}>
+                        <option value="0">Nam</option>
+                        <option value="1">Nữ</option>
+                    </select>
+                    <button type="submit" className={styles.button}>{loading ? "Đang đăng ký..." : "Đăng ký"}</button>
                     <button type="button" className={styles.loginButton} onClick={() => navigate("/login")}>
-                        Đăng nhập
+                        Quay lại Đăng nhập
                     </button>
                 </form>
             </div>

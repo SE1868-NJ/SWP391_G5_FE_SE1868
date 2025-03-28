@@ -8,8 +8,8 @@ import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n.js";
-import { useCart } from "../../globalContext/CartContext.js";
 import { useAuth } from "../../globalContext/AuthContext.js";
+import { useCart } from "../../globalContext/CartContext.js";
 import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
 import {
   iconCart,
@@ -51,6 +51,11 @@ function Header() {
     }
   }, []);
 
+  const handleLogout = () => {
+    logout();
+    setUser(null);
+    navigate("/login");
+  };
   useEffect(() => {
     if (user?.id) {
       fetchCartCount();

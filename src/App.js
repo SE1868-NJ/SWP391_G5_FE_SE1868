@@ -64,6 +64,7 @@ function AppContent() {
       ></header>
 
       <Routes>
+        <Route path="/register" element={<Register />}/>
         <Route path="/OrderCheckOut" element={<Order />} />
         <Route path="/TransactionHistory" element={<TransactionHistory />} />
         <Route path="/Bills" element={<Bills />} />
