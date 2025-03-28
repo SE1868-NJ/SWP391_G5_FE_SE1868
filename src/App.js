@@ -46,6 +46,7 @@ import { CartProvider } from "./globalContext/CartContext.js";
 import Gift from "./router/GiftShop/Gift.js";
 import Game from "./router/Game/Game.jsx";
 import { RecentProducts } from "./components/products/RecentProduct.jsx";
+import Register from "./layout/Login/Register.jsx";
 
 // 🛠️ HÀM AppContent() - Định nghĩa nội dung ứng dụng
 function AppContent() {
@@ -63,6 +64,7 @@ function AppContent() {
       ></header>
 
       <Routes>
+        <Route path="/register" element={<Register />}/>
         <Route path="/OrderCheckOut" element={<Order />} />
         <Route path="/TransactionHistory" element={<TransactionHistory />} />
         <Route path="/Bills" element={<Bills />} />

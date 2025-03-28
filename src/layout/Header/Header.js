@@ -7,7 +7,8 @@ import { Dropdown, Space } from "antd";
 import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
-import "../../i18n.js";
+import "../../i18n.js"
+import { useAuth } from "../../globalContext/AuthContext.js"
 import { useCart } from "../../globalContext/CartContext.js";
 import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
 import {
@@ -30,6 +31,7 @@ import {
 function Header() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const { logout } = useAuth(); 
   const { theme } = useContext(ThemeContext);
   const { t } = useTranslation();
   const { cartCount, fetchCartCount } = useCart();
@@ -47,6 +49,11 @@ function Header() {
     }
   }, []);
 
+  const handleLogout = () => {
+    logout(); 
+    setUser(null); 
+    navigate("/login"); 
+  };
   useEffect(() => {
     if (user?.id) {
       fetchCartCount();
@@ -131,8 +138,14 @@ function Header() {
       icon: iconHistory, 
     },
     {
-      key: '9',
-      label: <a href="/login">{user ? 'Đăng xuất' : 'Đăng nhập'}</a>,
+      key: "9",
+      label: user ? (
+        <span onClick={handleLogout} style={{ cursor: "pointer", color: "red" }}>
+          Đăng xuất
+        </span>
+      ) : (
+        <a href="/login">Đăng nhập</a>
+      ),
       icon: iconLogin,
     },
   ];
