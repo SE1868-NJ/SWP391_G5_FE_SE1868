@@ -10,22 +10,20 @@
   z-index: 1000;
   width: 300px;
 }
+button {
+  padding: 8px 12px;
+  margin-top: 5px;
+  cursor: pointer;
+  border: none;
+  background: rgb(255, 0, 0);
+  color: white;
+  border-radius: 5px;
+}
 
-  button {
-    padding: 8px 12px;
-    margin-top: 5px;
-    cursor: pointer;
-    border: none;
-    background: rgb(255, 0, 0);
-    color: white;
-    border-radius: 5px;
-  }
-
-  button:disabled {
-    background: gray;
-    cursor: not-allowed;
-  }
-
+button:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
 
 .shopContent {
   text-align: center;

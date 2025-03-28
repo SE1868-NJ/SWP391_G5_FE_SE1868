@@ -74,7 +74,6 @@ const Register = () => {
         }
         setLoading(false);
     };
-    
     return (
         <div className={styles.container}>
             <div className={styles.registerBox}>

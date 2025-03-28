@@ -18,6 +18,7 @@ function ViewOrder() {
   const [favorites, setFavorites] = useState([]);
   const [indexList, setIndexList] = useState(0);
   const [orderBuyAgain, setOrderBuyAgain] = useState();
+  const [fillRatring, setFillRating] = useState(false);
   const Rating = [1, 2, 3, 4, 5];
   const [formReview, setFormReview] = useState({
     category: "",
@@ -127,8 +128,11 @@ function ViewOrder() {
 
   const handleSubmit = async () => {
     console.log(formReview);
-    if (formReview.category === "" || formReview.reviewText === "") {
-      alert("hãy nhập đủ thông tin");
+    if (formReview.category == "" || formReview.reviewText == "") {
+      setFillRating(true);
+      setTimeout(() => {
+        setFillRating(false);
+      }, 2000);
       return;
     }
     const cusID = customer.id;
@@ -439,6 +443,11 @@ function ViewOrder() {
             <button onClick={() => buyAgain()}>Mua lại</button>
           </div>
         </div>
+      ) : (
+        ""
+      )}
+      {fillRatring ? (
+        <div className={styles.share}>Báo cáo thành công</div>
       ) : (
         ""
       )}

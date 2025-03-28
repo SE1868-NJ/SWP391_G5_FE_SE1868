@@ -49,6 +49,7 @@ const UpdateBlog = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
+                console.log(123)
                 const response = await axios.get("http://localhost:3001/api/blogcategory");
                 setCategories(response.data);
             } catch (error) {
