@@ -30,9 +30,11 @@ const Breadcrumb = () => {
     // Lấy tiêu đề của item nếu có
     useEffect(() => {
         const fetchItemTitle = async () => {
-            if (pathnames[0] === "category" && pathnames.length === 3) {
-                const categorySlug = pathnames[1];
-                const itemId = pathnames[2];
+            const pathParts = location.pathname.split("/").filter((x) => x);
+
+            if (pathParts[0] === "category" && pathParts.length === 3) {
+                const categorySlug = pathParts[1];
+                const itemId = pathParts[2];
                 try {
                     const catRes = await axios.get("http://localhost:3001/api/categories");
                     const matchedCat = catRes.data.find((c) => c.link === `/category/${categorySlug}`);
@@ -49,6 +51,7 @@ const Breadcrumb = () => {
 
         fetchItemTitle();
     }, [location.pathname]);
+
 
     return (
         <nav className={styles.breadcrumb}>

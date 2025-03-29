@@ -5,7 +5,6 @@ import {
     BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend
 } from "recharts";
 import Header from "../../../layout/Header/Header";
-import Breadcrumb from "../../Portal/Breadcrumb/Breadcrumb";
 import styles from "./LoyaltyHistoryPage.module.css"; // Import CSS Module
 
 // Hàm định dạng tiền VNĐ

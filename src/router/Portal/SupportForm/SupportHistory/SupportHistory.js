@@ -27,7 +27,8 @@ const SupportHistory = () => {
                 setCategories(categoryMap);
             })
             .catch(error => console.error("Lỗi khi tải danh sách category!", error));
-    }, []);
+    }, [customerId]);
+
 
     // Lọc theo tiêu đề và trạng thái
     const filteredRequests = requests.filter(req =>
