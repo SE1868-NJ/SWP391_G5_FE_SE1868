@@ -158,7 +158,7 @@
 
 /* Hiển thị số tiền ngay bên dưới icon */
 .yAxisText {
-    transform: translateX(-35px) translateY(5px);
+    transform: translateX(-42px) translateY(5px);
     fill: #666;
     font-size: 14px;
     text-anchor: middle;
