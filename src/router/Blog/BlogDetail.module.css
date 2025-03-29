@@ -27,8 +27,8 @@
     font-size: 24px;
     font-weight: bold;
     color: #333;
-    text-align: center; /* Căn giữa tiêu đề */
-    flex-grow: 1; /* Giúp giữ vị trí trung tâm */
+    text-align: center;
+    flex-grow: 1;
 }
 
 .infoWrapper {
@@ -74,7 +74,7 @@
     font-size: 18px;
     color: #444;
     margin-bottom: 20px;
-    text-align: center; /* Căn giữa mô tả ngắn */
+    text-align: center;
 }
 
 .contentWrapper {

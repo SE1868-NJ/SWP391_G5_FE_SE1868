@@ -71,7 +71,7 @@ const UpdateBlog = () => {
     const handleCoverImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setCoverImage(file);  // Lưu file, không phải URL
+            setCoverImage(file);
         }
     };
 
