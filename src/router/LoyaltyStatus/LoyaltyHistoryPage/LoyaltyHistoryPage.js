@@ -49,14 +49,14 @@ const LoyaltyHistoryPage = () => {
                     return acc;
                 }, []);
 
-                // ✅ Sắp xếp theo ngày tăng dần (DD/MM/YYYY → YYYY/MM/DD)
+                // Sắp xếp theo ngày tăng dần (DD/MM/YYYY → YYYY/MM/DD)
                 groupedData.sort((a, b) => {
                     const dateA = new Date(a.transactionDate.split('/').reverse().join('/'));
                     const dateB = new Date(b.transactionDate.split('/').reverse().join('/'));
                     return dateA - dateB;
                 });
 
-                // ✅ Tính tổng dồn
+                // Tính tổng dồn
                 const cumulativeData = groupedData.map((item, index) => {
                     const prevTotal = index > 0 ? groupedData[index - 1].cumulativeAmount : 0;
                     const current = {
@@ -71,7 +71,7 @@ const LoyaltyHistoryPage = () => {
 
             })
             .catch((error) => {
-                console.error("❌ Error fetching loyalty history:", error);
+                console.error("Error fetching loyalty history:", error);
                 setHistory([]);
             });
 
@@ -80,7 +80,7 @@ const LoyaltyHistoryPage = () => {
             .then((res) => {
                 setTiers(res.data);
             })
-            .catch((err) => console.error("❌ Error fetching tiers:", err));
+            .catch((err) => console.error("Error fetching tiers:", err));
 
     }, [customerId]);
 
