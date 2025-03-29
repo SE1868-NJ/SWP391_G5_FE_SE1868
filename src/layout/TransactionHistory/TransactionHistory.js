@@ -26,7 +26,7 @@ const TransactionDetailsModal = ({ item, closeModal }) => {
             </p>
             <p>
               <strong>Số tiền ban đầu:</strong>{" "}
-              {Number(item.payment_amount || item.TotalAmount).toLocaleString()}{" "}
+              {Number(item.payment_amount || item.payment_amountOrder).toLocaleString()}{" "}
               VNĐ
             </p>
             <p>
@@ -43,13 +43,6 @@ const TransactionDetailsModal = ({ item, closeModal }) => {
               <strong>Trạng Thái:</strong> {item.status}
             </p>
             <p>
-              {item.quantity && (
-                <>
-                  <strong>Số Lượng:</strong> {item.quantity}
-                </>
-              )}
-            </p>
-            <p>
               {item.VoucherID && (
                 <>
                   <strong>Mã Giảm Giá:</strong> {item.VoucherID}
@@ -57,23 +50,9 @@ const TransactionDetailsModal = ({ item, closeModal }) => {
               )}
             </p>
             <p>
-              {item.discount && (
-                <>
-                  <strong>Được giảm:</strong> {item.discount}
-                </>
-              )}
-            </p>
-            <p>
-              {item.address && (
-                <>
-                  <strong>Địa Chỉ:</strong> {item.address}
-                </>
-              )}
-            </p>
-            <p>
               <strong>Tổng Tiền Thanh Toán:</strong>{" "}
               {(
-                (Number(item.payment_amount || item.TotalAmount) || 0) -
+                (Number(item.payment_amount || item.payment_amountOrder) || 0) -
                 (Number(item.discount) || 0)
               ).toLocaleString()}{" "}
               VNĐ
@@ -97,7 +76,6 @@ function TransactionHistory() {
   const [sortType, setSortType] = useState("Ngày thanh toán mới nhất");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(2);
-  const navigate = useNavigate();
 
   console.log(transactionHistoryList);
 
@@ -130,14 +108,21 @@ function TransactionHistory() {
           new Date(b.payment_date || b.end_date) -
           new Date(a.payment_date || a.end_date)
       );
-    } else if (sortValue === "Số tiền tăng dần") {
-      sortedBills = [...transactionHistoryList].sort(
-        (a, b) => a.bill_amount - b.bill_amount
-      );
+    }  else if (sortValue === "Số tiền tăng dần") {
+      // Sắp xếp theo số tiền tăng dần
+      sortedBills = [...transactionHistoryList].sort((a, b) => {
+        // Sử dụng payment_amount hoặc TotalAmount tùy theo trường hợp
+        const amountA = Number(a.payment_amount || a.payment_amountOrder) || 0;
+        const amountB = Number(b.payment_amount || b.payment_amountOrder) || 0;
+        return amountA - amountB; // Tăng dần
+      });
     } else if (sortValue === "Số tiền giảm dần") {
-      sortedBills = [...transactionHistoryList].sort(
-        (a, b) => b.bill_amount - a.bill_amount
-      );
+      // Sắp xếp theo số tiền giảm dần
+      sortedBills = [...transactionHistoryList].sort((a, b) => {
+        const amountA = Number(a.payment_amount || a.payment_amountOrder) || 0;
+        const amountB = Number(b.payment_amount || b.payment_amountOrder) || 0;
+        return amountB - amountA; // Giảm dần
+      });
     }
 
     setSortBillList(sortedBills);
@@ -358,7 +343,7 @@ function TransactionHistory() {
                     Tổng Tiền:{" "}
                     <span style={{ color: "#1e62f6" }}>
                       {(
-                        (Number(item.payment_amount || item.TotalAmount) || 0) -
+                        (Number(item.payment_amount || item.payment_amountOrder) || 0) -
                         (Number(item.discount) || 0)
                       ).toLocaleString()}{" "}
                       VNĐ

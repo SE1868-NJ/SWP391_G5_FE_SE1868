@@ -10,10 +10,10 @@ const Wheel = ({ customerID, closeWheel }) => {
   const [showResult, setShowResult] = useState(false); // Kiểm soát hiển thị kết quả
 
   const prizes = [
-    { label: "🎁 50 xu", value: 50, probability: 25 },
-    { label: "🎁 20 xu", value: 20, probability: 25 },
-    { label: "🎁 10 xu", value: 10, probability: 25 },
-    { label: "💔 Chúc may mắn lần sau", value: 0, probability: 25 },
+    { label: "🎁 50 xu", value: 50, probability: 0 },
+    { label: "🎁 20 xu", value: 20, probability: 0 },
+    { label: "🎁 10 xu", value: 10, probability: 0 },
+    { label: "💔 Chúc may mắn lần sau", value: 0, probability: 100 },
   ];
 
   const weightedPrizes = [];
@@ -27,8 +27,9 @@ const Wheel = ({ customerID, closeWheel }) => {
     try {
       setCustomerCoin((prev) => {
         const newCoin = prev + amount;
-        axios.put(`http://localhost:3001/customers/${customerID}`, { xu: newCoin })
-          .catch(error => console.error("❌ Lỗi khi cập nhật xu:", error));
+        axios
+          .put(`http://localhost:3001/customers/${customerID}`, { xu: newCoin })
+          .catch((error) => console.error("❌ Lỗi khi cập nhật xu:", error));
         return newCoin;
       });
     } catch (error) {
@@ -39,7 +40,9 @@ const Wheel = ({ customerID, closeWheel }) => {
   useEffect(() => {
     const fetchCustomerCoin = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/customers/${customerID}`);
+        const response = await axios.get(
+          `http://localhost:3001/customers/${customerID}`
+        );
         setCustomerCoin(response.data.xu);
       } catch (error) {
         console.error("❌ Lỗi khi lấy số xu:", error);
@@ -60,39 +63,38 @@ const Wheel = ({ customerID, closeWheel }) => {
       alert("Bạn không đủ xu để quay!");
       return;
     }
-  
+
     resetWheel(); // Reset vòng quay trước mỗi lần quay mới
-  
+
     setIsSpinning(true);
     updateCustomerCoin(-30); // Trừ 30 xu trước khi quay
-  
+
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * weightedPrizes.length);
       const result = weightedPrizes[randomIndex];
-  
+
       setSelectedPrize(result);
-      
+
       // Tính toán góc quay
-      const prizeIndex = prizes.findIndex(p => p.label === result.label);
+      const prizeIndex = prizes.findIndex((p) => p.label === result.label);
       const segmentAngle = 360 / prizes.length;
       const offset = 200;
-      const finalRotation = 360 * 5 - (segmentAngle * prizeIndex) + offset;
-      
+      const finalRotation = 360 * 5 - segmentAngle * prizeIndex + offset;
+
       setRotation(finalRotation);
-  
+
       setTimeout(() => {
         setIsSpinning(false);
         setShowResult(true);
-  
+
         // 🏆 Cập nhật số xu khi vòng quay hoàn tất
         if (result.value > 0) {
           updateCustomerCoin(result.value);
         }
-  
       }, 3000);
     }, 3000);
   };
-  
+
   return (
     <div className={styles.overlay}>
       <div className={styles.wheelPopup}>
@@ -102,7 +104,10 @@ const Wheel = ({ customerID, closeWheel }) => {
           {/* Mũi tên chỉ vào phần thưởng */}
           <div className={styles.pointer}></div>
 
-          <div className={styles.wheel} style={{ transform: `rotate(${rotation}deg)` }}>
+          <div
+            className={styles.wheel}
+            style={{ transform: `rotate(${rotation}deg)` }}
+          >
             {prizes.map((prize, index) => (
               <div
                 key={index}
@@ -124,10 +129,16 @@ const Wheel = ({ customerID, closeWheel }) => {
 
         {/* Hai nút đặt cạnh nhau */}
         <div className={styles.buttonContainer}>
-          <button className={styles.spinButton} onClick={spinWheel} disabled={isSpinning}>
+          <button
+            className={styles.spinButton}
+            onClick={spinWheel}
+            disabled={isSpinning}
+          >
             {isSpinning ? "Đang quay..." : "Quay....(-30 xu)"}
           </button>
-          <button className={styles.closeButton} onClick={closeWheel}>Đóng</button>
+          <button className={styles.closeButton} onClick={closeWheel}>
+            Đóng
+          </button>
         </div>
       </div>
     </div>

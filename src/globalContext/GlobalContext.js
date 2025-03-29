@@ -19,32 +19,32 @@ export function GlobalProvider({ children }) {
   const [productListMain, setProductListMain] = useState([]);
   const [typeNotification, setTypeNotification] = useState("Tất Cả Thông Báo");
   const [statusNotification, setStatusNotification] = useState("unread");
+  const [img, setImg] = useState("");
   const [order_ID, setOrder_ID] = useState("");
   const [voucher_ID, setVoucher_ID] = useState("");
   const [menuDataLoadedMain, setMenuDataLoadedMain] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [optionMain, setOptionMain]  = useState(() => {
-    return localStorage.getItem("optionMain") || "Tất Cả"; 
+  const [optionMain, setOptionMain] = useState(() => {
+    return localStorage.getItem("optionMain") || "Tất Cả";
   });
 
   const [shopID, setShopID] = useState(() => {
-    return localStorage.getItem("shopID") || "1"; 
+    return localStorage.getItem("shopID") || "1";
   });
 
   const [typeBill, setTypeBill] = useState(() => {
-    return localStorage.getItem("typeBill") || "Order"; 
+    return localStorage.getItem("typeBill") || "Order";
   });
 
   const [typeTransactionHistory, setTypeTransactionHistory] = useState(() => {
-    return localStorage.getItem("typeTransactionHistory") || ""; 
+    return localStorage.getItem("typeTransactionHistory") || "";
   });
 
   useEffect(() => {
     localStorage.setItem("optionMain", optionMain);
   }, [optionMain]);
 
-  
   // Cập nhật localStorage khi shopID thay đổi
   useEffect(() => {
     localStorage.setItem("shopID", shopID);
@@ -63,27 +63,26 @@ export function GlobalProvider({ children }) {
 
   const { customerID } = useAuth() || {}; // ✅ Nhận customerID từ AuthContext
 
-    const fetchNewCategoryCustomerBehavior = async (customerID) => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3001/api/CustomerBehavior/NewCategory",
-          {
-            params: {
-              customerID: customerID,
-            },
-          }
-        );
-          const category = response.data[0].category;
-          setOptionMain(category);
-  
-      } catch (error) {
-        console.error("Lỗi khi tải sản phẩm:", error);
-      }
-    };
-  
-    useEffect(() => {
-      fetchNewCategoryCustomerBehavior(customerID);
-    }, [customerID]);
+  const fetchNewCategoryCustomerBehavior = async (customerID) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/api/CustomerBehavior/NewCategory",
+        {
+          params: {
+            customerID: customerID,
+          },
+        }
+      );
+      const category = response.data[0].category;
+      setOptionMain(category);
+    } catch (error) {
+      console.error("Lỗi khi tải sản phẩm:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNewCategoryCustomerBehavior(customerID);
+  }, [customerID]);
 
   // ✅ Hàm gọi API danh mục sản phẩm
   const fetchCategories = async () => {
@@ -99,8 +98,11 @@ export function GlobalProvider({ children }) {
     }
   };
 
-   // List TransactionHistory
-   const fetchTransactionHistoryList = async (customerID, typeTransactionHistory) => {
+  // List TransactionHistory
+  const fetchTransactionHistoryList = async (
+    customerID,
+    typeTransactionHistory
+  ) => {
     try {
       const response = await axios.get(
         "http://localhost:3001/api/Payments/All",
@@ -111,32 +113,47 @@ export function GlobalProvider({ children }) {
           },
         }
       );
-      setTransactionHistoryList(response.data[0]);
-      console.log("Lấy List TransactionHistory:", response.data[0]);
+      const flattenedData = response.data.flat(Infinity);
+
+    // Lọc bỏ các đối tượng trùng lặp dựa trên tất cả các trường
+    const uniqueData = flattenedData.filter((value, index, self) => {
+      return index === self.findIndex((t) => (
+        t.order_id === value.order_id &&
+        t.payment_amountOrder === value.payment_amountOrder &&
+        t.payment_method === value.payment_method &&
+        t.payment_date === value.payment_date &&
+        t.status === value.status &&
+        t.customer_id === value.customer_id &&
+        t.img === value.img 
+      ));
+    });
+
+    const sortedBills = [...uniqueData].sort(
+      (a, b) =>
+        new Date(b.payment_date || b.end_date) -
+        new Date(a.payment_date || a.end_date)
+    );
+      setTransactionHistoryList(sortedBills);
     } catch (error) {
       console.error("Lỗi khi Lấy List bills:", error);
     }
   };
 
   useEffect(() => {
-    if(customerID && typeTransactionHistory){
+    if (customerID && typeTransactionHistory) {
       fetchTransactionHistoryList(customerID, typeTransactionHistory);
     }
-  },[customerID, typeTransactionHistory])
+  }, [customerID, typeTransactionHistory]);
 
-  
   // List Bills
   const fetchBillsList = async (customerID, typeBill) => {
     try {
-      const response = await axios.get(
-        "http://localhost:3001/api/Bills/All",
-        {
-          params: {
-            customerID: customerID,
-            typeBill: typeBill,
-          },
-        }
-      );
+      const response = await axios.get("http://localhost:3001/api/Bills/All", {
+        params: {
+          customerID: customerID,
+          typeBill: typeBill,
+        },
+      });
       setBillsList(response.data);
       console.log("Lấy type bills:", typeBill);
       console.log("Lấy List bills:", response.data);
@@ -146,10 +163,10 @@ export function GlobalProvider({ children }) {
   };
 
   useEffect(() => {
-    if(customerID && typeBill){
+    if (customerID && typeBill) {
       fetchBillsList(customerID, typeBill);
     }
-  },[customerID, typeBill]);
+  }, [customerID, typeBill]);
 
   //List Customer follow shop
   const fetchListCustomerShopFollow = async (customerID) => {
@@ -311,6 +328,7 @@ export function GlobalProvider({ children }) {
     order_ID,
     customerID,
     voucher_ID,
+    img,
     statusNotification
   ) => {
     setLoading(true);
@@ -322,6 +340,7 @@ export function GlobalProvider({ children }) {
             order_ID: order_ID,
             customerID: customerID,
             voucher_ID: voucher_ID,
+            img: img,
             statusNotification: statusNotification,
           },
         }
@@ -359,11 +378,11 @@ export function GlobalProvider({ children }) {
         );
         // Kết hợp và sắp xếp các thông báo
         const mergedList = [...response1.data, ...response2.data];
-        
+
         const sortedList = mergedList.sort((a, b) => {
           // Lấy thời gian hiện tại (hôm nay)
           const today = new Date();
-          
+
           // Chuyển đổi DeliveryTime và StartDate thành đối tượng Date, nếu có
           const dateA = a.DeliveryTime
             ? new Date(a.DeliveryTime)
@@ -371,11 +390,11 @@ export function GlobalProvider({ children }) {
           const dateB = b.DeliveryTime
             ? new Date(b.DeliveryTime)
             : new Date(b.StartDate);
-        
+
           // Tính khoảng cách thời gian từ "hôm nay" tới từng thời gian
           const diffA = Math.abs(today - dateA); // Chênh lệch giữa hôm nay và thời gian của a
           const diffB = Math.abs(today - dateB); // Chênh lệch giữa hôm nay và thời gian của b
-        
+
           // So sánh chênh lệch: mục nào có thời gian gần hôm nay hơn sẽ đứng trước
           return diffA - diffB;
         });
@@ -422,16 +441,17 @@ export function GlobalProvider({ children }) {
   }, [customerID, typeNotification]);
 
   useEffect(() => {
-    if (customerID && (order_ID || voucher_ID) && statusNotification) {
+    if (customerID && img && (order_ID || voucher_ID) && statusNotification) {
       // ✅ Đảm bảo có customerID trước khi gọi API
       fetchStatusNotification(
         order_ID,
         customerID,
         voucher_ID,
+        img,
         statusNotification
       );
     }
-  }, [customerID, statusNotification, order_ID, voucher_ID]);
+  }, [customerID, statusNotification, order_ID, voucher_ID, img]);
 
   // ✅ Gọi API sản phẩm khi `option` thay đổi
   useEffect(() => {
@@ -470,7 +490,8 @@ export function GlobalProvider({ children }) {
         setTypeBill,
         transactionHistoryList,
         setTypeTransactionHistory,
-        setNotificationsList
+        setNotificationsList,
+        setImg,
       }}
     >
       {children}

@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import styles from "../SupportRequest/SupportRequest.module.css"; // Dùng chung CSS với trang gửi yêu cầu
+import styles from "../SupportRequest/SupportRequest.module.css";
 import Header from "../../../../layout/Header/Header";
 import Breadcrumb from "../../Breadcrumb/Breadcrumb";
 
 const SupportRequestDetails = () => {
-    const { id } = useParams();
+    const { id, customerId } = useParams();
     const navigate = useNavigate();
-    const [categories, setCategories] = useState([]); // Lưu danh sách categories
-    const [categoryId, setCategoryId] = useState(""); // Lưu ID thay vì name
+
+    const [categories, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState("");
     const [subject, setSubject] = useState("");
     const [details, setDetails] = useState("");
     const [status, setStatus] = useState("");
-    const [requestStatus, setRequestStatus] = useState(""); // Trạng thái yêu cầu
+    const [requestStatus, setRequestStatus] = useState("");
+    const [showSuccess, setShowSuccess] = useState(false); // 💡 alert đẹp sau khi xóa
 
     useEffect(() => {
-        // Lấy danh sách danh mục hỗ trợ
         axios.get("http://localhost:3001/api/support/categories")
             .then(response => setCategories(response.data))
             .catch(error => console.error("Lỗi khi tải danh mục hỗ trợ!", error));
 
-        // Lấy thông tin yêu cầu hỗ trợ
         axios.get(`http://localhost:3001/api/support/request/${id}`)
             .then(response => {
                 const requestData = response.data;
                 setCategoryId(requestData.category);
                 setSubject(requestData.subject);
                 setDetails(requestData.details);
-                setRequestStatus(requestData.status); // Lưu trạng thái yêu cầu
+                setRequestStatus(requestData.status);
             })
             .catch(error => console.error("Lỗi khi tải chi tiết yêu cầu!", error));
     }, [id]);
@@ -41,9 +41,9 @@ const SupportRequestDetails = () => {
                 details,
                 category: categoryId
             });
-            setStatus("Cập nhật yêu cầu thành công!");
+            setStatus("✅ Cập nhật yêu cầu thành công!");
         } catch (error) {
-            setStatus("Lỗi khi cập nhật yêu cầu!");
+            setStatus("❌ Lỗi khi cập nhật yêu cầu!");
         }
     };
 
@@ -51,10 +51,12 @@ const SupportRequestDetails = () => {
         if (!window.confirm("Bạn có chắc chắn muốn xóa yêu cầu này?")) return;
         try {
             await axios.delete(`http://localhost:3001/api/support/request/${id}`);
-            alert("Xóa yêu cầu thành công!");
-            navigate("/support/history");
+            setShowSuccess(true);
+            setTimeout(() => {
+                navigate(`/support/history/${customerId}`); // ✅ điều hướng đúng route
+            }, 1500);
         } catch (error) {
-            console.error("Lỗi khi xóa yêu cầu!", error);
+            setStatus("❌ Lỗi khi xóa yêu cầu!");
         }
     };
 
@@ -63,15 +65,30 @@ const SupportRequestDetails = () => {
             <div className={styles.headerWrapper}>
                 <Header />
             </div>
-            <Breadcrumb />
+
 
             <div className={styles.supportContainer}>
+                <Breadcrumb />
                 <h2 className={styles.supportTitle}>Chi Tiết Yêu Cầu Hỗ Trợ</h2>
-                {status && <p className={`${styles.supportMessage} ${status.includes("Lỗi") ? styles.errorMessage : styles.successMessage}`}>{status}</p>}
+
+                {status && (
+                    <p className={`${styles.supportMessage} ${status.includes("Lỗi") ? styles.errorMessage : styles.successMessage}`}>
+                        {status}
+                    </p>
+                )}
+
+                {showSuccess && (
+                    <p className={styles.successMessage}> Xóa yêu cầu thành công!</p>
+                )}
 
                 <form onSubmit={handleUpdate} className={styles.supportForm}>
                     <label>Loại Yêu Cầu:</label>
-                    <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} required disabled={requestStatus !== "pending"}>
+                    <select
+                        value={categoryId}
+                        onChange={(e) => setCategoryId(e.target.value)}
+                        required
+                        disabled={requestStatus !== "pending"}
+                    >
                         <option value="">Chọn loại yêu cầu</option>
                         {categories.map((cat) => (
                             <option key={cat.id} value={cat.id}>{cat.name}</option>
@@ -104,10 +121,17 @@ const SupportRequestDetails = () => {
                 </form>
 
                 {requestStatus === "pending" && (
-                    <button className={styles.deleteButton} onClick={handleDelete}>Xóa Yêu Cầu</button>
+                    <button className={styles.deleteButton} onClick={handleDelete}>
+                        Xóa Yêu Cầu
+                    </button>
                 )}
 
-                <button className={styles.backButton} onClick={() => navigate("/support/history")}>Quay lại</button>
+                <button
+                    className={styles.backButton}
+                    onClick={() => navigate(`/support/history/${customerId}`)}
+                >
+                    Quay lại
+                </button>
             </div>
         </div>
     );

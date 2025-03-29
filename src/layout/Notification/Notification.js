@@ -20,9 +20,10 @@ function Notification() {
     order_ID,
     setOrder_ID,
     voucher_ID,
-    setVoucher_ID,
+    setVoucher_ID, 
     notificationsList = [],
-    setNotificationsList
+    setNotificationsList, 
+    setImg
   } = useContext(GlobalContext);
   const items = ["Thông Báo", "Đơn Mua", "Kho Voucher"];
   const itemNoti = ["Tất Cả Thông Báo", "Cập Nhật Đơn Hàng", "Khuyến Mãi"];
@@ -175,6 +176,7 @@ function Notification() {
       onClick={() => {
         setOrder_ID(null);
         setStatusNotification("read");
+        setImg(item.VoucherImg);
         setVoucher_ID(item.VoucherID);
         handleOpenModal(item);
       }}
@@ -219,7 +221,7 @@ function Notification() {
         // Nếu thành công, cập nhật trạng thái "read" cho tất cả thông báo
         const updatedNotifications = notificationsList.map((item) => {
           if (item.OrderID) {
-            item.status_Orders = "read";
+            item.statusRead = "read";
           }
           if (item.VoucherID) {
             item.status_voucherDetail = "read";
@@ -249,11 +251,12 @@ function Notification() {
         onClick={() => {
           setOrder_ID(item.OrderID);
           setStatusNotification("read");
+          setImg(item.ProductImg);
           setVoucher_ID(null);
           handleOpenModal(item);
         }}
         className={`${styles.focus} ${
-          !item.status_Orders || item.status_Orders === "unread"
+          !item.statusRead || item.statusRead === "unread"
             ? styles.unread
             : ""
         }`}
@@ -276,7 +279,7 @@ function Notification() {
             <span className={styles.highlight}>{item.Status}</span>
           </div>
           <div className={styles.show_noti_item}>
-            {new Date(item.DeliveryTime).toLocaleString("vi-VN", {
+            {new Date(item.CreateAt).toLocaleString("vi-VN", {
               timeZone: "Asia/Ho_Chi_Minh",
             })}
           </div>

@@ -343,38 +343,93 @@
 //   </svg>
 // );
 
-// export const iconHistory = (
-//   <svg
-//     width="14px"
-//     height="14px"
-//     viewBox="0 0 24 24"
-//     fill="none"
-//     xmlns="http://www.w3.org/2000/svg"
-//   >
-//     <path
-//       fillRule="evenodd"
-//       clipRule="evenodd"
-//       d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6zm5 4h-2v-6c0-1.1-.9-2-2-2h-1V7h1c2.21 0 4 1.79 4 4v6z"
-//       fill="#000000"
-//     />
-//   </svg>
-// );
-// export const iconBill = (
-//   <svg
-//     width="14px"
-//     height="14px"
-//     viewBox="0 0 24 24"
-//     fill="none"
-//     xmlns="http://www.w3.org/2000/svg"
-//   >
-//     <path
-//       fillRule="evenodd"
-//       clipRule="evenodd"
-//       d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 19c0 1.1.89 2 1.99 2h10c1.1 0 1.99-.9 1.99-2V5c0-1.1-.89-2-1.99-2zm-1 2v12H8V5h8zM9 14h6v2H9zm0-4h6v2H9z"
-//       fill="#000000"
-//     />
-//   </svg>
-// );
+export const iconHistory = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6zm5 4h-2v-6c0-1.1-.9-2-2-2h-1V7h1c2.21 0 4 1.79 4 4v6z"
+      fill="#000000"
+    />
+  </svg>
+);
+export const iconBill = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 19c0 1.1.89 2 1.99 2h10c1.1 0 1.99-.9 1.99-2V5c0-1.1-.89-2-1.99-2zm-1 2v12H8V5h8zM9 14h6v2H9zm0-4h6v2H9z"
+      fill="#000000"
+    />
+  </svg>
+);
+
+export const iconViewProductNewHistory = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M19 3H5c-1.1 0-1.99.89-1.99 2L3 19c0 1.1.89 2 1.99 2H19c1.1 0 2-.89 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM12 7v4l3-3-3-3v4H9l3 3 3-3z"
+      fill="#000000"
+    />
+  </svg>
+);
+
+export const iconGame = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M18 9V3H6v6H3v12h18V9h-3zM8 4h8v4H8V4zM5 16h14v4H5v-4z"
+      fill="#000000"
+    />
+  </svg>
+);
+
+
+
+export const iconVoucher = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14h-2v-2h2v2zm0-4h-2V7h2v6z"
+      fill="#000000"
+    />
+  </svg>
+);
+
+
 
 
 // export const chatIcon =
@@ -562,6 +617,30 @@ export const iconCart = (
 </svg>
 );
 
+export const iconLoyalCustomer = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 1024 1024"
+    fill="black"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M512 192c-70.4 0-128 57.6-128 128s57.6 128 128 128 128-57.6 128-128-57.6-128-128-128zM512 576c-151.2 0-272-120.8-272-272s120.8-272 272-272 272 120.8 272 272-120.8 272-272 272z" />
+  </svg>
+);
+
+export const iconMarketing = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 1024 1024"
+    fill="black"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M512 160c-192 0-348 156-348 348s156 348 348 348 348-156 348-348-156-348-348-348zM512 768c-141.6 0-256-114.4-256-256s114.4-256 256-256 256 114.4 256 256-114.4 256-256 256z" />
+  </svg>
+);
+
 
 export const iconProfile = (
 <svg
@@ -575,6 +654,18 @@ export const iconProfile = (
   <path d="M541.6 392c-12.8 0-23.2-10.4-23.2-24s10.4-24 23.2-24h328c12.8 0 23.2 10.4 23.2 24s-10.4 24-23.2 24h-328zM541.6 511.2c-12.8 0-23.2-10.4-23.2-24s10.4-24 23.2-24h328c12.8 0 23.2 10.4 23.2 24s-10.4 24-23.2 24h-328zM541.6 638.4c-12.8 0-23.2-10.4-23.2-24s10.4-24 23.2-24h276.8c12.8 0 23.2 10.4 23.2 24s-10.4 24-23.2 24H541.6zM58.4 886.4c-2.4 0-4.8 0-7.2-0.8-12.8-4-20-18.4-16-32 23.2-78.4 77.6-142.4 148-176l16-8-13.6-12c-40-34.4-63.2-85.6-63.2-139.2 0-100 78.4-180.8 173.6-180.8 96 0 173.6 80.8 173.6 180.8 0 53.6-23.2 104.8-63.2 139.2l-13.6 12 16 8c68 32 132.8 112 157.6 194.4 16 52.8-16.8 36-1.6 16-3.2 4.8-16.8-5.6-32-5.6-12.8 0-19.2 24.8-19.2 22.4-31.2-104-120.8-203.2-217.6-203.2-99.2 0-186.4 67.2-216 166.4-1.6 11.2-11.2 18.4-21.6 18.4z m239.2-498.4c-69.6 0-126.4 58.4-126.4 130.4s56.8 130.4 126.4 130.4c69.6 0 126.4-58.4 126.4-130.4-0.8-72-56.8-130.4-126.4-130.4z" />
 </svg>
 )
+
+export const iconGift = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 1024 1024"
+    fill="black"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M512 256c132.8 0 240 107.2 240 240s-107.2 240-240 240-240-107.2-240-240 107.2-240 240-240zM512 896c170.4 0 308-137.6 308-308H204c0 170.4 137.6 308 308 308z" />
+  </svg>
+);
 
 export const iconHeart = (
 <svg
@@ -610,6 +701,41 @@ export const iconLogin = (
   />
 </svg>
 );
+
+export const iconTransactionHistory = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v4h3l-4 4-4-4h3z"
+      fill="#000000"
+    />
+  </svg>
+);
+
+export const iconBills = (
+  <svg
+    width="14px"
+    height="14px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M6 2C5.45 2 5 2.45 5 3V21C5 21.55 5.45 22 6 22H18C18.55 22 19 21.55 19 21V3C19 2.45 18.55 2 18 2H6ZM6 3H18V21H6V3ZM8 6H16V8H8V6ZM8 10H16V12H8V10ZM8 14H16V16H8V14ZM8 18H16V20H8V18Z"
+      fill="#000000"
+    />
+  </svg>
+);
+
 
 
 export const chatIcon =

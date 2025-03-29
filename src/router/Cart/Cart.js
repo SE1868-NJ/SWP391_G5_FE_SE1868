@@ -7,6 +7,7 @@ import Address from "../../components/address/Address";
 import styles from "./Cart.module.css";
 import Swal from "sweetalert2";
 import { ThemeContext } from "../../contexts/ThemeContext";
+import { useCart } from "../../globalContext/CartContext";
 
 function Cart() {
   const inforFullUser = localStorage.getItem("user");
@@ -23,6 +24,7 @@ function Cart() {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
   const isDeletingRef = useRef(false);
+  const { fetchCartCount } = useCart();
 
   useEffect(() => {
     if (inforFullUser) {
@@ -50,6 +52,7 @@ function Cart() {
   useEffect(() => {
     if (cusID) {
       fetchCart();
+      fetchCartCount();
     }
   }, [cusID]);
 
@@ -94,7 +97,6 @@ function Cart() {
 
     if (newQuantity === 0) {
       Swal.fire({
-        icon: "question",
         title: "Xóa sản phẩm",
         text: "Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?",
         showCancelButton: true,
@@ -130,7 +132,6 @@ function Cart() {
 
     if (showPopup) {
       const result = await Swal.fire({
-        icon: "question",
         title: "Xóa sản phẩm",
         text: "Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?",
         showCancelButton: true,
@@ -147,6 +148,7 @@ function Cart() {
     try {
       setCartItems(prevItems => prevItems.filter(item => item.cartID !== cartID));
       await axios.delete(`http://localhost:3001/api/Cart/deleteItem`, { data: { cartID } });
+      await fetchCartCount();
     } catch (error) {
       console.error(error);
     } finally {
