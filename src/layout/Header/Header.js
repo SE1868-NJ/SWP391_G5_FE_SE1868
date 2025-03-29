@@ -212,10 +212,16 @@ function Header() {
             </div>
           </div>
           <div
-            onClick={() => handleNavigate(`/Portal/${user.id}`)}
-            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
-              }`}
+            onClick={() => {
+              if (user && user.id) {
+                handleNavigate(`/Portal/${user.id}`);
+              } else {
+                handleNavigate("/login");
+              }
+            }}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""}`}
           >
+
             <img
               style={{ width: "2.5vw" }}
               src="/Portal.png"
