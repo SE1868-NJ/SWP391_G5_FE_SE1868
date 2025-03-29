@@ -223,3 +223,17 @@ button:active {
     text-align: left;
   }
 }
+
+.errorText {
+    color: red;
+    font-size: 10px;
+    margin-bottom: 5px;
+
+}
+
+.errorContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 220px;
+}
