@@ -160,9 +160,14 @@ function Header() {
     },
     {
       key: "11",
-      label: <a href="/login">{user ? "Đăng xuất" : "Đăng nhập"}</a>,
+      label: (
+        <div onClick={handleLogout} style={{ cursor: "pointer" }}>
+          {user ? "Đăng xuất" : "Đăng nhập"}
+        </div>
+      ),
       icon: iconLogin,
-    },
+    }
+
   ];
 
   return (
@@ -183,15 +188,13 @@ function Header() {
         <Search />
 
         <div
-          className={`${styles.fhs_center_space_header} ${
-            theme === "dark" ? styles.dark : ""
-          }`}
+          className={`${styles.fhs_center_space_header} ${theme === "dark" ? styles.dark : ""
+            }`}
         >
           <div
             onClick={() => handleClick("Thông Báo")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             <img
               src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_noti_gray.svg"
@@ -199,18 +202,16 @@ function Header() {
               className={styles.fhs_noti_icon_header}
             />
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               {t("Notifications")}
             </div>
           </div>
           <div
             onClick={() => handleNavigate("/Portal")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             <img
               style={{ width: "2.5vw" }}
@@ -219,9 +220,8 @@ function Header() {
               className={styles.fhs_noti_icon_header}
             />
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               {t("Portal")}
             </div>
@@ -229,9 +229,8 @@ function Header() {
           <div
             id="cart-icon"
             onClick={() => handleNavigate("/cart")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
             style={{ position: "relative" }}
           >
             <img
@@ -261,18 +260,16 @@ function Header() {
               </span>
             )}
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               {t("cart")}
             </div>
           </div>
           <div
             onClick={() => handleNavigate("/blog")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             <img
               style={{ width: "1.5vw", height: "3.8vh" }}
@@ -281,18 +278,16 @@ function Header() {
               className={styles.fhs_noti_icon_header}
             />
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               Blog
             </div>
           </div>
           <div
             onClick={() => handleNavigate("/contact")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             <img
               style={{ width: "1.5vw", height: "3.8vh" }}
@@ -301,18 +296,16 @@ function Header() {
               className={styles.fhs_noti_icon_header}
             />
             <div
-              className={`${styles.fhs_top_menu_labe} ${
-                theme === "dark" ? styles.darkText : ""
-              }`}
+              className={`${styles.fhs_top_menu_labe} ${theme === "dark" ? styles.darkText : ""
+                }`}
             >
               Liên hệ
             </div>
           </div>
           <div
             onClick={() => handleClick("Tài Khoản")}
-            className={`${styles.fhs_noti_header} ${
-              theme === "dark" ? styles.darkItem : ""
-            }`}
+            className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
+              }`}
           >
             {user && user.avatar ? (
               <img src={user.avatar} alt="Avatar" className={styles.avatar} />
