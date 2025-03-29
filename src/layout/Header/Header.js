@@ -8,6 +8,7 @@ import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import "../../i18n.js";
+import { useAuth } from "../../globalContext/AuthContext.js";
 import { useCart } from "../../globalContext/CartContext.js";
 import LanguageSwitcher from "../../components/Language/LanguageSwitcher.js";
 import {
@@ -22,12 +23,18 @@ import {
   iconTransactionHistory,
   iconGame,
   iconHistory,
-  iconMarketing, iconLoyalCustomer, iconGift, iconViewProductNewHistory, iconVoucher
 
+
+  iconMarketing,
+  iconLoyalCustomer,
+  iconGift,
+  iconViewProductNewHistory,
+  iconVoucher,
 } from "../../components/icon/Icon.jsx";
 
 function Header() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [user, setUser] = useState(null);
   const { theme } = useContext(ThemeContext);
   const { t } = useTranslation();
@@ -46,6 +53,11 @@ function Header() {
     }
   }, []);
 
+  const handleLogout = () => {
+    logout();
+    setUser(null);
+    navigate("/login");
+  };
   useEffect(() => {
     if (user?.id) {
       fetchCartCount();
@@ -121,7 +133,7 @@ function Header() {
       icon: iconVoucher,
     },
     {
-      key: '7',
+      key: "7",
       label: (
         <a href={user ? `/loyalty/${user.id}` : "/login"}>
           Khách hàng thân thiết
@@ -131,7 +143,7 @@ function Header() {
     },
 
     {
-      key: '8',
+      key: "8",
       label: (
         <a href={user ? `/affiliate/${user.id}` : "/login"}>
           Tiếp thị khách hàng
@@ -139,33 +151,27 @@ function Header() {
       ),
       icon: iconMarketing,
     },
-
     {
-      key: '9',
-      label: <a href="/login">{user ? 'Đăng xuất' : 'Đăng nhập'}</a>,
-      icon: iconLogin,
-    },
-    {
-
-      key: "7",
+      key: "9",
       label: <a href="/Bills">Các Loại Hóa Đơn</a>,
       icon: iconBills,
     },
     {
-      key: '8',
+      key: "10",
       label: <a href="/TransactionHistory">Lịch sử giao dịch</a>,
       icon: iconHistory,
     },
     {
-      key: '9',
-      label: <a href="/login">{user ? 'Đăng xuất' : 'Đăng nhập'}</a>,
+      key: "11",
+      label: (
+        <div onClick={handleLogout} style={{ cursor: "pointer" }}>
+          {user ? "Đăng xuất" : "Đăng nhập"}
+        </div>
+      ),
       icon: iconLogin,
-    },
+    }
+
   ];
-
-
-
-
 
   return (
     <header className={styles.wrapper}>

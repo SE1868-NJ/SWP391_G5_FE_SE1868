@@ -15,7 +15,19 @@
   border-bottom: 2px solid #eee;
   position: relative;
 }
-
+.videoContainer {
+  width: 85vw;
+  justify-content: space-between;
+  height: 37vw;
+  display: flex;
+}
+.video {
+  width: 20vw;
+  height: 35.5vw;
+  border-radius: 20px;
+  cursor: pointer;
+  overflow: hidden;
+}
 .wrapper {
   display: flex;
   flex-direction: column;

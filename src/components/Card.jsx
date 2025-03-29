@@ -60,35 +60,6 @@ const Card = ({ item, isFavoriteProduct }) => {
         isOpen: true,
       });
 
-      // Hiệu ứng bay vào giỏ hàng
-      const productImage = e.target.closest("." + styles.card_container).querySelector("img");
-      const cartIcon = document.getElementById("cart-icon");
-
-      if (!productImage || !cartIcon) return;
-
-      const { left, top, width, height } = productImage.getBoundingClientRect();
-      const { left: cartLeft, top: cartTop } = cartIcon.getBoundingClientRect();
-
-      const flyContainer = document.createElement("div");
-      flyContainer.classList.add(styles.fly_to_cart);
-      flyContainer.style.left = `${left + width / 2 - 25}px`;
-      flyContainer.style.top = `${top + height / 2 - 25}px`;
-      
-      const flyImage = productImage.cloneNode(true);
-      flyImage.classList.add(styles.fly_image);
-      
-      flyContainer.appendChild(flyImage);
-      document.body.appendChild(flyContainer);
-
-      setTimeout(() => {
-        flyContainer.style.transform = `translate(${cartLeft - left}px, ${cartTop - top}px) scale(0.3)`;
-        flyContainer.style.opacity = 0;
-      }, 50);
-
-      setTimeout(() => {
-        document.body.removeChild(flyContainer);
-    }, 1200);
-    
     } catch (error) {
       console.error("Error handleAddToCart: ", error);
       setNotify({
@@ -105,22 +76,22 @@ const Card = ({ item, isFavoriteProduct }) => {
       className={styles.card_container}
     >
       <div className={styles.card_imageContainer}>
-        <img className={styles.card_image} src={item.ProductImg} alt="" onClick={() => handleGotoDetail(item.ProductID)} />
+        <img className={styles.card_image} src={item.ProductImg} alt={item.ProductName} onClick={() => handleGotoDetail(item.ProductID)} />
       </div>
       <div className={styles.card_info}>
         <div className={styles.card_infoContainer}>
-          <div className={styles.card_infoTitle}>
-            <span className={styles.card_infoTitleName} onClick={() => handleGotoDetail(item.ProductID)}>{item.ProductName}</span>
-            <p className={styles.card_infoQuantity}>SL: {item.StockQuantity}</p>
-          </div>
-          <div className={styles.card_infoRight}>
-            <span className={styles.card_infoMoney}>{formatMoney(item.Price)} VND</span>
-            <div onClick={handleSetFavorite} className={styles.card_infoRight_favorite}>
-              {isFavorite ? iconFavorite : iconFavoriteDefault}
-            </div>
-          </div>
+          <span className={styles.card_infoTitle} onClick={() => handleGotoDetail(item.ProductID)}>
+            {item.ProductName}
+          </span>
+          <p className={styles.card_infoQuantity}>Đã Bán: {item.SoldQuantity}</p>
+          <span className={styles.card_infoMoney}>{formatMoney(item.Price)} VND</span>
         </div>
-        <button className={styles.card_button} onClick={handleAddToCart}>Add to cart</button>
+        <div className={styles.card_footer}>
+          <div onClick={handleSetFavorite} className={styles.card_infoRight_favorite}>
+            {isFavorite ? iconFavorite : iconFavoriteDefault}
+          </div>
+          <button className={styles.card_button} onClick={handleAddToCart}>Add to cart</button>
+        </div>
       </div>
       <ModalNotify notify={notify} setNotify={setNotify} />
     </div>

@@ -18,6 +18,7 @@ function ViewOrder() {
   const [favorites, setFavorites] = useState([]);
   const [indexList, setIndexList] = useState(0);
   const [orderBuyAgain, setOrderBuyAgain] = useState();
+  const [fillRatring, setFillRating] = useState(false);
   const Rating = [1, 2, 3, 4, 5];
   const [formReview, setFormReview] = useState({
     category: "",
@@ -127,10 +128,13 @@ function ViewOrder() {
 
   const handleSubmit = async () => {
     console.log(formReview);
-    if (formReview.category === "" || formReview.reviewText === "") {
-      alert("hãy nhập đủ thông tin");
-      return;
-    }
+    if (formReview.category == "" || formReview.reviewText == "") {
+      console.log(123)
+      setFillRating(true);
+      setTimeout(() => {
+        setFillRating(false);
+      }, 2000);
+    }else{
     const cusID = customer.id;
     let categoryID;
     if (formReview.category === "product") {
@@ -150,6 +154,7 @@ function ViewOrder() {
       await setMessPopup("thất bại");
     }
     closeReviewPopup();
+    }
   };
   async function payment(orders) {
     const response = await axios.post(
@@ -439,6 +444,11 @@ function ViewOrder() {
             <button onClick={() => buyAgain()}>Mua lại</button>
           </div>
         </div>
+      ) : (
+        ""
+      )}
+      {fillRatring ? (
+        <div className={styles.share}>Hãy điền đầy đủ thông tin</div>
       ) : (
         ""
       )}
