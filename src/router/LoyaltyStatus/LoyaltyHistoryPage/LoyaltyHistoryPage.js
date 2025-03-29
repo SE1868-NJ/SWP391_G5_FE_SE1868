@@ -77,9 +77,9 @@ const LoyaltyHistoryPage = () => {
             <Header />
             <div className={styles.loyaltyHistoryContainer}>
                 <div className={styles.loyaltyCard}>
-                    <h2>Lịch sử Đơn Hàng</h2>
+                    <h2>Lịch sử chi tiêu</h2>
                     {history.length === 0 ? (
-                        <p>Không có lịch sử đơn hàng nào.</p>
+                        <p>Không có lịch sử chi tiêu nào.</p>
                     ) : (
                         <ResponsiveContainer width="100%" height={450}>
                             <BarChart data={history} margin={{ top: 20, right: 30, left: 120, bottom: 50 }}>
