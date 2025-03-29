@@ -5,6 +5,7 @@ import styles from '../SupportRequest/SupportRequest.module.css';
 
 import Header from "../../../../layout/Header/Header";
 import Breadcrumb from "../../Breadcrumb/Breadcrumb";
+import { useParams } from "react-router";
 
 const SupportRequest = () => {
     const [categories, setCategories] = useState([]); // Lưu danh sách categories
@@ -12,6 +13,7 @@ const SupportRequest = () => {
     const [subject, setSubject] = useState("");
     const [details, setDetails] = useState("");
     const [status, setStatus] = useState("");
+    const { customerId } = useParams();
 
     useEffect(() => {
         axios.get("http://localhost:3001/api/support/categories")
@@ -23,7 +25,7 @@ const SupportRequest = () => {
         e.preventDefault();
         try {
             await axios.post("http://localhost:3001/api/support/request", {
-                customer_id: 1,
+                customer_id: customerId,
                 category: categoryId,  // Gửi ID thay vì tên
                 subject,
                 details
@@ -33,6 +35,7 @@ const SupportRequest = () => {
             setStatus("Lỗi khi gửi yêu cầu!");
         }
     };
+
 
     return (
         <div>

@@ -22,7 +22,7 @@ import {
   iconTransactionHistory,
   iconGame,
   iconHistory,
-  iconMarketing, iconLoyalCustomer, iconGift,  iconViewProductNewHistory, iconVoucher
+  iconMarketing, iconLoyalCustomer, iconGift, iconViewProductNewHistory, iconVoucher
 
 } from "../../components/icon/Icon.jsx";
 
@@ -67,9 +67,10 @@ function Header() {
       }
     } else if (e === "Hỗ Trợ") {
       if (user) {
-        navigate("/Portal"); // Nếu đã đăng nhập, chuyển đến trang tài khoản
+        navigate(`/Portal/${user.id}`);
+        // Nếu đã đăng nhập, chuyển đến trang tài khoản
       } else {
-        navigate("/Portal"); // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
+        navigate("/login"); // Nếu chưa đăng nhập, chuyển đến trang đăng nhập
       }
     } else if (e === "Giỏ Hàng") {
       if (user) {
@@ -205,7 +206,7 @@ function Header() {
             </div>
           </div>
           <div
-            onClick={() => handleNavigate("/Portal")}
+            onClick={() => handleNavigate(`/Portal/${user.id}`)}
             className={`${styles.fhs_noti_header} ${theme === "dark" ? styles.darkItem : ""
               }`}
           >

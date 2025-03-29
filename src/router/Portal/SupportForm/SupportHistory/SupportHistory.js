@@ -3,17 +3,18 @@ import axios from "axios";
 import styles from "./SupportHistory.module.css";
 import Header from "../../../../layout/Header/Header";
 import Breadcrumb from "../../Breadcrumb/Breadcrumb";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const SupportHistory = () => {
     const [requests, setRequests] = useState([]);
     const [categories, setCategories] = useState({});
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState(""); // Bộ lọc trạng thái
+    const { customerId } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:3001/api/support/requests/1")
+        axios.get(`http://localhost:3001/api/support/requests/${customerId}`)
             .then(response => setRequests(response.data))
             .catch(error => console.error("Lỗi khi tải lịch sử yêu cầu!", error));
 
@@ -68,7 +69,8 @@ const SupportHistory = () => {
                             <li
                                 key={req.id}
                                 className={styles.requestItem}
-                                onClick={() => navigate(`/support/history/${req.id}`)}
+                                onClick={() => navigate(`/support/history/${customerId}/${req.id}`)}
+
                             >
                                 <p><strong>Loại Yêu Cầu:</strong> {categories[req.category] || "Không xác định"}</p>
                                 <p><strong>Tiêu đề:</strong> {req.subject}</p>

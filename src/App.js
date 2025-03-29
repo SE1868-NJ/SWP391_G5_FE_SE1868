@@ -31,7 +31,7 @@ import SupportRequest from "./router/Portal/SupportForm/SupportRequest/SupportRe
 import SupportHistory from "./router/Portal/SupportForm/SupportHistory/SupportHistory.js";
 import BlogList from "./router/Blog/Blog.js";
 import BlogDetail from "./router/Blog/BlogDetail.js";
-import CreateBlog from "./router/Blog/CreateBlog.js"; 
+import CreateBlog from "./router/Blog/CreateBlog.js";
 import UpdateBlog from "./router/Blog/UpdateBlog.js";
 import MyBlog from "./router/Blog/MyBlog.js";
 import ContactInfo from "./layout/ContactInfo/ContactInfo.js";
@@ -54,9 +54,8 @@ function AppContent() {
 
   return (
     <div
-      className={`min-h-screen transition-all duration-300 ${
-        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
-      }`}
+      className={`min-h-screen transition-all duration-300 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
+        }`}
     >
       <header
         style={{ position: "absolute" }}
@@ -86,25 +85,20 @@ function AppContent() {
         <Route path="customers/*" element={<CustomerRoutes />} />
         <Route path="/customers/activity-log" element={<ActivityLog />} />
         <Route path="/Category" element={<Category />} />
-        <Route path="/Portal" element={<Portal />} />
+        <Route path="/Portal/:customerId" element={<Portal />} />
         <Route path="/category/:category" element={<Category />} />
         <Route path="/searchPortal" element={<SearchResults />} />
         <Route path="/category/:category/:itemId" element={<Category />} />
         <Route path="/new-combo" element={<NewComboProduct />} />
         <Route path="/list-combo" element={<ListComboProduct />} />
         <Route path="/OrderDetail/:orderDetailID" element={<OrderDetail />} />
-        <Route path="/support/request" element={<SupportRequest />} />
-        <Route path="/support/history" element={<SupportHistory />} />
-        <Route path="/register" element={<Register />}/>
-        <Route
-          path="/support/history/:id"
-          element={<SupportRequestDetails />}
-        />
+        <Route path="/support/request/:customerId" element={<SupportRequest />} />
+        <Route path="/support/history/:customerId" element={<SupportHistory />} />
+
+        <Route path="/register" element={<Register />} />
+        <Route path="/support/history/:customerId/:id" element={<SupportRequestDetails />} />
         <Route path="/policy" element={<Policy />} />
-        <Route
-          path="/support/history/:id"
-          element={<SupportRequestDetails />}
-        />
+
         <Route path="/video/*" element={<Video />} />
         <Route path="/loyalty/:customerId" element={<LoyaltyPage />} />
         <Route
