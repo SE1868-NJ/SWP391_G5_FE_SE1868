@@ -77,7 +77,7 @@ const LoyaltyHistoryPage = () => {
             <Header />
             <div className={styles.loyaltyHistoryContainer}>
                 <div className={styles.loyaltyCard}>
-                    <h2>Lịch sử chi tiêu</h2>
+                    <h2>Biểu đồ chi tiêu</h2>
                     {history.length === 0 ? (
                         <p>Không có lịch sử chi tiêu nào.</p>
                     ) : (
